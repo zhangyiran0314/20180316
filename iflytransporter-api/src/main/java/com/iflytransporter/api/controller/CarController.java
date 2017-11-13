@@ -1,22 +1,22 @@
 package com.iflytransporter.api.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.iflytransporter.api.utils.ResponseUitl;
+import com.iflytransporter.api.utils.ResponseUtil;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
-@Controller("car")
+@Controller
 @RequestMapping("car")
 public class CarController {
 	
@@ -24,8 +24,8 @@ public class CarController {
     @ApiImplicitParam(name = "userId",value = "用户id",paramType = "form",dataType = "String",required=true)
 	@RequestMapping(value="listCar", method=RequestMethod.POST)
 	@ResponseBody
-	public String  listCar(HttpServletRequest request, HttpServletResponse response){
-		return ResponseUitl.successResult();
+	public Map<String,Object>  listCar(HttpServletRequest request, HttpServletResponse response){
+		return ResponseUtil.successResult();
 	}
 	@ApiOperation(value="添加车辆", notes="添加车辆")
     @ApiImplicitParams({
@@ -37,8 +37,8 @@ public class CarController {
     })
 	@RequestMapping(value="addCar", method=RequestMethod.POST)
 	@ResponseBody
-	public String  addUser(HttpServletRequest request, HttpServletResponse response){
-		return ResponseUitl.successResult();
+	public Map<String,Object>  addUser(HttpServletRequest request, HttpServletResponse response){
+		return ResponseUtil.successResult();
 	}
 	
 	@ApiOperation(value="车辆详情", notes="查看车辆详情")
@@ -48,10 +48,10 @@ public class CarController {
     })
 	@RequestMapping(value="detailCar", method=RequestMethod.POST)
 	@ResponseBody
-	public String  detailCar(HttpServletRequest request, HttpServletResponse response){
+	public Map<String,Object>  detailCar(HttpServletRequest request, HttpServletResponse response){
 		String userId = (String) request.getAttribute("userId");
 		System.out.println(userId);
-		return ResponseUitl.successResult();
+		return ResponseUtil.successResult();
 	}
 	@ApiOperation(value="修改车辆", notes="根据用户ID修改用户资料")
 	@ApiImplicitParams({
@@ -64,8 +64,8 @@ public class CarController {
 	})
 	@RequestMapping(value="modifyCar", method=RequestMethod.POST)
 	@ResponseBody
-	public String  modifyCar(HttpServletRequest request, HttpServletResponse response){
-		return ResponseUitl.successResult();
+	public Map<String,Object>  modifyCar(HttpServletRequest request, HttpServletResponse response){
+		return ResponseUtil.successResult();
 	}
 	@ApiOperation(value="删除车辆", notes="根据车辆ID删除用户")
 	@ApiImplicitParams({
@@ -74,7 +74,7 @@ public class CarController {
     })
 	@RequestMapping(value="deleteCar", method=RequestMethod.POST)
 	@ResponseBody
-	public String  deleteCar(HttpServletRequest request, HttpServletResponse response){
-		return ResponseUitl.successResult();
+	public Map<String,Object>  deleteCar(HttpServletRequest request, HttpServletResponse response){
+		return ResponseUtil.successResult();
 	}
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.utils.JwtUtil;
+import com.iflytransporter.api.utils.ResponseUtil;
 
 import io.jsonwebtoken.Claims;
 
@@ -26,7 +27,7 @@ public class JwtController {
 		if(!"admin".equals(username) || !"123456".equals(password)){
 			result.put("status",403);
 			result.put("msg", "账号或者密码错误");
-			return result;
+			return ResponseUtil.successResult(result);
 		}
 		String token = JwtUtil.createJWT(username, JwtUtil.JWT_TTL);
 		String refreshToken = JwtUtil.createJWT(username, JwtUtil.JWT_REFRESH_TTL);
@@ -36,7 +37,7 @@ public class JwtController {
 		result.put("status",200);
 		result.put("msg", "0");
 		result.put("result", jo);
-		return result;
+		return ResponseUtil.successResult(result);
 	}
 	@RequestMapping("refreshToken")
 	@ResponseBody

@@ -102,6 +102,13 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 	}
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**").excludePathPatterns("/*/basic/*","/*.html","/swagger*/**","/v2/api-docs");
+		List<String> excludesList = new ArrayList<String>();
+		excludesList.add("/basic/**");//不需要token验证的基础包目录
+		excludesList.add("/swagger*/**");
+		excludesList.add("/v2/api-docs");
+		excludesList.add("/*.html");
+		String[] excludes = new String[excludesList.size()];
+		excludesList.toArray(excludes);
+		registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**").excludePathPatterns(excludes);
 	}
 }

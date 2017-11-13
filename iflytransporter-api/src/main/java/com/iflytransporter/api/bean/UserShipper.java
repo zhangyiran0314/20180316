@@ -23,7 +23,7 @@ public class UserShipper extends BaseEntity implements Serializable {
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date lastLoginDate;
 
-    private Short status;
+    private int status;
 
     private String lastLoginDevice;
 
@@ -96,11 +96,11 @@ public class UserShipper extends BaseEntity implements Serializable {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public Short getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 

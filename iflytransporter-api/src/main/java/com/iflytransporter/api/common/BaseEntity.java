@@ -13,7 +13,7 @@ public class BaseEntity implements Serializable{
 
 	private Date updateDate;
 
-	private Short dataStatus;
+	private int dataStatus;
 
 	private String desp;
 
@@ -41,11 +41,11 @@ public class BaseEntity implements Serializable{
 		this.updateDate = updateDate;
 	}
 
-	public Short getDataStatus() {
+	public int getDataStatus() {
 		return dataStatus;
 	}
 
-	public void setDataStatus(Short dataStatus) {
+	public void setDataStatus(int dataStatus) {
 		this.dataStatus = dataStatus;
 	}
 

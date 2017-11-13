@@ -1,8 +1,5 @@
 package com.iflytransporter.api.conf;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
 import com.iflytransporter.api.utils.JwtUtil;
-import com.iflytransporter.api.utils.ResponseUitl;
+import com.iflytransporter.api.utils.ResponseUtil;
 
 /**
  * jwt拦截器
@@ -39,13 +36,13 @@ public class JwtInterceptor implements HandlerInterceptor{
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json; charset=utf-8");
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-			response.getWriter().write(JSON.toJSONString(ResponseUitl.forbiddenResult()));
+			response.getWriter().write(JSON.toJSONString(ResponseUtil.forbiddenResult()));
 			return false;
 		}
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("application/json; charset=utf-8");
 		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		response.getWriter().write(JSON.toJSONString(ResponseUitl.unauthorizedResult()));
+		response.getWriter().write(JSON.toJSONString(ResponseUtil.unauthorizedResult()));
 		return false;
 	}
 
