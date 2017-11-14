@@ -22,7 +22,7 @@ public class ResponseUtil {
 	
 	public static String Data_Key="data";
 	
-	public static Map<String,Object> successResult(Map<String,Object> data){
+	public static Map<String,Object> successResult(Object data){
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put(Code_Key,Code_Success);
 		result.put(Msg_Key, Msg_Success);

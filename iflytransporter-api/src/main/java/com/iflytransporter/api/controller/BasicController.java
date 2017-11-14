@@ -33,8 +33,6 @@ import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
@@ -55,7 +53,6 @@ public class BasicController {
 	@RequestMapping(value="getSupportCountries", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object>  getSupportCountries(HttpServletRequest request, HttpServletResponse response){
-		Map<String,Object> data = new HashMap<String,Object>();
 		List<Map<String,String>> list = new ArrayList<Map<String,String>>();
 		Map<String,String> china = new HashMap<String,String>();
 		china.put("country_name", "China");
@@ -65,8 +62,7 @@ public class BasicController {
 		mal.put("country_name", "China");
 		mal.put("country_code", "+60,");
 		list.add(mal);
-		data.put("list", list);
-		return  ResponseUtil.successResult(data);
+		return  ResponseUtil.successResult(list);
 	}
 	
 	@ApiOperation(value="获取验证码", notes="根据用户手机获取验证码,默认十分钟有效,两分钟之内不允许重复请求",produces = "application/json")
@@ -146,6 +142,7 @@ public class BasicController {
 					return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
 				}
 				UserShipper user = new UserShipper();
+				user.setCreateDate(new Date());
 				user.setMobile(mobile);
 				user.setPassword(password);
 				user.setId(UUIDUtil.UUID());
