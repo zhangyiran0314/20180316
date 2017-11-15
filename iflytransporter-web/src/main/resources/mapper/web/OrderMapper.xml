@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Order" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="departure" property="departure" jdbcType="VARCHAR" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="car_type_value" property="carTypeValue" jdbcType="VARCHAR" />
+    <result column="goods_type_value" property="goodsTypeValue" jdbcType="VARCHAR" />
+    <result column="goods_unit_value" property="goodsUnitValue" jdbcType="VARCHAR" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
+    <result column="insurance_id" property="insuranceId" jdbcType="VARCHAR" />
+    <result column="repeat_flag" property="repeatFlag" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, departure, destination, car_type_value, 
+    goods_type_value, goods_unit_value, deliver_date, costs, remark, status, shipper_id, 
+    insurance_id, repeat_flag
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.Order" >
+    insert into t_order (id, create_date, update_date, 
+      data_status, desp, departure, 
+      destination, car_type_value, goods_type_value, 
+      goods_unit_value, deliver_date, costs, 
+      remark, status, shipper_id, 
+      insurance_id, repeat_flag)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{departure,jdbcType=VARCHAR}, 
+      #{destination,jdbcType=VARCHAR}, #{carTypeValue,jdbcType=VARCHAR}, #{goodsTypeValue,jdbcType=VARCHAR}, 
+      #{goodsUnitValue,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{costs,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{shipperId,jdbcType=VARCHAR}, 
+      #{insuranceId,jdbcType=VARCHAR}, #{repeatFlag,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="departure != null" >
+        departure,
+      </if>
+      <if test="destination != null" >
+        destination,
+      </if>
+      <if test="carTypeValue != null" >
+        car_type_value,
+      </if>
+      <if test="goodsTypeValue != null" >
+        goods_type_value,
+      </if>
+      <if test="goodsUnitValue != null" >
+        goods_unit_value,
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date,
+      </if>
+      <if test="costs != null" >
+        costs,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="shipperId != null" >
+        shipper_id,
+      </if>
+      <if test="insuranceId != null" >
+        insurance_id,
+      </if>
+      <if test="repeatFlag != null" >
+        repeat_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null" >
+        #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeValue != null" >
+        #{carTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeValue != null" >
+        #{goodsTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnitValue != null" >
+        #{goodsUnitValue,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costs != null" >
+        #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="shipperId != null" >
+        #{shipperId,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceId != null" >
+        #{insuranceId,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatFlag != null" >
+        #{repeatFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Order" >
+    update t_order
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="departure != null" >
+        departure = #{departure,jdbcType=VARCHAR},
+      </if>
+      <if test="destination != null" >
+        destination = #{destination,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeValue != null" >
+        car_type_value = #{carTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeValue != null" >
+        goods_type_value = #{goodsTypeValue,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnitValue != null" >
+        goods_unit_value = #{goodsUnitValue,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="costs != null" >
+        costs = #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="shipperId != null" >
+        shipper_id = #{shipperId,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceId != null" >
+        insurance_id = #{insuranceId,jdbcType=VARCHAR},
+      </if>
+      <if test="repeatFlag != null" >
+        repeat_flag = #{repeatFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Order" >
+    update t_order
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      departure = #{departure,jdbcType=VARCHAR},
+      destination = #{destination,jdbcType=VARCHAR},
+      car_type_value = #{carTypeValue,jdbcType=VARCHAR},
+      goods_type_value = #{goodsTypeValue,jdbcType=VARCHAR},
+      goods_unit_value = #{goodsUnitValue,jdbcType=VARCHAR},
+      deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      costs = #{costs,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      shipper_id = #{shipperId,jdbcType=VARCHAR},
+      insurance_id = #{insuranceId,jdbcType=VARCHAR},
+      repeat_flag = #{repeatFlag,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
