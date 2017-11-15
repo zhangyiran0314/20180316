@@ -3,9 +3,9 @@ package com.iflytransporter.api.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.iflytransporter.api.bean.Attachment;
 import com.iflytransporter.api.mapper.AttachmentMapper;
 import com.iflytransporter.api.service.AttachmentService;
+import com.iflytransporter.common.bean.Attachment;
 
 @Service("attachmentService")
 public class AttachmentServiceImpl implements AttachmentService{

@@ -3,8 +3,8 @@ package com.iflytransporter.api.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.iflytransporter.api.common.enums.BuzExceptionEnums;
-import com.iflytransporter.api.common.exception.ServiceException;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.exception.ServiceException;
 
 public class ResponseUtil {
 	//返回值

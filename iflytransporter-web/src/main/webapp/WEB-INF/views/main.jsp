@@ -18,7 +18,7 @@
 </head>
 <body class="childrenBody">
 	<div class="panel_box row">
-		<div class="panel col">
+		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon">
 					<i class="layui-icon" data-icon="&#xe63a;">&#xe63a;</i>
@@ -28,8 +28,8 @@
 					<cite>新消息</cite>
 				</div>
 			</a>
-		</div>
-		<div class="panel col">
+		</div> --%>
+		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#FF5722;">
 					<i class="iconfont icon-dongtaifensishu" data-icon="icon-dongtaifensishu"></i>
@@ -39,19 +39,19 @@
 					<cite>新增人数</cite>
 				</div>
 			</a>
-		</div>
+		</div> --%>
 		<div class="panel col">
-			<a href="javascript:;" data-url="page/user/allUsers.html">
+			<a href="javascript:;" data-url="/shipper/manage">
 				<div class="panel_icon" style="background-color:#009688;">
 					<i class="layui-icon" data-icon="&#xe613;">&#xe613;</i>
 				</div>
 				<div class="panel_word userAll">
 					<span></span>
-					<cite>用户总数</cite>
+					<cite>用户列表</cite>
 				</div>
 			</a>
 		</div>
-		<div class="panel col">
+		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#5FB878;">
 					<i class="layui-icon" data-icon="&#xe64a;">&#xe64a;</i>
@@ -61,8 +61,8 @@
 					<cite>图片总数</cite>
 				</div>
 			</a>
-		</div>
-		<div class="panel col">
+		</div> --%>
+		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#F7B824;">
 					<i class="iconfont icon-wenben" data-icon="icon-wenben"></i>
@@ -72,8 +72,8 @@
 					<cite>待审核文章</cite>
 				</div>
 			</a>
-		</div>
-		<div class="panel col max_panel">
+		</div> --%>
+		<%-- <div class="panel col max_panel">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#2F4056;">
 					<i class="iconfont icon-text" data-icon="icon-text"></i>
@@ -83,7 +83,7 @@
 					<cite>文章列表</cite>
 				</div>
 			</a>
-		</div>
+		</div> --%>
 	</div>
 	<div class="row">
 		<div class=" col">

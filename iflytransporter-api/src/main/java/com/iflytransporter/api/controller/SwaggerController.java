@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.iflytransporter.api.bean.UserShipper;
+import com.iflytransporter.common.bean.Shipper;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -51,7 +51,7 @@ public class SwaggerController {
 	@ApiOperation(value="创建用户", notes="根据User对象创建用户")
     @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "UserShipper")
     @RequestMapping(value="", method=RequestMethod.POST)
-    public String postUser(@RequestBody UserShipper user) {
+    public String postUser(@RequestBody Shipper user) {
 		Map<String,Object> result =new HashMap<String,Object>();
 		result.put("status",200);
 		result.put("msg", "0");

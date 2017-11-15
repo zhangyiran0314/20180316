@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iflytransporter.api.bean.UserShipper;
-import com.iflytransporter.api.common.enums.BuzExceptionEnums;
-import com.iflytransporter.api.common.enums.StatusEnums;
-import com.iflytransporter.api.service.UserShipperService;
+import com.iflytransporter.api.service.ShipperService;
 import com.iflytransporter.api.utils.CaptchaUtil;
 import com.iflytransporter.api.utils.HttpUtil;
 import com.iflytransporter.api.utils.JwtUtil;
@@ -31,6 +28,9 @@ import com.iflytransporter.api.utils.JwtUtil.JwtUser;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
+import com.iflytransporter.common.bean.Shipper;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.enums.StatusEnums;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +42,7 @@ import io.swagger.annotations.ApiParam;
 public class BasicController {
 	
 	@Autowired
-	private UserShipperService userShipperService;
+	private ShipperService userShipperService;
 	
 	@Autowired
     private RedisTemplate<String, String> redisTemplate;//注入redis缓存
@@ -137,12 +137,14 @@ public class BasicController {
 		Integer userType = (Integer) requestMap.get("userType");
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)&& userType!=null){
 			if(userType.equals(0)){
-				UserShipper checkUser = userShipperService.queryByMobile(mobile);
+				Shipper checkUser = userShipperService.queryByMobile(mobile);
 				if(null!=checkUser){
 					return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
 				}
-				UserShipper user = new UserShipper();
-				user.setCreateDate(new Date());
+				Shipper user = new Shipper();
+				Date currentDate = new Date();
+				user.setCreateDate(currentDate);
+				user.setUpdateDate(currentDate);
 				user.setMobile(mobile);
 				user.setPassword(password);
 				user.setId(UUIDUtil.UUID());
@@ -174,7 +176,7 @@ public class BasicController {
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)&& userType!=null){
 			Map<String,Object> data =new HashMap<String,Object>();
 			if(userType.equals(0)){
-				UserShipper user = userShipperService.login(mobile, password);
+				Shipper user = userShipperService.login(mobile, password);
 				if(null == user){
 					return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
 				}

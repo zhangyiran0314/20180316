@@ -1,6 +1,6 @@
 package com.iflytransporter.web.mapper;
 
-import com.iflytransporter.web.bean.Attachment;
+import com.iflytransporter.common.bean.Attachment;
 
 public interface AttachmentMapper {
     int deleteByPrimaryKey(String id);

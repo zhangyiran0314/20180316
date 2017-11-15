@@ -1,6 +1,6 @@
 package com.iflytransporter.web.service;
 
-import com.iflytransporter.web.bean.Attachment;
+import com.iflytransporter.common.bean.Attachment;
 
 public interface AttachmentService {
 	

@@ -6,7 +6,6 @@ layui.config({
 		laypage = layui.laypage,
 		laydate = layui.laydate,
 		$ = layui.jquery;
-	
 		//分页参数设置 这些全局变量关系到分页的功能
 	    var currPageNo = 1; //当前页数(后台返回)
 	    var pageSize = 10; //每页多少条
@@ -17,7 +16,7 @@ layui.config({
 	    function getDatas(){
 	    	$.ajax({
 	    		type:"GET",
-	    		url:"/user/queryPage",
+	    		url:"/shipper/queryPage",
 	    		dataType:"json",
 	    		data:{pageNo:currPageNo, pageSize:pageSize,selectValue:$("#search_input").val()},
 	    		success:function(data,status){
@@ -97,8 +96,8 @@ layui.config({
 
 	//批量删除
 	$(".batchDel").click(function(){
-		var $checkbox = $('.users_list tbody input[type="checkbox"][name="checked"]');
-		var $checked = $('.users_list tbody input[type="checkbox"][name="checked"]:checked');
+		var $checkbox = $('.data_list tbody input[type="checkbox"][name="checked"]');
+		var $checked = $('.data_list tbody input[type="checkbox"][name="checked"]:checked');
 		if($checkbox.is(":checked")){
 			layer.confirm('确定删除选中的信息？',{icon:3, title:'提示信息'},function(index){
 				var index = layer.msg('删除中，请稍候',{icon: 16,time:false,shade:0.8});

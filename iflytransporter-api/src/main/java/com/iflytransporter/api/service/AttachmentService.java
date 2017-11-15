@@ -1,6 +1,6 @@
 package com.iflytransporter.api.service;
 
-import com.iflytransporter.api.bean.Attachment;
+import com.iflytransporter.common.bean.Attachment;
 
 public interface AttachmentService {
 	

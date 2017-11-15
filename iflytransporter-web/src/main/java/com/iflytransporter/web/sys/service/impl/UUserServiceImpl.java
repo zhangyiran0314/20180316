@@ -78,7 +78,6 @@ public class UUserServiceImpl  implements UUserService {
 		return userMapper.findUserByEmail(email);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public PageInfo<UUser> queryPage(Integer pageNo, Integer pageSize) {
 		if(pageNo!= null && pageSize!= null){  

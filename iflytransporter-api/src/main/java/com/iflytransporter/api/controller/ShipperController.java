@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iflytransporter.api.bean.UserShipper;
-import com.iflytransporter.api.common.enums.BuzExceptionEnums;
-import com.iflytransporter.api.service.UserShipperService;
+import com.iflytransporter.api.service.ShipperService;
 import com.iflytransporter.api.utils.HttpUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.bean.Shipper;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
 public class ShipperController {
 	
 	@Autowired
-	private UserShipperService userShipperService;
+	private ShipperService userShipperService;
 	
 	@ApiOperation(value="登录", notes="根据手机号和密码登录")
     @ApiImplicitParams({
@@ -47,7 +47,7 @@ public class ShipperController {
 		String password = request.getParameter("password");
 		Map<String,Object> data =new HashMap<String,Object>();
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)){
-			UserShipper user = userShipperService.login(mobile, password);
+			Shipper user = userShipperService.login(mobile, password);
 			if(null == user){
 				return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
 			}
@@ -74,7 +74,7 @@ public class ShipperController {
 		String password = request.getParameter("password");
 		Map<String,Object> data =new HashMap<String,Object>();
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)){
-			UserShipper user = userShipperService.login(mobile, password);
+			Shipper user = userShipperService.login(mobile, password);
 			if(null == user){
 				return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
 			}
@@ -131,7 +131,7 @@ public class ShipperController {
 	    })
 	@RequestMapping(value="modifyUser", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object>  modifyUser(@RequestBody UserShipper user,HttpServletRequest request, HttpServletResponse response){
+	public Map<String,Object>  modifyUser(@RequestBody Shipper user,HttpServletRequest request, HttpServletResponse response){
 		return ResponseUtil.successResult();
 	}
 	@ApiOperation(value="删除用户", notes="根据用户ID删除用户")

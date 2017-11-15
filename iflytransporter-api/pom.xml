@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.iflytransporter</groupId>
     <artifactId>iflytransporter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>com.iflytransporter.api</groupId>
   <artifactId>iflytransporter-api</artifactId>
@@ -24,6 +24,13 @@
  </properties>
 
   <dependencies>
+  		
+  		<dependency>
+  			<groupId>com.iflytransporter.common</groupId>
+  			<artifactId>iflytransporter-common</artifactId>
+  			 <version>1.0-SNAPSHOT</version>
+  		</dependency>
+  		
   		<dependency>
             <groupId>org.springframework.boot</groupId>  
             <artifactId>spring-boot-starter-tomcat</artifactId>  
