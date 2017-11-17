@@ -1,13 +1,12 @@
 package com.iflytransporter.common.bean;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.iflytransporter.common.base.BaseEntity;
 
-public class Shipper extends BaseEntity implements Serializable {
+public class Shipper extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -147,10 +146,6 @@ public class Shipper extends BaseEntity implements Serializable {
         this.attachmentId3 = attachmentId3 == null ? null : attachmentId3.trim();
     }
 
-	public String toString(){
-    	return JSONObject.toJSONString(this).toString();
-    }
-
 	public String getCardNo() {
 		return cardNo;
 	}
@@ -166,5 +161,8 @@ public class Shipper extends BaseEntity implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+	@Override
+  	public String toString() {
+    	  return JSONObject.toJSONString(this).toString();
+  	}
 }

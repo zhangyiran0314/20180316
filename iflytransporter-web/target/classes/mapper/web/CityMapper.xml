@@ -10,9 +10,43 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CityBO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+    <result column="province_id_name" property="provinceIdName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, province_id
   </sql>
+  
+  <select id="queryAll" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_city
+  </select>
+  
+   <select id="queryAllBO" resultMap="BaseResultMapBO">
+  	select 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.province_id,
+    b.name as provinceIdName
+    from t_city a
+    left join t_province b on a.province_id = b.id
+  </select>
+  
+  <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String">
+  	select 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.province_id,
+    b.name as provinceIdName
+    from t_city a
+    left join t_province b on a.province_id = b.id
+    where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

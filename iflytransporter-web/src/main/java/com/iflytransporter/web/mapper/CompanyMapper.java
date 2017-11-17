@@ -1,9 +1,18 @@
 package com.iflytransporter.web.mapper;
 
+import java.util.List;
+
 import com.iflytransporter.common.bean.Company;
+import com.iflytransporter.common.bean.CompanyBO;
 
 public interface CompanyMapper {
-    int deleteByPrimaryKey(String id);
+	
+	List<Company> queryAll();
+	
+	CompanyBO selectByPrimaryKeyBO(String id);
+	
+	
+	int deleteByPrimaryKey(String id);
 
     int insert(Company record);
 

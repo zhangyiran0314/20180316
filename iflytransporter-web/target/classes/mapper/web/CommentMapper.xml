@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Comment" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
+    <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, grade, content, shipper_id, transporter_id, 
+    waybill_id
+  </sql>
+  
+  <select id="queryAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comment
+    where 1 = 1 
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="waybillId != null" >
+      and waybill_id  = #{waybillId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.Comment" >
+    insert into t_comment (id, create_date, update_date, 
+      data_status, desp, grade, 
+      content, shipper_id, transporter_id, 
+      waybill_id)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
+      #{waybillId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Comment" >
+    insert into t_comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="shipperId != null" >
+        shipper_id,
+      </if>
+      <if test="transporterId != null" >
+        transporter_id,
+      </if>
+      <if test="waybillId != null" >
+        waybill_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null" >
+        #{shipperId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterId != null" >
+        #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillId != null" >
+        #{waybillId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Comment" >
+    update t_comment
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperId != null" >
+        shipper_id = #{shipperId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterId != null" >
+        transporter_id = #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="waybillId != null" >
+        waybill_id = #{waybillId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Comment" >
+    update t_comment
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      shipper_id = #{shipperId,jdbcType=VARCHAR},
+      transporter_id = #{transporterId,jdbcType=VARCHAR},
+      waybill_id = #{waybillId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

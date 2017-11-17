@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CarMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Car" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CarBO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+    <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2,company_id
+  </sql>
+  
+    <select id="queryAllBO" resultMap="BaseResultMapBO" >
+    select 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
+    a.attachment_id_1, a.attachment_id_2,a.company_id,
+    b.attachment_link as attachment_id_1_link,
+    c.attachment_link as attachment_id_2_link
+    from 
+    t_car a
+    left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_attachment c on a.attachment_id_2 = c.id
+    where 1 = 1 
+    <if test="companyId != null" >
+      and a.company_id  = #{companyId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
+    select 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
+    a.attachment_id_1, a.attachment_id_2,a.company_id,
+    b.attachment_link as attachment_id_1_link,
+    c.attachment_link as attachment_id_2_link
+    
+    from t_car a
+    left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_attachment c on a.attachment_id_2 = c.id
+    where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_car
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_car
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.Car" >
+    insert into t_car (id, create_date, update_date, 
+      data_status, desp, name, 
+      code, attachment_id_1, attachment_id_2
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
+    insert into t_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1,
+      </if>
+      <if test="attachmentId2 != null" >
+        attachment_id_2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        #{attachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId2 != null" >
+        #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Car" >
+    update t_car
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId2 != null" >
+        attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Car" >
+    update t_car
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
+      attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.InsuranceMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Insurance" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="premium" property="premium" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.iflytransporter.common.bean.Insurance" extends="BaseResultMap" >
+    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, name, costs, premium
+  </sql>
+  <sql id="Blob_Column_List" >
+    detail
+  </sql>
+  
+   <select id="queryAll" resultMap="ResultMapWithBLOBs">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_insurance
+  </select>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_insurance
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_insurance
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.Insurance" >
+    insert into t_insurance (id, create_date, update_date, 
+      data_status, desp, name, 
+      costs, premium, detail
+      )
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{costs,jdbcType=INTEGER}, #{premium,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Insurance" >
+    insert into t_insurance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="costs != null" >
+        costs,
+      </if>
+      <if test="premium != null" >
+        premium,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="costs != null" >
+        #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="premium != null" >
+        #{premium,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Insurance" >
+    update t_insurance
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="costs != null" >
+        costs = #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="premium != null" >
+        premium = #{premium,jdbcType=INTEGER},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.iflytransporter.common.bean.Insurance" >
+    update t_insurance
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      costs = #{costs,jdbcType=INTEGER},
+      premium = #{premium,jdbcType=INTEGER},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Insurance" >
+    update t_insurance
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      costs = #{costs,jdbcType=INTEGER},
+      premium = #{premium,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

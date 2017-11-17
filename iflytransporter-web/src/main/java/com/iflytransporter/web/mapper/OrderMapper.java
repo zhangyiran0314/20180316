@@ -1,8 +1,15 @@
 package com.iflytransporter.web.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.iflytransporter.common.bean.Order;
 
 public interface OrderMapper {
+	
+	List<Order> queryAll(@Param("shipperId")String sId);
+	
     int deleteByPrimaryKey(String id);
 
     int insert(Order record);

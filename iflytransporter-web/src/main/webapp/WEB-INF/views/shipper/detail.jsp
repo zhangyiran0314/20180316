@@ -30,7 +30,7 @@
 				<input type="text" class="layui-input mobile">
 			</div>
 		</div>
-		- <div class="layui-form-item">
+		<div class="layui-form-item">
 			<label class="layui-form-label">status</label>
 			<div class="layui-input-block">
 				<select name="status" class="status" lay-filter="status">

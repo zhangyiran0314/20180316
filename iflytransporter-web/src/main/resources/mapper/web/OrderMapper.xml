@@ -25,6 +25,16 @@
     goods_type_value, goods_unit_value, deliver_date, costs, remark, status, shipper_id, 
     insurance_id, repeat_flag
   </sql>
+   <select id="queryAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where 1 = 1 
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
