@@ -14,8 +14,8 @@ public class ShipperServiceImpl implements ShipperService{
 	private ShipperMapper shipperMapper;
 	
 	@Override
-	public Shipper queryByMobile(String mobile) {
-		return shipperMapper.selectByMobile(mobile);
+	public Shipper queryByMobile(String countryCode,String mobile) {
+		return shipperMapper.selectByMobile(countryCode,mobile);
 	}
 
 	@Override
@@ -29,8 +29,8 @@ public class ShipperServiceImpl implements ShipperService{
 	}
 
 	@Override
-	public Shipper login(String mobile, String password) {
-		return shipperMapper.selectByMobileAndPassword(mobile, password);
+	public Shipper login(String countryCode,String mobile, String password) {
+		return shipperMapper.selectByMobileAndPassword(countryCode,mobile, password);
 	}
 
 }

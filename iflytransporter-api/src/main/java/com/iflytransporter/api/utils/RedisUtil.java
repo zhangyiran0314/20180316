@@ -6,7 +6,7 @@ public class RedisUtil {
 	public static String Redis_Captcha ="captcha";
 	
 	/**获取key值*/
-	public static String getCaptchaKey(String key){
-		return Redis_Captcha+":"+key; 
+	public static String getCaptchaKey(String countryCode,String key){
+		return Redis_Captcha+":"+countryCode+":"+key; 
 	}
 }

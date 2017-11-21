@@ -1,6 +1,10 @@
 package com.iflytransporter.common.enums;
 
 public interface Enums {
+
+	/**用户类型定义*/
+	public static int Type_User_Shipper =0;//货主
+	public static int Type_User_Transporter = 1; //车主
 	/**状态定义*/
 	//用户部分
 	public static  int Status_UserRegister = 0;//用户注册

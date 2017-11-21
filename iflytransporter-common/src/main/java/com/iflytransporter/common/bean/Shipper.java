@@ -10,6 +10,8 @@ public class Shipper extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
+	private String countryCode;
+	
 	private String mobile;
 
 	@JSONField(serialize=false)
@@ -160,6 +162,13 @@ public class Shipper extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 	@Override
   	public String toString() {

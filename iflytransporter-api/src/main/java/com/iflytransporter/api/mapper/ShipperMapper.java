@@ -7,9 +7,9 @@ import com.iflytransporter.common.bean.Shipper;
 public interface ShipperMapper {
 	
 	//根据mobile查询
-	Shipper selectByMobile(@Param("mobile")String mobile);
+	Shipper selectByMobile(@Param("countryCode")String countryCode,@Param("mobile")String mobile);
 	//根据mobile和密码查询用户
-	Shipper selectByMobileAndPassword(@Param("mobile")String mobile,@Param("password")String password);
+	Shipper selectByMobileAndPassword(@Param("countryCode")String countryCode,@Param("mobile")String mobile,@Param("password")String password);
 	//修改当前登录信息
 	int updateLoginInfo(Shipper record);
 	

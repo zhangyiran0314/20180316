@@ -22,11 +22,12 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, mobile, password, nickname, last_login_ip, 
     last_login_date, status, last_login_device, company_id, parent_id, attachment_id_1, 
-    attachment_id_2, attachment_id_3, name, card_no, email
+    attachment_id_2, attachment_id_3, name, card_no, email,country_code
   </sql>
   
   
@@ -34,13 +35,14 @@
     select 
     <include refid="Base_Column_List" />
     from t_shipper
-    where mobile = #{mobile,jdbcType=VARCHAR} 
+    where country_code = #{countryCode,jdbcType=VARCHAR} and mobile = #{mobile,jdbcType=VARCHAR} 
   </select>
    <select id="selectByMobileAndPassword" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_shipper
-    where mobile = #{mobile,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    where country_code = #{countryCode,jdbcType=VARCHAR} and
+    mobile = #{mobile,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
   </select>
    <update id="updateLoginInfo" parameterType="com.iflytransporter.common.bean.Shipper" >
     update t_shipper set
@@ -68,14 +70,14 @@
       last_login_date, status, last_login_device, 
       company_id, parent_id, attachment_id_1, 
       attachment_id_2, attachment_id_3, name, 
-      card_no, email)
+      card_no, email,country_code)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, #{lastLoginIp,jdbcType=VARCHAR}, 
       #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, #{lastLoginDevice,jdbcType=VARCHAR}, 
       #{companyId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, 
       #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR})
+      #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR},#{countryCode,jdbcType=VARCHAR})
   </insert>
   
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Shipper" >

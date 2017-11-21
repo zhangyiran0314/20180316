@@ -137,13 +137,15 @@ public class JwtUtil {
 		return jo.toJSONString();
 	}
 	public static class  JwtUser{
+		public String countryCode;
 		public String userId;
 		public String mobile;
 		public String password;
 		public String device;
 		
-		public JwtUser(String userId,String mobile, String password, String device) {
+		public JwtUser(String userId,String countryCode,String mobile, String password, String device) {
 			this.userId = userId; 
+			this.countryCode = countryCode;
 			this.mobile = mobile;
 			this.password = password;
 			this.device = device;
@@ -151,7 +153,7 @@ public class JwtUtil {
 
 		@Override
 		public String toString() {
-			return "userId:"+ userId + ", mobile:"+ mobile +",device:"+ device ;
+			  return JSONObject.toJSONString(this).toString();
 		}
 		
 	}

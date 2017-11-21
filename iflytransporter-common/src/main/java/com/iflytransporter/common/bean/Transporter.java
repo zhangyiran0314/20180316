@@ -2,27 +2,29 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.iflytransporter.common.base.BaseEntity;
 
 public class Transporter extends BaseEntity{
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
+	private String countryCode;
+	
 	private String mobile;
-
+	
+	@JSONField(serialize=false)
     private String password;
 
     private String nickname;
 
     private String lastLoginIp;
 
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date lastLoginDate;
 
-    private Short status;
-
+    private int status;
+    
     private String lastLoginDevice;
 
     private String companyId;
@@ -82,11 +84,11 @@ public class Transporter extends BaseEntity{
         this.lastLoginDate = lastLoginDate;
     }
 
-    public Short getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -161,4 +163,13 @@ public class Transporter extends BaseEntity{
     public void setEmail(String email) {
         this.email = email == null ? null : email.trim();
     }
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+    
 }
