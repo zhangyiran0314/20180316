@@ -13,8 +13,8 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="../../css/user.css" media="all" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/layui/css/layui.css" media="all" />
+	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/user.css" media="all" />
 </head>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote news_search layui-form ">
@@ -85,7 +85,7 @@ layui.config({
 	function getDatas(){
 	    	$.ajax({
 	    		type:"GET",
-	    		url:"/shipper/queryPage",
+	    		url:"<%=request.getContextPath()%>/shipper/queryPage",
 	    		dataType:"json",
 	    		data:{pageNo:currPageNo, pageSize:pageSize,selectValue:$("#search_input").val()},
 	    		success:function(result,status){
@@ -158,7 +158,7 @@ layui.config({
 		var index = layui.layer.open({
 			title : "Detail",
 			type : 2,
-			content : "/shipper/toDetail?id="+_this.attr("data-id"),
+			content : "<%=request.getContextPath()%>/shipper/toDetail?id="+_this.attr("data-id"),
 			success : function(layero, index){
 				setTimeout(function(){
 					layui.layer.tips('Click back', '.layui-layer-setwin .layui-layer-close', {

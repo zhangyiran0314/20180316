@@ -76,7 +76,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "/orderApply/detail",
+			url : "<%=request.getContextPath()%>/orderApply/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",

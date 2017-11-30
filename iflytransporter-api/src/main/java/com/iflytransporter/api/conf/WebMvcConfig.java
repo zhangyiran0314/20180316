@@ -105,6 +105,10 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 		excludesList.add("/swagger*/**");
 		excludesList.add("/v2/api-docs");
 		excludesList.add("/*.html");
+		/** for test */
+		excludesList.add("/common/**");
+		excludesList.add("/order/**");
+		/** for test */
 		String[] excludes = new String[excludesList.size()];
 		excludesList.toArray(excludes);
 		registry.addInterceptor(new JwtInterceptor()).addPathPatterns("/**").excludePathPatterns(excludes);

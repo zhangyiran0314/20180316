@@ -82,7 +82,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "/shipper/detail",
+			url : "<%=request.getContextPath()%>/shipper/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",

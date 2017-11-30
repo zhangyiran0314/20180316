@@ -76,7 +76,7 @@ public class AttachmentController {
 			new File(destDir).mkdirs();
 		}
 		String fileId = UUIDUtil.UUID();
-		String desFilePath = dateFilePath+"/"+fileId+"."+suffix;
+		String desFilePath = "/"+dateFilePath+"/"+fileId+"."+suffix;
 		String finalFilePath = fileUploadPath + "/"+dateFilePath+"/"+fileId+"."+suffix;
 		try {
 			file.transferTo(new File(finalFilePath));

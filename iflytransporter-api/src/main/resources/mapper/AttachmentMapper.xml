@@ -7,14 +7,16 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="attachement_link" property="attachementLink" jdbcType="VARCHAR" />
-    <result column="attachement_name" property="attachementName" jdbcType="VARCHAR" />
-    <result column="attachement_type" property="attachementType" jdbcType="VARCHAR" />
+    <result column="attachment_link" property="attachmentLink" jdbcType="VARCHAR" />
+    <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR" />
+    <result column="attachment_type" property="attachmentType" jdbcType="VARCHAR" />
     <result column="ref_id" property="refId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, attachement_link, attachement_name, 
-    attachement_type, ref_id
+    id, create_date, update_date, data_status, desp, 
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',attachment_link) as attachment_link,
+    attachment_name, 
+    attachment_type, ref_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,12 +30,12 @@
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Attachment" >
     insert into t_attachment (id, create_date, update_date, 
-      data_status, desp, attachement_link, 
-      attachement_name, attachement_type, ref_id
+      data_status, desp, attachment_link, 
+      attachment_name, attachment_type, ref_id
       )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{attachementLink,jdbcType=VARCHAR}, 
-      #{attachementName,jdbcType=VARCHAR}, #{attachementType,jdbcType=VARCHAR}, #{refId,jdbcType=VARCHAR}
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{attachmentLink,jdbcType=VARCHAR}, 
+      #{attachmentName,jdbcType=VARCHAR}, #{attachmentType,jdbcType=VARCHAR}, #{refId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Attachment" >
@@ -54,14 +56,14 @@
       <if test="desp != null" >
         desp,
       </if>
-      <if test="attachementLink != null" >
-        attachement_link,
+      <if test="attachmentLink != null" >
+        attachment_link,
       </if>
-      <if test="attachementName != null" >
-        attachement_name,
+      <if test="attachmentName != null" >
+        attachment_name,
       </if>
-      <if test="attachementType != null" >
-        attachement_type,
+      <if test="attachmentType != null" >
+        attachment_type,
       </if>
       <if test="refId != null" >
         ref_id,
@@ -83,14 +85,14 @@
       <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="attachementLink != null" >
-        #{attachementLink,jdbcType=VARCHAR},
+      <if test="attachmentLink != null" >
+        #{attachmentLink,jdbcType=VARCHAR},
       </if>
-      <if test="attachementName != null" >
-        #{attachementName,jdbcType=VARCHAR},
+      <if test="attachmentName != null" >
+        #{attachmentName,jdbcType=VARCHAR},
       </if>
-      <if test="attachementType != null" >
-        #{attachementType,jdbcType=VARCHAR},
+      <if test="attachmentType != null" >
+        #{attachmentType,jdbcType=VARCHAR},
       </if>
       <if test="refId != null" >
         #{refId,jdbcType=VARCHAR},
@@ -112,14 +114,14 @@
       <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="attachementLink != null" >
-        attachement_link = #{attachementLink,jdbcType=VARCHAR},
+      <if test="attachmentLink != null" >
+        attachment_link = #{attachmentLink,jdbcType=VARCHAR},
       </if>
-      <if test="attachementName != null" >
-        attachement_name = #{attachementName,jdbcType=VARCHAR},
+      <if test="attachmentName != null" >
+        attachment_name = #{attachmentName,jdbcType=VARCHAR},
       </if>
-      <if test="attachementType != null" >
-        attachement_type = #{attachementType,jdbcType=VARCHAR},
+      <if test="attachmentType != null" >
+        attachment_type = #{attachmentType,jdbcType=VARCHAR},
       </if>
       <if test="refId != null" >
         ref_id = #{refId,jdbcType=VARCHAR},
@@ -133,9 +135,9 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
-      attachement_link = #{attachementLink,jdbcType=VARCHAR},
-      attachement_name = #{attachementName,jdbcType=VARCHAR},
-      attachement_type = #{attachementType,jdbcType=VARCHAR},
+      attachment_link = #{attachmentLink,jdbcType=VARCHAR},
+      attachment_name = #{attachmentName,jdbcType=VARCHAR},
+      attachment_type = #{attachmentType,jdbcType=VARCHAR},
       ref_id = #{refId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

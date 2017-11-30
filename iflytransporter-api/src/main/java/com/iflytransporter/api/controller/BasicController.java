@@ -39,7 +39,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value = "basic api",description="此controller接口无需token即可直接访问")
+@Api(value = "basic api",description="此Controller接口无需token即可直接访问")
 @Controller
 @RequestMapping("/basic/{version}")
 public class BasicController {

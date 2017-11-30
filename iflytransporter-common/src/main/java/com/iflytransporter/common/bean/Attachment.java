@@ -6,37 +6,36 @@ public class Attachment extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 
-	private String attachementLink;
+	private String attachmentLink;
 
-    private String attachementName;
+    private String attachmentName;
 
-    private String attachementType;
+    private String attachmentType;
 
     private String refId;
 
-
     public String getAttachementLink() {
-        return attachementLink;
+        return attachmentLink;
     }
 
-    public void setAttachementLink(String attachementLink) {
-        this.attachementLink = attachementLink == null ? null : attachementLink.trim();
+    public void setAttachementLink(String attachmentLink) {
+        this.attachmentLink = attachmentLink == null ? null : attachmentLink.trim();
     }
 
     public String getAttachementName() {
-        return attachementName;
+        return attachmentName;
     }
 
-    public void setAttachementName(String attachementName) {
-        this.attachementName = attachementName == null ? null : attachementName.trim();
+    public void setAttachementName(String attachmentName) {
+        this.attachmentName = attachmentName == null ? null : attachmentName.trim();
     }
 
     public String getAttachementType() {
-        return attachementType;
+        return attachmentType;
     }
 
-    public void setAttachementType(String attachementType) {
-        this.attachementType = attachementType == null ? null : attachementType.trim();
+    public void setAttachementType(String attachmentType) {
+        this.attachmentType = attachmentType == null ? null : attachmentType.trim();
     }
 
     public String getRefId() {

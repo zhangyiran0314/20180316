@@ -12,12 +12,6 @@ public class Order extends BaseEntity{
 
     private String destination;
 
-    private String carTypeValue;
-
-    private String goodsTypeValue;
-
-    private String goodsUnitValue;
-
     private Date deliverDate;
 
     private Integer costs;
@@ -29,6 +23,12 @@ public class Order extends BaseEntity{
     private String shipperId;
 
     private String insuranceId;
+    
+    private String carTypeId;
+
+    private String goodsTypeId;
+
+    private String goodsUnitId;
 
     private Integer repeatFlag;
 
@@ -49,29 +49,6 @@ public class Order extends BaseEntity{
         this.destination = destination == null ? null : destination.trim();
     }
 
-    public String getCarTypeValue() {
-        return carTypeValue;
-    }
-
-    public void setCarTypeValue(String carTypeValue) {
-        this.carTypeValue = carTypeValue == null ? null : carTypeValue.trim();
-    }
-
-    public String getGoodsTypeValue() {
-        return goodsTypeValue;
-    }
-
-    public void setGoodsTypeValue(String goodsTypeValue) {
-        this.goodsTypeValue = goodsTypeValue == null ? null : goodsTypeValue.trim();
-    }
-
-    public String getGoodsUnitValue() {
-        return goodsUnitValue;
-    }
-
-    public void setGoodsUnitValue(String goodsUnitValue) {
-        this.goodsUnitValue = goodsUnitValue == null ? null : goodsUnitValue.trim();
-    }
 
     public Date getDeliverDate() {
         return deliverDate;
@@ -120,15 +97,41 @@ public class Order extends BaseEntity{
     public void setInsuranceId(String insuranceId) {
         this.insuranceId = insuranceId == null ? null : insuranceId.trim();
     }
+    
+    public String getCarTypeId() {
+		return carTypeId;
+	}
 
-    public Integer getRepeatFlag() {
-        return repeatFlag;
-    }
+	public void setCarTypeId(String carTypeId) {
+		this.carTypeId = carTypeId;
+	}
 
-    public void setRepeatFlag(Integer repeatFlag) {
-        this.repeatFlag = repeatFlag;
-    }
-    @Override
+	public String getGoodsTypeId() {
+		return goodsTypeId;
+	}
+
+	public void setGoodsTypeId(String goodsTypeId) {
+		this.goodsTypeId = goodsTypeId;
+	}
+
+	public String getGoodsUnitId() {
+		return goodsUnitId;
+	}
+
+	public void setGoodsUnitId(String goodsUnitId) {
+		this.goodsUnitId = goodsUnitId;
+	}
+
+
+	public Integer getRepeatFlag() {
+		return repeatFlag;
+	}
+
+	public void setRepeatFlag(Integer repeatFlag) {
+		this.repeatFlag = repeatFlag;
+	}
+
+	@Override
   	public String toString() {
     	  return JSONObject.toJSONString(this).toString();
   	}
