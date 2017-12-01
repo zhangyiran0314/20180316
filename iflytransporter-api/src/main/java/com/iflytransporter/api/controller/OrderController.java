@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiParam;
 
 @Api(value = "order api",description="发货(订单)操作 Controller")
 @Controller
-@RequestMapping("/order/{version}")
+@RequestMapping("/shipper/order/{version}")
 public class OrderController {
 	
 	@Autowired
@@ -36,11 +36,11 @@ public class OrderController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="shipperId") Map<String,Object> requestMap){
+			@RequestBody  Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
-		String sId = (String) requestMap.get("shipperId");
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, sId);
+		String id =  (String) request.getAttribute("userId");
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, id);
 		return ResponseUtil.successResult(page);
 	}
 	

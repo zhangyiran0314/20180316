@@ -22,5 +22,5 @@ public interface GoodsSourceMapper {
     
     int invalidByPrimaryKey(String id);
     
-    List<GoodsSource> queryAll(@Param("shipperId")String sId,@Param("transporterId")String tId);
+    List<GoodsSource> queryAll(@Param("userId")String userId);
 }

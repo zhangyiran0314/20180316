@@ -40,6 +40,11 @@
     <include refid ="Valid_SQL"/>
   </select>
   
+   <update id="invalidByPrimaryKey" parameterType="java.lang.String" >
+    update  t_order set data_status = 1,update_date = now() 
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -47,10 +52,6 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   
-   <update id="invalidByPrimaryKey" parameterType="java.lang.String" >
-    update  t_order set data_status = 1,update_date = now() 
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
   
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Order" >
     insert into t_order (id, create_date, update_date, 

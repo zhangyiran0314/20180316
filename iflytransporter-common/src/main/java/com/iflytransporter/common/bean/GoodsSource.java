@@ -14,9 +14,7 @@ public class GoodsSource extends BaseEntity{
 
     private Integer defaultStatus;
 
-    private String transporterId;
-
-    private String shipperId;
+    private String userId;
 
 
     public String getProvinceId() {
@@ -51,23 +49,15 @@ public class GoodsSource extends BaseEntity{
         this.defaultStatus = defaultStatus;
     }
 
-    public String getTransporterId() {
-        return transporterId;
-    }
+    public String getUserId() {
+		return userId;
+	}
 
-    public void setTransporterId(String transporterId) {
-        this.transporterId = transporterId == null ? null : transporterId.trim();
-    }
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 
-    public String getShipperId() {
-        return shipperId;
-    }
-
-    public void setShipperId(String shipperId) {
-        this.shipperId = shipperId == null ? null : shipperId.trim();
-    }
-    
-    @Override
+	@Override
   	public String toString() {
     	  return JSONObject.toJSONString(this).toString();
   	}

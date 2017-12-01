@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iflytransporter.api.service.ShipperService;
-import com.iflytransporter.api.service.TransporterService;
+import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.CaptchaUtil;
 import com.iflytransporter.api.utils.HttpUtil;
 import com.iflytransporter.api.utils.JwtUtil;
@@ -29,10 +28,8 @@ import com.iflytransporter.api.utils.JwtUtil.JwtUser;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
-import com.iflytransporter.common.bean.Shipper;
-import com.iflytransporter.common.bean.Transporter;
+import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
-import com.iflytransporter.common.enums.Enums;
 import com.iflytransporter.common.enums.StatusEnums;
 
 import io.swagger.annotations.Api;
@@ -45,10 +42,7 @@ import io.swagger.annotations.ApiParam;
 public class BasicController {
 	
 	@Autowired
-	private ShipperService shipperService;
-	@Autowired
-	private TransporterService transporterService;
-	
+	private UserService userService;
 	@Autowired
     private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	
@@ -146,53 +140,28 @@ public class BasicController {
 		String password = (String) requestMap.get("password");
 		Integer userType = (Integer) requestMap.get("userType");
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)&& userType!=null){
-			if(Enums.Type_User_Shipper == userType.intValue()){
-				Shipper checkUser = shipperService.queryByMobile(countryCode,mobile);
-				if(null!=checkUser){
-					return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
-				}
-				Shipper user = new Shipper();
-				Date currentDate = new Date();
-				user.setCreateDate(currentDate);
-				user.setUpdateDate(currentDate);
-				user.setCountryCode(countryCode);
-				user.setMobile(mobile);
-				user.setPassword(password);
-				user.setId(UUIDUtil.UUID());
-				user.setStatus(StatusEnums.UserRegister.getCode());
-				
-				int result =  shipperService.register(user);
-				if(result > 0){
-					Map<String,Object> data =new HashMap<String,Object>();
-					JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
-					String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
-					data.put("token", token);
-					return ResponseUtil.successResult(data);
-				}
+			User checkUser = userService.queryByMobile(countryCode, userType, mobile);
+			if(null!=checkUser){
+				return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
 			}
-			if(Enums.Type_User_Transporter == userType.intValue()){
-				Transporter checkUser = transporterService.queryByMobile(countryCode,mobile);
-				if(null!=checkUser){
-					return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
-				}
-				Transporter user = new Transporter();
-				Date currentDate = new Date();
-				user.setCreateDate(currentDate);
-				user.setUpdateDate(currentDate);
-				user.setCountryCode(countryCode);
-				user.setMobile(mobile);
-				user.setPassword(password);
-				user.setId(UUIDUtil.UUID());
-				user.setStatus(StatusEnums.UserRegister.getCode());
-				
-				int result =  transporterService.register(user);
-				if(result > 0){
-					Map<String,Object> data =new HashMap<String,Object>();
-					JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
-					String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
-					data.put("token", token);
-					return ResponseUtil.successResult(data);
-				}
+			User user = new User();
+			Date currentDate = new Date();
+			user.setCreateDate(currentDate);
+			user.setUpdateDate(currentDate);
+			user.setCountryCode(countryCode);
+			user.setMobile(mobile);
+			user.setPassword(password);
+			user.setId(UUIDUtil.UUID());
+			user.setUserType(userType);
+			user.setStatus(StatusEnums.UserRegister.getCode());
+			
+			int result =  userService.register(user);
+			if(result > 0){
+				Map<String,Object> data =new HashMap<String,Object>();
+				JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
+				String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
+				data.put("token", token);
+				return ResponseUtil.successResult(data);
 			}
 		}
 		return ResponseUtil.failureResult();
@@ -212,36 +181,19 @@ public class BasicController {
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)
 				&&StringUtils.isNotBlank(countryCode)&& userType!=null){
 			Map<String,Object> data =new HashMap<String,Object>();
-			if(Enums.Type_User_Shipper == userType.intValue()){
-				Shipper user = shipperService.login(countryCode,mobile, password);
-				if(null == user){
-					return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
-				}
-				user.setLastLoginDevice(clientId);
-				user.setLastLoginIp(HttpUtil.getRemoteIp(request));
-				user.setLastLoginDate(new Date());
-				shipperService.updateLoginInfo(user);
-				
-				JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
-				String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
-				data.put("token", token);
-				return ResponseUtil.successResult(data);
+			User user = userService.login(countryCode,userType,mobile, password);
+			if(null == user){
+				return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
 			}
-			if(Enums.Type_User_Transporter == userType.intValue()){
-				Transporter user = transporterService.login(countryCode,mobile, password);
-				if(null == user){
-					return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
-				}
-				user.setLastLoginDevice(clientId);
-				user.setLastLoginIp(HttpUtil.getRemoteIp(request));
-				user.setLastLoginDate(new Date());
-				transporterService.updateLoginInfo(user);
-				
-				JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
-				String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
-				data.put("token", token);
-				return ResponseUtil.successResult(data);
-			}
+			user.setLastLoginDevice(clientId);
+			user.setLastLoginIp(HttpUtil.getRemoteIp(request));
+			user.setLastLoginDate(new Date());
+			userService.updateLoginInfo(user);
+			
+			JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
+			String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
+			data.put("token", token);
+			return ResponseUtil.successResult(data);
 		}
 		return ResponseUtil.failureResult();
 	}

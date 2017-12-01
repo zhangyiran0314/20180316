@@ -27,12 +27,14 @@ import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.AttachmentService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
+import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.InsuranceService;
 import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.Attachment;
 import com.iflytransporter.common.bean.CarType;
 import com.iflytransporter.common.bean.City;
+import com.iflytransporter.common.bean.GoodsUnits;
 import com.iflytransporter.common.bean.Insurance;
 import com.iflytransporter.common.bean.Province;
 import com.iflytransporter.common.utils.ResponseUtil;
@@ -62,8 +64,16 @@ public class CommonController {
 	private CarTypeService carTypeService;
 	@Autowired
 	private InsuranceService insuranceService;
+	@Autowired
+	private GoodsUnitsService goodsUnitsService;
 	
-
+	@ApiOperation(value="货物计量单位列表")
+	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.GET)
+	@ResponseBody 
+	public Map<String,Object> getGoodsUnits() {
+		List<GoodsUnits> list = goodsUnitsService.queryAll();
+		return ResponseUtil.successResult(list);
+	}
 	@ApiOperation(value="保险列表")
 	@RequestMapping(value = "/getInsurance", method = RequestMethod.GET)
 	@ResponseBody 
