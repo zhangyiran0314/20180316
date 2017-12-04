@@ -18,6 +18,7 @@ import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.common.bean.Company;
+import com.iflytransporter.common.bean.CompanyBO;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -33,27 +34,6 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 	
-	
-	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json")
-	@RequestMapping(value="queryPage", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody   @ApiParam(value="pageNo,pageSize")  Map<String,Object> requestMap){
-		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
-		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
-		String userId =  (String) request.getAttribute("userId");
-		PageInfo<Company> page = companyService.queryPage(pageNo,pageSize, userId);
-		return ResponseUtil.successResult(page);
-	}
-	@ApiOperation(value="list", notes="列表",produces = "application/json")
-	@RequestMapping(value="list", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  Map<String,Object> requestMap){
-		String userId =  (String) request.getAttribute("userId");
-		List<Company> page = companyService.list(userId);
-		return ResponseUtil.successResult(page);
-	}
 	@ApiOperation(value="add", notes="新增",produces = "application/json")
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	@ResponseBody
@@ -62,7 +42,7 @@ public class CompanyController {
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		company.setId(id);
-		int result = companyService.save(company);
+		int result = companyService.save(company,userId);
 		if(result > 0){
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", id);
@@ -77,7 +57,7 @@ public class CompanyController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		Company company = companyService.query(id);
+		CompanyBO company = companyService.query(id);
 		return ResponseUtil.successResult(company);
 	}
 	@ApiOperation(value="modify", notes="修改",produces = "application/json")
@@ -88,21 +68,6 @@ public class CompanyController {
 		int result = companyService.update(company);
 		if(result > 0){
 			Company data = companyService.query(company.getId());
-			return ResponseUtil.successResult(data);
-		}
-		return ResponseUtil.failureResult();
-	}
-	
-	@ApiOperation(value="delete", notes="删除",produces = "application/json")
-	@RequestMapping(value="delete", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> delete(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		int result = companyService.delete(id);
-		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
 			return ResponseUtil.successResult(data);
 		}
 		return ResponseUtil.failureResult();

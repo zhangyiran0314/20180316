@@ -51,7 +51,10 @@
       last_login_device = #{lastLoginDevice,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
+	<update id="updateCompany">
+    update t_user set company_id = #{companyId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
