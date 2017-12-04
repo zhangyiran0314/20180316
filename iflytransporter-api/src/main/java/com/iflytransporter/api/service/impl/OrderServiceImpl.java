@@ -38,11 +38,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, String sId) {
+	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, String sId,Integer status) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Order> list= orderMapper.queryAll(sId);
+		List<Order> list= orderMapper.queryAll(sId,status);
 		return new PageInfo<Order>(list);
 	}
 

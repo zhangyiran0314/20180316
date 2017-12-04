@@ -45,7 +45,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
 
-@Api(value = "common api",description="公用 Controller,包括所有基础数据接口")
+@Api(value = "common api",description="公用 Controller,所有基础数据接口")
 @Controller
 @RequestMapping("/common/{version}")
 public class CommonController {

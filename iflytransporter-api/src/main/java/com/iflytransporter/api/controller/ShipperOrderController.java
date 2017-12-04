@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "order api",description="发货(订单)操作 Controller")
 @Controller
 @RequestMapping("/shipper/order/{version}")
-public class OrderController {
+public class ShipperOrderController {
 	
 	@Autowired
 	private OrderService orderService;
@@ -35,12 +35,13 @@ public class OrderController {
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  Map<String,Object> requestMap){
+	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭") Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String id =  (String) request.getAttribute("userId");
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, id);
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, id,status);
 		return ResponseUtil.successResult(page);
 	}
 	
@@ -96,4 +97,5 @@ public class OrderController {
 		}
 		return ResponseUtil.failureResult();
 	}
+	
 }

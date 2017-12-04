@@ -37,6 +37,9 @@
     <if test="shipperId != null" >
       and shipper_id  = #{shipperId,jdbcType=VARCHAR}
     </if>
+    <if test="status != null" >
+      and status  = #{status,jdbcType=VARCHAR}
+    </if>
     <include refid ="Valid_SQL"/>
   </select>
   

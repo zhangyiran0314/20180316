@@ -14,5 +14,5 @@ public interface OrderService  {
 	public int delete(String id);
 	
 	//分页查询
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String sId);
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String sId,Integer status);
 }

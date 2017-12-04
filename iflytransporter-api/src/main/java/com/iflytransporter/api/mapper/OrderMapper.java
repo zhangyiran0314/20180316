@@ -22,5 +22,5 @@ public interface OrderMapper {
     
     int invalidByPrimaryKey(String id);
     
-    List<Order> queryAll(@Param("shipperId")String sId);
+    List<Order> queryAll(@Param("shipperId")String sId,@Param("status") Integer status);
 }

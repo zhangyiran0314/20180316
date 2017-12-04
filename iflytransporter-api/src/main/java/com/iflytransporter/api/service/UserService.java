@@ -1,5 +1,7 @@
 package com.iflytransporter.api.service;
 
+import java.util.List;
+
 import com.iflytransporter.common.bean.User;
 
 public interface UserService  {
@@ -11,5 +13,18 @@ public interface UserService  {
 	public int updateLoginInfo(User record);
 	//通过账户密码查询用户
 	public User login(String countryCode,Integer userType,String mobile,String password);
+	
+	
+	
+/*	//认证个人资料
+	public int authentication(User user);
+	//添加下级
+	public int add(User user);
+	//修改下级
+	public int update(User user);
+	//查看下级
+	public User detail(String id);
+	//查看下级列表
+	public List<User> list(String parentId);*/
 	
 }
