@@ -2,12 +2,15 @@ package com.iflytransporter.api.service;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderBO;
 
 public interface OrderService  {
 	//增删改查
 	public int save(Order record);
 	
 	public Order query(String id);
+	
+	public OrderBO queryBO(String id);
 	
 	public int update(Order record);
 	

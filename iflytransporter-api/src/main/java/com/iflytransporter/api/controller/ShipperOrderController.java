@@ -18,6 +18,7 @@ import com.iflytransporter.api.service.OrderService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderBO;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -68,6 +69,15 @@ public class ShipperOrderController {
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
 		Order order = orderService.query(id);
+		return ResponseUtil.successResult(order);
+	}
+	@ApiOperation(value="detailBO", notes="详情-审核关联",produces = "application/json")
+	@RequestMapping(value="detailBO", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> detailBO(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		OrderBO order = orderService.queryBO(id);
 		return ResponseUtil.successResult(order);
 	}
 	@ApiOperation(value="modify", notes="修改",produces = "application/json")

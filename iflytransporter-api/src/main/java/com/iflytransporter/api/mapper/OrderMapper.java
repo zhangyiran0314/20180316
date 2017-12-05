@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderBO;
 
 public interface OrderMapper {
 	
@@ -23,4 +24,6 @@ public interface OrderMapper {
     int invalidByPrimaryKey(String id);
     
     List<Order> queryAll(@Param("shipperId")String sId,@Param("status") Integer status);
+    
+    OrderBO queryBO(String id);
 }

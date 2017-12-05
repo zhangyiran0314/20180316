@@ -20,6 +20,28 @@
     <result column="insurance_id" property="insuranceId" jdbcType="VARCHAR" />
     <result column="repeat_flag" property="repeatFlag" jdbcType="INTEGER" />
   </resultMap>
+  
+    <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.OrderBO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="departure" property="departure" jdbcType="VARCHAR" />
+    <result column="destination" property="destination" jdbcType="VARCHAR" />
+    <result column="car_type_id" property="carTypeId" jdbcType="VARCHAR" />
+    <result column="goods_type_id" property="goodsTypeId" jdbcType="VARCHAR" />
+    <result column="goods_unit_id" property="goodsUnitId" jdbcType="VARCHAR" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
+    <result column="insurance_id" property="insuranceId" jdbcType="VARCHAR" />
+    <result column="repeat_flag" property="repeatFlag" jdbcType="INTEGER" />
+    <collection property="applyList" ofType="com.iflytransporter.common.bean.OrderApply" column="id" select="getOrderList"></collection>
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, departure, destination, car_type_id, 
     goods_type_id, goods_unit_id, deliver_date, costs, remark, status, shipper_id, 
@@ -47,6 +69,17 @@
     update  t_order set data_status = 1,update_date = now() 
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="queryBO" resultMap="BaseResultMapBO">
+    select 
+   <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="getOrderList" resultType="com.iflytransporter.common.bean.OrderApply">
+    	SELECT id, status,transporter_id as transporterId FROM t_order_apply WHERE order_id=#{id}
+    <include refid ="Valid_SQL"/>
+  </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

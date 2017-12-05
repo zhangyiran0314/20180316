@@ -1,8 +1,11 @@
 package com.iflytransporter.api.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
 
 public interface UserMapper {
 	
@@ -14,11 +17,15 @@ public interface UserMapper {
 	//修改当前登录信息
 	int updateLoginInfo(User record);
 	
+	//查询用户详情
+	public UserBO selectByPrimaryKeyBO(String id);
+	
+	//查看下级列表
+	public List<User> listDown(String parentId);
+	
 	//修改用户公司信息
 	int updateCompany(@Param("id")String id,@Param("companyId")String companyId);
 	
-	//根据cardNo查询
-	User selectByCardNo(@Param("countryCode")String countryCode,@Param("userType")Integer userType,@Param("cardNo")String cardNo);
 	
     int deleteByPrimaryKey(String id);
 

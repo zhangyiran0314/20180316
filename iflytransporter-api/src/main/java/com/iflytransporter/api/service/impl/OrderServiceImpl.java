@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.mapper.OrderMapper;
 import com.iflytransporter.api.service.OrderService;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderBO;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService{
@@ -44,6 +45,11 @@ public class OrderServiceImpl implements OrderService{
         }  
 		List<Order> list= orderMapper.queryAll(sId,status);
 		return new PageInfo<Order>(list);
+	}
+
+	@Override
+	public OrderBO queryBO(String id) {
+		return orderMapper.queryBO(id);
 	}
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -36,27 +37,50 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int add(User user) {
-		User record = userMapper.selectByCardNo(user.getCountryCode(), user.getUserType(), user.getCardNo());
+	public int addDown(User user) {
 		return 0;
 	}
 
 	@Override
-	public int update(User user) {
-		// TODO Auto-generated method stub
-		return 0;
+	public User update(User user) {
+		int result = userMapper.updateByPrimaryKeySelective(user);
+		if(result >0 ){
+			return userMapper.selectByPrimaryKeyBO(user.getId());
+		}
+		return null;
 	}
 
 	@Override
-	public User detail(String id) {
+	public UserBO auth(User user) {
+		if(user!=null && user.getAttachmentId1()!=null && user.getAttachmentId2()!=null && user.getAttachmentId3()!=null){
+			int result = userMapper.updateByPrimaryKeySelective(user);
+			if(result >0 ){
+				return userMapper.selectByPrimaryKeyBO(user.getId());
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public UserBO queryBO(String id) {
+		return userMapper.selectByPrimaryKeyBO(id);
+	}
+
+	@Override
+	public User updateDown(User user) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<User> list(String parentId) {
+	public User detailDown(String id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public List<User> listDown(String parentId) {
+		return userMapper.listDown(parentId);
 	}
 
 }

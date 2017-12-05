@@ -37,6 +37,8 @@ public class User extends BaseEntity {
     private String attachmentId2;
 
     private String attachmentId3;
+    
+    private String surname;
 
     private String name;
     
@@ -179,6 +181,14 @@ public class User extends BaseEntity {
 
 	public void setUserType(int userType) {
 		this.userType = userType;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	@Override
