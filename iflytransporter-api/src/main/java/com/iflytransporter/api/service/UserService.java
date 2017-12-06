@@ -21,12 +21,19 @@ public interface UserService  {
 	//修改个人信息
 	public User update(User user);
 	//添加下级
-	public int addDown(User user);
+	public User addDown(User user);
 	//修改下级
-	public User updateDown(User user);
+	public User updateDown(String userId,User user);
 	//查看下级
-	public User detailDown(String id);
+	public User detailDown(String userId,String downId);
+	//删除下级
+	public int deleteDown(String userId,String downId);
 	//查看下级列表
 	public List<User> listDown(String parentId);
+	//查看上级
+	public User detailUp(String id);
+	//解除上级绑定
+	public int deleteUp(String id,String upId);
+	
 	
 }

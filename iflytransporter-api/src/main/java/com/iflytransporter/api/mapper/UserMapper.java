@@ -26,6 +26,10 @@ public interface UserMapper {
 	//修改用户公司信息
 	int updateCompany(@Param("id")String id,@Param("companyId")String companyId);
 	
+	//删除下级
+	int deleteDown(@Param("id")String id,@Param("parentId")String parentId);
+	//解除上级绑定
+	int deleteUp(@Param("id")String id,@Param("upId")String upId);
 	
     int deleteByPrimaryKey(String id);
 

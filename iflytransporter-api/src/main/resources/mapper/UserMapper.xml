@@ -86,7 +86,15 @@
     update t_user set company_id = #{companyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
+  
+   <update id="deleteDown">
+    update t_user set parent_id = '',status = ${@com.iflytransporter.common.enums.Status@User_Identify}
+    where id = #{id,jdbcType=VARCHAR} and parent_id = #{parentId,jdbcType=VARCHAR}
+  </update>
+  <update id="deleteUp">
+    update t_user set parent_id = '',status = ${@com.iflytransporter.common.enums.Status@User_Identify}
+    where id = #{id,jdbcType=VARCHAR} and parent_id =  #{upId,jdbcType=VARCHAR}
+  </update>
   <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.mobile, a.password, a.nickname, a.last_login_ip, 

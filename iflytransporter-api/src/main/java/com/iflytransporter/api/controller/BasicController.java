@@ -30,7 +30,7 @@ import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
-import com.iflytransporter.common.enums.StatusEnums;
+import com.iflytransporter.common.enums.Status;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -153,7 +153,7 @@ public class BasicController {
 			user.setPassword(password);
 			user.setId(UUIDUtil.UUID());
 			user.setUserType(userType);
-			user.setStatus(StatusEnums.UserRegister.getCode());
+			user.setStatus(Status.User_Register);
 			
 			int result =  userService.register(user);
 			if(result > 0){
