@@ -1,6 +1,5 @@
 package com.iflytransporter.api.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +38,9 @@ public class CompanyController {
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		company.setId(id);
-		int result = companyService.save(company,userId);
-		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
-			return ResponseUtil.successResult(data);
+		Company result = companyService.save(company,userId);
+		if(result != null){
+			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -62,10 +59,9 @@ public class CompanyController {
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="实体")Company company){
-		int result = companyService.update(company);
-		if(result > 0){
-			Company data = companyService.query(company.getId());
-			return ResponseUtil.successResult(data);
+		Company result = companyService.update(company);
+		if(result != null){
+			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
 	}

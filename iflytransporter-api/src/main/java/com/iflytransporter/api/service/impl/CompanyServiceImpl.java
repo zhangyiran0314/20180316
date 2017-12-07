@@ -19,12 +19,13 @@ public class CompanyServiceImpl implements CompanyService{
 	private UserMapper userMapper;
 	
 	@Override
-	public int save(Company record,String userId) {
+	public CompanyBO save(Company record,String userId) {
 		int result = companyMapper.insert(record);
 		if(result > 0){
 			userMapper.updateCompany(userId, record.getId());
+			return companyMapper.selectByPrimaryKeyBO(record.getId());
 		}
-		return result;
+		return null;
 	}
 
 	@Override
@@ -33,8 +34,12 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public int update(Company record) {
-		return companyMapper.updateByPrimaryKey(record);
+	public CompanyBO update(Company record) {
+		int result = companyMapper.updateByPrimaryKey(record);
+		if(result > 0){
+			return companyMapper.selectByPrimaryKeyBO(record.getId());
+		}
+		return null;
 	}
 
 }

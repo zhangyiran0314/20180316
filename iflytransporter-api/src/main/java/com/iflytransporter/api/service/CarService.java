@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Car;
+import com.iflytransporter.common.bean.CarBO;
 
 public interface CarService  {
 	//增删改查
-	public int save(Car record);
+	public CarBO save(Car record,String userId);
 	
 	public Car query(String id);
 	
@@ -17,5 +18,5 @@ public interface CarService  {
 	
 	public List<Car> list(String userId);
 	//分页查询
-	PageInfo<Car> queryPage(Integer pageNo,Integer pageSize,String sId);
+	PageInfo<Car> queryPage(Integer pageNo,Integer pageSize,String userId);
 }
