@@ -16,8 +16,8 @@ public class AreaServiceImpl implements AreaService{
 	private AreaMapper areaMapper;
 
 	@Override
-	public List<Area> queryAll(String cityId) {
-		return areaMapper.queryAll(cityId);
+	public List<Area> queryAll(String countryCode, String cityId) {
+		return areaMapper.queryAll(countryCode, cityId);
 	}
 
 }

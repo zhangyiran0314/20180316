@@ -9,18 +9,24 @@
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <!-- <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name
+  </sql> -->
+   <sql id="Base_Column_List" >
+    id, name
   </sql>
   
   <sql id="Valid_SQL" >
     and data_status = 0
   </sql>
   
-   <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="queryAll" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_province where 1 = 1 
+    <if test="countryCode != null" >
+       and country_code = #{countryCode,jdbcType=VARCHAR}
+    </if>
     <include refid ="Valid_SQL"/>
     </select>
 </mapper>

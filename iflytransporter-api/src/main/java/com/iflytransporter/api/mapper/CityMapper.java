@@ -8,6 +8,7 @@ import com.iflytransporter.common.bean.City;
 
 public interface CityMapper {
 	
-	List<City> queryAll(@Param("provinceId")String provinceId);
+//	List<City> queryAll(@Param("provinceId")String provinceId);
 	
+	List<City> queryAll(@Param("countryCode")String countryCode,@Param("provinceId")String provinceId);
 }

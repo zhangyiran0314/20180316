@@ -52,4 +52,9 @@ public class OrderServiceImpl implements OrderService{
 		return orderMapper.queryBO(id);
 	}
 
+	@Override
+	public List<Order> list(String sId, Integer status) {
+		return orderMapper.queryAll(sId, status);
+	}
+
 }

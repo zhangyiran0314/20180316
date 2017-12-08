@@ -23,19 +23,24 @@
     <result column="city_id_name" property="cityIdName" jdbcType="VARCHAR" />
     <result column="province_id_name" property="provinceIdName" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+ <!--  <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, city_id
+  </sql> -->
+   <sql id="Base_Column_List" >
+    id, name
   </sql>
-  
   <sql id="Valid_SQL" >
     and data_status = 0
   </sql>
   
-  <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="queryAll" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
     from t_area
     where 1 = 1
+    <if test="countryCode != null" >
+       and country_code = #{countryCode,jdbcType=VARCHAR}
+    </if>
     <if test="cityId != null" >
        and city_id = #{cityId,jdbcType=VARCHAR}
     </if>

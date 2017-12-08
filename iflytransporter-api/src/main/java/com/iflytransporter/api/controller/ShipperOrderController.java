@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,17 +34,27 @@ public class ShipperOrderController {
 	@Autowired
 	private OrderService orderService;
 	
-	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json")
+	@ApiOperation(value="queryPage", notes="分页列表-已关闭",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭") Map<String,Object> requestMap){
+			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭;pageNo:分页参数-当前页数,默认(1);pageSize:分页参数-分页数,默认(10)") Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
-		String id =  (String) request.getAttribute("userId");
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, id,status);
+		String userId =  (String) request.getAttribute("userId");
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status);
 		return ResponseUtil.successResult(page);
+	}
+	@ApiOperation(value="list", notes="列表",produces = "application/json")
+	@RequestMapping(value="list", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭") Map<String,Object> requestMap){
+		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String userId =  (String) request.getAttribute("userId");
+		List<Order> list = orderService.list(userId,status);
+		return ResponseUtil.successResult(list);
 	}
 	
 	@ApiOperation(value="add", notes="新增",produces = "application/json")

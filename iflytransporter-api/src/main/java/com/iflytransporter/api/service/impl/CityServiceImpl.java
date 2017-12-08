@@ -15,9 +15,10 @@ public class CityServiceImpl implements CityService{
 	@Autowired
 	private CityMapper cityMapper;
 
+
 	@Override
-	public List<City> queryAll(String provinceId) {
-		return cityMapper.queryAll(provinceId);
+	public List<City> queryAll(String countryCode, String provinceId) {
+		return cityMapper.queryAll(countryCode, provinceId);
 	}
 
 

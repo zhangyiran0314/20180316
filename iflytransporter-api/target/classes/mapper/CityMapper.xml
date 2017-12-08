@@ -20,8 +20,11 @@
     <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
     <result column="province_id_name" property="provinceIdName" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Base_Column_List" >
+ <!--  <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, province_id
+  </sql> -->
+   <sql id="Base_Column_List" >
+    id, name
   </sql>
   
   <sql id="Valid_SQL" >
@@ -32,6 +35,9 @@
     select 
     <include refid="Base_Column_List" />
     from t_city where 1 = 1 
+    <if test="countryCode != null" >
+       and country_code = #{countryCode,jdbcType=VARCHAR}
+    </if>
     <if test="provinceId != null" >
        and province_id = #{provinceId,jdbcType=VARCHAR}
     </if>

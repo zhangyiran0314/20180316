@@ -3,16 +3,20 @@ package com.iflytransporter.api.controller;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.conf.ConstantsConfig;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.AttachmentService;
@@ -30,12 +35,14 @@ import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.InsuranceService;
 import com.iflytransporter.api.service.ProvinceService;
+import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.Attachment;
 import com.iflytransporter.common.bean.CarType;
 import com.iflytransporter.common.bean.City;
 import com.iflytransporter.common.bean.GoodsUnits;
 import com.iflytransporter.common.bean.Insurance;
+import com.iflytransporter.common.bean.Position;
 import com.iflytransporter.common.bean.Province;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
@@ -49,7 +56,8 @@ import io.swagger.annotations.ApiParam;
 @Controller
 @RequestMapping("/common/{version}")
 public class CommonController {
-	
+	@Autowired
+    private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	@Autowired
 	private ConstantsConfig constantsConfig;
 	@Autowired
@@ -68,14 +76,21 @@ public class CommonController {
 	private GoodsUnitsService goodsUnitsService;
 	
 	@ApiOperation(value="货物计量单位列表")
-	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.GET)
+	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getGoodsUnits() {
 		List<GoodsUnits> list = goodsUnitsService.queryAll();
 		return ResponseUtil.successResult(list);
 	}
+	@ApiOperation(value="装卸方式列表")
+	@RequestMapping(value = "/getHandlingType", method = RequestMethod.POST)
+	@ResponseBody 
+	public Map<String,Object> getHandlingType() {
+		List<GoodsUnits> list = goodsUnitsService.queryAll();
+		return ResponseUtil.successResult(list);
+	}
 	@ApiOperation(value="保险列表")
-	@RequestMapping(value = "/getInsurance", method = RequestMethod.GET)
+	@RequestMapping(value = "/getInsurance", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getInsurance() {
 		List<Insurance> list = insuranceService.queryAll();
@@ -83,35 +98,77 @@ public class CommonController {
 	}
 	
 	@ApiOperation(value="车辆类型列表")
-	@RequestMapping(value = "/getCarType", method = RequestMethod.GET)
+	@RequestMapping(value = "/getCarType", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getCarType() {
 		List<CarType> list = carTypeService.queryAll();
 		return ResponseUtil.successResult(list);
 	}
-	
-	@ApiOperation(value="省份列表")
-	@RequestMapping(value = "/getProvince", method = RequestMethod.GET)
+	@SuppressWarnings("unchecked")
+	@ApiOperation(value="出发地,目的地列表")
+	@RequestMapping(value = "/getPosition", method = RequestMethod.POST)
 	@ResponseBody 
-	public Map<String,Object> getProvince() {
-		List<Province> list = provinceService.queryAll();
+	public Map<String,Object> getPosition(@RequestBody @ApiParam(value="countryCode") Map<String,Object> requestMap) {
+		String countryCode = (String)requestMap.get("countryCode");
+		String key = RedisUtil.getPostionKey(countryCode);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(hasKey){
+			ValueOperations<String, String> operations=redisTemplate.opsForValue();
+			String jsonString = operations.get(key);
+			List<Object> result= JSONObject.parseObject(jsonString,List.class);
+			return ResponseUtil.successResult(result);
+		}
+		List<Province> provinceList = provinceService.queryAll(countryCode);
+		List<Position.ProvinceBO> pboList =new ArrayList<Position.ProvinceBO>();
+		for(Province province:provinceList){
+			Position.ProvinceBO pbo = new Position.ProvinceBO(province);
+			List<City> cityList = cityService.queryAll(countryCode, province.getId());
+			List<Position.CityBO> cboList =new ArrayList<Position.CityBO>();
+			for(City city:cityList){
+				Position.CityBO cbo = new Position.CityBO(city);
+				List<Area> areaList = areaService.queryAll(countryCode, city.getId());
+				List<Position.AreaBO> aboList =new ArrayList<Position.AreaBO>();
+				for(Area area:areaList){
+					Position.AreaBO abo = new Position.AreaBO(area);
+					aboList.add(abo);
+				}
+				cbo.setAreaList(aboList);
+				cboList.add(cbo);
+			}
+			pbo.setCityList(cboList);
+			pboList.add(pbo);
+		}
+		String result = JSONObject.toJSONString(pboList);
+		//存放到redis缓存
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		operations.set(key, result, 5, TimeUnit.DAYS);//保存五天
+		return ResponseUtil.successResult(pboList);
+	}
+	@ApiOperation(value="省份列表")
+	@RequestMapping(value = "/getProvince", method = RequestMethod.POST)
+	@ResponseBody 
+	public Map<String,Object> getProvince(@RequestBody @ApiParam(value="countryCode") Map<String,Object> requestMap) {
+		String countryCode = (String)requestMap.get("countryCode");
+		List<Province> list = provinceService.queryAll(countryCode);
 		return ResponseUtil.successResult(list);
 	}
 	
 	@ApiOperation(value="城市列表")
 	@RequestMapping(value = "/getCity", method = RequestMethod.POST)
 	@ResponseBody 
-	public Map<String,Object> getCity(@RequestBody @ApiParam(value="provinceId") Map<String,Object> requestMap) {
+	public Map<String,Object> getCity(@RequestBody @ApiParam(value="countryCode,provinceId") Map<String,Object> requestMap) {
+		String countryCode = (String)requestMap.get("countryCode");
 		String provinceId = (String) requestMap.get("provinceId");
-		List<City> list = cityService.queryAll(provinceId);
+		List<City> list = cityService.queryAll(countryCode,provinceId);
 		return ResponseUtil.successResult(list);
 	}
 	@ApiOperation(value="地区列表")
 	@RequestMapping(value = "/getArea", method = RequestMethod.POST)
 	@ResponseBody 
-	public Map<String,Object> getArea(@RequestBody  @ApiParam(value="cityId")Map<String,Object> requestMap) {
+	public Map<String,Object> getArea(@RequestBody  @ApiParam(value="countryCode,cityId")Map<String,Object> requestMap) {
+		String countryCode = (String)requestMap.get("countryCode");
 		String cityId = (String) requestMap.get("cityId");
-		List<Area> list = areaService.queryAll(cityId);
+		List<Area> list = areaService.queryAll(countryCode,cityId);
 		return ResponseUtil.successResult(list);
 	}
 	/**

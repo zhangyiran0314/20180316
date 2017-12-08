@@ -6,6 +6,8 @@ import com.iflytransporter.common.bean.Province;
 
 public interface ProvinceService  {
 	
-	List<Province> queryAll();
+//	List<Province> queryAll();
+	
+	List<Province> queryAll(String countryCode);
 	
 }

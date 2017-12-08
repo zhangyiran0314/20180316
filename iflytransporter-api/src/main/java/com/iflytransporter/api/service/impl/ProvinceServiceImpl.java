@@ -16,8 +16,8 @@ public class ProvinceServiceImpl implements ProvinceService{
 	private ProvinceMapper provinceMapper;
 
 	@Override
-	public List<Province> queryAll() {
-		return provinceMapper.queryAll();
+	public List<Province> queryAll(String countryCode) {
+		return provinceMapper.queryAll(countryCode);
 	}
 
 

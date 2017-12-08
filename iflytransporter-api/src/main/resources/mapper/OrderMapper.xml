@@ -66,7 +66,7 @@
   </select>
   
    <update id="invalidByPrimaryKey" parameterType="java.lang.String" >
-    update  t_order set data_status = 1,update_date = now() 
+    update  t_order set data_status =  ${@com.iflytransporter.common.enums.Status@Status_Valid},update_date = now() 
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
