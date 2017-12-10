@@ -2,7 +2,6 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
-import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.common.base.BaseEntity;
 
 public class Order extends BaseEntity{
@@ -11,6 +10,16 @@ public class Order extends BaseEntity{
     private String departure;
 
     private String destination;
+
+    private String carTypeId;
+
+    private String tyreNo;
+
+    private Integer carLength;
+
+    private String goodsType;
+
+    private String goodsUnit;
 
     private Date deliverDate;
 
@@ -23,14 +32,24 @@ public class Order extends BaseEntity{
     private String shipperId;
 
     private String insuranceId;
-    
-    private String carTypeId;
-
-    private String goodsTypeId;
-
-    private String goodsUnitId;
 
     private Integer repeatFlag;
+
+    private String useType;
+
+    private String length;
+
+    private String width;
+
+    private String height;
+
+    private String handlingType;
+
+    private String paymentType;
+
+    private Integer checkStatus;
+
+    private Date checkDate;
 
 
     public String getDeparture() {
@@ -49,6 +68,45 @@ public class Order extends BaseEntity{
         this.destination = destination == null ? null : destination.trim();
     }
 
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId == null ? null : carTypeId.trim();
+    }
+
+    public String getTyreNo() {
+        return tyreNo;
+    }
+
+    public void setTyreNo(String tyreNo) {
+        this.tyreNo = tyreNo == null ? null : tyreNo.trim();
+    }
+
+    public Integer getCarLength() {
+        return carLength;
+    }
+
+    public void setCarLength(Integer carLength) {
+        this.carLength = carLength;
+    }
+
+    public String getGoodsType() {
+        return goodsType;
+    }
+
+    public void setGoodsType(String goodsType) {
+        this.goodsType = goodsType == null ? null : goodsType.trim();
+    }
+
+    public String getGoodsUnit() {
+        return goodsUnit;
+    }
+
+    public void setGoodsUnit(String goodsUnit) {
+        this.goodsUnit = goodsUnit == null ? null : goodsUnit.trim();
+    }
 
     public Date getDeliverDate() {
         return deliverDate;
@@ -97,42 +155,76 @@ public class Order extends BaseEntity{
     public void setInsuranceId(String insuranceId) {
         this.insuranceId = insuranceId == null ? null : insuranceId.trim();
     }
-    
-    public String getCarTypeId() {
-		return carTypeId;
-	}
 
-	public void setCarTypeId(String carTypeId) {
-		this.carTypeId = carTypeId;
-	}
+    public Integer getRepeatFlag() {
+        return repeatFlag;
+    }
 
-	public String getGoodsTypeId() {
-		return goodsTypeId;
-	}
+    public void setRepeatFlag(Integer repeatFlag) {
+        this.repeatFlag = repeatFlag;
+    }
 
-	public void setGoodsTypeId(String goodsTypeId) {
-		this.goodsTypeId = goodsTypeId;
-	}
+    public String getUseType() {
+        return useType;
+    }
 
-	public String getGoodsUnitId() {
-		return goodsUnitId;
-	}
+    public void setUseType(String useType) {
+        this.useType = useType == null ? null : useType.trim();
+    }
 
-	public void setGoodsUnitId(String goodsUnitId) {
-		this.goodsUnitId = goodsUnitId;
-	}
+    public String getLength() {
+        return length;
+    }
 
+    public void setLength(String length) {
+        this.length = length == null ? null : length.trim();
+    }
 
-	public Integer getRepeatFlag() {
-		return repeatFlag;
-	}
+    public String getWidth() {
+        return width;
+    }
 
-	public void setRepeatFlag(Integer repeatFlag) {
-		this.repeatFlag = repeatFlag;
-	}
+    public void setWidth(String width) {
+        this.width = width == null ? null : width.trim();
+    }
 
-	@Override
-  	public String toString() {
-    	  return JSONObject.toJSONString(this).toString();
-  	}
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height == null ? null : height.trim();
+    }
+
+    public String getHandlingType() {
+        return handlingType;
+    }
+
+    public void setHandlingType(String handlingType) {
+        this.handlingType = handlingType == null ? null : handlingType.trim();
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType == null ? null : paymentType.trim();
+    }
+
+    public Integer getCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(Integer checkStatus) {
+        this.checkStatus = checkStatus;
+    }
+
+    public Date getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(Date checkDate) {
+        this.checkDate = checkDate;
+    }
 }

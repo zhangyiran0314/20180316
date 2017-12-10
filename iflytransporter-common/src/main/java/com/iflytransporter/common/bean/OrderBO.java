@@ -6,6 +6,8 @@ public class OrderBO extends Order{
 
 	private static final long serialVersionUID = 1L;
 
+	private CarType carType;//车型
+	
 	private List<OrderApply> applyList;
 
 	public List<OrderApply> getApplyList() {

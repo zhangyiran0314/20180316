@@ -8,9 +8,9 @@ public class BaseEntity implements Serializable{
 	private static final long serialVersionUID = -2564699098799048004L;
 
 	private String id;
-
+	
 	private Date createDate;
-
+	
 	private Date updateDate;
 
 	private int dataStatus;

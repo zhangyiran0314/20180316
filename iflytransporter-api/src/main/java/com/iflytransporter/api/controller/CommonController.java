@@ -64,7 +64,7 @@ public class CommonController {
 	private AttachmentService attachmentSerivce;
 	@Autowired
 	private ProvinceService provinceService;
-	@Autowired
+	@Autowired  
 	private CityService cityService;
 	@Autowired
 	private AreaService areaService;
@@ -86,6 +86,14 @@ public class CommonController {
 	@RequestMapping(value = "/getHandlingType", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getHandlingType() {
+		List<GoodsUnits> list = goodsUnitsService.queryAll();
+		return ResponseUtil.successResult(list);
+	}
+	
+	@ApiOperation(value="货物类型列表")
+	@RequestMapping(value = "/getGoodsType", method = RequestMethod.POST)
+	@ResponseBody 
+	public Map<String,Object> getGoodsType() {
 		List<GoodsUnits> list = goodsUnitsService.queryAll();
 		return ResponseUtil.successResult(list);
 	}

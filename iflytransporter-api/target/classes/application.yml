@@ -5,6 +5,7 @@ spring:
 #        password: 
         
         url: jdbc:mysql://127.0.0.1:3306/transporter?useUnicode=true&characterEncoding=UTF-8
+        #url: jdbc:mysql://47.100.8.71:3306/transporter?useUnicode=true&characterEncoding=UTF-8
         username: root
         password: 
         # 使用druid数据源
