@@ -32,16 +32,22 @@ import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.AttachmentService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
+import com.iflytransporter.api.service.GoodsTypeService;
 import com.iflytransporter.api.service.GoodsUnitsService;
+import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.InsuranceService;
+import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.Attachment;
 import com.iflytransporter.common.bean.CarType;
 import com.iflytransporter.common.bean.City;
+import com.iflytransporter.common.bean.GoodsType;
 import com.iflytransporter.common.bean.GoodsUnits;
+import com.iflytransporter.common.bean.HandlingType;
 import com.iflytransporter.common.bean.Insurance;
+import com.iflytransporter.common.bean.PaymentType;
 import com.iflytransporter.common.bean.Position;
 import com.iflytransporter.common.bean.Province;
 import com.iflytransporter.common.utils.ResponseUtil;
@@ -74,6 +80,12 @@ public class CommonController {
 	private InsuranceService insuranceService;
 	@Autowired
 	private GoodsUnitsService goodsUnitsService;
+	@Autowired
+	private GoodsTypeService goodsTypeService;
+	@Autowired
+	private HandlingTypeService handlingTypeService;
+	@Autowired
+	private PaymentTypeService paymentTypeService;
 	
 	@ApiOperation(value="货物计量单位列表")
 	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.POST)
@@ -86,7 +98,7 @@ public class CommonController {
 	@RequestMapping(value = "/getHandlingType", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getHandlingType() {
-		List<GoodsUnits> list = goodsUnitsService.queryAll();
+		List<HandlingType> list = handlingTypeService.queryAll();
 		return ResponseUtil.successResult(list);
 	}
 	
@@ -94,7 +106,7 @@ public class CommonController {
 	@RequestMapping(value = "/getGoodsType", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getGoodsType() {
-		List<GoodsUnits> list = goodsUnitsService.queryAll();
+		List<GoodsType> list = goodsTypeService.queryAll();
 		return ResponseUtil.successResult(list);
 	}
 	@ApiOperation(value="保险列表")
@@ -110,6 +122,13 @@ public class CommonController {
 	@ResponseBody 
 	public Map<String,Object> getCarType() {
 		List<CarType> list = carTypeService.queryAll();
+		return ResponseUtil.successResult(list);
+	}
+	@ApiOperation(value="付款方式列表")
+	@RequestMapping(value = "/getPaymentType", method = RequestMethod.POST)
+	@ResponseBody 
+	public Map<String,Object> getPaymentType() {
+		List<PaymentType> list = paymentTypeService.queryAll();
 		return ResponseUtil.successResult(list);
 	}
 	@SuppressWarnings("unchecked")

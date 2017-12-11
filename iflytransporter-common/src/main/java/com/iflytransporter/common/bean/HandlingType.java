@@ -3,7 +3,7 @@ package com.iflytransporter.common.bean;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.common.base.BaseEntity;
 
-public class HandingType extends BaseEntity{
+public class HandlingType extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 
     private String name;

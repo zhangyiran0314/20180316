@@ -33,8 +33,11 @@ import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Api(value = "basic api",description="此Controller接口无需token即可直接访问")
 @Controller
@@ -47,8 +50,9 @@ public class BasicController {
     private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	
 	
-	
-	@ApiOperation(value="获取支持国家列表")
+//	@ApiResponses(value = {@ApiResponse(code = 200, message = "Invalid input", response = User.class) })
+	@ApiOperation(value="获取支持国家列表",response= List.class,responseContainer="java.util.List<String>")
+//	@ApiModelProperty(position = 2, dataType="java.util.List<String>", example = "PRD1, PRD2, PRD3")
 	@RequestMapping(value="getSupportCountries", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object>  getSupportCountries(HttpServletRequest request, HttpServletResponse response){

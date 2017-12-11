@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.iflytransporter.api.mapper.HandingTypeMapper" >
-  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.HandingType" >
+<mapper namespace="com.iflytransporter.api.mapper.GoodsTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.GoodsType" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
@@ -20,7 +20,7 @@
   <select id="queryAll" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_goods_units
+    from t_goods_type
     where 1 = 1
     <include refid ="Valid_SQL"/>
   </select>
