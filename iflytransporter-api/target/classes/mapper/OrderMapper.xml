@@ -7,8 +7,14 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="data_status" jdbcType="SMALLINT" property="dataStatus" />
     <result column="desp" jdbcType="VARCHAR" property="desp" />
-    <result column="departure" jdbcType="VARCHAR" property="departure" />
-    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    
+    <result column="departure_province_id" property="departureProvinceId" jdbcType="VARCHAR" />
+    <result column="departure_city_id" property="departureCityId" jdbcType="VARCHAR" />
+    <result column="departure_area_id" property="departureAreaId" jdbcType="VARCHAR" />
+    <result column="destination_province_id" property="destinationProvinceId" jdbcType="VARCHAR" />
+    <result column="destination_city_id" property="destinationCityId" jdbcType="VARCHAR" />
+    <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
+    
     <result column="car_type_id" jdbcType="VARCHAR" property="carTypeId" />
     <result column="tyre_no" jdbcType="VARCHAR" property="tyreNo" />
     <result column="car_length" jdbcType="INTEGER" property="carLength" />
@@ -37,8 +43,12 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="data_status" jdbcType="SMALLINT" property="dataStatus" />
     <result column="desp" jdbcType="VARCHAR" property="desp" />
-    <result column="departure" jdbcType="VARCHAR" property="departure" />
-    <result column="destination" jdbcType="VARCHAR" property="destination" />
+    <result column="departure_province_id" property="departureProvinceId" jdbcType="VARCHAR" />
+    <result column="departure_city_id" property="departureCityId" jdbcType="VARCHAR" />
+    <result column="departure_area_id" property="departureAreaId" jdbcType="VARCHAR" />
+    <result column="destination_province_id" property="destinationProvinceId" jdbcType="VARCHAR" />
+    <result column="destination_city_id" property="destinationCityId" jdbcType="VARCHAR" />
+    <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
     <result column="car_type_id" jdbcType="VARCHAR" property="carTypeId" />
     <result column="tyre_no" jdbcType="VARCHAR" property="tyreNo" />
     <result column="car_length" jdbcType="INTEGER" property="carLength" />
@@ -63,9 +73,10 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-     id, create_date, update_date, data_status, desp, departure, destination, car_type_id, 
-    tyre_no, car_length, goods_type, goods_unit, deliver_date, costs, remark, status, 
-    shipper_id, insurance_id, repeat_flag, use_type, length, width, height, handling_type, 
+     id, create_date, update_date, data_status, desp, departure_province_id, departure_city_id, 
+    departure_area_id, destination_province_id, destination_city_id, destination_area_id, 
+    car_type_id, tyre_no, car_length, goods_type, goods_unit, deliver_date, costs, remark, 
+    status, shipper_id, insurance_id, repeat_flag, use_type, length, width, height, handling_type, 
     payment_type, check_status, check_date
   </sql>
    <sql id="Valid_SQL" >
@@ -111,275 +122,313 @@
   
   
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Order" >
-     insert into t_order (id, create_date, update_date, 
-      data_status, desp, departure, 
-      destination, car_type_id, tyre_no, 
-      car_length, goods_type, goods_unit, 
-      deliver_date, costs, remark, 
-      status, shipper_id, insurance_id, 
-      repeat_flag, use_type, length, 
-      width, height, handling_type, 
-      payment_type, check_status, check_date
-      )
+      insert into t_order (id, create_date, update_date, 
+      data_status, desp, departure_province_id, 
+      departure_city_id, departure_area_id, destination_province_id, 
+      destination_city_id, destination_area_id, car_type_id, 
+      tyre_no, car_length, goods_type, 
+      goods_unit, deliver_date, costs, 
+      remark, status, shipper_id, 
+      insurance_id, repeat_flag, use_type, 
+      length, width, height, 
+      handling_type, payment_type, check_status, 
+      check_date)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{departure,jdbcType=VARCHAR}, 
-      #{destination,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, #{tyreNo,jdbcType=VARCHAR}, 
-      #{carLength,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=VARCHAR}, 
-      #{deliverDate,jdbcType=TIMESTAMP}, #{costs,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{status,jdbcType=SMALLINT}, #{shipperId,jdbcType=VARCHAR}, #{insuranceId,jdbcType=VARCHAR}, 
-      #{repeatFlag,jdbcType=INTEGER}, #{useType,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, 
-      #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, #{handlingType,jdbcType=VARCHAR}, 
-      #{paymentType,jdbcType=VARCHAR}, #{checkStatus,jdbcType=INTEGER}, #{checkDate,jdbcType=DATE}
-      )
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{departureProvinceId,jdbcType=VARCHAR}, 
+      #{departureCityId,jdbcType=VARCHAR}, #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
+      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, 
+      #{tyreNo,jdbcType=VARCHAR}, #{carLength,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, 
+      #{goodsUnit,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{costs,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{shipperId,jdbcType=VARCHAR}, 
+      #{insuranceId,jdbcType=VARCHAR}, #{repeatFlag,jdbcType=INTEGER}, #{useType,jdbcType=VARCHAR}, 
+      #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, 
+      #{handlingType,jdbcType=VARCHAR}, #{paymentType,jdbcType=VARCHAR}, #{checkStatus,jdbcType=INTEGER}, 
+      #{checkDate,jdbcType=DATE})
   </insert>
-  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Order" >
-     insert into t_order
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         id,
       </if>
-      <if test="createDate != null">
+      <if test="createDate != null" >
         create_date,
       </if>
-      <if test="updateDate != null">
+      <if test="updateDate != null" >
         update_date,
       </if>
-      <if test="dataStatus != null">
+      <if test="dataStatus != null" >
         data_status,
       </if>
-      <if test="desp != null">
+      <if test="desp != null" >
         desp,
       </if>
-      <if test="departure != null">
-        departure,
+      <if test="departureProvinceId != null" >
+        departure_province_id,
       </if>
-      <if test="destination != null">
-        destination,
+      <if test="departureCityId != null" >
+        departure_city_id,
       </if>
-      <if test="carTypeId != null">
+      <if test="departureAreaId != null" >
+        departure_area_id,
+      </if>
+      <if test="destinationProvinceId != null" >
+        destination_province_id,
+      </if>
+      <if test="destinationCityId != null" >
+        destination_city_id,
+      </if>
+      <if test="destinationAreaId != null" >
+        destination_area_id,
+      </if>
+      <if test="carTypeId != null" >
         car_type_id,
       </if>
-      <if test="tyreNo != null">
+      <if test="tyreNo != null" >
         tyre_no,
       </if>
-      <if test="carLength != null">
+      <if test="carLength != null" >
         car_length,
       </if>
-      <if test="goodsType != null">
+      <if test="goodsType != null" >
         goods_type,
       </if>
-      <if test="goodsUnit != null">
+      <if test="goodsUnit != null" >
         goods_unit,
       </if>
-      <if test="deliverDate != null">
+      <if test="deliverDate != null" >
         deliver_date,
       </if>
-      <if test="costs != null">
+      <if test="costs != null" >
         costs,
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         remark,
       </if>
-      <if test="status != null">
+      <if test="status != null" >
         status,
       </if>
-      <if test="shipperId != null">
+      <if test="shipperId != null" >
         shipper_id,
       </if>
-      <if test="insuranceId != null">
+      <if test="insuranceId != null" >
         insurance_id,
       </if>
-      <if test="repeatFlag != null">
+      <if test="repeatFlag != null" >
         repeat_flag,
       </if>
-      <if test="useType != null">
+      <if test="useType != null" >
         use_type,
       </if>
-      <if test="length != null">
+      <if test="length != null" >
         length,
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         width,
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height,
       </if>
-      <if test="handlingType != null">
+      <if test="handlingType != null" >
         handling_type,
       </if>
-      <if test="paymentType != null">
+      <if test="paymentType != null" >
         payment_type,
       </if>
-      <if test="checkStatus != null">
+      <if test="checkStatus != null" >
         check_status,
       </if>
-      <if test="checkDate != null">
+      <if test="checkDate != null" >
         check_date,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="createDate != null">
+      <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null">
+      <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="dataStatus != null">
+      <if test="dataStatus != null" >
         #{dataStatus,jdbcType=SMALLINT},
       </if>
-      <if test="desp != null">
+      <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="departure != null">
-        #{departure,jdbcType=VARCHAR},
+      <if test="departureProvinceId != null" >
+        #{departureProvinceId,jdbcType=VARCHAR},
       </if>
-      <if test="destination != null">
-        #{destination,jdbcType=VARCHAR},
+      <if test="departureCityId != null" >
+        #{departureCityId,jdbcType=VARCHAR},
       </if>
-      <if test="carTypeId != null">
+      <if test="departureAreaId != null" >
+        #{departureAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvinceId != null" >
+        #{destinationProvinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCityId != null" >
+        #{destinationCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAreaId != null" >
+        #{destinationAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeId != null" >
         #{carTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="tyreNo != null">
+      <if test="tyreNo != null" >
         #{tyreNo,jdbcType=VARCHAR},
       </if>
-      <if test="carLength != null">
+      <if test="carLength != null" >
         #{carLength,jdbcType=INTEGER},
       </if>
-      <if test="goodsType != null">
+      <if test="goodsType != null" >
         #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnit != null">
+      <if test="goodsUnit != null" >
         #{goodsUnit,jdbcType=VARCHAR},
       </if>
-      <if test="deliverDate != null">
+      <if test="deliverDate != null" >
         #{deliverDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="costs != null">
+      <if test="costs != null" >
         #{costs,jdbcType=INTEGER},
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
+      <if test="status != null" >
         #{status,jdbcType=SMALLINT},
       </if>
-      <if test="shipperId != null">
+      <if test="shipperId != null" >
         #{shipperId,jdbcType=VARCHAR},
       </if>
-      <if test="insuranceId != null">
+      <if test="insuranceId != null" >
         #{insuranceId,jdbcType=VARCHAR},
       </if>
-      <if test="repeatFlag != null">
+      <if test="repeatFlag != null" >
         #{repeatFlag,jdbcType=INTEGER},
       </if>
-      <if test="useType != null">
+      <if test="useType != null" >
         #{useType,jdbcType=VARCHAR},
       </if>
-      <if test="length != null">
+      <if test="length != null" >
         #{length,jdbcType=VARCHAR},
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         #{width,jdbcType=VARCHAR},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         #{height,jdbcType=VARCHAR},
       </if>
-      <if test="handlingType != null">
+      <if test="handlingType != null" >
         #{handlingType,jdbcType=VARCHAR},
       </if>
-      <if test="paymentType != null">
+      <if test="paymentType != null" >
         #{paymentType,jdbcType=VARCHAR},
       </if>
-      <if test="checkStatus != null">
+      <if test="checkStatus != null" >
         #{checkStatus,jdbcType=INTEGER},
       </if>
-      <if test="checkDate != null">
+      <if test="checkDate != null" >
         #{checkDate,jdbcType=DATE},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Order" >
     update t_order
-    <set>
-      <if test="createDate != null">
+    <set >
+      <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateDate != null">
+      <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="dataStatus != null">
+      <if test="dataStatus != null" >
         data_status = #{dataStatus,jdbcType=SMALLINT},
       </if>
-      <if test="desp != null">
+      <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="departure != null">
-        departure = #{departure,jdbcType=VARCHAR},
+      <if test="departureProvinceId != null" >
+        departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
       </if>
-      <if test="destination != null">
-        destination = #{destination,jdbcType=VARCHAR},
+      <if test="departureCityId != null" >
+        departure_city_id = #{departureCityId,jdbcType=VARCHAR},
       </if>
-      <if test="carTypeId != null">
+      <if test="departureAreaId != null" >
+        departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvinceId != null" >
+        destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCityId != null" >
+        destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAreaId != null" >
+        destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeId != null" >
         car_type_id = #{carTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="tyreNo != null">
+      <if test="tyreNo != null" >
         tyre_no = #{tyreNo,jdbcType=VARCHAR},
       </if>
-      <if test="carLength != null">
+      <if test="carLength != null" >
         car_length = #{carLength,jdbcType=INTEGER},
       </if>
-      <if test="goodsType != null">
+      <if test="goodsType != null" >
         goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnit != null">
+      <if test="goodsUnit != null" >
         goods_unit = #{goodsUnit,jdbcType=VARCHAR},
       </if>
-      <if test="deliverDate != null">
+      <if test="deliverDate != null" >
         deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="costs != null">
+      <if test="costs != null" >
         costs = #{costs,jdbcType=INTEGER},
       </if>
-      <if test="remark != null">
+      <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
+      <if test="status != null" >
         status = #{status,jdbcType=SMALLINT},
       </if>
-      <if test="shipperId != null">
+      <if test="shipperId != null" >
         shipper_id = #{shipperId,jdbcType=VARCHAR},
       </if>
-      <if test="insuranceId != null">
+      <if test="insuranceId != null" >
         insurance_id = #{insuranceId,jdbcType=VARCHAR},
       </if>
-      <if test="repeatFlag != null">
+      <if test="repeatFlag != null" >
         repeat_flag = #{repeatFlag,jdbcType=INTEGER},
       </if>
-      <if test="useType != null">
+      <if test="useType != null" >
         use_type = #{useType,jdbcType=VARCHAR},
       </if>
-      <if test="length != null">
+      <if test="length != null" >
         length = #{length,jdbcType=VARCHAR},
       </if>
-      <if test="width != null">
+      <if test="width != null" >
         width = #{width,jdbcType=VARCHAR},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height = #{height,jdbcType=VARCHAR},
       </if>
-      <if test="handlingType != null">
+      <if test="handlingType != null" >
         handling_type = #{handlingType,jdbcType=VARCHAR},
       </if>
-      <if test="paymentType != null">
+      <if test="paymentType != null" >
         payment_type = #{paymentType,jdbcType=VARCHAR},
       </if>
-      <if test="checkStatus != null">
+      <if test="checkStatus != null" >
         check_status = #{checkStatus,jdbcType=INTEGER},
       </if>
-      <if test="checkDate != null">
+      <if test="checkDate != null" >
         check_date = #{checkDate,jdbcType=DATE},
       </if>
     </set>
@@ -391,8 +440,12 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
-      departure = #{departure,jdbcType=VARCHAR},
-      destination = #{destination,jdbcType=VARCHAR},
+      departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
+      departure_city_id = #{departureCityId,jdbcType=VARCHAR},
+      departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+      destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+      destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
       car_type_id = #{carTypeId,jdbcType=VARCHAR},
       tyre_no = #{tyreNo,jdbcType=VARCHAR},
       car_length = #{carLength,jdbcType=INTEGER},

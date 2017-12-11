@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.iflytransporter.api.bean.OrderParam;
+import com.iflytransporter.api.service.GoodsSourceService;
 import com.iflytransporter.api.service.OrderService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderBO;
 import com.iflytransporter.common.utils.UUIDUtil;
@@ -33,6 +36,9 @@ public class ShipperOrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private GoodsSourceService goodsSourceService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表-已关闭",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
@@ -57,7 +63,7 @@ public class ShipperOrderController {
 		return ResponseUtil.successResult(list);
 	}
 	
-	@ApiOperation(value="add", notes="新增",produces = "application/json")
+	/*@ApiOperation(value="add", notes="新增",produces = "application/json")
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
@@ -66,6 +72,33 @@ public class ShipperOrderController {
 		order.setId(id);
 		int result = orderService.save(order);
 		if(result > 0){
+			Map<String,Object> data = new HashMap<String,Object>();
+			data.put("id", id);
+			return ResponseUtil.successResult(data);
+		}
+		return ResponseUtil.failureResult();
+	}*/
+	@ApiOperation(value="add", notes="新增",produces = "application/json")
+	@RequestMapping(value="add", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody OrderParam order){
+		String userId =  (String) request.getAttribute("userId");
+		String id = UUIDUtil.UUID();
+		order.setId(id);
+		int result = orderService.save(order);
+		if(result > 0){
+			if(order.isAddGoodsSource()){
+				GoodsSource gs = new GoodsSource();
+				gs.setDepartureProvinceId(order.getDepartureProvinceId());
+				gs.setDepartureCityId(order.getDepartureCityId());
+				gs.setDepartureAreaId(order.getDepartureAreaId());
+				gs.setDestinationProvinceId(order.getDestinationProvinceId());
+				gs.setDestinationCityId(order.getDestinationCityId());
+				gs.setDestinationAreaId(order.getDestinationAreaId());
+				gs.setUserId(userId);
+				goodsSourceService.save(gs);
+			}
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", id);
 			return ResponseUtil.successResult(data);

@@ -2,14 +2,28 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
-import com.iflytransporter.common.base.BaseEntity;
+public class Order {
+    private String id;
 
-public class Order extends BaseEntity{
-	private static final long serialVersionUID = 1L;
+    private Date createDate;
 
-    private String departure;
+    private Date updateDate;
 
-    private String destination;
+    private Short dataStatus;
+
+    private String desp;
+
+    private String departureProvinceId;
+
+    private String departureCityId;
+
+    private String departureAreaId;
+
+    private String destinationProvinceId;
+
+    private String destinationCityId;
+
+    private String destinationAreaId;
 
     private String carTypeId;
 
@@ -51,21 +65,92 @@ public class Order extends BaseEntity{
 
     private Date checkDate;
 
-
-    public String getDeparture() {
-        return departure;
+    public String getId() {
+        return id;
     }
 
-    public void setDeparture(String departure) {
-        this.departure = departure == null ? null : departure.trim();
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
     }
 
-    public String getDestination() {
-        return destination;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination == null ? null : destination.trim();
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Short getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(Short dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
+    public String getDesp() {
+        return desp;
+    }
+
+    public void setDesp(String desp) {
+        this.desp = desp == null ? null : desp.trim();
+    }
+
+    public String getDepartureProvinceId() {
+        return departureProvinceId;
+    }
+
+    public void setDepartureProvinceId(String departureProvinceId) {
+        this.departureProvinceId = departureProvinceId == null ? null : departureProvinceId.trim();
+    }
+
+    public String getDepartureCityId() {
+        return departureCityId;
+    }
+
+    public void setDepartureCityId(String departureCityId) {
+        this.departureCityId = departureCityId == null ? null : departureCityId.trim();
+    }
+
+    public String getDepartureAreaId() {
+        return departureAreaId;
+    }
+
+    public void setDepartureAreaId(String departureAreaId) {
+        this.departureAreaId = departureAreaId == null ? null : departureAreaId.trim();
+    }
+
+    public String getDestinationProvinceId() {
+        return destinationProvinceId;
+    }
+
+    public void setDestinationProvinceId(String destinationProvinceId) {
+        this.destinationProvinceId = destinationProvinceId == null ? null : destinationProvinceId.trim();
+    }
+
+    public String getDestinationCityId() {
+        return destinationCityId;
+    }
+
+    public void setDestinationCityId(String destinationCityId) {
+        this.destinationCityId = destinationCityId == null ? null : destinationCityId.trim();
+    }
+
+    public String getDestinationAreaId() {
+        return destinationAreaId;
+    }
+
+    public void setDestinationAreaId(String destinationAreaId) {
+        this.destinationAreaId = destinationAreaId == null ? null : destinationAreaId.trim();
     }
 
     public String getCarTypeId() {

@@ -71,12 +71,12 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 	@Override
 	public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 		super.configureMessageConverters(converters);
-	    converters.add(responseBodyJsonConverter());
+	    converters.add(fastJsonHttpMessageConverters());
 	    converters.add(responseBodyConverter());
 	}
 	
 	@Bean
-	public FastJsonHttpMessageConverter responseBodyJsonConverter() {
+	public FastJsonHttpMessageConverter fastJsonHttpMessageConverters() {
 		FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
 		List<MediaType> fastMediaTypes = new ArrayList<>();
 		fastMediaTypes.add(MediaType.APPLICATION_JSON_UTF8);
@@ -106,9 +106,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 		excludesList.add("/v2/api-docs");
 		excludesList.add("/*.html");
 		/** for test */
-//		excludesList.add("/common/**");
-//		excludesList.add("/shipper/order/**");
-//		excludesList.add("/user/**");
+		excludesList.add("/common/**");
+		excludesList.add("/shipper/order/**");
+		excludesList.add("/user/**");
 		/** for test */
 		String[] excludes = new String[excludesList.size()];
 		excludesList.toArray(excludes);
