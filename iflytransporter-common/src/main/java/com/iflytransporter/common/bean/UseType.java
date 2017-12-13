@@ -2,7 +2,7 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
-public class HandlingType {
+public class UseType {
     private String id;
 
     private Date createDate;

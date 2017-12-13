@@ -33,7 +33,7 @@ public class Order {
 
     private String goodsType;
 
-    private String goodsUnitId;
+    private String goodsUnitsId;
 
     private Date deliverDate;
 
@@ -64,6 +64,8 @@ public class Order {
     private Integer checkStatus;
 
     private Date checkDate;
+
+    private String orderNo;
 
     public String getId() {
         return id;
@@ -185,12 +187,12 @@ public class Order {
         this.goodsType = goodsType == null ? null : goodsType.trim();
     }
 
-    public String getGoodsUnitId() {
-        return goodsUnitId;
+    public String getGoodsUnitsId() {
+        return goodsUnitsId;
     }
 
-    public void setGoodsUnitId(String goodsUnitId) {
-        this.goodsUnitId = goodsUnitId == null ? null : goodsUnitId.trim();
+    public void setGoodsUnitsId(String goodsUnitsId) {
+        this.goodsUnitsId = goodsUnitsId == null ? null : goodsUnitsId.trim();
     }
 
     public Date getDeliverDate() {
@@ -311,5 +313,13 @@ public class Order {
 
     public void setCheckDate(Date checkDate) {
         this.checkDate = checkDate;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 }

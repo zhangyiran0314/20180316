@@ -18,8 +18,28 @@ public interface OrderService  {
 	
 	public int delete(String id);
 	
-	//分页查询
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String sId,Integer status);
-	//列表查询
-	List<Order> list(String sId,Integer status);
+	/**
+	 * 分页查询
+	 * @param pageNo
+	 * @param pageSize
+	 * @param userId
+	 * @param status
+	 * @return
+	 */
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String userId,Integer status);
+	/**
+	 * 列表-审核
+	 * @param userId
+	 * @param status 审核状态
+	 * @return
+	 */
+	List<Order> listCheck(String userId,Integer status);
+	/**
+	 * 列表-发布
+	 * @param userId
+	 * @param status 发布状态
+	 * @return
+	 */
+	List<Order> list(String userId,Integer status);
+	
 }

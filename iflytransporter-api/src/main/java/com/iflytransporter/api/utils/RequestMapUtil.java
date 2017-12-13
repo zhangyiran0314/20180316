@@ -34,7 +34,7 @@ public class RequestMapUtil {
 	 */
 	public static Integer formatStatus(Map<String,Object> requestMap){
 		if(requestMap.get("status") == null){
-			return status;
+			return null;
 		}
 		Integer st = (Integer) requestMap.get("status");
 		if(st != null){

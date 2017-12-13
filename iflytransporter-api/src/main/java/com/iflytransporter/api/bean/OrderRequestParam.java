@@ -7,6 +7,7 @@ public class OrderRequestParam extends Order{
 	//添加到货源
 	private boolean addGoodsSource;
 	
+	
 	public boolean isAddGoodsSource() {
 		return addGoodsSource;
 	}

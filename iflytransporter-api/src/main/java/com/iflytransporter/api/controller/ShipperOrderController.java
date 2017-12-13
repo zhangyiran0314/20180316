@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,22 +41,12 @@ public class ShipperOrderController {
 	
 	@Autowired
 	private OrderService orderService;
-	@Autowired
-	private GoodsSourceService goodsSourceService;
-	@Autowired
-	private ProvinceService provinceService;
-	@Autowired  
-	private CityService cityService;
-	@Autowired
-	private AreaService areaService;
-	@Autowired
-	private CarTypeService carTypeService;
 	
-	@ApiOperation(value="queryPage", notes="分页列表-已关闭",produces = "application/json")
+	@ApiOperation(value="queryPage", notes="分页列表-授权",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭;pageNo:分页参数-当前页数,默认(1);pageSize:分页参数-分页数,默认(10)") Map<String,Object> requestMap){
+	public Map<String,Object> queryPageCheck(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 授权状态:0-未授权,1-已授权;pageNo:当前页数-默认1;pageSize:分页数-默认(10)") Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
@@ -63,32 +54,42 @@ public class ShipperOrderController {
 		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status);
 		return ResponseUtil.successResult(page);
 	}
-	@ApiOperation(value="list", notes="列表",produces = "application/json")
+	@ApiOperation(value="queryPage", notes="分页列表-发布",produces = "application/json")
+	@RequestMapping(value="queryPage", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 发布状态:0-发布中,1-已成交,2-已取消;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String userId =  (String) request.getAttribute("userId");
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status);
+		return ResponseUtil.successResult(page);
+	}
+	@ApiOperation(value="list", notes="列表-授权",produces = "application/json")
+	@RequestMapping(value="list", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCheck(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("{status:0|1} 授权状态:0-未授权,1-已授权") 
+			Map<String,Object> requestMap){
+		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String userId =  (String) request.getAttribute("userId");
+		List<Order> list = orderService.listCheck(userId,status);
+		return ResponseUtil.successResult(list);
+	}
+	
+	@ApiOperation(value="list", notes="列表-发布",produces = "application/json")
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("status:发货状态,0-发布中(默认),1-已关闭") Map<String,Object> requestMap){
+			@RequestBody @ApiParam("{status:0|1|2} 发布状态:0-发布中,1-已成交,2-已取消") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		List<Order> list = orderService.list(userId,status);
 		return ResponseUtil.successResult(list);
 	}
 	
-	/*@ApiOperation(value="add", notes="新增",produces = "application/json")
-	@RequestMapping(value="add", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Order order){
-		String id = UUIDUtil.UUID();
-		order.setId(id);
-		int result = orderService.save(order);
-		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
-			return ResponseUtil.successResult(data);
-		}
-		return ResponseUtil.failureResult();
-	}*/
 	@ApiOperation(value="add", notes="新增",produces = "application/json")
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	@ResponseBody
@@ -97,19 +98,11 @@ public class ShipperOrderController {
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		order.setId(id);
+		if(StringUtils.isBlank(order.getShipperId())){
+			order.setShipperId(userId);
+		}
 		int result = orderService.save(order);
 		if(result > 0){
-			if(order.isAddGoodsSource()){
-				GoodsSource gs = new GoodsSource();
-				gs.setDepartureProvinceId(order.getDepartureProvinceId());
-				gs.setDepartureCityId(order.getDepartureCityId());
-				gs.setDepartureAreaId(order.getDepartureAreaId());
-				gs.setDestinationProvinceId(order.getDestinationProvinceId());
-				gs.setDestinationCityId(order.getDestinationCityId());
-				gs.setDestinationAreaId(order.getDestinationAreaId());
-				gs.setUserId(userId);
-				goodsSourceService.save(gs);
-			}
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", id);
 			return ResponseUtil.successResult(data);
@@ -117,7 +110,7 @@ public class ShipperOrderController {
 		return ResponseUtil.failureResult();
 	}
 	
-	@ApiOperation(value="detail", notes="详情",produces = "application/json")
+	@ApiOperation(value="detail", notes="详情",produces = "application/json",response = OrderResponseParam.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
@@ -125,7 +118,52 @@ public class ShipperOrderController {
 		String id = (String) requestMap.get("id");
 		Order order = orderService.query(id);
 		OrderResponseParam op = (OrderResponseParam) order;
-		return ResponseUtil.successResult(order);
+		return ResponseUtil.successResult(op);
+	}
+	@ApiOperation(value="checkCancal", notes="授权-取消",produces = "application/json")
+	@RequestMapping(value="cancelCheck", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> cancelCheck(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody OrderRequestParam order){
+		return ResponseUtil.successResult();
+	}
+	@ApiOperation(value="checkOk", notes="授权-确认",produces = "application/json")
+	@RequestMapping(value="cancelCheck", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> checkOk(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody OrderRequestParam order){
+		return ResponseUtil.successResult();
+	}
+	@ApiOperation(value="applyDetail", notes="审核-详情",produces = "application/json",response = OrderResponseParam.class)
+	@RequestMapping(value="applyDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> applyDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		Order order = orderService.query(id);
+		OrderResponseParam op = (OrderResponseParam) order;
+		return ResponseUtil.successResult(op);
+	}
+	
+	@ApiOperation(value="applyCheckCancel", notes="审核-取消",produces = "application/json",response = OrderResponseParam.class)
+	@RequestMapping(value="applyCheckCancel", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> applyCheckCancel(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		Order order = orderService.query(id);
+		OrderResponseParam op = (OrderResponseParam) order;
+		return ResponseUtil.successResult(op);
+	}
+	@ApiOperation(value="applyCheckOk", notes="审核-确认",produces = "application/json",response = OrderResponseParam.class)
+	@RequestMapping(value="applyCheckOk", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> applyCheckOk(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		Order order = orderService.query(id);
+		OrderResponseParam op = (OrderResponseParam) order;
+		return ResponseUtil.successResult(op);
 	}
 	@ApiOperation(value="modify", notes="修改",produces = "application/json")
 	@RequestMapping(value="modify", method=RequestMethod.POST)
@@ -139,7 +177,20 @@ public class ShipperOrderController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="cancel", notes="发货-取消",produces = "application/json")
+	@RequestMapping(value="cancel", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> cancel(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		int result = orderService.delete(id);
+		if(result > 0){
+			Map<String,Object> data = new HashMap<String,Object>();
+			data.put("id", id);
+			return ResponseUtil.successResult(data);
+		}
+		return ResponseUtil.failureResult();
+	}
 	@ApiOperation(value="delete", notes="删除",produces = "application/json")
 	@RequestMapping(value="delete", method=RequestMethod.POST)
 	@ResponseBody

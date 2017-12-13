@@ -3,11 +3,11 @@ package com.iflytransporter.api.mapper;
 import java.util.List;
 
 import com.iflytransporter.api.bean.CommonParam;
-import com.iflytransporter.common.bean.HandlingType;
+import com.iflytransporter.common.bean.UseType;
 
-public interface HandlingTypeMapper {
+public interface UseTypeMapper {
 	
-	List<HandlingType> queryAll();
+	List<UseType> queryAll();
 	
 	/**
 	 * 查询通用参数

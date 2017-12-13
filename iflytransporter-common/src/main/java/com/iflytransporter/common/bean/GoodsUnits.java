@@ -1,14 +1,61 @@
 package com.iflytransporter.common.bean;
 
-import com.alibaba.fastjson.JSONObject;
-import com.iflytransporter.common.base.BaseEntity;
+import java.util.Date;
 
-public class GoodsUnits extends BaseEntity{
-	private static final long serialVersionUID = 1L;
+public class GoodsUnits {
+    private String id;
+
+    private Date createDate;
+
+    private Date updateDate;
+
+    private Short dataStatus;
+
+    private String desp;
 
     private String name;
 
-    private String value;
+    private String code;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Short getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(Short dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
+    public String getDesp() {
+        return desp;
+    }
+
+    public void setDesp(String desp) {
+        this.desp = desp == null ? null : desp.trim();
+    }
 
     public String getName() {
         return name;
@@ -18,15 +65,11 @@ public class GoodsUnits extends BaseEntity{
         this.name = name == null ? null : name.trim();
     }
 
-    public String getValue() {
-        return value;
+    public String getCode() {
+        return code;
     }
 
-    public void setValue(String value) {
-        this.value = value == null ? null : value.trim();
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
-    @Override
-  	public String toString() {
-    	  return JSONObject.toJSONString(this).toString();
-  	}
 }

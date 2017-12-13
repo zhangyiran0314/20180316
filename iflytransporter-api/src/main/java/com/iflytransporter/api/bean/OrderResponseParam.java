@@ -9,6 +9,8 @@ public class OrderResponseParam extends Order{
     private CommonParam departureCity;
 
     private CommonParam departureArea;
+    
+    private CommonParam destinationProvince;
 
     private CommonParam destinationCity;
 
@@ -16,7 +18,7 @@ public class OrderResponseParam extends Order{
 	//carType
 	private CommonParam carType;
 	
-	private CommonParam goodsUnit;
+	private CommonParam goodsUnits;
 
 	private CommonParam useType;
 
@@ -72,12 +74,12 @@ public class OrderResponseParam extends Order{
 		this.carType = carType;
 	}
 
-	public CommonParam getGoodsUnit() {
-		return goodsUnit;
+	public CommonParam getGoodsUnits() {
+		return goodsUnits;
 	}
 
-	public void setGoodsUnit(CommonParam goodsUnit) {
-		this.goodsUnit = goodsUnit;
+	public void setGoodsUnits(CommonParam goodsUnits) {
+		this.goodsUnits = goodsUnits;
 	}
 
 	public CommonParam getHandlingType() {
@@ -102,6 +104,14 @@ public class OrderResponseParam extends Order{
 
 	public void setUseType(CommonParam useType) {
 		this.useType = useType;
+	}
+
+	public CommonParam getDestinationProvince() {
+		return destinationProvince;
+	}
+
+	public void setDestinationProvince(CommonParam destinationProvince) {
+		this.destinationProvince = destinationProvince;
 	}
 
 	
