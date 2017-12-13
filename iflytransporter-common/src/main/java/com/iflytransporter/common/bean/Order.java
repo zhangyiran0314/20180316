@@ -33,7 +33,7 @@ public class Order {
 
     private String goodsType;
 
-    private String goodsUnit;
+    private String goodsUnitId;
 
     private Date deliverDate;
 
@@ -49,7 +49,7 @@ public class Order {
 
     private Integer repeatFlag;
 
-    private String useType;
+    private String useTypeId;
 
     private String length;
 
@@ -57,9 +57,9 @@ public class Order {
 
     private String height;
 
-    private String handlingType;
+    private String handlingTypeId;
 
-    private String paymentType;
+    private String paymentTypeId;
 
     private Integer checkStatus;
 
@@ -185,12 +185,12 @@ public class Order {
         this.goodsType = goodsType == null ? null : goodsType.trim();
     }
 
-    public String getGoodsUnit() {
-        return goodsUnit;
+    public String getGoodsUnitId() {
+        return goodsUnitId;
     }
 
-    public void setGoodsUnit(String goodsUnit) {
-        this.goodsUnit = goodsUnit == null ? null : goodsUnit.trim();
+    public void setGoodsUnitId(String goodsUnitId) {
+        this.goodsUnitId = goodsUnitId == null ? null : goodsUnitId.trim();
     }
 
     public Date getDeliverDate() {
@@ -249,12 +249,12 @@ public class Order {
         this.repeatFlag = repeatFlag;
     }
 
-    public String getUseType() {
-        return useType;
+    public String getUseTypeId() {
+        return useTypeId;
     }
 
-    public void setUseType(String useType) {
-        this.useType = useType == null ? null : useType.trim();
+    public void setUseTypeId(String useTypeId) {
+        this.useTypeId = useTypeId == null ? null : useTypeId.trim();
     }
 
     public String getLength() {
@@ -281,20 +281,20 @@ public class Order {
         this.height = height == null ? null : height.trim();
     }
 
-    public String getHandlingType() {
-        return handlingType;
+    public String getHandlingTypeId() {
+        return handlingTypeId;
     }
 
-    public void setHandlingType(String handlingType) {
-        this.handlingType = handlingType == null ? null : handlingType.trim();
+    public void setHandlingTypeId(String handlingTypeId) {
+        this.handlingTypeId = handlingTypeId == null ? null : handlingTypeId.trim();
     }
 
-    public String getPaymentType() {
-        return paymentType;
+    public String getPaymentTypeId() {
+        return paymentTypeId;
     }
 
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType == null ? null : paymentType.trim();
+    public void setPaymentTypeId(String paymentTypeId) {
+        this.paymentTypeId = paymentTypeId == null ? null : paymentTypeId.trim();
     }
 
     public Integer getCheckStatus() {

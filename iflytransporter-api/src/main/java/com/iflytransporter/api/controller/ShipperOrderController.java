@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.api.bean.OrderParam;
+import com.iflytransporter.api.bean.OrderRequestParam;
+import com.iflytransporter.api.bean.OrderResponseParam;
+import com.iflytransporter.api.service.AreaService;
+import com.iflytransporter.api.service.CarTypeService;
+import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.GoodsSourceService;
 import com.iflytransporter.api.service.OrderService;
+import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
-import com.iflytransporter.common.bean.OrderBO;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -36,9 +40,16 @@ public class ShipperOrderController {
 	
 	@Autowired
 	private OrderService orderService;
-	
 	@Autowired
 	private GoodsSourceService goodsSourceService;
+	@Autowired
+	private ProvinceService provinceService;
+	@Autowired  
+	private CityService cityService;
+	@Autowired
+	private AreaService areaService;
+	@Autowired
+	private CarTypeService carTypeService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表-已关闭",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
@@ -82,7 +93,7 @@ public class ShipperOrderController {
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody OrderParam order){
+			@RequestBody OrderRequestParam order){
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		order.setId(id);
@@ -113,15 +124,7 @@ public class ShipperOrderController {
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
 		Order order = orderService.query(id);
-		return ResponseUtil.successResult(order);
-	}
-	@ApiOperation(value="detailBO", notes="详情-审核关联",produces = "application/json")
-	@RequestMapping(value="detailBO", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> detailBO(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		OrderBO order = orderService.queryBO(id);
+		OrderResponseParam op = (OrderResponseParam) order;
 		return ResponseUtil.successResult(order);
 	}
 	@ApiOperation(value="modify", notes="修改",produces = "application/json")

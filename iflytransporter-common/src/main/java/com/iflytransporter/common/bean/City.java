@@ -1,18 +1,19 @@
 package com.iflytransporter.common.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
-import com.iflytransporter.common.base.BaseEntity;
 
-public class City {
+public class City implements Serializable{
 
 	private static final long serialVersionUID = 5904079104785401632L;
 
 	
 	private String name;
-
+	
+	@JSONField(serialize=false)
     private String provinceId;
 
     private String id;
