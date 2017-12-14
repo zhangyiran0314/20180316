@@ -1,5 +1,7 @@
 package com.iflytransporter.api.bean;
 
+import java.util.List;
+
 import com.iflytransporter.common.bean.Order;
 
 public class OrderResponseParam extends Order{
@@ -15,7 +17,7 @@ public class OrderResponseParam extends Order{
     private CommonParam destinationCity;
 
     private CommonParam destinationArea;
-	//carType
+    
 	private CommonParam carType;
 	
 	private CommonParam goodsUnits;
@@ -25,7 +27,9 @@ public class OrderResponseParam extends Order{
     private CommonParam handlingType;
 
     private CommonParam paymentType;
-
+    
+    private List<CommonParam> applyList;
+    
 	public CommonParam getDepartureProvince() {
 		return departureProvince;
 	}

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.api.mapper.HandlingTypeMapper;
 import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.common.bean.HandlingType;
@@ -19,5 +20,8 @@ public class HandlingTypeServiceImpl implements HandlingTypeService{
 	public List<HandlingType> queryAll() {
 		return handlingTypeMapper.queryAll();
 	}
-
+	@Override
+	public CommonParam queryCommonParam(String id) {
+		return handlingTypeMapper.queryCommonParam(id);
+	}
 }

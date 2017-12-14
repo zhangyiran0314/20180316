@@ -68,23 +68,7 @@ public class OrderServiceImpl implements OrderService{
 
 	@Override
 	public Order query(String id) {
-		Order order = orderMapper.selectByPrimaryKey(id);
-		OrderResponseParam op = (OrderResponseParam) order;
-		op.setDepartureProvince(provinceMapper.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityMapper.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaMapper.queryCommonParam(order.getDepartureAreaId()));
-		
-		op.setDestinationProvince(provinceMapper.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityMapper.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaMapper.queryCommonParam(order.getDestinationAreaId()));
-		
-		op.setCarType(carTypeMapper.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeMapper.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeMapper.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeMapper.queryCommonParam(order.getUseTypeId()));
-		op.setGoodsUnits(goodsUnitsMapper.queryCommonParam(order.getGoodsUnitsId()));
-		
-		return op;
+		return orderMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
@@ -98,11 +82,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, String sId,Integer status) {
+	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, String sId,Integer status,Integer checkStatus) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Order> list= orderMapper.queryAll(sId,status);
+		List<Order> list= orderMapper.queryAll(sId,status,checkStatus);
 		return new PageInfo<Order>(list);
 	}
 
@@ -112,12 +96,12 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public List<Order> list(String sId, Integer status) {
-		return orderMapper.queryAll(sId, status);
+	public List<Order> list(String sId, Integer status,Integer checkStatus) {
+		return orderMapper.queryAll(sId, status,checkStatus);
 	}
 
 	@Override
-	public List<Order> listCheck(String userId, Integer status) {
+	public List<Order> listCheck(String userId, Integer status,Integer checkStatus) {
 		// TODO Auto-generated method stub
 		return null;
 	}

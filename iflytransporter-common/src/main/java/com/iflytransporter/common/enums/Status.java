@@ -16,7 +16,7 @@ public class Status {
 	
 	/**订单部分*/
 	//订单状态
-	public static int Order_Publish =0;//发布中
+	public static int Order_Publish =0;//待审核
 	public static int Order_Transfer =1;//已关闭
 	public static int Order_Cancel=2;//已取消
 	//审核状态

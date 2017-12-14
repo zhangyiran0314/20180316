@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.api.mapper.CityMapper;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.common.bean.City;
@@ -21,5 +22,8 @@ public class CityServiceImpl implements CityService{
 		return cityMapper.queryAll(countryCode, provinceId);
 	}
 
-
+	@Override
+	public CommonParam queryCommonParam(String id) {
+		return cityMapper.queryCommonParam(id);
+	}
 }

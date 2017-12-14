@@ -1,5 +1,6 @@
 package com.iflytransporter.api.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,16 @@ import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.GoodsSourceService;
+import com.iflytransporter.api.service.GoodsUnitsService;
+import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.OrderService;
+import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
+import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
-import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -41,19 +46,25 @@ public class ShipperOrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	@Autowired
+	private ProvinceService provinceService;
+	@Autowired
+	private CityService cityService;
+	@Autowired
+	private AreaService areaService;
+	@Autowired
+	private GoodsSourceService goodsSourceService;
+	@Autowired
+	private CarTypeService carTypeService;
+	@Autowired
+	private HandlingTypeService handlingTypeService;
+	@Autowired
+	private PaymentTypeService paymentTypeService;
+	@Autowired
+	private UseTypeService useTypeService;
+	@Autowired
+	private GoodsUnitsService goodsUnitsService;
 	
-	@ApiOperation(value="queryPage", notes="分页列表-授权",produces = "application/json")
-	@RequestMapping(value="queryPage", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> queryPageCheck(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 授权状态:0-未授权,1-已授权;pageNo:当前页数-默认1;pageSize:分页数-默认(10)") Map<String,Object> requestMap){
-		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
-		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
-		Integer status = RequestMapUtil.formatStatus(requestMap);
-		String userId =  (String) request.getAttribute("userId");
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status);
-		return ResponseUtil.successResult(page);
-	}
 	@ApiOperation(value="queryPage", notes="分页列表-发布",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
@@ -64,21 +75,21 @@ public class ShipperOrderController {
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status);
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status,Status.Order_Check_Yes);
 		return ResponseUtil.successResult(page);
 	}
-	@ApiOperation(value="list", notes="列表-授权",produces = "application/json")
-	@RequestMapping(value="list", method=RequestMethod.POST)
+	@ApiOperation(value="queryPageCheck", notes="分页列表-授权",produces = "application/json")
+	@RequestMapping(value="queryPageCheck", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> listCheck(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1} 授权状态:0-未授权,1-已授权") 
-			Map<String,Object> requestMap){
+	public Map<String,Object> queryPageCheck(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 授权状态:0-未授权,1-已授权;pageNo:当前页数-默认1;pageSize:分页数-默认(10)") Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		List<Order> list = orderService.listCheck(userId,status);
-		return ResponseUtil.successResult(list);
+		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,Status.Order_Publish,status);
+		return ResponseUtil.successResult(page);
 	}
-	
 	@ApiOperation(value="list", notes="列表-发布",produces = "application/json")
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
@@ -86,10 +97,39 @@ public class ShipperOrderController {
 			@RequestBody @ApiParam("{status:0|1|2} 发布状态:0-发布中,1-已成交,2-已取消") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		List<Order> list = orderService.list(userId,status);
-		return ResponseUtil.successResult(list);
+		List<Order> list = orderService.list(userId,status,Status.Order_Check_Yes);
+		List<OrderResponseParam> result = new ArrayList<OrderResponseParam>();
+		for(Order order:list){
+			OrderResponseParam op = (OrderResponseParam) order;
+			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
+			op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
+			op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+			
+			op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
+			op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
+			op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+			
+			op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
+			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
+			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
+			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+			result.add(op);
+		}
+		return ResponseUtil.successResult(result);
 	}
 	
+	@ApiOperation(value="listCheck", notes="列表-授权",produces = "application/json")
+	@RequestMapping(value="listCheck", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCheck(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam("{status:0|1} 授权状态:0-未授权,1-已授权") 
+			Map<String,Object> requestMap){
+		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String userId =  (String) request.getAttribute("userId");
+		List<Order> list = orderService.listCheck(userId,Status.Order_Publish,status);
+		return ResponseUtil.successResult(list);
+	}
 	@ApiOperation(value="add", notes="新增",produces = "application/json")
 	@RequestMapping(value="add", method=RequestMethod.POST)
 	@ResponseBody
@@ -128,7 +168,7 @@ public class ShipperOrderController {
 		return ResponseUtil.successResult();
 	}
 	@ApiOperation(value="checkOk", notes="授权-确认",produces = "application/json")
-	@RequestMapping(value="cancelCheck", method=RequestMethod.POST)
+	@RequestMapping(value="checkOk", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> checkOk(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody OrderRequestParam order){

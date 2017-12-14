@@ -23,7 +23,7 @@ public interface OrderMapper {
     
     int invalidByPrimaryKey(String id);
     
-    List<Order> queryAll(@Param("shipperId")String sId,@Param("status") Integer status);
+    List<Order> queryAll(@Param("shipperId")String sId,@Param("status") Integer status,@Param("checkStatus")Integer checkStatus);
     
     OrderBO queryBO(String id);
 }

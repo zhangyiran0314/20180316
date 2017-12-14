@@ -26,20 +26,20 @@ public interface OrderService  {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String userId,Integer status);
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String userId,Integer status,Integer checkStatus);
 	/**
 	 * 列表-审核
 	 * @param userId
 	 * @param status 审核状态
 	 * @return
 	 */
-	List<Order> listCheck(String userId,Integer status);
+	List<Order> listCheck(String userId,Integer status,Integer checkStatus);
 	/**
 	 * 列表-发布
 	 * @param userId
 	 * @param status 发布状态
 	 * @return
 	 */
-	List<Order> list(String userId,Integer status);
+	List<Order> list(String userId,Integer status,Integer checkStatus);
 	
 }

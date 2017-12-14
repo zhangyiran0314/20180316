@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.api.mapper.GoodsUnitsMapper;
 import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.common.bean.GoodsUnits;
@@ -19,5 +20,8 @@ public class GoodsUnitsServiceImpl implements GoodsUnitsService{
 	public List<GoodsUnits> queryAll() {
 		return goodsUnitsMapper.queryAll();
 	}
-
+	@Override
+	public CommonParam queryCommonParam(String id) {
+		return goodsUnitsMapper.queryCommonParam(id);
+	}
 }
