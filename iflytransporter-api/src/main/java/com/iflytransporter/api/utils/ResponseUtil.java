@@ -1,6 +1,7 @@
 package com.iflytransporter.api.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.iflytransporter.common.enums.BuzExceptionEnums;
@@ -27,6 +28,18 @@ public class ResponseUtil {
 		result.put(Code_Key,Code_Success);
 		result.put(Msg_Key, Msg_Success);
 		result.put(Data_Key, data);
+		return result;
+	}
+	@SuppressWarnings("rawtypes")
+	public static Map<String,Object> successPage(Long total,Integer pages,List list){
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put(Code_Key,Code_Success);
+		result.put(Msg_Key, Msg_Success);
+		Map<String,Object> page = new HashMap<String,Object>();
+		page.put("total", total);
+		page.put("pages", pages);
+		page.put("list", list);
+		result.put(Data_Key, page);
 		return result;
 	}
 	public static Map<String,Object> successResult(){

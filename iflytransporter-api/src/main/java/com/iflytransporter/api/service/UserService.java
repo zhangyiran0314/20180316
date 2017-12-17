@@ -3,6 +3,7 @@ package com.iflytransporter.api.service;
 import java.util.List;
 
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
 
 public interface UserService  {
 	//通过mobile查询用户
@@ -13,6 +14,8 @@ public interface UserService  {
 	public int updateLoginInfo(User record);
 	//通过账户密码查询用户
 	public User login(String countryCode,Integer userType,String mobile,String password);
+	//
+	public UserBO detailByCache(String id);
 	
 	//认证个人
 	public User auth(User user) ;

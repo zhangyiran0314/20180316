@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.api.mapper.OrderApplyMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.OrderApply" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="INTEGER" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id
+  </sql>
+   <select id="queryAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_apply
+    where 1 = 1 
+    <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="orderId != null" >
+      and order_id  = #{orderId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  
+  <select id="count" resultType="java.lang.Integer" >
+    select count(1)
+    from t_order_apply
+    where 1 = 1 
+     <if test="orderId != null" >
+      and order_id  = #{orderId,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null" >
+      and status  = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
+  <update id="updateStatus">
+      update  t_order_apply 
+     <set>
+       <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+       </if>
+        update_date =  now(),
+      </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateOtherStatus">
+      update  t_order_apply 
+     <set>
+       <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+       </if>
+        update_date =  now(),
+      </set>
+    where order_id = #{orderId,jdbcType=VARCHAR} and status = ${@com.iflytransporter.common.enums.Status@Order_Audit_No}
+  </update>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_apply
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_order_apply
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.OrderApply" >
+    insert into t_order_apply (id, create_date, update_date, 
+      data_status, desp, status, 
+      costs, order_id, transporter_id)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{costs,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
+    insert into t_order_apply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="costs != null" >
+        costs,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="transporterId != null" >
+        transporter_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=INTEGER},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="costs != null" >
+        #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterId != null" >
+        #{transporterId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
+    update t_order_apply
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=INTEGER},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="costs != null" >
+        costs = #{costs,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterId != null" >
+        transporter_id = #{transporterId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.OrderApply" >
+    update t_order_apply
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=INTEGER},
+      desp = #{desp,jdbcType=VARCHAR},
+      status = #{status,jdbcType=SMALLINT},
+      costs = #{costs,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      transporter_id = #{transporterId,jdbcType=VARCHAR}
+      
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

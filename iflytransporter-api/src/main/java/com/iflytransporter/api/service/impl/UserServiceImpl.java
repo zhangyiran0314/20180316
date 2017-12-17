@@ -1,19 +1,33 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.CaptchaUtil;
+import com.iflytransporter.api.utils.RedisUtil;
+import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.enums.Status;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
 
+	@Autowired
+    private RedisTemplate<String, String> redisTemplate;//注入redis缓存
+	
 	@Autowired
 	private UserMapper userMapper;
 	
@@ -116,6 +130,28 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int deleteUp(String id, String upId) {
 		return userMapper.deleteUp(id, upId);
+	}
+
+	@Override
+	public UserBO detailByCache(String id) {
+		try{
+			boolean hasKey = redisTemplate.hasKey(id);
+			if(hasKey){
+				ValueOperations<String, String> operations=redisTemplate.opsForValue();
+				String jsonString = operations.get(id);
+				UserBO user= JSONObject.parseObject(jsonString, UserBO.class);
+				return user;
+			}
+			UserBO user = userMapper.selectByPrimaryKeyBO(id);
+			String result = JSONObject.toJSONString(user);
+			//存放到redis缓存
+			ValueOperations<String, String> operations=redisTemplate.opsForValue();
+			operations.set(id, result, 5, TimeUnit.DAYS);//保存五天
+			return user;
+		}catch(Exception e){
+			return null;
+		} 
+		
 	}
 
 }

@@ -47,6 +47,8 @@ public class User extends BaseEntity {
     private String email;
     
     private int userType;
+    
+    private int level;
 
     public String getName() {
 		return name;
@@ -189,6 +191,14 @@ public class User extends BaseEntity {
 
 	public void setSurname(String surname) {
 		this.surname = surname;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	@Override

@@ -10,17 +10,24 @@ public class Status {
 	public static int User_Identify = 1;//用户认证
 	public static int User_Enable  = 2;//用户激活
 	
+	public static int User_Admin = 1;
+	
 	/**数据有效*/
 	public static int Status_Valid = 0;//有效
 	public static int Status_Invalid = 1;//失效
 	
 	/**订单部分*/
 	//订单状态
-	public static int Order_Publish =0;//待审核
-	public static int Order_Transfer =1;//已关闭
-	public static int Order_Cancel=2;//已取消
+	public static int Order_Publish =0;//发布中-待审核
+	public static int Order_Transfer =1;//已关闭-已转运单
+	public static int Order_Cancel=2;//已关闭-已取消
+	//授权状态
+	public static int Order_Auth_No=0;//待授权
+	public static int Order_Auth_Yes=1;//已授权
+	public static int Order_Auth_Cancel=2;//取消授权
 	//审核状态
-	public static int Order_Check_No=0;//未授权
-	public static int Order_Check_Yes=1;//已授权
+	public static int Order_Audit_No=0;//待审核
+	public static int Order_Audit_Yes=1;//已审核
+	public static int Order_Audit_Cancel=2;//取消审核
 	
 }

@@ -61,11 +61,13 @@ public class Order {
 
     private String paymentTypeId;
 
-    private Integer checkStatus;
+    private Integer authStatus;
 
-    private Date checkDate;
+    private Date authDate;
 
     private String orderNo;
+    
+    private String companyId;
 
     public String getId() {
         return id;
@@ -299,27 +301,34 @@ public class Order {
         this.paymentTypeId = paymentTypeId == null ? null : paymentTypeId.trim();
     }
 
-    public Integer getCheckStatus() {
-        return checkStatus;
+    public Integer getAuthStatus() {
+        return authStatus;
     }
 
-    public void setCheckStatus(Integer checkStatus) {
-        this.checkStatus = checkStatus;
+    public void setAuthStatus(Integer authStatus) {
+        this.authStatus = authStatus;
     }
 
-    public Date getCheckDate() {
-        return checkDate;
+    public Date getAuthDate() {
+        return authDate;
     }
 
-    public void setCheckDate(Date checkDate) {
-        this.checkDate = checkDate;
+    public void setAuthDate(Date authDate) {
+        this.authDate = authDate;
     }
 
     public String getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(String orderNo) {
+	public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
     }
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 }

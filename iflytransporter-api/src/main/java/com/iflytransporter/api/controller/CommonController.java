@@ -38,6 +38,7 @@ import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.InsuranceService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
+import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.Attachment;
@@ -50,6 +51,7 @@ import com.iflytransporter.common.bean.Insurance;
 import com.iflytransporter.common.bean.PaymentType;
 import com.iflytransporter.common.bean.Position;
 import com.iflytransporter.common.bean.Province;
+import com.iflytransporter.common.bean.UseType;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -86,6 +88,16 @@ public class CommonController {
 	private HandlingTypeService handlingTypeService;
 	@Autowired
 	private PaymentTypeService paymentTypeService;
+	@Autowired
+	private UseTypeService useTypeService;
+	
+	@ApiOperation(value="用车类型列表")
+	@RequestMapping(value = "/getUseType", method = RequestMethod.POST)
+	@ResponseBody 
+	public Map<String,Object> getUseType() {
+		List<Map<String,Object>> list = useTypeService.list();
+		return ResponseUtil.successResult(list);
+	}
 	
 	@ApiOperation(value="货物计量单位列表")
 	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.POST)
