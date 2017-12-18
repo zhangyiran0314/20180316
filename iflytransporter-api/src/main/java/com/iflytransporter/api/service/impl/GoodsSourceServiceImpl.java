@@ -34,7 +34,7 @@ public class GoodsSourceServiceImpl implements GoodsSourceService{
 
 	@Override
 	public int delete(String id) {
-		return goodsSourceMapper.invalidByPrimaryKey(id);
+		return goodsSourceMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override

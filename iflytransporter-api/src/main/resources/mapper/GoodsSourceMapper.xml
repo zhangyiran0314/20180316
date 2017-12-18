@@ -7,22 +7,36 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="default_status" property="defaultStatus" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="departure_province_id" property="departureProvinceId" jdbcType="VARCHAR" />
     <result column="departure_city_id" property="departureCityId" jdbcType="VARCHAR" />
     <result column="departure_area_id" property="departureAreaId" jdbcType="VARCHAR" />
     <result column="destination_province_id" property="destinationProvinceId" jdbcType="VARCHAR" />
     <result column="destination_city_id" property="destinationCityId" jdbcType="VARCHAR" />
     <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
-    <result column="default_status" property="defaultStatus" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="car_type_id" property="carTypeId" jdbcType="VARCHAR" />
+    <result column="tyre_no" property="tyreNo" jdbcType="VARCHAR" />
+    <result column="car_length" property="carLength" jdbcType="INTEGER" />
+    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+    <result column="goods_units_id" property="goodsUnitsId" jdbcType="VARCHAR" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="use_type_id" property="useTypeId" jdbcType="VARCHAR" />
+    <result column="length" property="length" jdbcType="VARCHAR" />
+    <result column="width" property="width" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="VARCHAR" />
+    <result column="handling_type_id" property="handlingTypeId" jdbcType="VARCHAR" />
+    <result column="payment_type_id" property="paymentTypeId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, departure_province_id, departure_city_id, 
-    departure_area_id, destination_province_id, destination_city_id, destination_area_id, default_status, 
-    user_id
+    id, create_date, update_date, data_status, desp, default_status, user_id, departure_province_id, 
+    departure_city_id, departure_area_id, destination_province_id, destination_city_id, 
+    destination_area_id, car_type_id, tyre_no, car_length, goods_type, goods_units_id, 
+    deliver_date, remark, use_type_id, length, width, height, handling_type_id, payment_type_id
   </sql>
-  
-   <sql id="Valid_SQL" >
+
+    <sql id="Valid_SQL" >
     and data_status = 0
   </sql>
   
@@ -37,33 +51,38 @@
     <include refid ="Valid_SQL"/>
   </select>
   
-   <update id="invalidByPrimaryKey" parameterType="java.lang.String" >
+   <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
     update  t_goods_source set data_status = 1,update_date = now() 
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
-  
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_goods_source
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_goods_source
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.GoodsSource" >
     insert into t_goods_source (id, create_date, update_date, 
       data_status, desp, default_status, 
       user_id, departure_province_id, departure_city_id, 
       departure_area_id, destination_province_id, 
-      destination_city_id, destination_area_id)
+      destination_city_id, destination_area_id, car_type_id, 
+      tyre_no, car_length, goods_type, 
+      goods_units_id, deliver_date, remark, 
+      use_type_id, length, width, 
+      height, handling_type_id, payment_type_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{defaultStatus,jdbcType=INTEGER}, 
       #{userId,jdbcType=VARCHAR}, #{departureProvinceId,jdbcType=VARCHAR}, #{departureCityId,jdbcType=VARCHAR}, 
       #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
-      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR})
+      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, 
+      #{tyreNo,jdbcType=VARCHAR}, #{carLength,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, 
+      #{goodsUnitsId,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{useTypeId,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, 
+      #{height,jdbcType=VARCHAR}, #{handlingTypeId,jdbcType=VARCHAR}, #{paymentTypeId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.GoodsSource" >
     insert into t_goods_source
@@ -107,6 +126,45 @@
       <if test="destinationAreaId != null" >
         destination_area_id,
       </if>
+      <if test="carTypeId != null" >
+        car_type_id,
+      </if>
+      <if test="tyreNo != null" >
+        tyre_no,
+      </if>
+      <if test="carLength != null" >
+        car_length,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsUnitsId != null" >
+        goods_units_id,
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="useTypeId != null" >
+        use_type_id,
+      </if>
+      <if test="length != null" >
+        length,
+      </if>
+      <if test="width != null" >
+        width,
+      </if>
+      <if test="height != null" >
+        height,
+      </if>
+      <if test="handlingTypeId != null" >
+        handling_type_id,
+      </if>
+      <if test="paymentTypeId != null" >
+        payment_type_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -147,6 +205,45 @@
       </if>
       <if test="destinationAreaId != null" >
         #{destinationAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="carTypeId != null" >
+        #{carTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tyreNo != null" >
+        #{tyreNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carLength != null" >
+        #{carLength,jdbcType=INTEGER},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnitsId != null" >
+        #{goodsUnitsId,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="useTypeId != null" >
+        #{useTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null" >
+        #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="handlingTypeId != null" >
+        #{handlingTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTypeId != null" >
+        #{paymentTypeId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +286,45 @@
       <if test="destinationAreaId != null" >
         destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
       </if>
+      <if test="carTypeId != null" >
+        car_type_id = #{carTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="tyreNo != null" >
+        tyre_no = #{tyreNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carLength != null" >
+        car_length = #{carLength,jdbcType=INTEGER},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnitsId != null" >
+        goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="useTypeId != null" >
+        use_type_id = #{useTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="length != null" >
+        length = #{length,jdbcType=VARCHAR},
+      </if>
+      <if test="width != null" >
+        width = #{width,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null" >
+        height = #{height,jdbcType=VARCHAR},
+      </if>
+      <if test="handlingTypeId != null" >
+        handling_type_id = #{handlingTypeId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentTypeId != null" >
+        payment_type_id = #{paymentTypeId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -205,7 +341,20 @@
       departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
       destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
       destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
-      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR}
+      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
+      car_type_id = #{carTypeId,jdbcType=VARCHAR},
+      tyre_no = #{tyreNo,jdbcType=VARCHAR},
+      car_length = #{carLength,jdbcType=INTEGER},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      use_type_id = #{useTypeId,jdbcType=VARCHAR},
+      length = #{length,jdbcType=VARCHAR},
+      width = #{width,jdbcType=VARCHAR},
+      height = #{height,jdbcType=VARCHAR},
+      handling_type_id = #{handlingTypeId,jdbcType=VARCHAR},
+      payment_type_id = #{paymentTypeId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

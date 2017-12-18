@@ -1,10 +1,21 @@
 package com.iflytransporter.common.bean;
 
-import com.alibaba.fastjson.JSONObject;
-import com.iflytransporter.common.base.BaseEntity;
+import java.util.Date;
 
-public class GoodsSource extends BaseEntity{
-	private static final long serialVersionUID = 1L;
+public class GoodsSource {
+    private String id;
+
+    private Date createDate;
+
+    private Date updateDate;
+
+    private Short dataStatus;
+
+    private String desp;
+
+    private Integer defaultStatus;
+
+    private String userId;
 
     private String departureProvinceId;
 
@@ -18,108 +29,237 @@ public class GoodsSource extends BaseEntity{
 
     private String destinationAreaId;
 
-    private Integer defaultStatus;
+    private String carTypeId;
 
-    private String userId;
+    private String tyreNo;
 
-	public String getDepartureProvinceId() {
-		return departureProvinceId;
-	}
+    private Integer carLength;
 
+    private String goodsType;
 
+    private String goodsUnitsId;
 
-	public void setDepartureProvinceId(String departureProvinceId) {
-		this.departureProvinceId = departureProvinceId;
-	}
+    private Date deliverDate;
 
+    private String remark;
 
+    private String useTypeId;
 
-	public String getDepartureCityId() {
-		return departureCityId;
-	}
+    private String length;
 
+    private String width;
 
+    private String height;
 
-	public void setDepartureCityId(String departureCityId) {
-		this.departureCityId = departureCityId;
-	}
+    private String handlingTypeId;
 
+    private String paymentTypeId;
 
+    public String getId() {
+        return id;
+    }
 
-	public String getDepartureAreaId() {
-		return departureAreaId;
-	}
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
 
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public void setDepartureAreaId(String departureAreaId) {
-		this.departureAreaId = departureAreaId;
-	}
+    public Date getUpdateDate() {
+        return updateDate;
+    }
 
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
 
+    public Short getDataStatus() {
+        return dataStatus;
+    }
 
-	public String getDestinationProvinceId() {
-		return destinationProvinceId;
-	}
+    public void setDataStatus(Short dataStatus) {
+        this.dataStatus = dataStatus;
+    }
 
+    public String getDesp() {
+        return desp;
+    }
 
+    public void setDesp(String desp) {
+        this.desp = desp == null ? null : desp.trim();
+    }
 
-	public void setDestinationProvinceId(String destinationProvinceId) {
-		this.destinationProvinceId = destinationProvinceId;
-	}
+    public Integer getDefaultStatus() {
+        return defaultStatus;
+    }
 
+    public void setDefaultStatus(Integer defaultStatus) {
+        this.defaultStatus = defaultStatus;
+    }
 
+    public String getUserId() {
+        return userId;
+    }
 
-	public String getDestinationCityId() {
-		return destinationCityId;
-	}
+    public void setUserId(String userId) {
+        this.userId = userId == null ? null : userId.trim();
+    }
 
+    public String getDepartureProvinceId() {
+        return departureProvinceId;
+    }
 
+    public void setDepartureProvinceId(String departureProvinceId) {
+        this.departureProvinceId = departureProvinceId == null ? null : departureProvinceId.trim();
+    }
 
-	public void setDestinationCityId(String destinationCityId) {
-		this.destinationCityId = destinationCityId;
-	}
+    public String getDepartureCityId() {
+        return departureCityId;
+    }
 
+    public void setDepartureCityId(String departureCityId) {
+        this.departureCityId = departureCityId == null ? null : departureCityId.trim();
+    }
 
+    public String getDepartureAreaId() {
+        return departureAreaId;
+    }
 
-	public String getDestinationAreaId() {
-		return destinationAreaId;
-	}
+    public void setDepartureAreaId(String departureAreaId) {
+        this.departureAreaId = departureAreaId == null ? null : departureAreaId.trim();
+    }
 
+    public String getDestinationProvinceId() {
+        return destinationProvinceId;
+    }
 
+    public void setDestinationProvinceId(String destinationProvinceId) {
+        this.destinationProvinceId = destinationProvinceId == null ? null : destinationProvinceId.trim();
+    }
 
-	public void setDestinationAreaId(String destinationAreaId) {
-		this.destinationAreaId = destinationAreaId;
-	}
+    public String getDestinationCityId() {
+        return destinationCityId;
+    }
 
+    public void setDestinationCityId(String destinationCityId) {
+        this.destinationCityId = destinationCityId == null ? null : destinationCityId.trim();
+    }
 
+    public String getDestinationAreaId() {
+        return destinationAreaId;
+    }
 
-	public Integer getDefaultStatus() {
-		return defaultStatus;
-	}
+    public void setDestinationAreaId(String destinationAreaId) {
+        this.destinationAreaId = destinationAreaId == null ? null : destinationAreaId.trim();
+    }
 
+    public String getCarTypeId() {
+        return carTypeId;
+    }
 
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId == null ? null : carTypeId.trim();
+    }
 
-	public void setDefaultStatus(Integer defaultStatus) {
-		this.defaultStatus = defaultStatus;
-	}
+    public String getTyreNo() {
+        return tyreNo;
+    }
 
+    public void setTyreNo(String tyreNo) {
+        this.tyreNo = tyreNo == null ? null : tyreNo.trim();
+    }
 
+    public Integer getCarLength() {
+        return carLength;
+    }
 
-	public String getUserId() {
-		return userId;
-	}
+    public void setCarLength(Integer carLength) {
+        this.carLength = carLength;
+    }
 
+    public String getGoodsType() {
+        return goodsType;
+    }
 
+    public void setGoodsType(String goodsType) {
+        this.goodsType = goodsType == null ? null : goodsType.trim();
+    }
 
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
+    public String getGoodsUnitsId() {
+        return goodsUnitsId;
+    }
 
+    public void setGoodsUnitsId(String goodsUnitsId) {
+        this.goodsUnitsId = goodsUnitsId == null ? null : goodsUnitsId.trim();
+    }
 
+    public Date getDeliverDate() {
+        return deliverDate;
+    }
 
-	@Override
-  	public String toString() {
-    	  return JSONObject.toJSONString(this).toString();
-  	}
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark == null ? null : remark.trim();
+    }
+
+    public String getUseTypeId() {
+        return useTypeId;
+    }
+
+    public void setUseTypeId(String useTypeId) {
+        this.useTypeId = useTypeId == null ? null : useTypeId.trim();
+    }
+
+    public String getLength() {
+        return length;
+    }
+
+    public void setLength(String length) {
+        this.length = length == null ? null : length.trim();
+    }
+
+    public String getWidth() {
+        return width;
+    }
+
+    public void setWidth(String width) {
+        this.width = width == null ? null : width.trim();
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height == null ? null : height.trim();
+    }
+
+    public String getHandlingTypeId() {
+        return handlingTypeId;
+    }
+
+    public void setHandlingTypeId(String handlingTypeId) {
+        this.handlingTypeId = handlingTypeId == null ? null : handlingTypeId.trim();
+    }
+
+    public String getPaymentTypeId() {
+        return paymentTypeId;
+    }
+
+    public void setPaymentTypeId(String paymentTypeId) {
+        this.paymentTypeId = paymentTypeId == null ? null : paymentTypeId.trim();
+    }
 }

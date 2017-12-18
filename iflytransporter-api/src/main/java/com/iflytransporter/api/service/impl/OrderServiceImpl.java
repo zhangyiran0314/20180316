@@ -8,12 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.api.bean.OrderReq;
-import com.iflytransporter.api.mapper.GoodsSourceMapper;
 import com.iflytransporter.api.mapper.OrderMapper;
 import com.iflytransporter.api.service.OrderService;
-import com.iflytransporter.api.utils.UUIDUtil;
-import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.enums.Status;
 

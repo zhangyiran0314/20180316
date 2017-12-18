@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.common.bean.GoodsSource;
 
 public interface GoodsSourceMapper {
@@ -20,8 +19,6 @@ public interface GoodsSourceMapper {
     int updateByPrimaryKeySelective(GoodsSource record);
 
     int updateByPrimaryKey(GoodsSource record);
-    
-    int invalidByPrimaryKey(String id);
     
     List<GoodsSource> queryAll(@Param("userId")String userId);
 

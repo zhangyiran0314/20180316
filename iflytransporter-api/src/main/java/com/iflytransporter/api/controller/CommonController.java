@@ -51,7 +51,6 @@ import com.iflytransporter.common.bean.Insurance;
 import com.iflytransporter.common.bean.PaymentType;
 import com.iflytransporter.common.bean.Position;
 import com.iflytransporter.common.bean.Province;
-import com.iflytransporter.common.bean.UseType;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 

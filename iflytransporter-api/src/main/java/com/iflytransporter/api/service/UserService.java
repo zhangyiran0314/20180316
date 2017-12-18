@@ -18,11 +18,11 @@ public interface UserService  {
 	public UserBO detailByCache(String id);
 	
 	//认证个人
-	public User auth(User user) ;
+	public UserBO auth(User user) ;
 	//查看个人信息
-	public User queryBO(String id);
+	public UserBO queryBO(String id);
 	//修改个人信息
-	public User update(User user);
+	public UserBO update(User user);
 	//添加下级
 	public User addDown(User user);
 	//修改下级

@@ -1,8 +1,6 @@
 package com.iflytransporter.api.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,13 +12,8 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.utils.CaptchaUtil;
-import com.iflytransporter.api.utils.RedisUtil;
-import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
-import com.iflytransporter.common.enums.BuzExceptionEnums;
-import com.iflytransporter.common.enums.Status;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -63,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User update(User user) {
+	public UserBO update(User user) {
 		int result = userMapper.updateByPrimaryKeySelective(user);
 		if(result > 0 ){
 			return userMapper.selectByPrimaryKeyBO(user.getId());
@@ -100,8 +93,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User detailDown(String userId,String downId) {
-		User user = userMapper.selectByPrimaryKeyBO(downId);
+	public UserBO detailDown(String userId,String downId) {
+		UserBO user = userMapper.selectByPrimaryKeyBO(downId);
 		if(user==null || StringUtils.isBlank(user.getParentId()) || !user.getParentId().equals(userId)){
 			return null;
 		}

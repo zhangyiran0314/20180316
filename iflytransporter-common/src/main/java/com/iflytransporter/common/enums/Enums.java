@@ -17,6 +17,9 @@ public interface Enums {
 	//账户密码不正确
 	public static int Code_AccountOrPasswordError = 1004;
 	
+	//上级不存在
+	public static int Code_NotUpError = 1005;
+	
 	public int getCode();
 	public String getMessage();
 }

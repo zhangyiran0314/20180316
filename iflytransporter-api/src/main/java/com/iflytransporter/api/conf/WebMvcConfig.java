@@ -108,7 +108,7 @@ public class WebMvcConfig extends WebMvcConfigurationSupport{
 		/** for test */
 		excludesList.add("/common/**");
 		excludesList.add("/shipper/order/**");
-		excludesList.add("/user/**");
+		//excludesList.add("/user/**");
 		/** for test */
 		String[] excludes = new String[excludesList.size()];
 		excludesList.toArray(excludes);

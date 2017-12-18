@@ -10,7 +10,9 @@ public enum BuzExceptionEnums implements Enums{
 	//账户已经注册
 	AccountsAlreadyExist(Code_AccountsAlreadyExist,"AccountsAlreadyExist"),
 	//账号密码错误
-	AccountOrPasswordErr(Code_AccountOrPasswordError, "AccountOrPasswordErr");
+	AccountOrPasswordErr(Code_AccountOrPasswordError, "AccountOrPasswordErr"),
+	//账号密码错误
+	NotUpError(Code_NotUpError, "NotUpError");
 	
 	public int code;
 	public String message;

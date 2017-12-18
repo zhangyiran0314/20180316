@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.bean.AuthResp;
-import com.iflytransporter.api.bean.UserResp;
+import com.iflytransporter.api.bean.OrderUserResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
@@ -101,7 +101,7 @@ public class ShipperAuthController {
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(user.getLevel()==Status.User_Admin){
-				op.setUser(new UserResp(userService.detailByCache(order.getShipperId())));
+				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
 			result.add(op);
 		}
@@ -139,7 +139,7 @@ public class ShipperAuthController {
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(user.getLevel()==Status.User_Admin){
-				op.setUser(new UserResp(userService.detailByCache(order.getShipperId())));
+				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
 			result.add(op);
 		}

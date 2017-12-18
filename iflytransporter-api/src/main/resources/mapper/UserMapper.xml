@@ -137,7 +137,7 @@
       #{lastLoginIp,jdbcType=VARCHAR}, #{lastLoginDate,jdbcType=TIMESTAMP}, #{status,jdbcType=SMALLINT}, 
       #{lastLoginDevice,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{surname,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{countryCode,jdbcType=VARCHAR},#{level,jdbcType=INTEGER})
   </insert>
   

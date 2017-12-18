@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iflytransporter.api.bean.UserResp;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.utils.ResponseUtil;
 
 import io.swagger.annotations.Api;
@@ -38,7 +42,7 @@ public class UserController {
 		String userId =  (String) request.getAttribute("userId");
 		User result = userService.detailUp(userId);
 		if(result==null){
-		      return ResponseUtil.failureResult();
+		      return ResponseUtil.failureResult(BuzExceptionEnums.NotUpError);
 		}
 		return ResponseUtil.successResult(result);
 	}
@@ -46,7 +50,7 @@ public class UserController {
 	@RequestMapping(value="deleteUp", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> deleteUp(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="上级用户id:upId")Map<String,Object> requestMap){
+			@RequestBody @ApiParam(value="{upId:upId} upId:上级用户id") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String upId = (String) requestMap.get("upId");
 		int result = userService.deleteUp(userId, upId);
@@ -60,12 +64,12 @@ public class UserController {
 	@RequestMapping(value="deleteDown", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> deleteDown(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  @ApiParam(value="下级用户id:downId") Map<String,Object> requestMap){
+			@RequestBody  @ApiParam(value="{downId:downId} downId:下级用户id") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String downId = (String) requestMap.get("downId");
 		int result = userService.deleteDown(userId, downId);
 		if(result > 0){
-			ResponseUtil.successResult();
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -87,7 +91,7 @@ public class UserController {
 	@RequestMapping(value="detailDown", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detailDown(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  @ApiParam(value="下级用户id:downId")Map<String,Object> requestMap){
+			@RequestBody  @ApiParam(value="{downId:downId} downId:下级用户id")Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String  downId = (String) requestMap.get("downId");
 		if(downId==null){
@@ -110,6 +114,7 @@ public class UserController {
 		if(user ==null || !userId.equals(user.getParentId())){
 			return ResponseUtil.failureResult();
 		}
+		user.setId(UUIDUtil.UUID());
 		User result  = userService.addDown(user);
 		if(result != null){
 			return ResponseUtil.successResult(result);
@@ -127,7 +132,7 @@ public class UserController {
 	}
 	
 	/** 用户操作  start*/
-	@ApiOperation(value="个人-认证", notes="个人-认证",produces = "application/json")
+	@ApiOperation(value="个人-认证", notes="个人-认证",produces = "application/json",response=UserResp.class)
 	@RequestMapping(value="auth", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> auth(HttpServletRequest request, HttpServletResponse response,
@@ -136,21 +141,23 @@ public class UserController {
 		if(user ==null || !userId.equals(user.getId())){
 			return ResponseUtil.failureResult();
 		}
-		User result  = userService.auth(user);
+		user.setId(userId);
+		UserBO result  = userService.auth(user);
 		if(result != null){
-			return ResponseUtil.successResult(result);
+			return ResponseUtil.successResult(new UserResp(result));
 		}
 		return ResponseUtil.failureResult();
 	}
-	@ApiOperation(value="个人-详情", notes="个人-详情",produces = "application/json")
+	@ApiOperation(value="个人-详情", notes="个人-详情",produces = "application/json",response=UserResp.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User result  = userService.queryBO(userId);
-		return ResponseUtil.successResult(result);
+		UserBO result  = userService.queryBO(userId);
+//		UserResp userResp = new UserResp(result);
+		return ResponseUtil.successResult(new UserResp(result));
 	}
-	@ApiOperation(value="个人-修改", notes="个人-修改",produces = "application/json")
+	@ApiOperation(value="个人-修改", notes="个人-修改",produces = "application/json",response=UserResp.class)
 	@RequestMapping(value="modify", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
@@ -159,9 +166,9 @@ public class UserController {
 		if(user ==null || !userId.equals(user.getId())){
 			return ResponseUtil.failureResult();
 		}
-		User result  = userService.update(user);
+		UserBO result  = userService.update(user);
 		if(result != null){
-			return ResponseUtil.successResult(result);
+			return ResponseUtil.successResult(new UserResp(result));
 		}
 		return ResponseUtil.failureResult();
 	}

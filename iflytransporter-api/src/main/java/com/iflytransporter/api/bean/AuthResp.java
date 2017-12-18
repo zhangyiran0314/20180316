@@ -1,10 +1,8 @@
 package com.iflytransporter.api.bean;
 
 import java.util.Date;
-import java.util.List;
 
 import com.iflytransporter.common.bean.Order;
-import com.iflytransporter.common.bean.User;
 
 public class AuthResp{
 	
@@ -86,7 +84,7 @@ public class AuthResp{
 
     private CommonParam paymentType;
     
-    private UserResp user;
+    private OrderUserResp user;
     
 	public CommonParam getDepartureProvince() {
 		return departureProvince;
@@ -305,11 +303,11 @@ public class AuthResp{
 		this.applyDate = applyDate;
 	}
 
-	public UserResp getUser() {
+	public OrderUserResp getUser() {
 		return user;
 	}
 
-	public void setUser(UserResp user) {
+	public void setUser(OrderUserResp user) {
 		this.user = user;
 	}
 	
