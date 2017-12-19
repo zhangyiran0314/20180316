@@ -8,15 +8,15 @@ import com.iflytransporter.common.bean.CarBO;
 
 public interface CarService  {
 	//增删改查
-	public CarBO save(Car record,String userId);
+	public CarBO save(Car record,String companyId);
 	
-	public Car query(String id);
+	public CarBO query(String id);
 	
 	public int update(Car record);
 	
 	public int delete(String id);
 	
-	public List<Car> list(String userId);
+	public List<CarBO> listByCompany(String companyId);
 	//分页查询
-	PageInfo<Car> queryPage(Integer pageNo,Integer pageSize,String userId);
+	PageInfo<CarBO> queryPage(Integer pageNo,Integer pageSize,String companyId);
 }

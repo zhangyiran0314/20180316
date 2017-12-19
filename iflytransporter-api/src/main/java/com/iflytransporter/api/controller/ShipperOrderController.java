@@ -41,7 +41,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value = "shipper/order/",description="发货(订单)操作 Controller")
+@Api(value = "shipper/order/",description="货主-发货(订单)操作 Controller")
 @Controller
 @RequestMapping("/shipper/order/{version}")
 public class ShipperOrderController {
@@ -100,7 +100,7 @@ public class ShipperOrderController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			
 			//待审核申请
 			if(Status.Order_Publish==order.getStatus()){
@@ -133,7 +133,7 @@ public class ShipperOrderController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			//待审核申请
 			if(Status.Order_Publish==order.getStatus()){
 				op.setApplyTotal(orderApplyService.count(order.getId(),Status.Order_Audit_No));
@@ -195,7 +195,7 @@ public class ShipperOrderController {
 		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		//审核申请通过详情
 		if(Status.Order_Transfer==order.getStatus()){
 			List<Map<String,Object>> applyDetail = orderService.detailAudit(id,Status.Order_Audit_Yes);
@@ -267,7 +267,7 @@ public class ShipperOrderController {
 		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		
 		op.setApplyList(orderService.detailAudit(id,Status.Order_Audit_No));
 		return ResponseUtil.successResult(op);

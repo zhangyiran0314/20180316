@@ -37,7 +37,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value = "shipper/auth ",description="授权操作 Controller")
+@Api(value = "shipper/auth ",description="货主-授权操作 Controller")
 @Controller
 @RequestMapping("/shipper/auth/{version}")
 public class ShipperAuthController {
@@ -99,7 +99,7 @@ public class ShipperAuthController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(user.getLevel()==Status.User_Admin){
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
@@ -137,7 +137,7 @@ public class ShipperAuthController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(user.getLevel()==Status.User_Admin){
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
@@ -166,7 +166,7 @@ public class ShipperAuthController {
 		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		return ResponseUtil.successResult(op);
 	}
 	@ApiOperation(value="authCancel", notes="授权-取消",produces = "application/json")

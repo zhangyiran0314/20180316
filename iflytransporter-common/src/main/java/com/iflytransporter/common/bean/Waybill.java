@@ -22,10 +22,11 @@ public class Waybill extends BaseEntity{
 
     private Integer status;
 
-    private Integer costs;
+    private Double costs;
 
+    private String orderNo;
 
-    public String getOrderId() {
+	public String getOrderId() {
         return orderId;
     }
 
@@ -89,11 +90,20 @@ public class Waybill extends BaseEntity{
         this.status = status;
     }
 
-    public Integer getCosts() {
+    public Double getCosts() {
         return costs;
     }
 
-    public void setCosts(Integer costs) {
+    public void setCosts(Double costs) {
         this.costs = costs;
     }
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+    
 }

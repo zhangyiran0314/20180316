@@ -2,34 +2,24 @@ package com.iflytransporter.api.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.mapper.CarMapper;
-import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.CarService;
 import com.iflytransporter.common.bean.Car;
 import com.iflytransporter.common.bean.CarBO;
-import com.iflytransporter.common.bean.User;
 
 @Service("carService")
 public class CarServiceImpl implements CarService{
 	
 	@Autowired
 	private CarMapper carMapper;
-	@Autowired
-	private UserMapper userMapper;
-	
 	@Override
-	public CarBO save(Car record,String userId) {
-		User user = userMapper.selectByPrimaryKey(userId);
-		if(user==null  || StringUtils.isBlank(user.getCompanyId())){
-			return null;
-		}
-		record.setCompanyId(user.getCompanyId());
+	public CarBO save(Car record,String companyId) {
+		record.setCompanyId(companyId);
 		int result  =  carMapper.insert(record);
 		if(result > 0){
 			return carMapper.selectByPrimaryKeyBO(record.getId());
@@ -38,7 +28,7 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public Car query(String id) {
+	public CarBO query(String id) {
 		return carMapper.selectByPrimaryKeyBO(id);
 	}
 
@@ -49,31 +39,21 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public int delete(String id) {
-		return carMapper.invalidByPrimaryKey(id);
+		return carMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override
-	public PageInfo<Car> queryPage(Integer pageNo, Integer pageSize, String userId) {
-		User user = userMapper.selectByPrimaryKey(userId);
-		if(user==null  || StringUtils.isBlank(user.getCompanyId())){
-			return null;
-		}
-		String companyId = user.getCompanyId();
+	public PageInfo<CarBO> queryPage(Integer pageNo, Integer pageSize, String companyId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Car> list= carMapper.queryAll(companyId);
-		return new PageInfo<Car>(list);
+		List<CarBO> list= carMapper.queryAllBO(companyId);
+		return new PageInfo<CarBO>(list);
 	}
 
 	@Override
-	public List<Car> list(String userId) {
-		User user = userMapper.selectByPrimaryKey(userId);
-		if(user==null  || StringUtils.isBlank(user.getCompanyId())){
-			return null;
-		}
-		String companyId = user.getCompanyId();
-		return carMapper.queryAll(companyId);
+	public List<CarBO> listByCompany(String companyId) {
+		return carMapper.queryAllBO(companyId);
 	}
 
 }

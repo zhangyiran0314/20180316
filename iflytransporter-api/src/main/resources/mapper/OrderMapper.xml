@@ -17,7 +17,7 @@
     <result column="tyre_no" jdbcType="VARCHAR" property="tyreNo" />
     <result column="car_length" jdbcType="INTEGER" property="carLength" />
     <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
-    <result column="goods_units_id" jdbcType="VARCHAR" property="goodsUnitsId" />
+    <result column="goods_units" jdbcType="VARCHAR" property="goodsUnits" />
     <result column="deliver_date" jdbcType="TIMESTAMP" property="deliverDate" />
     <result column="costs" jdbcType="INTEGER" property="costs" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -41,7 +41,7 @@
   <sql id="Base_Column_List" >
      id, create_date, update_date, data_status, desp, departure_province_id, departure_city_id, 
     departure_area_id, destination_province_id, destination_city_id, destination_area_id, 
-    car_type_id, tyre_no, car_length, goods_type, goods_units_id, deliver_date, costs, remark, 
+    car_type_id, tyre_no, car_length, goods_type, goods_units, deliver_date, costs, remark, 
     status, shipper_id, insurance_id, repeat_flag, use_type_id, length, width, height, handling_type_id, 
     payment_type_id, auth_status, auth_date,order_no,company_id
   </sql>
@@ -131,7 +131,7 @@
       departure_city_id, departure_area_id, destination_province_id, 
       destination_city_id, destination_area_id, car_type_id, 
       tyre_no, car_length, goods_type, 
-      goods_units_id, deliver_date, costs, 
+      goods_units, deliver_date, costs, 
       remark, status, shipper_id, 
       insurance_id, repeat_flag, use_type_id, 
       length, width, height, 
@@ -142,7 +142,7 @@
       #{departureCityId,jdbcType=VARCHAR}, #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
       #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, 
       #{tyreNo,jdbcType=VARCHAR}, #{carLength,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, 
-      #{goodsUnitsId,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{costs,jdbcType=INTEGER}, 
+      #{goodsUnits,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{costs,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{shipperId,jdbcType=VARCHAR}, 
       #{insuranceId,jdbcType=VARCHAR}, #{repeatFlag,jdbcType=INTEGER}, #{useTypeId,jdbcType=VARCHAR}, 
       #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, 
@@ -197,8 +197,8 @@
       <if test="goodsType != null">
         goods_type,
       </if>
-      <if test="goodsUnitsId != null">
-        goods_units_id,
+      <if test="goodsUnits != null">
+        goods_units,
       </if>
       <if test="deliverDate != null">
         deliver_date,
@@ -298,8 +298,8 @@
       <if test="goodsType != null">
         #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnitsId != null">
-        #{goodsUnitsId,jdbcType=VARCHAR},
+      <if test="goodsUnits != null">
+        #{goodsUnits,jdbcType=VARCHAR},
       </if>
       <if test="deliverDate != null">
         #{deliverDate,jdbcType=TIMESTAMP},
@@ -399,8 +399,8 @@
       <if test="goodsType != null">
         goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnitsId != null">
-        goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      <if test="goodsUnits != null">
+        goods_units = #{goodsUnits,jdbcType=VARCHAR},
       </if>
       <if test="deliverDate != null">
         deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
@@ -472,7 +472,7 @@
       tyre_no = #{tyreNo,jdbcType=VARCHAR},
       car_length = #{carLength,jdbcType=INTEGER},
       goods_type = #{goodsType,jdbcType=VARCHAR},
-      goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      goods_units = #{goodsUnits,jdbcType=VARCHAR},
       deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
       costs = #{costs,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},

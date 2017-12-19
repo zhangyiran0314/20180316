@@ -8,7 +8,7 @@
     <result column="data_status" property="dataStatus" jdbcType="INTEGER" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="SMALLINT" />
-    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="costs" property="costs" jdbcType="DOUBLE" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
   </resultMap>
@@ -79,7 +79,7 @@
       costs, order_id, transporter_id)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
-      #{costs,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR})
+      #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply
@@ -132,7 +132,7 @@
         #{status,jdbcType=SMALLINT},
       </if>
       <if test="costs != null" >
-        #{costs,jdbcType=INTEGER},
+        #{costs,jdbcType=DOUBLE},
       </if>
       <if test="orderId != null" >
         #{orderId,jdbcType=VARCHAR},
@@ -161,7 +161,7 @@
         status = #{status,jdbcType=SMALLINT},
       </if>
       <if test="costs != null" >
-        costs = #{costs,jdbcType=INTEGER},
+        costs = #{costs,jdbcType=DOUBLE},
       </if>
       <if test="orderId != null" >
         order_id = #{orderId,jdbcType=VARCHAR},
@@ -179,7 +179,7 @@
       data_status = #{dataStatus,jdbcType=INTEGER},
       desp = #{desp,jdbcType=VARCHAR},
       status = #{status,jdbcType=SMALLINT},
-      costs = #{costs,jdbcType=INTEGER},
+      costs = #{costs,jdbcType=DOUBLE},
       order_id = #{orderId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR}
       

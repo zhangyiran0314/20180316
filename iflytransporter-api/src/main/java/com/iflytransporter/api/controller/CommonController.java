@@ -98,13 +98,13 @@ public class CommonController {
 		return ResponseUtil.successResult(list);
 	}
 	
-	@ApiOperation(value="货物计量单位列表")
+	/*@ApiOperation(value="货物计量单位列表")
 	@RequestMapping(value = "/getGoodsUnits", method = RequestMethod.POST)
 	@ResponseBody 
 	public Map<String,Object> getGoodsUnits() {
 		List<GoodsUnits> list = goodsUnitsService.queryAll();
 		return ResponseUtil.successResult(list);
-	}
+	}*/
 	@ApiOperation(value="装卸方式列表")
 	@RequestMapping(value = "/getHandlingType", method = RequestMethod.POST)
 	@ResponseBody 

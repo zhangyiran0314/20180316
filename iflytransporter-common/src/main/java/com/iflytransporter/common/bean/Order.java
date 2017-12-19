@@ -33,7 +33,7 @@ public class Order {
 
     private String goodsType;
 
-    private String goodsUnitsId;
+    private String goodsUnits;
 
     private Date deliverDate;
 
@@ -189,12 +189,12 @@ public class Order {
         this.goodsType = goodsType == null ? null : goodsType.trim();
     }
 
-    public String getGoodsUnitsId() {
-        return goodsUnitsId;
+    public String getGoodsUnits() {
+        return goodsUnits;
     }
 
-    public void setGoodsUnitsId(String goodsUnitsId) {
-        this.goodsUnitsId = goodsUnitsId == null ? null : goodsUnitsId.trim();
+    public void setGoodsUnits(String goodsUnits) {
+        this.goodsUnits = goodsUnits == null ? null : goodsUnits.trim();
     }
 
     public Date getDeliverDate() {

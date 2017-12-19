@@ -30,4 +30,11 @@ public class Status {
 	public static int Order_Audit_Yes=1;//已审核
 	public static int Order_Audit_Cancel=2;//取消审核
 	
+	/**运单部分*/
+	public static int Waybill_For_Loading = 0;//待装车
+	public static int Waybill_In_Transit = 1;//运输中
+	public static int Waybill_To_Confirm = 2;//待确认
+	public static int Waybill_Finish = 3;//已完结
+	
+	
 }

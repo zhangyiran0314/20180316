@@ -35,7 +35,7 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public CompanyBO update(Company record) {
-		int result = companyMapper.updateByPrimaryKey(record);
+		int result = companyMapper.updateByPrimaryKeySelective(record);
 		if(result > 0){
 			return companyMapper.selectByPrimaryKeyBO(record.getId());
 		}
