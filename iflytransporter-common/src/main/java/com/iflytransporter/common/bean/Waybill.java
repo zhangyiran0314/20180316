@@ -25,6 +25,11 @@ public class Waybill extends BaseEntity{
     private Double costs;
 
     private String orderNo;
+    
+    private String shipperCompanyId;
+
+    private String transporterCompanyId;
+
 
 	public String getOrderId() {
         return orderId;
@@ -105,5 +110,17 @@ public class Waybill extends BaseEntity{
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
 	}
+	
+	public void setShipperCompanyId(String shipperCompanyId) {
+        this.shipperCompanyId = shipperCompanyId == null ? null : shipperCompanyId.trim();
+    }
+
+    public String getTransporterCompanyId() {
+        return transporterCompanyId;
+    }
+
+    public void setTransporterCompanyId(String transporterCompanyId) {
+        this.transporterCompanyId = transporterCompanyId == null ? null : transporterCompanyId.trim();
+    }
     
 }

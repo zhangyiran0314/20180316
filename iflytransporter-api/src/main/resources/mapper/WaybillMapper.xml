@@ -17,12 +17,98 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="costs" property="costs" jdbcType="DOUBLE" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+     <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
+    <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
   </resultMap>
+   <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.WaybillBO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
+    <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="is_transfer" property="isTransfer" jdbcType="INTEGER" />
+    <result column="transfer_transporter_id" property="transferTransporterId" jdbcType="VARCHAR" />
+    <result column="attachment_take_id" property="attachmentTakeId" jdbcType="VARCHAR" />
+    <result column="attachment_deliver_id" property="attachmentDeliverId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="costs" property="costs" jdbcType="DOUBLE" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
+    <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
+    
+    <result column="attachment_take_id_link" property="attachmentTakeIdLink" jdbcType="VARCHAR" />
+    <result column="attachment_deliver_id_link" property="attachmentDeliverIdLink" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, order_id, shipper_id, transporter_id, 
     is_transfer, transfer_transporter_id, attachment_take_id, attachment_deliver_id, 
-    status, costs, order_no
+    status, costs, order_no, shipper_company_id, transporter_company_id
   </sql>
+  
+  <select id="queryAllBO" resultMap="BaseResultMapBO" >
+   select
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.order_id, a.shipper_id, a.transporter_id, 
+    a.is_transfer, a.transfer_transporter_id, a.attachment_take_id, a.attachment_deliver_id, 
+    a.status, a.costs, a.order_no
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_take_id_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link,
+     from t_waybill a
+    left join t_attachment b on a.attachment_take_id = b.id
+    left join t_attachment c on a.attachment_deliver_id = c.id
+    where 1 = 1 
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="status != null" >
+      and status  = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String">
+    select
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.order_id, a.shipper_id, a.transporter_id, 
+    a.is_transfer, a.transfer_transporter_id, a.attachment_take_id, a.attachment_deliver_id,
+     a.shipper_company_id, a.transporter_company_id,
+    a.status, a.costs, a.order_no
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_take_id_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link,
+     from t_waybill a
+    left join t_attachment b on a.attachment_take_id = b.id
+    left join t_attachment c on a.attachment_deliver_id = c.id
+    where a.id =  #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="queryAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_waybill
+    where 1 = 1 
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="status != null" >
+      and status  = #{status,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <select id="detailCompany" resultType="java.util.Map">
+  	select b.`name` as name,b.`code` as code,b.create_date as registerDate,c.grade as grade ,d.count as count
+	from t_waybill a
+  left join t_company b on a.shipper_company_id= b.id
+  left join (select transporter_company_id ,AVG(grade) as grade from t_comment GROUP BY transporter_company_id) c on a.transporter_company_id= c.transporter_company_id
+  left join (select transporter_company_id ,count(1) as count from t_waybill GROUP BY transporter_company_id) d on a.transporter_company_id = d.transporter_company_id
+ 	where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -39,13 +125,15 @@
       shipper_id, transporter_id, is_transfer, 
       transfer_transporter_id, attachment_take_id, 
       attachment_deliver_id, status, costs, 
-      order_no)
+      order_no, shipper_company_id, transporter_company_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
       #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{isTransfer,jdbcType=INTEGER}, 
       #{transferTransporterId,jdbcType=VARCHAR}, #{attachmentTakeId,jdbcType=VARCHAR}, 
       #{attachmentDeliverId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{costs,jdbcType=DOUBLE}, 
-      #{orderNo,jdbcType=VARCHAR})
+      #{orderNo,jdbcType=VARCHAR}, #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Waybill" >
     insert into t_waybill
@@ -95,6 +183,12 @@
       <if test="orderNo != null" >
         order_no,
       </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id,
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -141,6 +235,12 @@
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperCompanyId != null" >
+        #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        #{transporterCompanyId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -189,6 +289,12 @@
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -207,7 +313,9 @@
       attachment_deliver_id = #{attachmentDeliverId,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       costs = #{costs,jdbcType=DOUBLE},
-      order_no = #{orderNo,jdbcType=VARCHAR}
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

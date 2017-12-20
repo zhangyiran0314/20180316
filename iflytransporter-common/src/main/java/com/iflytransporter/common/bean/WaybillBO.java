@@ -2,9 +2,6 @@ package com.iflytransporter.common.bean;
 
 public class WaybillBO extends Waybill{
 
-	 /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String attachmentTakeIdLink;

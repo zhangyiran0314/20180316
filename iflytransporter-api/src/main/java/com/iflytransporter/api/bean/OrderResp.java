@@ -28,6 +28,7 @@ public class OrderResp{
 		this.authStatus = order.getAuthStatus();
 		this.authDate = order.getAuthDate();
 		this.orderNo = order.getOrderNo();
+		this.weight = order.getWeight();
 	}
 
 
@@ -60,6 +61,8 @@ public class OrderResp{
     private Date authDate;
 
     private String orderNo;
+    
+    private Integer weight;
 
 	
 	private CommonParam departureProvince;
@@ -321,6 +324,14 @@ public class OrderResp{
 
 	public void setApplyDetail(Map<String, Object> applyDetail) {
 		this.applyDetail = applyDetail;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	
 }

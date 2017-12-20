@@ -2,6 +2,8 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Order {
     private String id;
 
@@ -32,9 +34,12 @@ public class Order {
     private Integer carLength;
 
     private String goodsType;
+    
+    private Integer weight;
 
     private String goodsUnits;
-
+    
+    @JsonFormat(timezone="yyyy-MM-dd HH:mm:ss")
     private Date deliverDate;
 
     private Integer costs;
@@ -331,4 +336,13 @@ public class Order {
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+	
 }

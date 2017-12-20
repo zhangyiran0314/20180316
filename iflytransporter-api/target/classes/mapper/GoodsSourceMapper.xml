@@ -19,7 +19,7 @@
     <result column="tyre_no" property="tyreNo" jdbcType="VARCHAR" />
     <result column="car_length" property="carLength" jdbcType="INTEGER" />
     <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
-    <result column="goods_units_id" property="goodsUnitsId" jdbcType="VARCHAR" />
+    <result column="goods_units" property="goodsUnits" jdbcType="VARCHAR" />
     <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="use_type_id" property="useTypeId" jdbcType="VARCHAR" />
@@ -32,7 +32,7 @@
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, default_status, user_id, departure_province_id, 
     departure_city_id, departure_area_id, destination_province_id, destination_city_id, 
-    destination_area_id, car_type_id, tyre_no, car_length, goods_type, goods_units_id, 
+    destination_area_id, car_type_id, tyre_no, car_length, goods_type, goods_units, 
     deliver_date, remark, use_type_id, length, width, height, handling_type_id, payment_type_id
   </sql>
 
@@ -63,23 +63,23 @@
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.GoodsSource" >
-    insert into t_goods_source (id, create_date, update_date, 
-      data_status, desp, default_status, 
+    insert into t_goods_source (id, update_date, 
+      desp, default_status, 
       user_id, departure_province_id, departure_city_id, 
       departure_area_id, destination_province_id, 
       destination_city_id, destination_area_id, car_type_id, 
       tyre_no, car_length, goods_type, 
-      goods_units_id, deliver_date, remark, 
+      goods_units, deliver_date, remark, 
       use_type_id, length, width, 
       height, handling_type_id, payment_type_id
       )
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{defaultStatus,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=VARCHAR},  now(), 
+      #{desp,jdbcType=VARCHAR}, #{defaultStatus,jdbcType=INTEGER}, 
       #{userId,jdbcType=VARCHAR}, #{departureProvinceId,jdbcType=VARCHAR}, #{departureCityId,jdbcType=VARCHAR}, 
       #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
       #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR}, #{carTypeId,jdbcType=VARCHAR}, 
       #{tyreNo,jdbcType=VARCHAR}, #{carLength,jdbcType=INTEGER}, #{goodsType,jdbcType=VARCHAR}, 
-      #{goodsUnitsId,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
+      #{goodsUnits,jdbcType=VARCHAR}, #{deliverDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
       #{useTypeId,jdbcType=VARCHAR}, #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, 
       #{height,jdbcType=VARCHAR}, #{handlingTypeId,jdbcType=VARCHAR}, #{paymentTypeId,jdbcType=VARCHAR}
       )
@@ -138,8 +138,8 @@
       <if test="goodsType != null" >
         goods_type,
       </if>
-      <if test="goodsUnitsId != null" >
-        goods_units_id,
+      <if test="goodsUnits != null" >
+        goods_units,
       </if>
       <if test="deliverDate != null" >
         deliver_date,
@@ -218,8 +218,8 @@
       <if test="goodsType != null" >
         #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnitsId != null" >
-        #{goodsUnitsId,jdbcType=VARCHAR},
+      <if test="goodsUnits != null" >
+        #{goodsUnits,jdbcType=VARCHAR},
       </if>
       <if test="deliverDate != null" >
         #{deliverDate,jdbcType=TIMESTAMP},
@@ -298,8 +298,8 @@
       <if test="goodsType != null" >
         goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="goodsUnitsId != null" >
-        goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      <if test="goodsUnits != null" >
+        goods_units = #{goodsUnits,jdbcType=VARCHAR},
       </if>
       <if test="deliverDate != null" >
         deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
@@ -346,7 +346,7 @@
       tyre_no = #{tyreNo,jdbcType=VARCHAR},
       car_length = #{carLength,jdbcType=INTEGER},
       goods_type = #{goodsType,jdbcType=VARCHAR},
-      goods_units_id = #{goodsUnitsId,jdbcType=VARCHAR},
+      goods_units = #{goodsUnits,jdbcType=VARCHAR},
       deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
       remark = #{remark,jdbcType=VARCHAR},
       use_type_id = #{useTypeId,jdbcType=VARCHAR},
