@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,17 +24,18 @@ import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.GoodsSourceService;
-import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.OrderApplyService;
-import com.iflytransporter.api.service.OrderService;
+import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.service.UseTypeService;
+import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -45,9 +47,10 @@ import io.swagger.annotations.ApiParam;
 @Controller
 @RequestMapping("/shipper/order/{version}")
 public class ShipperOrderController {
-	
 	@Autowired
-	private OrderService orderService;
+	private UserService userService;
+	@Autowired
+	private ShipperOrderService shipperOrderService;
 	@Autowired
 	private ProvinceService provinceService;
 	@Autowired
@@ -81,7 +84,7 @@ public class ShipperOrderController {
 		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
 			status = null;
 		}
-		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status,Status.Order_Auth_Yes);
+		PageInfo<Order> page = shipperOrderService.queryPage(pageNo,pageSize, userId,status,Status.Order_Auth_Yes);
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
 		}
@@ -121,7 +124,7 @@ public class ShipperOrderController {
 		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
 			status = null;
 		}
-		List<Order> list = orderService.list(userId,status,Status.Order_Auth_Yes);
+		List<Order> list = shipperOrderService.list(userId,status,Status.Order_Auth_Yes);
 		List<OrderResp> result = new ArrayList<OrderResp>();
 		for(Order order:list){
 			OrderResp op =new OrderResp(order);
@@ -161,7 +164,12 @@ public class ShipperOrderController {
 		if(order.getStatus()==null){
 			order.setStatus(Status.Order_Publish);
 		}
-		int result = orderService.save(order);
+		User user = userService.detailByCache(userId);
+		if(Status.User_Admin==user.getLevel()){
+			order.setAuthDate(new Date());
+			order.setAuthStatus(Status.Order_Auth_Yes);
+		}
+		int result = shipperOrderService.save(order);
 		if(result > 0){
 			if(order.isAddGoodsSource()){
 				GoodsSource gs = new GoodsSource(order);
@@ -181,7 +189,7 @@ public class ShipperOrderController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		Order order = orderService.query(id);
+		Order order = shipperOrderService.query(id);
 		OrderResp op = new OrderResp(order);  
 		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
 		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
@@ -198,7 +206,7 @@ public class ShipperOrderController {
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		//审核申请通过详情
 		if(Status.Order_Transfer==order.getStatus()){
-			List<Map<String,Object>> applyDetail = orderService.detailAudit(id,Status.Order_Audit_Yes);
+			List<Map<String,Object>> applyDetail = shipperOrderService.detailAudit(id,Status.Order_Audit_Yes);
 			if(applyDetail!=null && applyDetail.size() == 1){
 				op.setApplyDetail(applyDetail.get(0));
 			}
@@ -211,7 +219,7 @@ public class ShipperOrderController {
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Order order){
-		int result = orderService.update(order);
+		int result = shipperOrderService.update(order);
 		if(result > 0){
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", order.getId());
@@ -225,7 +233,7 @@ public class ShipperOrderController {
 	public Map<String,Object> cancel(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		int result = orderService.cancel(id);
+		int result = shipperOrderService.cancel(id);
 		if(result > 0){
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", id);
@@ -239,7 +247,7 @@ public class ShipperOrderController {
 	public Map<String,Object> delete(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		int result = orderService.delete(id);
+		int result = shipperOrderService.delete(id);
 		if(result > 0){
 			Map<String,Object> data = new HashMap<String,Object>();
 			data.put("id", id);
@@ -253,7 +261,7 @@ public class ShipperOrderController {
 	public Map<String,Object> detailAudit(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		Order order = orderService.query(id);
+		Order order = shipperOrderService.query(id);
 		OrderResp op = new OrderResp(order);  
 		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
 		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
@@ -269,7 +277,7 @@ public class ShipperOrderController {
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		
-		op.setApplyList(orderService.detailAudit(id,Status.Order_Audit_No));
+		op.setApplyList(shipperOrderService.detailAudit(id,Status.Order_Audit_No));
 		return ResponseUtil.successResult(op);
 	}
 	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
@@ -290,12 +298,13 @@ public class ShipperOrderController {
 	@ResponseBody
 	public Map<String,Object> auditOk(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
 		String orderId = (String) requestMap.get("orderId");
 		String applyId = (String) requestMap.get("applyId");
 		//修改一个申请状态,其他申请全部取消
 		int result =  orderApplyService.updateStatus(orderId,applyId, Status.Order_Audit_Yes, Status.Order_Audit_Cancel);
 		if(result > 0){
-			orderService.updateStatus(orderId, Status.Order_Transfer);
+			shipperOrderService.auditOk(orderId, applyId, userId);
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();

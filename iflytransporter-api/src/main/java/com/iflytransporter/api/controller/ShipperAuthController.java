@@ -59,20 +59,20 @@ public class ShipperAuthController {
 	private PaymentTypeService paymentTypeService;
 	@Autowired
 	private UseTypeService useTypeService;
-	@Autowired
-	private GoodsUnitsService goodsUnitsService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json")
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 授权状态:0-未授权,1-已授权,2-授权取消;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10} 授权状态:0-未授权,1-已授权{1-已授权,2-授权取消};pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-
+		if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
+			status = null;
+		}
 		User user = userService.detailByCache(userId);
 		PageInfo<Order> page = null;
 		if(user.getLevel()==Status.User_Admin){
@@ -117,6 +117,9 @@ public class ShipperAuthController {
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		List<Order> list = null;
+		if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
+			status = null;
+		}
 		if(user.getLevel()==Status.User_Admin){
 			list = shipperAuthService.list(user.getCompanyId(),null,status);
 		}else{

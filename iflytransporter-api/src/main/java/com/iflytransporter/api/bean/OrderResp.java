@@ -29,6 +29,7 @@ public class OrderResp{
 		this.authDate = order.getAuthDate();
 		this.orderNo = order.getOrderNo();
 		this.weight = order.getWeight();
+		this.goodsUnits = order.getGoodsUnits();
 	}
 
 
@@ -64,6 +65,7 @@ public class OrderResp{
     
     private Integer weight;
 
+	private String goodsUnits;
 	
 	private CommonParam departureProvince;
 
@@ -79,8 +81,6 @@ public class OrderResp{
     
 	private CommonParam carType;
 	
-	private CommonParam goodsUnits;
-
 	private CommonParam useType;
 
     private CommonParam handlingType;
@@ -140,14 +140,6 @@ public class OrderResp{
 
 	public void setCarType(CommonParam carType) {
 		this.carType = carType;
-	}
-
-	public CommonParam getGoodsUnits() {
-		return goodsUnits;
-	}
-
-	public void setGoodsUnits(CommonParam goodsUnits) {
-		this.goodsUnits = goodsUnits;
 	}
 
 	public CommonParam getHandlingType() {
@@ -332,6 +324,14 @@ public class OrderResp{
 
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	public String getGoodsUnits() {
+		return goodsUnits;
+	}
+
+	public void setGoodsUnits(String goodsUnits) {
+		this.goodsUnits = goodsUnits;
 	}
 	
 }

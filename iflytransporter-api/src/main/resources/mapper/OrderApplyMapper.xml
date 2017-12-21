@@ -7,7 +7,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="INTEGER" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
     <result column="costs" property="costs" jdbcType="DOUBLE" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
@@ -74,11 +74,10 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.OrderApply" >
-    insert into t_order_apply (id, create_date, update_date, 
-      data_status, desp, status, 
+    insert into t_order_apply (id, update_date,  desp, 
       costs, order_id, transporter_id)
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+    values (#{id,jdbcType=VARCHAR}, now(), 
+      #{desp,jdbcType=VARCHAR}, 
       #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
@@ -129,7 +128,7 @@
         #{desp,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=SMALLINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
         #{costs,jdbcType=DOUBLE},
@@ -158,7 +157,7 @@
         desp = #{desp,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=SMALLINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
         costs = #{costs,jdbcType=DOUBLE},
@@ -178,7 +177,7 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=INTEGER},
       desp = #{desp,jdbcType=VARCHAR},
-      status = #{status,jdbcType=SMALLINT},
+      status = #{status,jdbcType=INTEGER},
       costs = #{costs,jdbcType=DOUBLE},
       order_id = #{orderId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR}

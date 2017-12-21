@@ -22,7 +22,7 @@ import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.GoodsSourceService;
 import com.iflytransporter.api.service.HandlingTypeService;
-import com.iflytransporter.api.service.OrderService;
+import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.service.UseTypeService;
@@ -44,7 +44,7 @@ public class ShipperWaybillController {
 	@Autowired
 	private WaybillService waybillService;
 	@Autowired
-	private OrderService orderService;
+	private ShipperOrderService shipperOrderService;
 	@Autowired
 	private ProvinceService provinceService;
 	@Autowired
@@ -79,7 +79,7 @@ public class ShipperWaybillController {
 		List<WaybillResp> result = new ArrayList<WaybillResp>();
 		for(WaybillBO waybill:list){
 			WaybillResp op =new WaybillResp(waybill);
-			Order order = orderService.query(waybill.getOrderId());
+			Order order = shipperOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
 			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
 			op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
@@ -109,7 +109,7 @@ public class ShipperWaybillController {
 		List<WaybillResp> result = new ArrayList<WaybillResp>();
 		for(WaybillBO waybill:list){
 			WaybillResp op =new WaybillResp(waybill);
-			Order order = orderService.query(waybill.getOrderId());
+			Order order = shipperOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
 			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
 			op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
@@ -135,7 +135,7 @@ public class ShipperWaybillController {
 		String id = (String) requestMap.get("id");
 		WaybillBO waybill = waybillService.query(id);
 		WaybillResp op =new WaybillResp(waybill);
-		Order order = orderService.query(waybill.getOrderId());
+		Order order = shipperOrderService.query(waybill.getOrderId());
 		op.setOrder(order);
 		
 		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));

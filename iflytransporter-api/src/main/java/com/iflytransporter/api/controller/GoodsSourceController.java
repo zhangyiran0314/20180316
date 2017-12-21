@@ -59,7 +59,7 @@ public class GoodsSourceController {
 	@Autowired
 	private GoodsUnitsService goodsUnitsService;
 	
-	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json")
+	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
@@ -92,11 +92,10 @@ public class GoodsSourceController {
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
 	}
-	@ApiOperation(value="list", notes="列表",produces = "application/json")
+	@ApiOperation(value="list", notes="列表",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  Map<String,Object> requestMap){
+	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		List<GoodsSource> list = goodsSourceService.list(userId);
 		List<GoodsSourceResp> result = new ArrayList<GoodsSourceResp>();
@@ -137,7 +136,7 @@ public class GoodsSourceController {
 		return ResponseUtil.failureResult();
 	}
 	
-	@ApiOperation(value="detail", notes="详情",produces = "application/json")
+	@ApiOperation(value="detail", notes="详情",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
@@ -161,7 +160,7 @@ public class GoodsSourceController {
 		op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 		return ResponseUtil.successResult(op);
 	}
-	@ApiOperation(value="modify", notes="修改",produces = "application/json")
+	@ApiOperation(value="modify", notes="修改",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="modify", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
@@ -169,7 +168,7 @@ public class GoodsSourceController {
 		int result = goodsSourceService.update(goodsSource);
 		if(result > 0){
 			GoodsSource data = goodsSourceService.query(goodsSource.getId());
-			return ResponseUtil.successResult(data);
+			return ResponseUtil.successResult(new GoodsSourceResp(data));
 		}
 		return ResponseUtil.failureResult();
 	}

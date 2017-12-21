@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.api.mapper.TransporterOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Order" >
+   <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="data_status" jdbcType="SMALLINT" property="dataStatus" />
+    <result column="desp" jdbcType="VARCHAR" property="desp" />
+    <result column="departure_province_id" property="departureProvinceId" jdbcType="VARCHAR" />
+    <result column="departure_city_id" property="departureCityId" jdbcType="VARCHAR" />
+    <result column="departure_area_id" property="departureAreaId" jdbcType="VARCHAR" />
+    <result column="destination_province_id" property="destinationProvinceId" jdbcType="VARCHAR" />
+    <result column="destination_city_id" property="destinationCityId" jdbcType="VARCHAR" />
+    <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
+    <result column="car_type_id" jdbcType="VARCHAR" property="carTypeId" />
+    <result column="tyre_no" jdbcType="VARCHAR" property="tyreNo" />
+    <result column="car_length" jdbcType="INTEGER" property="carLength" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="goods_units" jdbcType="VARCHAR" property="goodsUnits" />
+    <result column="deliver_date" jdbcType="TIMESTAMP" property="deliverDate" />
+    <result column="costs" jdbcType="INTEGER" property="costs" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="shipper_id" jdbcType="VARCHAR" property="shipperId" />
+    <result column="insurance_id" jdbcType="VARCHAR" property="insuranceId" />
+    <result column="repeat_flag" jdbcType="INTEGER" property="repeatFlag" />
+    <result column="use_type_id" jdbcType="VARCHAR" property="useTypeId" />
+    <result column="length" jdbcType="VARCHAR" property="length" />
+    <result column="width" jdbcType="VARCHAR" property="width" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="handling_type_id" jdbcType="VARCHAR" property="handlingTypeId" />
+    <result column="payment_type_id" jdbcType="VARCHAR" property="paymentTypeId" />
+    <result column="auth_status" jdbcType="INTEGER" property="authStatus" />
+    <result column="auth_date" jdbcType="DATE" property="authDate" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+  </resultMap>
+
+  
+  <sql id="Base_Column_List" >
+     id, create_date, update_date, data_status, desp, departure_province_id, departure_city_id, 
+    departure_area_id, destination_province_id, destination_city_id, destination_area_id, 
+    car_type_id, tyre_no, car_length, goods_type, goods_units, deliver_date, costs, remark, 
+    status, shipper_id, insurance_id, repeat_flag, use_type_id, length, width, height, handling_type_id, 
+    payment_type_id, auth_status, auth_date,order_no,company_id,weight
+  </sql>
+   <sql id="Valid_SQL" >
+    and data_status = 0
+  </sql>
+  
+   <select id="queryAll" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where 1 = 1 
+    <if test="status != null" >
+      and status  = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="status == null" >
+      and status  != ${@com.iflytransporter.common.enums.Status@Order_Publish}
+    </if>
+      and auth_status  = ${@com.iflytransporter.common.enums.Status@Order_Auth_Yes}
+    <include refid ="Valid_SQL"/>
+  </select>
+  
+   <select id="queryAllAuth" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where 1 = 1 
+    <if test="companyId != null" >
+      and company_id  = #{companyId,jdbcType=VARCHAR}
+    </if>
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="authStatus != null" >
+      and auth_status  = #{authStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="authStatus == null" >
+      and auth_status ! = ${@com.iflytransporter.common.enums.Status@Order_Auth_No}
+    </if>
+    <include refid ="Valid_SQL"/>
+  </select>
+  
+   <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    update  t_order set data_status =  ${@com.iflytransporter.common.enums.Status@Status_Invalid},update_date = now() 
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateStatus">
+    update  t_order 
+     <set>
+       <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+       </if>
+        update_date =  now(),
+      </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="updateAuthStatus">
+    update  t_order set
+       <if test="authStatus != null">
+        auth_status = #{authStatus,jdbcType=INTEGER},
+       </if>
+        auth_date =  now(),
+        update_date =  now(),
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="detailAudit" resultType="java.util.HashMap">
+  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,e.grade,f.count
+	from t_order a
+	left join t_order_apply b on a.id = b.order_id  
+	left JOIN t_user c on b.transporter_id = c.id
+	left join t_company d on c.company_id = d.id
+	left join (select transporter_id ,AVG(grade) as grade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
+	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on b.transporter_id = f.transporter_id
+ where a.id = #{id,jdbcType=VARCHAR} and b.status =  #{applyStatus,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+ 
+  </mapper>

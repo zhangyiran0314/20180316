@@ -6,7 +6,7 @@ public class OrderApply extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 
-	private Short status;
+	private Integer status;
 
     private Double costs;
 
@@ -15,11 +15,15 @@ public class OrderApply extends BaseEntity{
     private String transporterId;
 
 
-    public Short getStatus() {
+    public OrderApply() {
+		super();
+	}
+    
+	public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
