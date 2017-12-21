@@ -14,7 +14,10 @@ import com.iflytransporter.api.mapper.ShipperOrderMapper;
 import com.iflytransporter.api.mapper.WaybillMapper;
 import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.bean.Waybill;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.utils.UUIDUtil;
 
 @Service("shipperOrderService")
 public class ShipperOrderServiceImpl implements ShipperOrderService{
@@ -71,13 +74,25 @@ public class ShipperOrderServiceImpl implements ShipperOrderService{
 
 	@Override
 	@Transactional 
-	public int auditOk(String orderId,String orderApplyId,String shipperId) {
-		 int result = orderApplyMapper.updateStatus(orderApplyId, Status.Order_Audit_Yes);
-		 if(result > 0 ){
-			 orderApplyMapper.updateOtherStatus(orderId, Status.Order_Audit_Cancel);
-			 shipperOrderMapper.updateStatus(orderId, Status.Order_Transfer);
-			// waybillMapper.insert(record);
-		 }
+	public int auditOk(String orderId,String applyId) {
+		OrderApply oa = orderApplyMapper.selectByPrimaryKey(applyId);
+		Order order = shipperOrderMapper.selectByPrimaryKey(orderId);
+		Waybill wb = new Waybill();
+		wb.setId(UUIDUtil.UUID());
+		wb.setOrderId(order.getId());
+		wb.setOrderNo(order.getOrderNo());
+		wb.setShipperId(order.getShipperId());
+		wb.setShipperCompanyId(order.getCompanyId());
+		wb.setCosts(oa.getCosts());
+		wb.setTransporterId(oa.getTransporterId());
+		wb.setTransporterCompanyId(oa.getCompanyId());
+		
+		int result = waybillMapper.insert(wb);
+		if(result > 0 ){
+			orderApplyMapper.updateStatus(applyId, Status.Order_Audit_Yes);
+			orderApplyMapper.updateOtherStatus(orderId, Status.Order_Audit_Cancel);
+			shipperOrderMapper.updateStatus(orderId, Status.Order_Transfer);
+		}
 		return result;
 	}
 

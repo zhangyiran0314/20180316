@@ -14,7 +14,7 @@ public class Waybill extends BaseEntity{
 
     private Integer isTransfer;
 
-    private String transporterTransferId;
+    private String transferTransporterId;
 
     private String attachmentTakeId;
 
@@ -61,14 +61,6 @@ public class Waybill extends BaseEntity{
 
     public void setIsTransfer(Integer isTransfer) {
         this.isTransfer = isTransfer;
-    }
-
-    public String getTransporterTransferId() {
-        return transporterTransferId;
-    }
-
-    public void setTransporterTransferId(String transporterTransferId) {
-        this.transporterTransferId = transporterTransferId == null ? null : transporterTransferId.trim();
     }
 
     public String getAttachmentTakeId() {
@@ -122,5 +114,17 @@ public class Waybill extends BaseEntity{
     public void setTransporterCompanyId(String transporterCompanyId) {
         this.transporterCompanyId = transporterCompanyId == null ? null : transporterCompanyId.trim();
     }
+
+	public String getShipperCompanyId() {
+		return shipperCompanyId;
+	}
+
+	public String getTransferTransporterId() {
+		return transferTransporterId;
+	}
+
+	public void setTransferTransporterId(String transferTransporterId) {
+		this.transferTransporterId = transferTransporterId;
+	}
     
 }

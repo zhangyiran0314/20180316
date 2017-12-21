@@ -173,7 +173,8 @@ public class TransporterOrderController {
 		String costss =  (String) requestMap.get("costs");
 		Double costs = Double.parseDouble(costss);
 		String userId =  (String) request.getAttribute("userId");
-		OrderApply result = transporterOrderService.apply(id, userId,costs);
+		User user = userService.detailByCache(userId);
+		OrderApply result = transporterOrderService.apply(id, costs, user);
 		if(result != null){
 			return ResponseUtil.successResult(result);
 		}

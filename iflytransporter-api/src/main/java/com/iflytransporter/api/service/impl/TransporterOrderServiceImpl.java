@@ -13,6 +13,7 @@ import com.iflytransporter.api.mapper.TransporterOrderMapper;
 import com.iflytransporter.api.service.TransporterOrderService;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 @Service("transporterOrderService")
@@ -50,13 +51,14 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		return transporterOrderMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public OrderApply apply(String id, String userId,Double costs) {
-		Order order = transporterOrderMapper.selectByPrimaryKey(id);
+	public OrderApply apply(String orderId, Double costs,User user) {
+//		Order order = transporterOrderMapper.selectByPrimaryKey(id);
 		OrderApply oa = new OrderApply();
 		oa.setId(UUIDUtil.UUID());
 		oa.setCosts(costs);
-		oa.setOrderId(id);
-		oa.setTransporterId(userId);
+		oa.setOrderId(orderId);
+		oa.setTransporterId(user.getId());
+		oa.setCompanyId(user.getCompanyId());
 		int result = orderApplyMapper.insert(oa);
 		if(result > 0){
 			return oa;

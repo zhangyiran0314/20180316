@@ -142,7 +142,7 @@ public class ShipperOrderController {
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			//待审核申请
-			if(Status.Order_Publish==order.getStatus()){
+			if(Status.Order_Publish==order.getStatus().intValue()){
 				op.setApplyTotal(orderApplyService.count(order.getId(),Status.Order_Audit_No));
 			}
 			result.add(op);
@@ -165,6 +165,7 @@ public class ShipperOrderController {
 			order.setStatus(Status.Order_Publish);
 		}
 		User user = userService.detailByCache(userId);
+		order.setCompanyId(user.getCompanyId());
 		if(Status.User_Admin==user.getLevel()){
 			order.setAuthDate(new Date());
 			order.setAuthStatus(Status.Order_Auth_Yes);
@@ -205,7 +206,7 @@ public class ShipperOrderController {
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		//审核申请通过详情
-		if(Status.Order_Transfer==order.getStatus()){
+		if(Status.Order_Transfer==order.getStatus().intValue()){
 			List<Map<String,Object>> applyDetail = shipperOrderService.detailAudit(id,Status.Order_Audit_Yes);
 			if(applyDetail!=null && applyDetail.size() == 1){
 				op.setApplyDetail(applyDetail.get(0));
@@ -298,13 +299,13 @@ public class ShipperOrderController {
 	@ResponseBody
 	public Map<String,Object> auditOk(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
-		String userId =  (String) request.getAttribute("userId");
 		String orderId = (String) requestMap.get("orderId");
 		String applyId = (String) requestMap.get("applyId");
 		//修改一个申请状态,其他申请全部取消
-		int result =  orderApplyService.updateStatus(orderId,applyId, Status.Order_Audit_Yes, Status.Order_Audit_Cancel);
+		int result = shipperOrderService.auditOk(orderId, applyId);
 		if(result > 0){
-			shipperOrderService.auditOk(orderId, applyId, userId);
+			Map<String,Object> data = new HashMap<String,Object>();
+			data.put("id", orderId);
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();

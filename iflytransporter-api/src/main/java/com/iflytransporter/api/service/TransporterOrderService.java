@@ -6,6 +6,7 @@ import java.util.Map;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.bean.User;
 
 public interface TransporterOrderService  {
 	
@@ -33,7 +34,7 @@ public interface TransporterOrderService  {
 	 * @param userId
 	 * @return
 	 */
-	OrderApply apply(String id,String userId,Double costs);
+	OrderApply apply(String id,Double costs,User user);
 	/**
 	 * 审核详情
 	 */

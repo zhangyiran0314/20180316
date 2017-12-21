@@ -49,6 +49,6 @@ public interface ShipperOrderService  {
 	 * @param status
 	 * @return
 	 */
-	int auditOk(String orderId,String orderApplyId,String shipperId);
+	int auditOk(String orderId,String orderApplyId);
 	
 }

@@ -120,18 +120,18 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Waybill" >
-    insert into t_waybill (id, create_date, update_date, 
-      data_status, desp, order_id, 
+    insert into t_waybill (id, update_date, 
+       desp, order_id, 
       shipper_id, transporter_id, is_transfer, 
       transfer_transporter_id, attachment_take_id, 
-      attachment_deliver_id, status, costs, 
+      attachment_deliver_id,costs, 
       order_no, shipper_company_id, transporter_company_id
       )
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, now(), 
+      #{desp,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
       #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{isTransfer,jdbcType=INTEGER}, 
       #{transferTransporterId,jdbcType=VARCHAR}, #{attachmentTakeId,jdbcType=VARCHAR}, 
-      #{attachmentDeliverId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{costs,jdbcType=DOUBLE}, 
+      #{attachmentDeliverId,jdbcType=VARCHAR}, #{costs,jdbcType=DOUBLE}, 
       #{orderNo,jdbcType=VARCHAR}, #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}
       )
   </insert>

@@ -14,6 +14,7 @@ public class OrderApply extends BaseEntity{
 
     private String transporterId;
 
+    private String companyId;
 
     public OrderApply() {
 		super();
@@ -51,4 +52,12 @@ public class OrderApply extends BaseEntity{
         this.transporterId = transporterId == null ? null : transporterId.trim();
     }
 
+	public String getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+    
 }
