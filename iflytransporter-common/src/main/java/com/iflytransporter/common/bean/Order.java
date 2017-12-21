@@ -46,7 +46,7 @@ public class Order {
 
     private String remark;
 
-    private Short status;
+    private Integer status;
 
     private String shipperId;
 
@@ -226,11 +226,11 @@ public class Order {
         this.remark = remark == null ? null : remark.trim();
     }
 
-    public Short getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

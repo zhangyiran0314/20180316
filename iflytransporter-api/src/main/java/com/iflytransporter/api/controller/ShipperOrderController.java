@@ -65,8 +65,6 @@ public class ShipperOrderController {
 	@Autowired
 	private UseTypeService useTypeService;
 	@Autowired
-	private GoodsUnitsService goodsUnitsService;
-	@Autowired
 	private OrderApplyService orderApplyService;
 	
 	
@@ -74,12 +72,15 @@ public class ShipperOrderController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2,pageNo:1,pageSize:10} 发布状态:0-发布中,1-已成交,2-已取消;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10} 发布状态:0-发布中,{1-已成交,2-已取消},此列表只能看到已通过授权的接口;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
+		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
+			status = null;
+		}
 		PageInfo<Order> page = orderService.queryPage(pageNo,pageSize, userId,status,Status.Order_Auth_Yes);
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
@@ -114,9 +115,12 @@ public class ShipperOrderController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2} 发布状态:0-发布中,1-已成交,2-已取消") Map<String,Object> requestMap){
+			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10} 发布状态:0-发布中,{1-已成交,2-已取消},此列表只能看到已通过授权的接口;") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
+		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
+			status = null;
+		}
 		List<Order> list = orderService.list(userId,status,Status.Order_Auth_Yes);
 		List<OrderResp> result = new ArrayList<OrderResp>();
 		for(Order order:list){
@@ -154,18 +158,14 @@ public class ShipperOrderController {
 		if(StringUtils.isBlank(order.getShipperId())){
 			order.setShipperId(userId);
 		}
+		if(order.getStatus()==null){
+			order.setStatus(Status.Order_Publish);
+		}
 		int result = orderService.save(order);
 		if(result > 0){
 			if(order.isAddGoodsSource()){
-				GoodsSource gs = new GoodsSource();
+				GoodsSource gs = new GoodsSource(order);
 				gs.setId(UUIDUtil.UUID());
-				gs.setDepartureProvinceId(order.getDepartureProvinceId());
-				gs.setDepartureCityId(order.getDepartureCityId());
-				gs.setDepartureAreaId(order.getDepartureAreaId());
-				gs.setDestinationProvinceId(order.getDestinationProvinceId());
-				gs.setDestinationCityId(order.getDestinationCityId());
-				gs.setDestinationAreaId(order.getDestinationAreaId());
-				gs.setUserId(order.getShipperId());
 				goodsSourceService.save(gs);
 			}
 			Map<String,Object> data = new HashMap<String,Object>();

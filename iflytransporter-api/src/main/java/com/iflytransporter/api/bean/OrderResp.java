@@ -46,7 +46,7 @@ public class OrderResp{
 
     private String remark;
 
-    private Short status;
+    private Integer status;
 
     private Integer repeatFlag;
 
@@ -238,11 +238,11 @@ public class OrderResp{
 		this.remark = remark;
 	}
 
-	public Short getStatus() {
+	public Integer getStatus() {
 		return status;
 	}
 
-	public void setStatus(Short status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

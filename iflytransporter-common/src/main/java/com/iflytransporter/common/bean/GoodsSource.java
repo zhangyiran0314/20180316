@@ -55,7 +55,36 @@ public class GoodsSource {
 
     private String paymentTypeId;
 
-    public String getId() {
+    private Integer weight;
+    
+    public GoodsSource() {
+	}
+
+	public GoodsSource(Order order) {
+		this.userId = order.getShipperId();
+		this.departureProvinceId = order.getDepartureProvinceId();
+		this.departureCityId = order.getDepartureCityId();
+		this.departureAreaId = order.getDepartureAreaId();
+		this.destinationProvinceId = order.getDestinationProvinceId();
+		this.destinationCityId = order.getDestinationCityId();
+		this.destinationAreaId = order.getDestinationAreaId();
+		this.carTypeId = order.getCarTypeId();
+		this.tyreNo = order.getTyreNo();
+		this.carLength = order.getCarLength();
+		this.goodsType = order.getGoodsType();
+		this.goodsUnits = order.getGoodsUnits();
+		this.deliverDate = order.getDeliverDate();
+		this.remark = order.getRemark();
+		this.useTypeId = order.getUseTypeId();
+		this.length = order.getLength();
+		this.width = order.getWidth();
+		this.height = order.getHeight();
+		this.handlingTypeId = order.getHandlingTypeId();
+		this.paymentTypeId = order.getPaymentTypeId();
+		this.weight = order.getWeight();
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -262,4 +291,13 @@ public class GoodsSource {
     public void setPaymentTypeId(String paymentTypeId) {
         this.paymentTypeId = paymentTypeId == null ? null : paymentTypeId.trim();
     }
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+    
 }

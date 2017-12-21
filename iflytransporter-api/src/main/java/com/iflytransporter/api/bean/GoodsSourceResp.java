@@ -22,6 +22,8 @@ public class GoodsSourceResp {
     private String width;
 
     private String height;
+    
+    private Integer weight;
 	
 	private CommonParam departureProvince;
 
@@ -44,7 +46,7 @@ public class GoodsSourceResp {
     private CommonParam handlingType;
 
     private CommonParam paymentType;
-
+    
 	public GoodsSourceResp(GoodsSource gs) {
 		this.id = gs.getId();
 		this.tyreNo = gs.getTyreNo();
@@ -55,6 +57,7 @@ public class GoodsSourceResp {
 		this.length = gs.getLength();
 		this.width = gs.getWidth();
 		this.height = gs.getHeight();
+		this.weight =gs.getWeight();
 	}
 
 	public String getId() {
@@ -215,6 +218,14 @@ public class GoodsSourceResp {
 
 	public void setPaymentType(CommonParam paymentType) {
 		this.paymentType = paymentType;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	
 }
