@@ -62,7 +62,7 @@
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_car
@@ -75,12 +75,12 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car (id, create_date, update_date, 
       data_status, desp, name, 
-      code, attachment_id_1, attachment_id_2
-      )
+      code, attachment_id_1, attachment_id_2, 
+      company_id)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}
-      )
+      #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car
@@ -112,6 +112,9 @@
       <if test="attachmentId2 != null" >
         attachment_id_2,
       </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +143,9 @@
       </if>
       <if test="attachmentId2 != null" >
         #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -170,6 +176,9 @@
       <if test="attachmentId2 != null" >
         attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
       </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -182,7 +191,8 @@
       name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
-      attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR}
+      attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

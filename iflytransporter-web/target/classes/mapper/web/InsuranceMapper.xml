@@ -20,14 +20,6 @@
   <sql id="Blob_Column_List" >
     detail
   </sql>
-  
-   <select id="queryAll" resultMap="ResultMapWithBLOBs">
-  	select 
-    <include refid="Base_Column_List" />
-    from t_insurance
-  </select>
-  
-  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

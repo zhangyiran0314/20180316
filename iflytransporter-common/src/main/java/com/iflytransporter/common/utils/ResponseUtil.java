@@ -1,6 +1,7 @@
 package com.iflytransporter.common.utils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.iflytransporter.common.enums.BuzExceptionEnums;
@@ -73,6 +74,18 @@ public class ResponseUtil {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put(Code_Key,Code_Forbidden);
 		result.put(Msg_Key, Msg_Forbidden);
+		return result;
+	}
+	
+	//for web queryPage
+	static String Count_Key ="count";
+	@SuppressWarnings("rawtypes")
+	public static Map<String,Object> successPage(Long total,List data){
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put(Code_Key,Code_Success);
+		result.put(Msg_Key, Msg_Success);
+		result.put(Count_Key, total);
+		result.put(Data_Key, data);
 		return result;
 	}
 }
