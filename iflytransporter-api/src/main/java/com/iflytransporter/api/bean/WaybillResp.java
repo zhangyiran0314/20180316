@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.Waybill;
 import com.iflytransporter.common.bean.WaybillBO;
 
 import io.swagger.annotations.ApiModelProperty;
@@ -67,6 +68,13 @@ public class WaybillResp {
     	this.id = waybill.getId();
 		this.attachmentTakeIdLink = waybill.getAttachmentTakeIdLink();
 		this.attachmentDeliverIdLink = waybill.getAttachmentDeliverIdLink();
+		this.status = waybill.getStatus();
+		this.costs = waybill.getCosts();
+		this.orderNo = waybill.getOrderNo();
+	}
+    public WaybillResp(Waybill waybill) {
+    	this.orderId = waybill.getOrderId();
+    	this.id = waybill.getId();
 		this.status = waybill.getStatus();
 		this.costs = waybill.getCosts();
 		this.orderNo = waybill.getOrderNo();

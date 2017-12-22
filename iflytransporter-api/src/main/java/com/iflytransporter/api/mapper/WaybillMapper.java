@@ -21,7 +21,13 @@ public interface WaybillMapper {
 
     int updateByPrimaryKey(Waybill record);
     
-    List<WaybillBO> queryAllBO(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,@Param("status")Integer status);
+    List<Waybill> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
+    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
+    		@Param("status")Integer status);
+    
+    List<WaybillBO> queryAllBO(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
+    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
+    		@Param("status")Integer status);
     
     WaybillBO selectByPrimaryKeyBO(String id);
     

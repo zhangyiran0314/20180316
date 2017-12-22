@@ -53,9 +53,9 @@
    select
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.order_id, a.shipper_id, a.transporter_id, 
     a.is_transfer, a.transfer_transporter_id, a.attachment_take_id, a.attachment_deliver_id, 
-    a.status, a.costs, a.order_no
+    a.status, a.costs, a.order_no,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_take_id_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link
      from t_waybill a
     left join t_attachment b on a.attachment_take_id = b.id
     left join t_attachment c on a.attachment_deliver_id = c.id
@@ -66,6 +66,15 @@
      <if test="transporterId != null" >
       and transporter_id  = #{transporterId,jdbcType=VARCHAR}
     </if>
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+    <if test="shipperCompanyId != null" >
+      and shipper_company_id  = #{shipperCompanyId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterCompanyId != null" >
+      and transporter_company_id  = #{transporterCompanyId,jdbcType=VARCHAR}
+    </if>
      <if test="status != null" >
       and status  = #{status,jdbcType=VARCHAR}
     </if>
@@ -75,9 +84,9 @@
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.order_id, a.shipper_id, a.transporter_id, 
     a.is_transfer, a.transfer_transporter_id, a.attachment_take_id, a.attachment_deliver_id,
      a.shipper_company_id, a.transporter_company_id,
-    a.status, a.costs, a.order_no
+    a.status, a.costs, a.order_no,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_take_id_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_deliver_id_link
      from t_waybill a
     left join t_attachment b on a.attachment_take_id = b.id
     left join t_attachment c on a.attachment_deliver_id = c.id
@@ -89,11 +98,20 @@
     <include refid="Base_Column_List" />
     from t_waybill
     where 1 = 1 
-    <if test="shipperId != null" >
+     <if test="shipperId != null" >
       and shipper_id  = #{shipperId,jdbcType=VARCHAR}
     </if>
      <if test="transporterId != null" >
       and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+    <if test="shipperId != null" >
+      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
+    </if>
+    <if test="shipperCompanyId != null" >
+      and shipper_company_id  = #{shipperCompanyId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterCompanyId != null" >
+      and transporter_company_id  = #{transporterCompanyId,jdbcType=VARCHAR}
     </if>
      <if test="status != null" >
       and status  = #{status,jdbcType=VARCHAR}
@@ -106,6 +124,14 @@
   left join t_company b on a.shipper_company_id= b.id
   left join (select transporter_company_id ,AVG(grade) as grade from t_comment GROUP BY transporter_company_id) c on a.transporter_company_id= c.transporter_company_id
   left join (select transporter_company_id ,count(1) as count from t_waybill GROUP BY transporter_company_id) d on a.transporter_company_id = d.transporter_company_id
+ 	where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+   <select id="detailTransporter" resultType="java.util.Map">
+  	select b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,d.grade as grade
+	from t_waybill a
+	left join t_user b on a.transporter_id = b.id
+	left join t_car c on a.car_id  = c.id
+	left join (select transporter_id ,AVG(grade) as grade from t_comment GROUP BY transporter_id) d on a.transporter_id= d.transporter_id
  	where a.id = #{id,jdbcType=VARCHAR}
   </select>
   
