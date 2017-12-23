@@ -56,4 +56,10 @@ public class CarTypeController {
 	public  Map<String,Object> edit(Car obj,HttpServletRequest request){
 		return ResponseUtil.successResult();
 	}
+	@RequestMapping("delete")
+	@ResponseBody
+	public  Map<String,Object> delete(String id,HttpServletRequest request){
+		
+		return ResponseUtil.successResult();
+	}
 }

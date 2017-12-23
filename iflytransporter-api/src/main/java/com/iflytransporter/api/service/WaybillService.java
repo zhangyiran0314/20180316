@@ -5,10 +5,10 @@ import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Waybill;
-import com.iflytransporter.common.bean.WaybillBO;
 
 public interface WaybillService {
-	WaybillBO query(String id);
+	
+	Waybill query(String id);
 	/**
 	 * 分页查询
 	 * @param pageNo
@@ -17,7 +17,7 @@ public interface WaybillService {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<WaybillBO> queryPageBO(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status);
+	//PageInfo<WaybillBO> queryPageBO(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status);
 	
 	/**
 	 * 列表
@@ -25,7 +25,7 @@ public interface WaybillService {
 	 * @param status 发布状态
 	 * @return
 	 */
-	List<WaybillBO> listBO(String userId,String shipperCompanyId,Integer status);
+	//List<WaybillBO> listBO(String userId,String shipperCompanyId,Integer status);
 	
 	/**
 	 * 分页查询
@@ -44,7 +44,6 @@ public interface WaybillService {
 	 * @return
 	 */
 	List<Waybill> list(String userId,String shipperCompanyId,Integer status);
-	
 	/**
 	 * 运单公司信息
 	 * @param companyId

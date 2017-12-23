@@ -26,10 +26,10 @@
 		    <div class="layui-form-item">
 				<input class="layui-input" name="password" id="password" placeholder="密码" lay-verify="required" type="password" autocomplete="off">
 		    </div>
-		    <div class="layui-form-item form_code">
+		    <%-- <div class="layui-form-item form_code">
 				<input class="layui-input" name="code" placeholder="验证码" lay-verify="required" type="text" autocomplete="off">
 				<div class="code"><img src="<%=request.getContextPath()%>/images/code.jpg" width="116" height="36"></div>
-		    </div>
+		    </div> --%>
 			<button class="layui-btn login_btn" type="button">登录</button>
 		</form>
 	</div>

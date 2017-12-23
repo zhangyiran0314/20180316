@@ -150,7 +150,7 @@ public class ShipperWaybillController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		WaybillBO waybill = waybillService.query(id);
+		Waybill waybill = waybillService.query(id);
 		WaybillResp op =new WaybillResp(waybill);
 		Order order = shipperOrderService.query(waybill.getOrderId());
 		op.setOrder(order);
@@ -167,6 +167,7 @@ public class ShipperWaybillController {
 		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+		
 		//公司信息
 		op.setCompany(waybillService.detailCompany(id));
 		//车主信息

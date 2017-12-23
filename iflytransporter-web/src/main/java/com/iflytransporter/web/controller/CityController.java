@@ -31,9 +31,9 @@ public class CityController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,HttpServletRequest request){
-		PageInfo<CityBO> page = cityService.queryPage( pageNo, 10);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,HttpServletRequest request){
+		PageInfo<CityBO> queryPage = cityService.queryPage( page, limit);
+		return ResponseUtil.successPage(queryPage.getTotal(), queryPage.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

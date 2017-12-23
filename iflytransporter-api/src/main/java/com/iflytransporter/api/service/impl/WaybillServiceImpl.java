@@ -19,14 +19,14 @@ public class WaybillServiceImpl implements WaybillService {
 	@Autowired
 	private WaybillMapper waybillMapper;
 	
-	@Override
+	/*@Override
 	public PageInfo<WaybillBO> queryPageBO(Integer pageNo, Integer pageSize, String userId, String shipperCompanyId,Integer status) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
 		List<WaybillBO> list= waybillMapper.queryAllBO(userId, null, shipperCompanyId, null, status);
 		return new PageInfo<WaybillBO>(list);
-	}
+	}*/
 
 	@Override
 	public List<Waybill> list(String userId, String shipperCompanyId, Integer status) {
@@ -34,8 +34,8 @@ public class WaybillServiceImpl implements WaybillService {
 	}
 
 	@Override
-	public WaybillBO query(String id) {
-		return waybillMapper.selectByPrimaryKeyBO(id);
+	public Waybill query(String id) {
+		return waybillMapper.selectByPrimaryKey(id);
 	}
 
 	@Override
@@ -58,9 +58,9 @@ public class WaybillServiceImpl implements WaybillService {
 		return new PageInfo<Waybill>(list);
 	}
 
-	@Override
+	/*@Override
 	public List<WaybillBO> listBO(String userId, String shipperCompanyId, Integer status) {
 		return waybillMapper.queryAllBO(userId, null, shipperCompanyId, null, status);
-	}
+	}*/
 
 }

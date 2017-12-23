@@ -25,11 +25,11 @@ public interface WaybillMapper {
     		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
     		@Param("status")Integer status);
     
-    List<WaybillBO> queryAllBO(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
+   /* List<WaybillBO> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
     		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status);
+    		@Param("status")Integer status);*/
     
-    WaybillBO selectByPrimaryKeyBO(String id);
+//    WaybillBO selectByPrimaryKeyBO(String id);
     
     Map<String, Object> detailCompany(String id);
     
