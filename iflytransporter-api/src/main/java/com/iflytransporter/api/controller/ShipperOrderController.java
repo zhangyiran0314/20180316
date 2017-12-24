@@ -262,7 +262,7 @@ public class ShipperOrderController {
 	public Map<String,Object> detailAudit(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		Order order = shipperOrderService.query(id);
+		/*Order order = shipperOrderService.query(id);
 		OrderResp op = new OrderResp(order);  
 		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
 		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
@@ -275,11 +275,11 @@ public class ShipperOrderController {
 		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
 		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));*/
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		
-		op.setApplyList(shipperOrderService.detailAudit(id,Status.Order_Audit_No));
-		return ResponseUtil.successResult(op);
+		List<Map<String,Object>> result = shipperOrderService.detailAudit(id,Status.Order_Audit_No);
+		return ResponseUtil.successResult(result);
 	}
 	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
 	@RequestMapping(value="auditCancel", method=RequestMethod.POST)

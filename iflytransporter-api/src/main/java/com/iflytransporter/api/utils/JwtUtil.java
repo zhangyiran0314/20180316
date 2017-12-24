@@ -19,9 +19,9 @@ public class JwtUtil {
 	
 	private static String JWT_SECRET="zhangsan";
 	
-	public static final int JWT_TTL = 60*60*1000;  //millisecond
-	public static final int JWT_REFRESH_INTERVAL = 55*60*1000;  //millisecond
-	public static final int JWT_REFRESH_TTL = 12*60*60*1000;  //millisecond
+	public static final int JWT_TTL = 30*24*60*60*1000;  //millisecond
+	public static final int JWT_REFRESH_INTERVAL =  30*24*55*60*1000;  //millisecond
+	public static final int JWT_REFRESH_TTL =  30*24*12*60*60*1000;  //millisecond
 	/**
 	 * 创建jwt
 	 * @param name 用户名
