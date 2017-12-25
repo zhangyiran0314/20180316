@@ -65,14 +65,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserBO auth(User user) {
+	public int auth(User user) {
 		if(user!=null && user.getAttachmentId1()!=null && user.getAttachmentId2()!=null && user.getAttachmentId3()!=null){
 			int result = userMapper.updateByPrimaryKeySelective(user);
-			if(result >0 ){
-				return userMapper.selectByPrimaryKeyBO(user.getId());
-			}
+			return result ;
 		}
-		return null;
+		return 0;
 	}
 
 	@Override

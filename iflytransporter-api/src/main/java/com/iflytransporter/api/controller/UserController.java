@@ -1,5 +1,6 @@
 package com.iflytransporter.api.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -142,9 +143,9 @@ public class UserController {
 			return ResponseUtil.failureResult();
 		}
 		user.setId(userId);
-		UserBO result  = userService.auth(user);
-		if(result != null){
-			return ResponseUtil.successResult(new UserResp(result));
+		int result  = userService.auth(user);
+		if(result > 0){
+			return ResponseUtil.successResultId(userId);
 		}
 		return ResponseUtil.failureResult();
 	}

@@ -18,7 +18,7 @@ public interface UserService  {
 	public UserBO detailByCache(String id);
 	
 	//认证个人
-	public UserBO auth(User user) ;
+	public int auth(User user) ;
 	//查看个人信息
 	public UserBO queryBO(String id);
 	//修改个人信息
