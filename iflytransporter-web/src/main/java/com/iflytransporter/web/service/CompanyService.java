@@ -10,5 +10,5 @@ public interface CompanyService {
 	//详情查询
 	Company queryDetail(String id);
 	//分页查询
-	PageInfo<Company> queryPage(Integer pageNo,Integer pageSize);
+	PageInfo<CompanyBO> queryPage(Integer pageNo,Integer pageSize,String name);
 }

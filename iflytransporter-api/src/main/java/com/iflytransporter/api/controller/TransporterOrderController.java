@@ -181,58 +181,5 @@ public class TransporterOrderController {
 		return ResponseUtil.failureResult();
 	}
 	
-	@ApiOperation(value="detailAudit", notes="详情-待审核",produces = "application/json",response = OrderResp.class)
-	@RequestMapping(value="detailAudit", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> detailAudit(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		Order order = transporterOrderService.query(id);
-		OrderResp op = new OrderResp(order);  
-		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
-		
-		op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
-		
-		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-		
-		
-		op.setApplyList(transporterOrderService.detailAudit(id,Status.Order_Audit_No));
-		return ResponseUtil.successResult(op);
-	}
-	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
-	@RequestMapping(value="auditCancel", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> auditCancel(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
-		String orderId = (String) requestMap.get("orderId");
-		String applyId = (String) requestMap.get("applyId");
-		int result =  orderApplyService.updateStatus(orderId,applyId, Status.Order_Audit_Cancel,null);
-		if(result > 0){
-			return ResponseUtil.successResult();
-		}
-		return ResponseUtil.failureResult();
-	}
-	@ApiOperation(value="auditOk", notes="审核-确认",produces = "application/json")
-	@RequestMapping(value="auditOk", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> auditOk(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
-		String orderId = (String) requestMap.get("orderId");
-		String applyId = (String) requestMap.get("applyId");
-		//修改一个申请状态,其他申请全部取消
-		int result =  orderApplyService.updateStatus(orderId,applyId, Status.Order_Audit_Yes, Status.Order_Audit_Cancel);
-		if(result > 0){
-			transporterOrderService.updateStatus(orderId, Status.Order_Transfer);
-			return ResponseUtil.successResult();
-		}
-		return ResponseUtil.failureResult();
-	}
+	
 }

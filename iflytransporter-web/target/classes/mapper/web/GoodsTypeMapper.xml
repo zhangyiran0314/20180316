@@ -10,6 +10,13 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
   </resultMap>
+  
+   <select id="queryAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_type
+  </select>
+  
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code
   </sql>

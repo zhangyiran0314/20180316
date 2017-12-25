@@ -8,6 +8,7 @@
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="city_id" property="cityId" jdbcType="VARCHAR" />
     <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
   </resultMap>
@@ -18,6 +19,7 @@
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="city_id" property="cityId" jdbcType="VARCHAR" />
     <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
     <result column="city_id_name" property="cityIdName" jdbcType="VARCHAR" />
@@ -29,7 +31,7 @@
   
    <select id="queryAllBO" resultMap="BaseResultMapBO">
   	select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.province_id,a.city_id,
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name,a.code, a.province_id,a.city_id,
     b.name as provinceIdName,
 	c.name as cityIdName
     from t_area a
@@ -39,7 +41,7 @@
   
   <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String">
   select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.province_id,a.city_id,
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name,a.code, a.province_id,a.city_id,
     b.name as provinceIdName,
 	c.name as cityIdName
     from t_area a

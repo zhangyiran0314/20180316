@@ -66,6 +66,7 @@ layui.config({
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
                 {field: 'id', title: 'ID', width: '170', sort: true}, 
+                {field:'provinceIdName',title:'province', width:'180'},
                 {field:'name',title:'名称', width:'180'},
                 {field:'code',title:'对应编码', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},

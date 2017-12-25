@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.Car;
 import com.iflytransporter.common.bean.CarType;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.CarTypeService;
@@ -53,7 +52,7 @@ public class CarTypeController {
 	}
 	@RequestMapping("edit")
 	@ResponseBody
-	public  Map<String,Object> edit(Car obj,HttpServletRequest request){
+	public  Map<String,Object> edit(CarType obj,HttpServletRequest request){
 		return ResponseUtil.successResult();
 	}
 	@RequestMapping("delete")

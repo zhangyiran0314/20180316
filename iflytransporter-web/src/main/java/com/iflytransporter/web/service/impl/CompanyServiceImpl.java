@@ -24,12 +24,12 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public PageInfo<Company> queryPage(Integer pageNo, Integer pageSize) {
+	public PageInfo<CompanyBO> queryPage(Integer pageNo, Integer pageSize,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Company> list= companyMapper.queryAll();
-		return new PageInfo<Company>(list);
+		List<CompanyBO> list= companyMapper.queryAllBO(name);
+		return new PageInfo<CompanyBO>(list);
 	}
 	@Override
 	public CompanyBO queryDetailBO(String id) {

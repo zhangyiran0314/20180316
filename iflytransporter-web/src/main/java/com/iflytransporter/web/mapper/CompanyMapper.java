@@ -2,12 +2,14 @@ package com.iflytransporter.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
 
 public interface CompanyMapper {
 	
-	List<Company> queryAll();
+	List<CompanyBO> queryAllBO(@Param("name")String name);
 	
 	CompanyBO selectByPrimaryKeyBO(String id);
 	

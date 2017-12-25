@@ -13,6 +13,13 @@
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code
   </sql>
+  
+   <select id="queryAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_payment_type
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

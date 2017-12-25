@@ -31,9 +31,9 @@ public class CompanyController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,HttpServletRequest request){
-		PageInfo<Company> page = companyService.queryPage( pageNo, 10);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String name,HttpServletRequest request){
+		PageInfo<CompanyBO> result = companyService.queryPage( page, limit,name);
+		return ResponseUtil.successPage(result.getTotal(), result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

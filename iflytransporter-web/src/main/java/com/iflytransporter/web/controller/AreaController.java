@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.AreaBO;
+import com.iflytransporter.common.bean.CityBO;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.AreaService;
 
@@ -31,9 +32,9 @@ public class AreaController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,HttpServletRequest request){
-		PageInfo<AreaBO> page = areaService.queryPage( pageNo, 10);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,HttpServletRequest request){
+		PageInfo<AreaBO> queryPage = areaService.queryPage( page, limit);
+		return ResponseUtil.successPage(queryPage.getTotal(), queryPage.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

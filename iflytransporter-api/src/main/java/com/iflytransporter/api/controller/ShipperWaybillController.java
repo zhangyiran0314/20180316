@@ -175,18 +175,19 @@ public class ShipperWaybillController {
 		//司机及车辆信息
 		return ResponseUtil.successResult(op);
 	}
-	/*@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
+	
+	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
 	@RequestMapping(value="auditCancel", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> auditCancel(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
 		String orderId = (String) requestMap.get("orderId");
 		String applyId = (String) requestMap.get("applyId");
-		int result =  waybillService.
+		/*int result =  waybillService.
 		if(result > 0){
 			return ResponseUtil.successResult();
-		}
+		}*/
 		return ResponseUtil.failureResult();
-	}*/
+	}
 	
 }
