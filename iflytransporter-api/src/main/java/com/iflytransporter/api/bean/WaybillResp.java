@@ -1,6 +1,7 @@
 package com.iflytransporter.api.bean;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import com.iflytransporter.common.bean.Order;
@@ -37,10 +38,6 @@ public class WaybillResp {
 
     private String height;
     
-    private String attachmentDeliverIdLink;
-    
-    private String attachmentTakeIdLink;
-    
     private CommonParam departureProvince;
 
     private CommonParam departureCity;
@@ -66,8 +63,6 @@ public class WaybillResp {
     public WaybillResp(WaybillBO waybill) {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
-		this.attachmentTakeIdLink = waybill.getAttachmentTakeIdLink();
-		this.attachmentDeliverIdLink = waybill.getAttachmentDeliverIdLink();
 		this.status = waybill.getStatus();
 		this.costs = waybill.getCosts();
 		this.orderNo = waybill.getOrderNo();
@@ -91,16 +86,16 @@ public class WaybillResp {
 		this.height = order.getHeight();
 		this.orderNo = order.getOrderNo();
     }
-    
-    @ApiModelProperty(value="车主")
+    //车主
     private Map<String,Object> transporter;
-    
-    @ApiModelProperty(value="货主")
+    //货主
     private Map<String,Object> shipper;
-    
-    @ApiModelProperty(value="公司")
+    //公司
     private Map<String,Object> company;
-
+    //收货凭证
+    private List<Map<String,Object>> takeAttachmentList;
+    //交货凭证
+    private List<Map<String,Object>> deliverAttachmentList;
 	public String getId() {
 		return id;
 	}
@@ -203,22 +198,6 @@ public class WaybillResp {
 
 	public void setHeight(String height) {
 		this.height = height;
-	}
-
-	public String getAttachmentDeliverIdLink() {
-		return attachmentDeliverIdLink;
-	}
-
-	public void setAttachmentDeliverIdLink(String attachmentDeliverIdLink) {
-		this.attachmentDeliverIdLink = attachmentDeliverIdLink;
-	}
-
-	public String getAttachmentTakeIdLink() {
-		return attachmentTakeIdLink;
-	}
-
-	public void setAttachmentTakeIdLink(String attachmentTakeIdLink) {
-		this.attachmentTakeIdLink = attachmentTakeIdLink;
 	}
 
 	public CommonParam getDepartureProvince() {
@@ -331,6 +310,18 @@ public class WaybillResp {
 
 	public void setCompany(Map<String, Object> company) {
 		this.company = company;
+	}
+	public List<Map<String, Object>> getTakeAttachmentList() {
+		return takeAttachmentList;
+	}
+	public void setTakeAttachmentList(List<Map<String, Object>> takeAttachmentList) {
+		this.takeAttachmentList = takeAttachmentList;
+	}
+	public List<Map<String, Object>> getDeliverAttachmentList() {
+		return deliverAttachmentList;
+	}
+	public void setDeliverAttachmentList(List<Map<String, Object>> deliverAttachmentList) {
+		this.deliverAttachmentList = deliverAttachmentList;
 	}
     
     

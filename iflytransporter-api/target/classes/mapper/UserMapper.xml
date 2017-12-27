@@ -114,7 +114,23 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  
+    <update id="updatePwdOrMobileOrEmail">
+    update t_user 
+    <set>
+    	<if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+       </if>
+       <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+       </if>
+       <if test="email != null" >
+        email =#{email,jdbcType=VARCHAR},
+      </if>
+      update_date = now(),
+    </set>
+      
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
    <update id="deleteDown">
     update t_user set parent_id = '',company_auth_status = ${@com.iflytransporter.common.enums.Status@Auth_No}
     where id = #{id,jdbcType=VARCHAR} and parent_id = #{parentId,jdbcType=VARCHAR}

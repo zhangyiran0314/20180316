@@ -22,9 +22,18 @@ public class ResponseUtil {
 	public static String Msg_Forbidden ="Forbidden";
 	
 	public static String Data_Key="data";
-	
+	public static String Data_Key_Id="id";
 	public static Map<String,Object> successResult(Object data){
 		Map<String,Object> result = new HashMap<String,Object>();
+		result.put(Code_Key,Code_Success);
+		result.put(Msg_Key, Msg_Success);
+		result.put(Data_Key, data);
+		return result;
+	}
+	public static Map<String,Object> successResultId(String id){
+		Map<String,Object> result = new HashMap<String,Object>();
+		Map<String,Object> data = new HashMap<String,Object>();
+		data.put(Data_Key_Id, id);
 		result.put(Code_Key,Code_Success);
 		result.put(Msg_Key, Msg_Success);
 		result.put(Data_Key, data);

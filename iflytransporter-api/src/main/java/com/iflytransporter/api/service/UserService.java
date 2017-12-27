@@ -39,5 +39,7 @@ public interface UserService  {
 	//解除上级绑定
 	public int deleteUp(String id,String upId);
 	
+	//更改密码/手机号码/邮箱
+	int updatePwdOrMobileOrEmail(String userId,String pwd,String mobile,String email);
 	
 }

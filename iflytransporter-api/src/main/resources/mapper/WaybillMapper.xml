@@ -50,6 +50,32 @@
     left join t_attachment c on a.attachment_deliver_id = c.id
     where a.id =  #{id,jdbcType=VARCHAR}
   </select> -->
+  <select id="takeAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
+   select 
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link,
+	from t_waybill a 
+	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
+	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id
+	LEFT JOIN t_attachment d on a.deliver_attachment_id_3 = d.id
+	LEFT JOIN t_attachment e on a.deliver_attachment_id_4 = e.id
+    where a.id =  #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
+   select 
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link,
+	from t_waybill a 
+	LEFT JOIN t_attachment b on a.take_attachment_id_1 = b.id
+	LEFT JOIN t_attachment c on a.take_attachment_id_2 = c.id
+	LEFT JOIN t_attachment d on a.take_attachment_id_3 = d.id
+	LEFT JOIN t_attachment e on a.take_attachment_id_4 = e.id
+  </select>
   
   <select id="queryAll" resultMap="BaseResultMap" >
     select 
@@ -72,7 +98,7 @@
       and transporter_company_id  = #{transporterCompanyId,jdbcType=VARCHAR}
     </if>
      <if test="status != null" >
-      and status  = #{status,jdbcType=VARCHAR}
+      and status  = #{status,jdbcType=INTEGER}
     </if>
   </select>
   
@@ -93,6 +119,9 @@
  	where a.id = #{id,jdbcType=VARCHAR}
   </select>
   
+  <update id="updateStatus">
+  	update t_waybill set  status  = #{status,jdbcType=INTEGER} where id =#{id,jdbcType=VARCHAR}
+  </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

@@ -58,6 +58,21 @@ public class WaybillServiceImpl implements WaybillService {
 		return new PageInfo<Waybill>(list);
 	}
 
+	@Override
+	public List<Map<String, Object>> takeAttachmentList(String id) {
+		return waybillMapper.takeAttachmentList(id);
+	}
+
+	@Override
+	public List<Map<String, Object>> deliverAttachmentList(String id) {
+		return waybillMapper.deliverAttachmentList(id);
+	}
+
+	@Override
+	public int updateStatus(String id, Integer status) {
+		return waybillMapper.updateStatus(id, status);
+	}
+
 	/*@Override
 	public List<WaybillBO> listBO(String userId, String shipperCompanyId, Integer status) {
 		return waybillMapper.queryAllBO(userId, null, shipperCompanyId, null, status);

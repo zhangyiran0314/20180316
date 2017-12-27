@@ -16,14 +16,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.UserResp;
 import com.iflytransporter.api.service.CompanyService;
+import com.iflytransporter.api.service.FeedbackService;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.CompanyBO;
+import com.iflytransporter.common.bean.Feedback;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
-import com.iflytransporter.common.utils.ResponseUtil;
+import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +41,65 @@ public class UserController {
 	
 	@Autowired
 	private CompanyService companyService;
+	
+	@Autowired
+	private FeedbackService feedbackService;
+	
+	/**反馈意见*/
+	@ApiOperation(value="我的-反馈意见", notes="我的-反馈意见",produces = "application/json")
+	@RequestMapping(value="feedback", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> feedback(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Feedback feedback){
+		String userId =  (String) request.getAttribute("userId");
+		feedback.setUserId(userId);
+		feedback.setId(UUIDUtil.UUID());
+		int result = feedbackService.sava(feedback);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	/**设置*/
+	@ApiOperation(value="我的-更改密码", notes="我的-更改密码",produces = "application/json")
+	@RequestMapping(value="modifyPwd", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyPwd(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{pwd:pwd}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String pwd = (String) requestMap.get("pwd");
+		int result = userService.updatePwdOrMobileOrEmail(userId, pwd, null, null);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="我的-更改手机号码", notes="我的-更改手机号码",produces = "application/json")
+	@RequestMapping(value="modifyMobile", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyMobile(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{mobile:mobile}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String mobile = (String) requestMap.get("mobile");
+		int result = userService.updatePwdOrMobileOrEmail(userId, null, mobile, null);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="我的-更改邮箱", notes="我的-更改邮箱",produces = "application/json")
+	@RequestMapping(value="modifyEmail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyEmail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{email:email}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String email = (String) requestMap.get("email");
+		int result = userService.updatePwdOrMobileOrEmail(userId, null, null, email);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 	
 	/**上级操作 start*/
 	@ApiOperation(value="上级-详情", notes="上级-详情",produces = "application/json")

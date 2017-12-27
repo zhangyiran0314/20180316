@@ -16,7 +16,7 @@ import com.iflytransporter.api.bean.CompanyResp;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
-import com.iflytransporter.common.utils.ResponseUtil;
+import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;

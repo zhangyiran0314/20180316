@@ -46,4 +46,6 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+	int updatePwdOrMobileOrEmail(@Param("id")String userId,@Param("password")String password,@Param("mobile")String mobile,@Param("email")String email);
 }

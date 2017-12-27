@@ -153,4 +153,9 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+	@Override
+	public int updatePwdOrMobileOrEmail(String userId, String pwd, String mobile, String email) {
+		return userMapper.updatePwdOrMobileOrEmail(userId, pwd, mobile, email);
+	}
+
 }

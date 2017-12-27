@@ -32,7 +32,6 @@ import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.Waybill;
-import com.iflytransporter.common.bean.WaybillBO;
 import com.iflytransporter.common.enums.Status;
 
 import io.swagger.annotations.Api;
@@ -148,7 +147,7 @@ public class ShipperWaybillController {
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+			@RequestBody @ApiParam(value="{id:id}") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
 		Waybill waybill = waybillService.query(id);
 		WaybillResp op =new WaybillResp(waybill);
@@ -172,22 +171,30 @@ public class ShipperWaybillController {
 		op.setCompany(waybillService.detailCompany(id));
 		//车主信息
 		op.setTransporter(waybillService.detailTransporter(id));
-		//司机及车辆信息
+		//大于待装车状态,查询收货凭证
+		if(waybill.getStatus() > Status.Waybill_For_Loading){
+			op.setTakeAttachmentList(waybillService.takeAttachmentList(id));
+		}
+		//大于运输中状态,查询交货凭证
+		if(waybill.getStatus() > Status.Waybill_In_Transit){
+			op.setDeliverAttachmentList(waybillService.deliverAttachmentList(id));
+		}
 		return ResponseUtil.successResult(op);
 	}
 	
-	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
-	@RequestMapping(value="auditCancel", method=RequestMethod.POST)
+	@ApiOperation(value="confirm", notes="确认收货",produces = "application/json")
+	@RequestMapping(value="confirm", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> auditCancel(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{orderId:orderId,applyId:applyId} orderId:0-订单id,applyId:申请id") Map<String,Object> requestMap){
-		String orderId = (String) requestMap.get("orderId");
-		String applyId = (String) requestMap.get("applyId");
-		/*int result =  waybillService.
+			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		int result = waybillService.updateStatus(id, Status.Waybill_Finish);
 		if(result > 0){
-			return ResponseUtil.successResult();
-		}*/
+			return ResponseUtil.successResultId(id);
+		}
 		return ResponseUtil.failureResult();
 	}
+	
+	
 	
 }
