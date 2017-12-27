@@ -31,17 +31,17 @@ public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
 	
-	@ApiOperation(value="add", notes="新增(认证)",produces = "application/json",response=CompanyResp.class)
-	@RequestMapping(value="add", method=RequestMethod.POST)
+	@ApiOperation(value="auth", notes="公司-认证",produces = "application/json",response=CompanyResp.class)
+	@RequestMapping(value="auth", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="实体")Company company){
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		company.setId(id);
-		CompanyBO result = companyService.save(company,userId);
-		if(result != null){
-			return ResponseUtil.successResult(new CompanyResp(result));
+		int result = companyService.save(company,userId);
+		if(result > 0){
+			return ResponseUtil.successResultId(id);
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -61,9 +61,9 @@ public class CompanyController {
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="实体")Company company){
-		CompanyBO result = companyService.update(company);
-		if(result != null){
-			return ResponseUtil.successResult(new CompanyResp(result));
+		int result = companyService.update(company);
+		if(result > 0){
+			return ResponseUtil.successResultId(company.getId());
 		}
 		return ResponseUtil.failureResult();
 	}

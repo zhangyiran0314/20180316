@@ -10,9 +10,9 @@ public class CompanyResp {
 
     private String code;
 
-    private String email;
-
-    private String address;
+//    private String email;
+//
+//    private String address;
 
     private String attachmentId1;
     
@@ -22,8 +22,8 @@ public class CompanyResp {
 		this.id=company.getId();
 		this.name = company.getName();
 		this.code = company.getCode();
-		this.email = company.getEmail();
-		this.address = company.getAddress();
+//		this.email = company.getEmail();
+//		this.address = company.getAddress();
 		this.attachmentId1 = company.getAttachmentId1();
 		this.attachmentId1Link = company.getAttachmentId1Link();
 	}
@@ -42,22 +42,6 @@ public class CompanyResp {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 
 	public String getAttachmentId1() {

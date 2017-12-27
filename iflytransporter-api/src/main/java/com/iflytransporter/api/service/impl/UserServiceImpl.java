@@ -12,8 +12,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.exception.ServiceException;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{
@@ -45,32 +48,44 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User addDown(User user) {
-		if(user!=null && user.getAttachmentId1()!=null && user.getAttachmentId2()!=null && user.getAttachmentId3()!=null){
+	public String addDown(User user) throws ServiceException{
+		//员工不存在
+		User userDown = userMapper.selectByMobile(user.getCountryCode(), user.getUserType(), user.getMobile());
+		if(userDown == null){
+			user.setId(UUIDUtil.UUID());
 			int result = userMapper.insert(user);
-			if(result >0 ){
-				return userMapper.selectByPrimaryKeyBO(user.getId());
+			if(result > 0){
+				return user.getId();
 			}
+		}
+		//员工存在
+		userDown.setParentId(user.getParentId());
+		userDown.setCompanyAuthStatus(Status.Auth_Pending);
+		int result =  userMapper.updateByPrimaryKeySelective(userDown);
+		if(result > 0){
+			return userDown.getId();
 		}
 		return null;
 	}
 
 	@Override
-	public UserBO update(User user) {
-		int result = userMapper.updateByPrimaryKeySelective(user);
+	public int update(User user) {
+		/*int result = userMapper.updateByPrimaryKeySelective(user);
 		if(result > 0 ){
 			return userMapper.selectByPrimaryKeyBO(user.getId());
 		}
-		return null;
+		return null;*/
+		return userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
 	public int auth(User user) {
-		if(user!=null && user.getAttachmentId1()!=null && user.getAttachmentId2()!=null && user.getAttachmentId3()!=null){
+		/*if(user!=null && user.getAttachmentId1()!=null && user.getAttachmentId2()!=null && user.getAttachmentId3()!=null){
 			int result = userMapper.updateByPrimaryKeySelective(user);
 			return result ;
-		}
-		return 0;
+		}*/
+		user.setAuthStatus(Status.Auth_Pending);
+		return userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
@@ -79,15 +94,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserBO updateDown(String userId,User user) {
-		if(user==null || StringUtils.isBlank(user.getParentId()) || !user.getParentId().equals(userId)){
-			return null;
-		}
-		int result = userMapper.updateByPrimaryKeySelective(user);
-		if(result > 0 ){
-			return userMapper.selectByPrimaryKeyBO(user.getId());
-		}
-		return null;
+	public int updateDown(String userId,User user) {
+		return userMapper.updateByPrimaryKeySelective(user);
 	}
 
 	@Override
@@ -115,7 +123,7 @@ public class UserServiceImpl implements UserService{
 		if(user==null || StringUtils.isBlank(user.getParentId())){
 			return null;
 		}
-		return userMapper.selectByPrimaryKeyBO(user.getParentId());
+		return userMapper.selectByPrimaryKey(user.getParentId());
 	}
 
 	@Override

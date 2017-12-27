@@ -1,10 +1,5 @@
 package com.iflytransporter.api.bean;
 
-import java.util.Date;
-
-import com.iflytransporter.common.bean.User;
-import com.iflytransporter.common.bean.UserBO;
-
 public class UserReq {
 	
     private String surname;

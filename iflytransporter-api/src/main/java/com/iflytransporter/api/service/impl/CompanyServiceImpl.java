@@ -8,6 +8,7 @@ import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
+import com.iflytransporter.common.enums.Status;
 
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService{
@@ -19,13 +20,13 @@ public class CompanyServiceImpl implements CompanyService{
 	private UserMapper userMapper;
 	
 	@Override
-	public CompanyBO save(Company record,String userId) {
+	public int save(Company record,String userId) {
 		int result = companyMapper.insert(record);
 		if(result > 0){
-			userMapper.updateCompany(userId, record.getId());
-			return companyMapper.selectByPrimaryKeyBO(record.getId());
+			userMapper.updateCompany(userId, record.getId(),Status.Auth_Pending);
+			return result;
 		}
-		return null;
+		return 0;
 	}
 
 	@Override
@@ -34,12 +35,8 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 	@Override
-	public CompanyBO update(Company record) {
-		int result = companyMapper.updateByPrimaryKeySelective(record);
-		if(result > 0){
-			return companyMapper.selectByPrimaryKeyBO(record.getId());
-		}
-		return null;
+	public int update(Company record) {
+		return companyMapper.updateByPrimaryKeySelective(record);
 	}
 
 }

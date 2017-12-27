@@ -23,11 +23,15 @@ public interface UserMapper {
 	//查看下级列表
 	public List<User> listDown(String parentId);
 	
+	//修改认证状态
+	int updateAuthStatus(@Param("id")String id,@Param("authStatus")Integer authStatus,@Param("companyAuthStatus")Integer companyAuthStatus);
+	
 	//修改用户公司信息
-	int updateCompany(@Param("id")String id,@Param("companyId")String companyId);
+	int updateCompany(@Param("id")String id,@Param("companyId")String companyId,@Param("companyAuthStatus")Integer companyAuthStatus);
 	
 	//删除下级
 	int deleteDown(@Param("id")String id,@Param("parentId")String parentId);
+	
 	//解除上级绑定
 	int deleteUp(@Param("id")String id,@Param("upId")String upId);
 	

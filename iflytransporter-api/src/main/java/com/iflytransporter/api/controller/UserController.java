@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.UserResp;
+import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.UUIDUtil;
+import com.iflytransporter.common.bean.CompanyBO;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.ResponseUtil;
 
 import io.swagger.annotations.Api;
@@ -34,18 +37,25 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private CompanyService companyService;
+	
 	/**上级操作 start*/
 	@ApiOperation(value="上级-详情", notes="上级-详情",produces = "application/json")
 	@RequestMapping(value="detailUp", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> detailUp(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Map<String,Object> requestMap){
+	public Map<String,Object> detailUp(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		User result = userService.detailUp(userId);
 		if(result==null){
 		      return ResponseUtil.failureResult(BuzExceptionEnums.NotUpError);
 		}
-		return ResponseUtil.successResult(result);
+		Map<String,Object> data = new HashMap<String,Object>();
+		data.put("surname", result.getSurname());
+		data.put("name", result.getName());
+		data.put("mobile", result.getMobile());
+		data.put("id", result.getId());
+		return ResponseUtil.successResult(data);
 	}
 	@ApiOperation(value="上级-解除绑定", notes="上级-解除绑定",produces = "application/json")
 	@RequestMapping(value="deleteUp", method=RequestMethod.POST)
@@ -81,9 +91,9 @@ public class UserController {
 	public Map<String,Object> modifyDown(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody  @ApiParam(value="下级用户实体") User user){
 		String userId =  (String) request.getAttribute("userId");
-		User result  = userService.updateDown(userId,user);
-		if(result != null){
-			return ResponseUtil.successResult(result);
+		int result = userService.updateDown(userId,user);
+		if(result  > 0){
+			return ResponseUtil.successResultId(user.getId());
 		}
 		return ResponseUtil.successResult();
 	}
@@ -98,27 +108,36 @@ public class UserController {
 		if(downId==null){
 			return ResponseUtil.failureResult();
 		}
-		User result  = userService.queryBO(downId);
-		if(result ==null || result.getParentId() == null || !result.getParentId().equals(userId)){
+		UserBO result  = userService.queryBO(downId);
+		/*if(result ==null || result.getParentId() == null || !result.getParentId().equals(userId)){
 			return ResponseUtil.failureResult();
-		}
-		return ResponseUtil.successResult(result);
+		}*/
+		return ResponseUtil.successResult(new UserResp(result));
 	}
 	
-	
+	@ApiOperation(value="下级-添加信息", notes="下级-添加信息",produces = "application/json")
+	@RequestMapping(value="addDownDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addDownDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="下级用户实体") User user){
+		String userId =  (String) request.getAttribute("userId");
+		user.setParentId(userId);
+		int result  = userService.auth(user);
+		if(result >0 ){
+			return ResponseUtil.successResultId(user.getId());
+		}
+		return ResponseUtil.failureResult();
+	}
 	@ApiOperation(value="下级-添加", notes="下级-添加",produces = "application/json")
 	@RequestMapping(value="addDown", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> addDown(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="下级用户实体") User user){
 		String userId =  (String) request.getAttribute("userId");
-		if(user ==null || !userId.equals(user.getParentId())){
-			return ResponseUtil.failureResult();
-		}
-		user.setId(UUIDUtil.UUID());
-		User result  = userService.addDown(user);
-		if(result != null){
-			return ResponseUtil.successResult(result);
+		user.setParentId(userId);
+		String  result  = userService.addDown(user);
+		if(result !=null ){
+			return ResponseUtil.successResultId(result);
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -129,6 +148,7 @@ public class UserController {
 	public Map<String,Object> listDown(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		List<User> result = userService.listDown(userId);
+		
 		return ResponseUtil.successResult(result);
 	}
 	
@@ -139,9 +159,6 @@ public class UserController {
 	public Map<String,Object> auth(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody  @ApiParam(value="用户实体") User user ){
 		String userId =  (String) request.getAttribute("userId");
-		if(user ==null || !userId.equals(user.getId())){
-			return ResponseUtil.failureResult();
-		}
 		user.setId(userId);
 		int result  = userService.auth(user);
 		if(result > 0){
@@ -154,9 +171,13 @@ public class UserController {
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO result  = userService.queryBO(userId);
-//		UserResp userResp = new UserResp(result);
-		return ResponseUtil.successResult(new UserResp(result));
+		UserBO user  = userService.queryBO(userId);
+		UserResp userResp = new UserResp(user);
+		if(user.getCompanyAuthStatus() != null && user.getCompanyId() !=null && Status.Auth_No !=user.getCompanyAuthStatus().intValue()){
+			CompanyBO company =companyService.query(user.getCompanyId());
+			userResp.setCompanyName(company==null?null:company.getName());
+		}
+		return ResponseUtil.successResult(userResp);
 	}
 	@ApiOperation(value="个人-修改", notes="个人-修改",produces = "application/json",response=UserResp.class)
 	@RequestMapping(value="modify", method=RequestMethod.POST)
@@ -164,12 +185,10 @@ public class UserController {
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody User user){
 		String userId =  (String) request.getAttribute("userId");
-		if(user ==null || !userId.equals(user.getId())){
-			return ResponseUtil.failureResult();
-		}
-		UserBO result  = userService.update(user);
-		if(result != null){
-			return ResponseUtil.successResult(new UserResp(result));
+		user.setId(userId);
+		int result  = userService.update(user);
+		if(result > 0){
+			return ResponseUtil.successResultId(userId);
 		}
 		return ResponseUtil.failureResult();
 	}

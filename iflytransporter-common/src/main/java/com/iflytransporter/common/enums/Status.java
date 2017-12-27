@@ -12,6 +12,10 @@ public class Status {
 	
 	public static int User_Admin = 1;
 	
+	//用户认证状态
+	public static int Auth_No = 0;//未认证
+	public static int Auth_Pending = 1;//待审核
+	public static int Auth_Yes  = 2;//成功
 	/**数据有效*/
 	public static int Status_Valid = 0;//有效
 	public static int Status_Invalid = 1;//失效

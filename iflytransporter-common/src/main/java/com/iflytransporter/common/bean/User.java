@@ -24,7 +24,7 @@ public class User extends BaseEntity {
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date lastLoginDate;
 
-    private int status;
+    private Integer status;
 
     private String lastLoginDevice;
 
@@ -46,9 +46,13 @@ public class User extends BaseEntity {
     
     private String email;
     
-    private int userType;
+    private Integer userType;
     
-    private int level;
+    private Integer level;
+    
+    private Integer authStatus;
+    
+    private Integer companyAuthStatus;
 
     public String getName() {
 		return name;
@@ -98,11 +102,11 @@ public class User extends BaseEntity {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -177,11 +181,11 @@ public class User extends BaseEntity {
 		this.countryCode = countryCode;
 	}
 	
-	public int getUserType() {
+	public Integer getUserType() {
 		return userType;
 	}
 
-	public void setUserType(int userType) {
+	public void setUserType(Integer userType) {
 		this.userType = userType;
 	}
 
@@ -193,12 +197,28 @@ public class User extends BaseEntity {
 		this.surname = surname;
 	}
 
-	public int getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
+	}
+	
+	public Integer getAuthStatus() {
+		return authStatus;
+	}
+
+	public void setAuthStatus(Integer authStatus) {
+		this.authStatus = authStatus;
+	}
+
+	public Integer getCompanyAuthStatus() {
+		return companyAuthStatus;
+	}
+
+	public void setCompanyAuthStatus(Integer companyAuthStatus) {
+		this.companyAuthStatus = companyAuthStatus;
 	}
 
 	@Override

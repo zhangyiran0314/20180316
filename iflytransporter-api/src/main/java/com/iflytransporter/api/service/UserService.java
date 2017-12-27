@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.exception.ServiceException;
 
 public interface UserService  {
 	//通过mobile查询用户
@@ -22,11 +23,11 @@ public interface UserService  {
 	//查看个人信息
 	public UserBO queryBO(String id);
 	//修改个人信息
-	public UserBO update(User user);
+	public int update(User user);
 	//添加下级
-	public User addDown(User user);
+	public String addDown(User user) throws ServiceException;
 	//修改下级
-	public User updateDown(String userId,User user);
+	public int updateDown(String userId,User user);
 	//查看下级
 	public User detailDown(String userId,String downId);
 	//删除下级

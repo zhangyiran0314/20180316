@@ -7,6 +7,8 @@ import com.iflytransporter.common.bean.UserBO;
 
 public class UserResp {
 	
+	private String id;
+	
 	private String countryCode;
 	
 	private String mobile;
@@ -27,9 +29,11 @@ public class UserResp {
     
     private String email;
     
-    private int userType;
+    private Integer level;
     
-    private int level;
+    private Integer authStatus;
+    
+    private Integer companyAuthStatus;
     
     private String attachmentId1;
 
@@ -42,8 +46,11 @@ public class UserResp {
     private String attachmentId2Link;
 
     private String attachmentId3Link;
+    
+    private String companyName;
 
 	public UserResp(UserBO user) {
+		this.id = user.getId();
 		this.countryCode = user.getCountryCode();
 		this.mobile = user.getMobile();
 		this.nickname = user.getNickname();
@@ -54,8 +61,9 @@ public class UserResp {
 		this.name = user.getName();
 		this.cardNo = user.getCardNo();
 		this.email = user.getEmail();
-		this.userType = user.getUserType();
 		this.level = user.getLevel();
+		this.authStatus = user.getAuthStatus();
+		this.companyAuthStatus = user.getCompanyAuthStatus();
 		this.attachmentId1 = user.getAttachmentId1();
 		this.attachmentId2 = user.getAttachmentId2();
 		this.attachmentId3 = user.getAttachmentId3();
@@ -65,6 +73,7 @@ public class UserResp {
 
 	}
 	public UserResp(User user) {
+		this.id = user.getId();
 		this.countryCode = user.getCountryCode();
 		this.mobile = user.getMobile();
 		this.nickname = user.getNickname();
@@ -75,9 +84,9 @@ public class UserResp {
 		this.name = user.getName();
 		this.cardNo = user.getCardNo();
 		this.email = user.getEmail();
-		this.userType = user.getUserType();
 		this.level = user.getLevel();
-		
+		this.authStatus = user.getAuthStatus();
+		this.companyAuthStatus = user.getCompanyAuthStatus();
 
 	}
 	public String getCountryCode() {
@@ -160,19 +169,11 @@ public class UserResp {
 		this.email = email;
 	}
 
-	public int getUserType() {
-		return userType;
-	}
-
-	public void setUserType(int userType) {
-		this.userType = userType;
-	}
-
-	public int getLevel() {
+	public Integer getLevel() {
 		return level;
 	}
 
-	public void setLevel(int level) {
+	public void setLevel(Integer level) {
 		this.level = level;
 	}
 
@@ -223,6 +224,29 @@ public class UserResp {
 	public void setAttachmentId3Link(String attachmentId3Link) {
 		this.attachmentId3Link = attachmentId3Link;
 	}
-
+	public Integer getAuthStatus() {
+		return authStatus;
+	}
+	public void setAuthStatus(Integer authStatus) {
+		this.authStatus = authStatus;
+	}
+	public Integer getCompanyAuthStatus() {
+		return companyAuthStatus;
+	}
+	public void setCompanyAuthStatus(Integer companyAuthStatus) {
+		this.companyAuthStatus = companyAuthStatus;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
     
 }

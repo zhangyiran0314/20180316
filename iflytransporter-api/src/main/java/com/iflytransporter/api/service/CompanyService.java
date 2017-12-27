@@ -11,10 +11,10 @@ public interface CompanyService  {
 	 * @param userId
 	 * @return
 	 */
-	public CompanyBO save(Company record,String userId);
+	public int save(Company record,String userId);
 	
 	public CompanyBO query(String id);
 	
-	public CompanyBO update(Company record);
+	public int update(Company record);
 	
 }

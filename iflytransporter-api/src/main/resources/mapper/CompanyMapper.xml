@@ -67,14 +67,13 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Company" >
-    insert into t_company (id, create_date, update_date, 
-      data_status, desp, name, 
-      code, email, address, 
-      status, attachment_id_1)
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    insert into t_company (id, update_date, 
+      desp, name, 
+      code, email, address, attachment_id_1)
+    values (#{id,jdbcType=VARCHAR}, now(),
+       #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{status,jdbcType=SMALLINT}, #{attachmentId1,jdbcType=VARCHAR})
+      #{attachmentId1,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company
