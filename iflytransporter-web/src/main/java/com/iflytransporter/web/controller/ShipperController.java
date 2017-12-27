@@ -48,6 +48,11 @@ public class ShipperController {
 		request.setAttribute("objectId", id);
 		return "shipper/edit";
 	}
+	@RequestMapping("toEditAuth")
+	public String toEditAuth(String id,HttpServletRequest request){
+		request.setAttribute("objectId", id);
+		return "shipper/editAuth";
+	}
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
@@ -57,6 +62,11 @@ public class ShipperController {
 	@RequestMapping("edit")
 	@ResponseBody
 	public  Map<String,Object> edit(User obj,HttpServletRequest request){
+		return ResponseUtil.successResult();
+	}
+	@RequestMapping("editAuth")
+	@ResponseBody
+	public  Map<String,Object> editAuth(User obj,HttpServletRequest request){
 		return ResponseUtil.successResult();
 	}
 }

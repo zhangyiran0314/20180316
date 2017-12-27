@@ -39,12 +39,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	
 	<table id="table" lay-filter="table_filter"></table>
 	
-	<script type="text/html" id="bar">
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>	
-    
 	<script type="text/javascript" src="<%=request.getContextPath()%>/layui/layui.js"></script>
 <script type="text/javascript">
 layui.config({
@@ -69,9 +63,10 @@ layui.config({
                 {field:'mobile',title:'mobile', width:'180'},
                 {field:'surname',title:'姓', width:'180'},
                 {field:'name',title:'名', width:'180'},
+                {field:'authStatus',title:'个人认证', width:'180',templet: '#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
-                {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
+                {fixed: 'right', title:'操作', toolbar: '#bar', width:200}
 		    ]]
 		  });
 		
@@ -138,6 +133,23 @@ layui.config({
 			                }   */
 						}); 
 					});
+		    } else if(obj.event === 'editAuth'){
+		    	 layui.use('layer', function(){
+					  var layer = layui.layer;
+					  layer.open({
+						  type: 2,
+						  area: ['90%', '90%'],
+						  fixed: false, //不固定
+						  maxmin: true,
+						  content: "<%=request.getContextPath()%>/shipper/toEditAuth?id="+data.id,
+						  /* success: function (layero, index) {  
+			                    // 获取子页面的iframe  
+			                    var iframe = window['layui-layer-iframe' + index];  
+			                    // 向子页面的全局函数child传参  
+			                    iframe.child(data);  
+			                }   */
+						}); 
+					});
 		    }
          });  
          $(".search_btn").click(function(){
@@ -169,5 +181,24 @@ layui.config({
          });  
 })
 </script>
+		<!-- 认证状态-->
+		<script type="text/html" id="authTpl">
+		    {{#  if(d.authStatus == 0){ }}
+		   		 未认证
+		    {{# }else if(d.authStatus == 1){ }}
+		  		  待审核
+		    {{#  } else{ }}
+				审核通过			
+			{{# }      }}
+		</script> 
+		
+		<script type="text/html" id="bar">
+ 			{{#  if(d.authStatus == 1){ }}
+				<a class="layui-btn layui-btn-xs" lay-event="editAuth">个人审核</a>
+			{{#  }  }}
+	  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
+	  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    	</script>	
 </body>
 </html>

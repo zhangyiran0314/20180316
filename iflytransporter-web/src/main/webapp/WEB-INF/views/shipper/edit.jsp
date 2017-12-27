@@ -30,7 +30,19 @@
 				<input type="text" class="layui-input mobile">
 			</div>
 		</div>
-		- <div class="layui-form-item">
+		<div class="layui-form-item">
+			<label class="layui-form-label">姓</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input surname">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">名</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input name">
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">status</label>
 			<div class="layui-input-block">
 				<select name="status" class="status" lay-filter="status">
@@ -73,7 +85,7 @@
 layui.config({
 	base : "js/"
 }).use(['form','layer','jquery','laypage','laydate'],function(){
-	var form = layui.form(),
+	var form = layui.form,
 		layer = parent.layer === undefined ? layui.layer : parent.layer,
 		laypage = layui.laypage,
 		laydate = layui.laydate,
@@ -83,7 +95,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "/shipper/detail",
+			url : "<%=request.getContextPath()%>/shipper/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",

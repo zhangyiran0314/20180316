@@ -26,6 +26,8 @@
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="auth_status" property="authStatus" jdbcType="INTEGER" />
+    <result column="company_auth_status" property="companyAuthStatus" jdbcType="INTEGER" />
   </resultMap>
   
     <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.UserBO" >
@@ -53,21 +55,25 @@
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="auth_status" property="authStatus" jdbcType="INTEGER" />
+    <result column="company_auth_status" property="companyAuthStatus" jdbcType="INTEGER" />
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
     <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
     <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, mobile, user_type, password, nickname, 
+      id, create_date, update_date, data_status, desp, mobile, user_type, password, nickname, 
     last_login_ip, last_login_date, status, last_login_device, company_id, parent_id, 
-    attachment_id_1, attachment_id_2, attachment_id_3, surname,name, card_no, email, country_code,level
+    attachment_id_1, attachment_id_2, attachment_id_3, surname,name, card_no, email, country_code,level,
+    auth_status,company_auth_status
   </sql>
  <select id="queryAll" resultMap="BaseResultMapBO" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.mobile, a.password, a.nickname, a.last_login_ip, 
     a.last_login_date, a.status, a.last_login_device, a.company_id, a.parent_id, a.attachment_id_1, 
-    a.attachment_id_2, a.attachment_id_3, a.surname,a.name, a.card_no, email,a.level,
+    a.attachment_id_2, a.attachment_id_3, a.surname,a.name, a.card_no,
+     a.email,a.level,a.auth_status,a.company_auth_status,
     concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
     concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
     concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link 
