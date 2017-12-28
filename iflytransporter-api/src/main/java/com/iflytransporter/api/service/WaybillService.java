@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.iflytransporter.common.bean.Comment;
+import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.common.bean.Waybill;
 
 public interface WaybillService {
@@ -64,4 +66,8 @@ public interface WaybillService {
 	List<Map<String, Object>> deliverAttachmentList(String id);
 	//修改运单状态
 	int updateStatus(String id,Integer status);
+	
+	int addComment(Comment comment);
+	
+	int addComplaint(Complaint complaint);
 }

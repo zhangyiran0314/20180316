@@ -39,7 +39,6 @@ public class Order {
 
     private String goodsUnits;
     
-    @JsonFormat(timezone="yyyy-MM-dd HH:mm:ss")
     private Date deliverDate;
 
     private Integer costs;

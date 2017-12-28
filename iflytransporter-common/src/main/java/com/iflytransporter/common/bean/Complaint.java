@@ -13,7 +13,11 @@ public class Complaint {
 
     private String desp;
 
+    private String reason;
+
     private String content;
+
+    private String mobile;
 
     private String waybillId;
 
@@ -28,6 +32,10 @@ public class Complaint {
     private String attachmentId3;
 
     private String attachmentId4;
+
+    private String shipperCompanyId;
+
+    private String transporterCompanyId;
 
     public String getId() {
         return id;
@@ -69,12 +77,28 @@ public class Complaint {
         this.desp = desp == null ? null : desp.trim();
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason == null ? null : reason.trim();
+    }
+
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public String getWaybillId() {
@@ -131,5 +155,21 @@ public class Complaint {
 
     public void setAttachmentId4(String attachmentId4) {
         this.attachmentId4 = attachmentId4 == null ? null : attachmentId4.trim();
+    }
+
+    public String getShipperCompanyId() {
+        return shipperCompanyId;
+    }
+
+    public void setShipperCompanyId(String shipperCompanyId) {
+        this.shipperCompanyId = shipperCompanyId == null ? null : shipperCompanyId.trim();
+    }
+
+    public String getTransporterCompanyId() {
+        return transporterCompanyId;
+    }
+
+    public void setTransporterCompanyId(String transporterCompanyId) {
+        this.transporterCompanyId = transporterCompanyId == null ? null : transporterCompanyId.trim();
     }
 }

@@ -181,7 +181,6 @@ public class BasicController {
 		Integer userType = (Integer) requestMap.get("userType");
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)
 				&&StringUtils.isNotBlank(countryCode)&& userType!=null){
-			Map<String,Object> data =new HashMap<String,Object>();
 			User user = userService.login(countryCode,userType,mobile, password);
 			if(null == user){
 				return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
@@ -193,7 +192,10 @@ public class BasicController {
 			
 			JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
 			String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
+			Map<String,Object> data =new HashMap<String,Object>();
 			data.put("token", token);
+			data.put("authStatus", user.getAuthStatus());
+			data.put("companyAuthStatus", user.getCompanyAuthStatus());
 			return ResponseUtil.successResult(data);
 		}
 		return ResponseUtil.failureResult();

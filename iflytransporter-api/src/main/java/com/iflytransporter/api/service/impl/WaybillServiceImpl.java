@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.iflytransporter.api.mapper.CommentMapper;
+import com.iflytransporter.api.mapper.ComplaintMapper;
 import com.iflytransporter.api.mapper.WaybillMapper;
 import com.iflytransporter.api.service.WaybillService;
+import com.iflytransporter.common.bean.Comment;
+import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.common.bean.Waybill;
-import com.iflytransporter.common.bean.WaybillBO;
 
 @Service("waybillService")
 public class WaybillServiceImpl implements WaybillService {
@@ -19,6 +22,11 @@ public class WaybillServiceImpl implements WaybillService {
 	@Autowired
 	private WaybillMapper waybillMapper;
 	
+	@Autowired
+	private CommentMapper commentMapper;
+	
+	@Autowired
+	private ComplaintMapper complaintMapper;
 	/*@Override
 	public PageInfo<WaybillBO> queryPageBO(Integer pageNo, Integer pageSize, String userId, String shipperCompanyId,Integer status) {
 		if(pageNo!= null && pageSize!= null){  
@@ -71,6 +79,16 @@ public class WaybillServiceImpl implements WaybillService {
 	@Override
 	public int updateStatus(String id, Integer status) {
 		return waybillMapper.updateStatus(id, status);
+	}
+
+	@Override
+	public int addComment(Comment comment) {
+		return commentMapper.insert(comment);
+	}
+
+	@Override
+	public int addComplaint(Complaint complaint) {
+		return complaintMapper.insert(complaint);
 	}
 
 	/*@Override

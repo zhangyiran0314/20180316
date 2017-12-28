@@ -7,7 +7,9 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
@@ -15,10 +17,13 @@
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
+    <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, content, waybill_id, shipper_id, 
-    transporter_id, attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4
+    id, create_date, update_date, data_status, desp, reason, content, mobile, waybill_id, 
+    shipper_id, transporter_id, attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4, 
+    shipper_company_id, transporter_company_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -31,16 +36,18 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Complaint" >
-    insert into t_complaint (id, create_date, update_date, 
-      data_status, desp, content, 
-      waybill_id, shipper_id, transporter_id, 
-      attachment_id_1, attachment_id_2, attachment_id_3, 
-      attachment_id_4)
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{waybillId,jdbcType=VARCHAR}, #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
-      #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
-      #{attachmentId4,jdbcType=VARCHAR})
+    insert into t_complaint (id, update_date, 
+      desp, reason, 
+      content, mobile, waybill_id, 
+      shipper_id, transporter_id, attachment_id_1, 
+      attachment_id_2, attachment_id_3, attachment_id_4, 
+      shipper_company_id, transporter_company_id)
+    values (#{id,jdbcType=VARCHAR},  now(),
+      #{desp,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, 
+      #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, #{attachmentId4,jdbcType=VARCHAR}, 
+      #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Complaint" >
     insert into t_complaint
@@ -60,8 +67,14 @@
       <if test="desp != null" >
         desp,
       </if>
+      <if test="reason != null" >
+        reason,
+      </if>
       <if test="content != null" >
         content,
+      </if>
+      <if test="mobile != null" >
+        mobile,
       </if>
       <if test="waybillId != null" >
         waybill_id,
@@ -84,6 +97,12 @@
       <if test="attachmentId4 != null" >
         attachment_id_4,
       </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id,
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,8 +120,14 @@
       <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="waybillId != null" >
         #{waybillId,jdbcType=VARCHAR},
@@ -125,6 +150,12 @@
       <if test="attachmentId4 != null" >
         #{attachmentId4,jdbcType=VARCHAR},
       </if>
+      <if test="shipperCompanyId != null" >
+        #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Complaint" >
@@ -142,8 +173,14 @@
       <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="waybillId != null" >
         waybill_id = #{waybillId,jdbcType=VARCHAR},
@@ -166,6 +203,12 @@
       <if test="attachmentId4 != null" >
         attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
       </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -175,14 +218,18 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
+      reason = #{reason,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
       waybill_id = #{waybillId,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
       attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
-      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR}
+      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

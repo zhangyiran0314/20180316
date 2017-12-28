@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.api.bean.OrderResp;
 import com.iflytransporter.api.bean.WaybillResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
@@ -29,6 +28,9 @@ import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.service.WaybillService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.api.utils.UUIDUtil;
+import com.iflytransporter.common.bean.Comment;
+import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.Waybill;
@@ -196,5 +198,40 @@ public class ShipperWaybillController {
 	}
 	
 	
+	@ApiOperation(value="comment", notes="发布评论",produces = "application/json")
+	@RequestMapping(value="comment", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> comment(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Comment comment){
+		Waybill waybill = waybillService.query(comment.getWaybillId());
+		comment.setId(UUIDUtil.UUID());
+		comment.setShipperId(waybill.getShipperId());
+		comment.setShipperCompanyId(waybill.getShipperCompanyId());
+		comment.setTransporterCompanyId(waybill.getTransporterCompanyId());
+		comment.setTransporterId(waybill.getTransporterId());
+		int result = waybillService.addComment(comment);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	
+	@ApiOperation(value="complaint", notes="提交投诉",produces = "application/json")
+	@RequestMapping(value="complaint", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> complaint(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Complaint complaint){
+		Waybill waybill = waybillService.query(complaint.getWaybillId());
+		complaint.setId(UUIDUtil.UUID());
+		complaint.setShipperId(waybill.getShipperId());
+		complaint.setShipperCompanyId(waybill.getShipperCompanyId());
+		complaint.setTransporterCompanyId(waybill.getTransporterCompanyId());
+		complaint.setTransporterId(waybill.getTransporterId());
+		int result = waybillService.addComplaint(complaint);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 	
 }

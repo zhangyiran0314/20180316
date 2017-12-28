@@ -8,6 +8,8 @@
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="loading_grade" property="loadingGrade" jdbcType="INTEGER" />
+    <result column="goods_grade" property="goodsGrade" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
@@ -20,9 +22,9 @@
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, grade, content, shipper_id, transporter_id, 
-    waybill_id, shipper_company_id, transporter_company_id, attachment_id_1, attachment_id_2, 
-    attachment_id_3, attachment_id_4
+    id, create_date, update_date, data_status, desp, grade, loading_grade, goods_grade, 
+    content, shipper_id, transporter_id, waybill_id, shipper_company_id, transporter_company_id, 
+    attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -35,16 +37,18 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Comment" >
-    insert into t_comment (id, create_date, update_date, 
-      data_status, desp, grade, 
-      content, shipper_id, transporter_id, 
-      waybill_id, shipper_company_id, transporter_company_id, 
+    insert into t_comment (id,  update_date, 
+       desp, grade, 
+      loading_grade, goods_grade, content, 
+      shipper_id, transporter_id, waybill_id, 
+      shipper_company_id, transporter_company_id, 
       attachment_id_1, attachment_id_2, attachment_id_3, 
       attachment_id_4)
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
-      #{waybillId,jdbcType=VARCHAR}, #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR},  now(),
+       #{desp,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
+      #{loadingGrade,jdbcType=INTEGER}, #{goodsGrade,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
+      #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
       #{attachmentId4,jdbcType=VARCHAR})
   </insert>
@@ -68,6 +72,12 @@
       </if>
       <if test="grade != null" >
         grade,
+      </if>
+      <if test="loadingGrade != null" >
+        loading_grade,
+      </if>
+      <if test="goodsGrade != null" >
+        goods_grade,
       </if>
       <if test="content != null" >
         content,
@@ -119,6 +129,12 @@
       <if test="grade != null" >
         #{grade,jdbcType=INTEGER},
       </if>
+      <if test="loadingGrade != null" >
+        #{loadingGrade,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGrade != null" >
+        #{goodsGrade,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
@@ -169,6 +185,12 @@
       <if test="grade != null" >
         grade = #{grade,jdbcType=INTEGER},
       </if>
+      <if test="loadingGrade != null" >
+        loading_grade = #{loadingGrade,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGrade != null" >
+        goods_grade = #{goodsGrade,jdbcType=INTEGER},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
       </if>
@@ -209,6 +231,8 @@
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
       grade = #{grade,jdbcType=INTEGER},
+      loading_grade = #{loadingGrade,jdbcType=INTEGER},
+      goods_grade = #{goodsGrade,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},

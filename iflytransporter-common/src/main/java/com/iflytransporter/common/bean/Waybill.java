@@ -48,6 +48,10 @@ public class Waybill {
     private String deliverAttachmentId3;
 
     private String deliverAttachmentId4;
+    
+    private Date takeDate;
+    private Date deliverDate;
+    private Date confirmDate;
 
     public String getId() {
         return id;
@@ -232,4 +236,29 @@ public class Waybill {
     public void setDeliverAttachmentId4(String deliverAttachmentId4) {
         this.deliverAttachmentId4 = deliverAttachmentId4 == null ? null : deliverAttachmentId4.trim();
     }
+
+	public Date getTakeDate() {
+		return takeDate;
+	}
+
+	public void setTakeDate(Date takeDate) {
+		this.takeDate = takeDate;
+	}
+
+	public Date getDeliverDate() {
+		return deliverDate;
+	}
+
+	public void setDeliverDate(Date deliverDate) {
+		this.deliverDate = deliverDate;
+	}
+
+	public Date getConfirmDate() {
+		return confirmDate;
+	}
+
+	public void setConfirmDate(Date confirmDate) {
+		this.confirmDate = confirmDate;
+	}
+    
 }

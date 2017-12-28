@@ -33,7 +33,7 @@
     <result column="handling_type_id" jdbcType="VARCHAR" property="handlingTypeId" />
     <result column="payment_type_id" jdbcType="VARCHAR" property="paymentTypeId" />
     <result column="auth_status" jdbcType="INTEGER" property="authStatus" />
-    <result column="auth_date" jdbcType="DATE" property="authDate" />
+    <result column="auth_date" jdbcType="TIMESTAMP" property="authDate" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="company_id" jdbcType="VARCHAR" property="companyId" />
   </resultMap>
@@ -114,12 +114,13 @@
   </update>
   
   <select id="detailAudit" resultType="java.util.HashMap">
-  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,e.grade,f.count
+  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,
+  	e.grade,e.loadingGrade,e.goodsGrade,f.count
 	from t_order a
 	left join t_order_apply b on a.id = b.order_id  
 	left JOIN t_user c on b.transporter_id = c.id
 	left join t_company d on c.company_id = d.id
-	left join (select transporter_id ,AVG(grade) as grade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
+	left join (select transporter_id ,AVG(grade) as grade,AVG(loading_grade) as loadingGrade,AVG(goods_grade) as goodsGrade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
 	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on b.transporter_id = f.transporter_id
  where a.id = #{id,jdbcType=VARCHAR} and b.status =  #{applyStatus,jdbcType=INTEGER}
   </select>
@@ -154,7 +155,7 @@
       #{insuranceId,jdbcType=VARCHAR}, #{repeatFlag,jdbcType=INTEGER}, #{useTypeId,jdbcType=VARCHAR}, 
       #{length,jdbcType=VARCHAR}, #{width,jdbcType=VARCHAR}, #{height,jdbcType=VARCHAR}, 
       #{handlingTypeId,jdbcType=VARCHAR}, #{paymentTypeId,jdbcType=VARCHAR}, #{authStatus,jdbcType=INTEGER}, 
-      #{authDate,jdbcType=DATE}, #{orderNo,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{weight,jdbcType=INTEGER})
+      #{authDate,jdbcType=TIMESTAMP}, #{orderNo,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{weight,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Order">
     insert into t_order
@@ -354,7 +355,7 @@
         #{authStatus,jdbcType=INTEGER},
       </if>
       <if test="authDate != null">
-        #{authDate,jdbcType=DATE},
+        #{authDate,jdbcType=TIMESTAMP},
       </if>
       <if test="orderNo != null">
         #{orderNo,jdbcType=VARCHAR},
@@ -458,7 +459,7 @@
         auth_status = #{authStatus,jdbcType=INTEGER},
       </if>
       <if test="authDate != null">
-        auth_date = #{authDate,jdbcType=DATE},
+        auth_date = #{authDate,jdbcType=TIMESTAMP},
       </if>
       <if test="orderNo != null">
         order_no = #{orderNo,jdbcType=VARCHAR},
@@ -503,7 +504,7 @@
       handling_type_id = #{handlingTypeId,jdbcType=VARCHAR},
       payment_type_id = #{paymentTypeId,jdbcType=VARCHAR},
       auth_status = #{authStatus,jdbcType=INTEGER},
-      auth_date = #{authDate,jdbcType=DATE},
+      auth_date = #{authDate,jdbcType=TIMESTAMP},
       order_no = #{orderNo,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
        weight = #{weight,jdbcType=INTEGER}

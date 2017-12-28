@@ -26,15 +26,17 @@
     <result column="deliver_attachment_id_2" property="deliverAttachmentId2" jdbcType="VARCHAR" />
     <result column="deliver_attachment_id_3" property="deliverAttachmentId3" jdbcType="VARCHAR" />
     <result column="deliver_attachment_id_4" property="deliverAttachmentId4" jdbcType="VARCHAR" />
-    
+    <result column="take_date" property="takeDate" jdbcType="TIMESTAMP" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="confirm_date" property="confirmDate" jdbcType="TIMESTAMP" />
   </resultMap>
   
    <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, order_id, shipper_id, transporter_id, 
+   id, create_date, update_date, data_status, desp, order_id, shipper_id, transporter_id, 
     is_transfer, transfer_transporter_id, status, costs, order_no, transporter_company_id, 
     shipper_company_id, take_attachment_id_1, take_attachment_id_2, take_attachment_id_3, 
-    take_attachment_id_4, deliver_attachment_id_1, deliver_attachment_id_2, deliver_attachment_id_3, 
-    deliver_attachment_id_4
+    take_attachment_id_4, take_date, deliver_attachment_id_1, deliver_attachment_id_2, 
+    deliver_attachment_id_3, deliver_attachment_id_4, deliver_date, confirm_date
   </sql>
   
  <!--  <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String">
@@ -51,11 +53,11 @@
     where a.id =  #{id,jdbcType=VARCHAR}
   </select> -->
   <select id="takeAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
-   select 
+   select a.take_date as takeDate,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
 	from t_waybill a 
 	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
 	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id
@@ -65,11 +67,11 @@
   </select>
   
   <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
-   select 
+   select a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link
 	from t_waybill a 
 	LEFT JOIN t_attachment b on a.take_attachment_id_1 = b.id
 	LEFT JOIN t_attachment c on a.take_attachment_id_2 = c.id
@@ -120,7 +122,7 @@
   </select>
   
   <update id="updateStatus">
-  	update t_waybill set  status  = #{status,jdbcType=INTEGER} where id =#{id,jdbcType=VARCHAR}
+  	update t_waybill set  status  = #{status,jdbcType=INTEGER},confirm_date =now() where id =#{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

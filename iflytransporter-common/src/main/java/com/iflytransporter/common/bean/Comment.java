@@ -15,6 +15,10 @@ public class Comment {
 
     private Integer grade;
 
+    private Integer loadingGrade;
+
+    private Integer goodsGrade;
+
     private String content;
 
     private String shipperId;
@@ -81,6 +85,22 @@ public class Comment {
 
     public void setGrade(Integer grade) {
         this.grade = grade;
+    }
+
+    public Integer getLoadingGrade() {
+        return loadingGrade;
+    }
+
+    public void setLoadingGrade(Integer loadingGrade) {
+        this.loadingGrade = loadingGrade;
+    }
+
+    public Integer getGoodsGrade() {
+        return goodsGrade;
+    }
+
+    public void setGoodsGrade(Integer goodsGrade) {
+        this.goodsGrade = goodsGrade;
     }
 
     public String getContent() {
