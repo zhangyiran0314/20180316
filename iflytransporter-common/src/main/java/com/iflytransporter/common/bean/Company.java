@@ -14,10 +14,11 @@ public class Company extends BaseEntity{
 
     private String address;
 
-    private Short status;
+    private Integer status;
 
     private String attachmentId1;
 
+    private String userId;
 
     public String getName() {
         return name;
@@ -51,11 +52,11 @@ public class Company extends BaseEntity{
         this.address = address == null ? null : address.trim();
     }
 
-    public Short getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(Short status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -66,7 +67,16 @@ public class Company extends BaseEntity{
     public void setAttachmentId1(String attachmentId1) {
         this.attachmentId1 = attachmentId1 == null ? null : attachmentId1.trim();
     }
-    @Override
+    
+    public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	@Override
   	public String toString() {
     	  return JSONObject.toJSONString(this).toString();
   	}

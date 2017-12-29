@@ -39,6 +39,7 @@ public class CompanyController {
 		String userId =  (String) request.getAttribute("userId");
 		String id = UUIDUtil.UUID();
 		company.setId(id);
+		company.setUserId(userId);
 		int result = companyService.save(company,userId);
 		if(result > 0){
 			return ResponseUtil.successResultId(id);
