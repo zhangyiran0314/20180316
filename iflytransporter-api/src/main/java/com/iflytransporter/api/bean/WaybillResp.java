@@ -60,12 +60,15 @@ public class WaybillResp {
 
     private CommonParam paymentType;
     
+    private Date confirmDate;
+    
     public WaybillResp(WaybillBO waybill) {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
 		this.status = waybill.getStatus();
 		this.costs = waybill.getCosts();
 		this.orderNo = waybill.getOrderNo();
+		this.confirmDate =waybill.getConfirmDate();
 	}
     public WaybillResp(Waybill waybill) {
     	this.orderId = waybill.getOrderId();
@@ -73,6 +76,7 @@ public class WaybillResp {
 		this.status = waybill.getStatus();
 		this.costs = waybill.getCosts();
 		this.orderNo = waybill.getOrderNo();
+		this.confirmDate = waybill.getConfirmDate();
 	}
     
     public void setOrder(Order order){
@@ -322,6 +326,12 @@ public class WaybillResp {
 	}
 	public void setDeliverAttachmentList(List<Map<String, Object>> deliverAttachmentList) {
 		this.deliverAttachmentList = deliverAttachmentList;
+	}
+	public Date getConfirmDate() {
+		return confirmDate;
+	}
+	public void setConfirmDate(Date confirmDate) {
+		this.confirmDate = confirmDate;
 	}
     
     

@@ -87,7 +87,7 @@ public class GoodsSourceController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
@@ -113,7 +113,7 @@ public class GoodsSourceController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
-			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
@@ -157,7 +157,7 @@ public class GoodsSourceController {
 		op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
 		op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
 		op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
-		op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
+//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 		return ResponseUtil.successResult(op);
 	}
 	@ApiOperation(value="modify", notes="修改",produces = "application/json",response=GoodsSourceResp.class)

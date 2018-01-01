@@ -39,7 +39,7 @@ public class GoodsSourceResp {
     
 	private CommonParam carType;
 	
-	private CommonParam goodsUnits;
+	private String goodsUnits;
 
 	private CommonParam useType;
 
@@ -58,6 +58,7 @@ public class GoodsSourceResp {
 		this.width = gs.getWidth();
 		this.height = gs.getHeight();
 		this.weight =gs.getWeight();
+		this.goodsUnits=gs.getGoodsUnits();
 	}
 
 	public String getId() {
@@ -188,11 +189,11 @@ public class GoodsSourceResp {
 		this.carType = carType;
 	}
 
-	public CommonParam getGoodsUnits() {
+	public String getGoodsUnits() {
 		return goodsUnits;
 	}
 
-	public void setGoodsUnits(CommonParam goodsUnits) {
+	public void setGoodsUnits(String goodsUnits) {
 		this.goodsUnits = goodsUnits;
 	}
 

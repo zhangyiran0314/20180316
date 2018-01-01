@@ -75,9 +75,10 @@ public class ShipperAuthController {
 		}
 		User user = userService.detailByCache(userId);
 		PageInfo<Order> page = null;
+		//如果是管理员,查询当前公司所有授权以及未授权记录
 		if(user.getLevel()==Status.User_Admin){
 			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),null,status);
-		}else{
+		}else{//如果是员工,查询个人的记录
 			page = shipperAuthService.queryPage(pageNo,pageSize, null,userId,status);
 		}
 		if(page.getTotal()== 0){
@@ -100,7 +101,7 @@ public class ShipperAuthController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-			if(user.getLevel()==Status.User_Admin){
+			if(Status.User_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
 			result.add(op);
@@ -112,7 +113,7 @@ public class ShipperAuthController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2} 授权状态:0-未授权,1-已授权,授权取消") Map<String,Object> requestMap){
+			@RequestBody @ApiParam("{status:0|1} 授权状态:0-未授权,1-已授权{1-已授权,2-授权取消}") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);

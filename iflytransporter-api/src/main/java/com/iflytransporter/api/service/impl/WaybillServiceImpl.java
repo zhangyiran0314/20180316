@@ -38,7 +38,7 @@ public class WaybillServiceImpl implements WaybillService {
 
 	@Override
 	public List<Waybill> list(String userId, String shipperCompanyId, Integer status) {
-		return waybillMapper.queryAll(userId, null, shipperCompanyId, shipperCompanyId, status);
+		return waybillMapper.queryAll(userId, null, shipperCompanyId, null, status);
 	}
 
 	@Override

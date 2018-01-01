@@ -54,20 +54,6 @@
   </select> -->
   <select id="takeAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
    select a.take_date as takeDate,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
-	from t_waybill a 
-	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
-	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id
-	LEFT JOIN t_attachment d on a.deliver_attachment_id_3 = d.id
-	LEFT JOIN t_attachment e on a.deliver_attachment_id_4 = e.id
-    where a.id =  #{id,jdbcType=VARCHAR}
-  </select>
-  
-  <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
-   select a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
@@ -77,6 +63,21 @@
 	LEFT JOIN t_attachment c on a.take_attachment_id_2 = c.id
 	LEFT JOIN t_attachment d on a.take_attachment_id_3 = d.id
 	LEFT JOIN t_attachment e on a.take_attachment_id_4 = e.id
+    where a.id =  #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
+   select a.deliver_date as deliverDate,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
+	from t_waybill a 
+	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
+	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id
+	LEFT JOIN t_attachment d on a.deliver_attachment_id_3 = d.id
+	LEFT JOIN t_attachment e on a.deliver_attachment_id_4 = e.id
+	where a.id =  #{id,jdbcType=VARCHAR}
   </select>
   
   <select id="queryAll" resultMap="BaseResultMap" >

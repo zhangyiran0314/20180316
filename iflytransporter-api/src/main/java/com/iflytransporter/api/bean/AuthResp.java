@@ -27,6 +27,7 @@ public class AuthResp{
 		this.authDate = order.getAuthDate();
 		this.orderNo = order.getOrderNo();
 		this.applyDate = order.getCreateDate();
+		this.goodsUnits = order.getGoodsUnits();
 	}
 
 
@@ -76,7 +77,7 @@ public class AuthResp{
     
 	private CommonParam carType;
 	
-	private CommonParam goodsUnits;
+	private String goodsUnits;
 
 	private CommonParam useType;
 
@@ -134,11 +135,11 @@ public class AuthResp{
 		this.carType = carType;
 	}
 
-	public CommonParam getGoodsUnits() {
+	public String getGoodsUnits() {
 		return goodsUnits;
 	}
 
-	public void setGoodsUnits(CommonParam goodsUnits) {
+	public void setGoodsUnits(String goodsUnits) {
 		this.goodsUnits = goodsUnits;
 	}
 

@@ -51,12 +51,13 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		return transporterOrderMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public OrderApply apply(String orderId, Double costs,User user) {
+	public OrderApply apply(String orderId, Double costs,String carId,User user) {
 //		Order order = transporterOrderMapper.selectByPrimaryKey(id);
 		OrderApply oa = new OrderApply();
 		oa.setId(UUIDUtil.UUID());
 		oa.setCosts(costs);
 		oa.setOrderId(orderId);
+		oa.setCarId(carId);
 		oa.setTransporterId(user.getId());
 		oa.setCompanyId(user.getCompanyId());
 		int result = orderApplyMapper.insert(oa);

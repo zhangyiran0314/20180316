@@ -83,7 +83,7 @@
       and auth_status  = #{authStatus,jdbcType=VARCHAR}
     </if>
     <if test="authStatus == null" >
-      and auth_status ! = ${@com.iflytransporter.common.enums.Status@Order_Auth_No}
+      and auth_status != ${@com.iflytransporter.common.enums.Status@Order_Auth_No}
     </if>
     <include refid ="Valid_SQL"/>
   </select>
@@ -109,7 +109,7 @@
         auth_status = #{authStatus,jdbcType=INTEGER},
        </if>
         auth_date =  now(),
-        update_date =  now(),
+        update_date =  now()
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

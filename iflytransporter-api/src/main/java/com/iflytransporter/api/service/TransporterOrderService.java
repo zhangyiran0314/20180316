@@ -34,7 +34,7 @@ public interface TransporterOrderService  {
 	 * @param userId
 	 * @return
 	 */
-	OrderApply apply(String id,Double costs,User user);
+	OrderApply apply(String id,Double costs,String carId,User user);
 	/**
 	 * 审核详情
 	 */

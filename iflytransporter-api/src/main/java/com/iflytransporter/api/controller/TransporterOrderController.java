@@ -170,11 +170,12 @@ public class TransporterOrderController {
 	public Map<String,Object> apply(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{id:id,costs:costs} id-订单id,costs-报价(使用字符串类型传值)") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
+		String carId = (String) requestMap.get("carId");
 		String costss =  (String) requestMap.get("costs");
 		Double costs = Double.parseDouble(costss);
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
-		OrderApply result = transporterOrderService.apply(id, costs, user);
+		OrderApply result = transporterOrderService.apply(id, costs,carId, user);
 		if(result != null){
 			return ResponseUtil.successResult(result);
 		}

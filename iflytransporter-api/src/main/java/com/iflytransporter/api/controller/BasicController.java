@@ -196,6 +196,7 @@ public class BasicController {
 			data.put("token", token);
 			data.put("authStatus", user.getAuthStatus());
 			data.put("companyAuthStatus", user.getCompanyAuthStatus());
+			data.put("level", user.getLevel());
 			return ResponseUtil.successResult(data);
 		}
 		return ResponseUtil.failureResult();

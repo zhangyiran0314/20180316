@@ -15,6 +15,8 @@ public class OrderApply extends BaseEntity{
     private String transporterId;
 
     private String companyId;
+    
+    private String carId;
 
     public OrderApply() {
 		super();
@@ -58,6 +60,14 @@ public class OrderApply extends BaseEntity{
 
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
+	}
+
+	public String getCarId() {
+		return carId;
+	}
+
+	public void setCarId(String carId) {
+		this.carId = carId;
 	}
     
 }
