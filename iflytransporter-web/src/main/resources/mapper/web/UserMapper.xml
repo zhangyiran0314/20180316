@@ -362,6 +362,12 @@
       <if test="level != null" >
         level = #{level,jdbcType=INTEGER},
       </if>
+       <if test="authStatus != null" >
+        auth_status = #{authStatus,jdbcType=INTEGER},
+      </if>
+       <if test="companyAuthStatus != null" >
+        company_auth_status =#{companyAuthStatus,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>

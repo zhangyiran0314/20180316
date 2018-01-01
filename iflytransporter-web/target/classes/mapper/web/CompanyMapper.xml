@@ -11,7 +11,8 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -25,14 +26,15 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="SMALLINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
      <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code, email, address, status, 
-    attachment_id_1
+    attachment_id_1,user_id
   </sql>
   
   
@@ -44,7 +46,7 @@
   
    <select id="queryAllBO" resultMap="BaseResultMapBO">
   	  select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, a.user_id,
     a.attachment_id_1,
     b.attachment_link as attachment_id_1_link
     from t_company a
@@ -57,7 +59,7 @@
   
     <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
     select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, a.user_id,
     a.attachment_id_1,
     b.attachment_link as attachment_id_1_link
     from t_company a
@@ -79,11 +81,11 @@
     insert into t_company (id, create_date, update_date, 
       data_status, desp, name, 
       code, email, address, 
-      status, attachment_id_1)
+      status, attachment_id_1,user_id)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{status,jdbcType=SMALLINT}, #{attachmentId1,jdbcType=VARCHAR})
+      #{status,jdbcType=INTEGER}, #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company
@@ -151,7 +153,7 @@
         #{address,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=SMALLINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="attachmentId1 != null" >
         #{attachmentId1,jdbcType=VARCHAR},
@@ -186,7 +188,7 @@
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=SMALLINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="attachmentId1 != null" >
         attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
@@ -204,7 +206,7 @@
       code = #{code,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      status = #{status,jdbcType=SMALLINT},
+      status = #{status,jdbcType=INTEGER},
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

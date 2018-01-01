@@ -38,6 +38,12 @@ public class ShipperController {
 		return ResponseUtil.successPage(result.getTotal(), result.getList());
 				
 	}
+	@RequestMapping("detail")
+	@ResponseBody
+	public Map<String,Object> detail(String id,HttpServletRequest request){
+		UserBO obj = userService.queryDetailBO(id);
+		return ResponseUtil.successResult(obj);
+	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
@@ -48,21 +54,15 @@ public class ShipperController {
 		request.setAttribute("objectId", id);
 		return "shipper/edit";
 	}
-	@RequestMapping("toEditAuth")
-	public String toEditAuth(String id,HttpServletRequest request){
-		request.setAttribute("objectId", id);
-		return "shipper/editAuth";
-	}
-	@RequestMapping("detail")
-	@ResponseBody
-	public Map<String,Object> detail(String id,HttpServletRequest request){
-		UserBO obj = userService.queryDetailBO(id);
-		return ResponseUtil.successResult(obj);
-	}
 	@RequestMapping("edit")
 	@ResponseBody
 	public  Map<String,Object> edit(User obj,HttpServletRequest request){
 		return ResponseUtil.successResult();
+	}
+	@RequestMapping("toEditAuth")
+	public String toEditAuth(String id,HttpServletRequest request){
+		request.setAttribute("objectId", id);
+		return "shipper/editAuth";
 	}
 	@RequestMapping("editAuth")
 	@ResponseBody

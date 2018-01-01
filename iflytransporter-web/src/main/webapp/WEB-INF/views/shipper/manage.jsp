@@ -194,7 +194,7 @@ layui.config({
 		
 		<script type="text/html" id="bar">
  			{{#  if(d.authStatus == 1){ }}
-				<a class="layui-btn layui-btn-xs" lay-event="editAuth">个人审核</a>
+				<a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
 			{{#  }  }}
 	  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
 	  		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
