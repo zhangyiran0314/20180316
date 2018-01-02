@@ -28,6 +28,7 @@ public class AuthResp{
 		this.orderNo = order.getOrderNo();
 		this.applyDate = order.getCreateDate();
 		this.goodsUnits = order.getGoodsUnits();
+		this.weight = order.getWeight();
 	}
 
 
@@ -62,6 +63,8 @@ public class AuthResp{
     private String orderNo;
 
     private Date applyDate;
+    
+    private Integer weight;
 	
 	private CommonParam departureProvince;
 
@@ -310,6 +313,14 @@ public class AuthResp{
 
 	public void setUser(OrderUserResp user) {
 		this.user = user;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 	
 }

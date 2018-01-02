@@ -78,7 +78,7 @@ public class ShipperWaybillController {
 		
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
-		if(Status.User_Admin==user.getLevel()){
+		if(Status.User_Level_Admin==user.getLevel()){
 			page = waybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status);
 		}else{
 			page = waybillService.queryPage(pageNo, pageSize, userId, null, status);
@@ -119,7 +119,7 @@ public class ShipperWaybillController {
 		
 		List<Waybill> list =null;
 		User user = userService.detailByCache(userId);
-		if(Status.User_Admin==user.getLevel()){
+		if(Status.User_Level_Admin==user.getLevel()){
 			list = waybillService.list(null, user.getCompanyId(), status);
 		}else{
 			list = waybillService.list(userId,null,status);

@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.CompanyResp;
 import com.iflytransporter.api.service.CompanyService;
+import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
+import com.iflytransporter.common.bean.User;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -28,6 +30,8 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/company/{version}")
 public class CompanyController {
 	
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private CompanyService companyService;
 	
@@ -50,10 +54,10 @@ public class CompanyController {
 	@ApiOperation(value="detail", notes="详情",produces = "application/json",response=CompanyResp.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{id:id} id:公司id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		CompanyBO company = companyService.query(id);
+	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		CompanyBO company = companyService.query(user.getCompanyId());
 		return ResponseUtil.successResult(new CompanyResp(company));
 	}
 	

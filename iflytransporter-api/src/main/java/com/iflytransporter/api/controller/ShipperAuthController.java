@@ -76,10 +76,10 @@ public class ShipperAuthController {
 		User user = userService.detailByCache(userId);
 		PageInfo<Order> page = null;
 		//如果是管理员,查询当前公司所有授权以及未授权记录
-		if(user.getLevel()==Status.User_Admin){
+		if(user.getLevel()==Status.User_Level_Admin){
 			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),null,status);
 		}else{//如果是员工,查询个人的记录
-			page = shipperAuthService.queryPage(pageNo,pageSize, null,userId,status);
+			page = shipperAuthService.queryPage(pageNo,pageSize, null,userId,null);
 		}
 		if(page.getTotal()== 0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
@@ -101,7 +101,7 @@ public class ShipperAuthController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-			if(Status.User_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
+			if(Status.User_Level_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
 			result.add(op);
@@ -121,10 +121,10 @@ public class ShipperAuthController {
 		if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
 			status = null;
 		}
-		if(user.getLevel()==Status.User_Admin){
+		if(user.getLevel()==Status.User_Level_Admin){
 			list = shipperAuthService.list(user.getCompanyId(),null,status);
 		}else{
-			list = shipperAuthService.list(null,userId,status);
+			list = shipperAuthService.list(null,userId,null);
 		}
 		List<AuthResp> result = new ArrayList<AuthResp>();
 		for(Order order:list){
@@ -142,7 +142,7 @@ public class ShipperAuthController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-			if(user.getLevel()==Status.User_Admin){
+			if(user.getLevel()==Status.User_Level_Admin){
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
 			result.add(op);

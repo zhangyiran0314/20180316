@@ -10,7 +10,10 @@ public class Status {
 	public static int User_Identify = 1;//用户认证
 	public static int User_Enable  = 2;//用户激活
 	
-	public static int User_Admin = 1;
+	//用户级别
+	public static int User_Level_Visitor  = 0;
+	public static int User_Level_Admin = 1;
+	public static int User_Level_Staff =2;
 	
 	//用户认证状态
 	public static int Auth_No = 0;//未认证

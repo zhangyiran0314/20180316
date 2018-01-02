@@ -82,9 +82,6 @@
      <if test="authStatus != null" >
       and auth_status  = #{authStatus,jdbcType=VARCHAR}
     </if>
-    <if test="authStatus == null" >
-      and auth_status != ${@com.iflytransporter.common.enums.Status@Order_Auth_No}
-    </if>
     <include refid ="Valid_SQL"/>
   </select>
   

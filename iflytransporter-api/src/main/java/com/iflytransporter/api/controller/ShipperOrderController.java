@@ -37,6 +37,7 @@ import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.utils.MethodUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -166,10 +167,13 @@ public class ShipperOrderController {
 		}
 		User user = userService.detailByCache(userId);
 		order.setCompanyId(user.getCompanyId());
-		if(Status.User_Admin==user.getLevel()){
+		if(Status.User_Level_Admin==user.getLevel()){
 			order.setAuthDate(new Date());
 			order.setAuthStatus(Status.Order_Auth_Yes);
+		}else{
+			order.setAuthStatus(Status.Order_Auth_No);
 		}
+		order.setOrderNo(MethodUtil.genOrderNum(userId));
 		int result = shipperOrderService.save(order);
 		if(result > 0){
 			if(order.isAddGoodsSource()){

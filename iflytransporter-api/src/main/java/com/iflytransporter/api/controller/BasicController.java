@@ -135,14 +135,27 @@ public class BasicController {
 	@RequestMapping(value="register", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object>  register(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="countryCode,mobile,password,userType-0表示货主,1表示车主")Map<String,Object> requestMap){
+			@RequestBody @ApiParam(value="countryCode,mobile,password,email,userType-0表示货主,1表示车主")Map<String,Object> requestMap){
 		String mobile = (String) requestMap.get("mobile");
+		String email = (String) requestMap.get("email");
 		String countryCode = (String)  requestMap.get("countryCode");
 		String password = (String) requestMap.get("password");
 		Integer userType = (Integer) requestMap.get("userType");
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)&& userType!=null){
 			User checkUser = userService.queryByMobile(countryCode, userType, mobile);
-			if(null!=checkUser){
+			if(null!=checkUser ){
+				if(StringUtils.isNotBlank(checkUser.getParentId())){//被上级注册过
+					userService.updatePwdOrMobileOrEmail(checkUser.getId(), password, null, email);
+					JwtUser jwtUser = new JwtUser(checkUser.getId(),checkUser.getCountryCode(),checkUser.getMobile(),checkUser.getPassword(),checkUser.getLastLoginDevice());
+					String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
+					Map<String,Object> data =new HashMap<String,Object>();
+					data.put("token", token);
+					data.put("authStatus", checkUser.getAuthStatus());
+					data.put("companyAuthStatus", checkUser.getCompanyAuthStatus());
+					data.put("level", checkUser.getLevel());
+					return ResponseUtil.successResult(data);
+				}
+				//已经注册,需要登录
 				return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
 			}
 			User user = new User();
@@ -151,11 +164,14 @@ public class BasicController {
 			user.setUpdateDate(currentDate);
 			user.setCountryCode(countryCode);
 			user.setMobile(mobile);
+			user.setEmail(email);
 			user.setPassword(password);
 			user.setId(UUIDUtil.UUID());
 			user.setUserType(userType);
 			user.setStatus(Status.User_Register);
-			
+			user.setLevel(Status.User_Level_Visitor);
+			user.setAuthStatus(Status.Auth_No);
+			user.setCompanyAuthStatus(Status.Auth_No);
 			int result =  userService.register(user);
 			if(result > 0){
 				Map<String,Object> data =new HashMap<String,Object>();

@@ -49,18 +49,25 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public String addDown(User user) throws ServiceException{
-		//员工不存在
+		
 		User userDown = userMapper.selectByMobile(user.getCountryCode(), user.getUserType(), user.getMobile());
+		//员工不存在,添加员工信息并设置权限
 		if(userDown == null){
 			user.setId(UUIDUtil.UUID());
+			user.setLevel(Status.User_Level_Staff);
+			user.setAuthStatus(Status.Auth_No);
+			user.setCompanyAuthStatus(Status.Auth_Yes);
 			int result = userMapper.insert(user);
 			if(result > 0){
 				return user.getId();
 			}
 		}
 		//员工存在
+		userDown.setLevel(Status.User_Level_Staff);
 		userDown.setParentId(user.getParentId());
-		userDown.setCompanyAuthStatus(Status.Auth_Pending);
+		userDown.setAuthStatus(Status.Auth_No);
+		userDown.setCompanyAuthStatus(Status.Auth_Yes);
+		userDown.setCompanyId(user.getCompanyId());
 		int result =  userMapper.updateByPrimaryKeySelective(userDown);
 		if(result > 0){
 			return userDown.getId();
@@ -133,7 +140,8 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public UserBO detailByCache(String id) {
-		try{
+		return userMapper.selectByPrimaryKeyBO(id);//测试阶段不采用缓存
+		/*try{
 			boolean hasKey = redisTemplate.hasKey(id);
 			if(hasKey){
 				ValueOperations<String, String> operations=redisTemplate.opsForValue();
@@ -149,7 +157,7 @@ public class UserServiceImpl implements UserService{
 			return user;
 		}catch(Exception e){
 			return null;
-		} 
+		} */
 		
 	}
 

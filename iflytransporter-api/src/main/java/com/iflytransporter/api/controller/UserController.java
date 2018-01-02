@@ -195,7 +195,9 @@ public class UserController {
 	public Map<String,Object> addDown(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="下级用户实体") User user){
 		String userId =  (String) request.getAttribute("userId");
+		User parentUser = userService.detailByCache(userId);
 		user.setParentId(userId);
+		user.setCompanyId(parentUser.getCompanyId());
 		String  result  = userService.addDown(user);
 		if(result !=null ){
 			return ResponseUtil.successResultId(result);

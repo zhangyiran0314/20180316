@@ -52,7 +52,7 @@ public class WaybillResp {
     
 	private CommonParam carType;
 	
-	private CommonParam goodsUnits;
+	private String goodsUnits;
 
 	private CommonParam useType;
 
@@ -61,6 +61,8 @@ public class WaybillResp {
     private CommonParam paymentType;
     
     private Date confirmDate;
+    
+    private Integer weight;
     
     public WaybillResp(WaybillBO waybill) {
     	this.orderId = waybill.getOrderId();
@@ -89,6 +91,8 @@ public class WaybillResp {
 		this.width = order.getWidth();
 		this.height = order.getHeight();
 		this.orderNo = order.getOrderNo();
+		this.goodsUnits = order.getGoodsUnits();
+		this.weight = order.getWeight();
     }
     //车主
     private Map<String,Object> transporter;
@@ -260,11 +264,11 @@ public class WaybillResp {
 		this.carType = carType;
 	}
 
-	public CommonParam getGoodsUnits() {
+	public String getGoodsUnits() {
 		return goodsUnits;
 	}
 
-	public void setGoodsUnits(CommonParam goodsUnits) {
+	public void setGoodsUnits(String goodsUnits) {
 		this.goodsUnits = goodsUnits;
 	}
 
@@ -332,6 +336,12 @@ public class WaybillResp {
 	}
 	public void setConfirmDate(Date confirmDate) {
 		this.confirmDate = confirmDate;
+	}
+	public Integer getWeight() {
+		return weight;
+	}
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
     
     

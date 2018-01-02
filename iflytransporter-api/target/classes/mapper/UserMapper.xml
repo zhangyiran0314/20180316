@@ -173,7 +173,7 @@
       last_login_device, company_id, parent_id, 
       attachment_id_1, attachment_id_2, attachment_id_3, 
       surname,name, card_no, email, 
-      country_code)
+      country_code,level,auth_status,company_auth_status)
     values (#{id,jdbcType=VARCHAR}, now(), 
       #{desp,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{userType,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
@@ -181,7 +181,7 @@
       #{lastLoginDevice,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
       #{surname,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{countryCode,jdbcType=VARCHAR})
+      #{countryCode,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{authStatus,jdbcType=INTEGER},#{companyAuthStatus,jdbcType=INTEGER})
   </insert>
   
   <select id="listDown" resultType="java.util.Map" parameterType="java.lang.String">
