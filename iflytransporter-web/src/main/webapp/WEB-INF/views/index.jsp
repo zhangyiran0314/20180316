@@ -52,6 +52,7 @@
 				<a class="img" title="我的头像" ><img src="<%=request.getContextPath()%>/images/face.jpg"></a>
 				<p>你好！<span class="userName">admin</span>, 欢迎登录</p>
 			</div>
+			<!-- 加载菜单链接部分 -->
 			<div class="navBar layui-side-scroll"></div>
 		</div>
 		<!-- 右侧内容 -->

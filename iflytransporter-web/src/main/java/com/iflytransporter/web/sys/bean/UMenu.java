@@ -12,6 +12,10 @@ public class UMenu implements Serializable {
 	private String url;
 	/** 操作的名称 */
 	private String name;
+	/** 父节点id*/
+	private Long parentId; 
+	/**菜单级别*/
+	private int level;//0-父级节点,1-子节点
 
 	public Long getId() {
 		return id;
@@ -35,6 +39,22 @@ public class UMenu implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
 	}
 
 	public String toString() {

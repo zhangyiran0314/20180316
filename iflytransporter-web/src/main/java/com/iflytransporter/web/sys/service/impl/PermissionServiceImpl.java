@@ -191,5 +191,10 @@ public class PermissionServiceImpl implements PermissionService {
 		return permissionMapper.findMenusByUserId(userId);
 	}
 
+	@Override
+	public List<Map<String, Object>> findMenusByParentId(Long id) {
+		return permissionMapper.findMenusByParentId(id);
+	}
+
 	
 }

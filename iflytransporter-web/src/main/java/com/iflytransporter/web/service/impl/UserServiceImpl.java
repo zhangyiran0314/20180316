@@ -36,4 +36,9 @@ public class UserServiceImpl implements UserService{
 		return new PageInfo<UserBO>(list);
 	}
 
+	@Override
+	public int updateUser(User user) {
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
+
 }

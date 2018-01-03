@@ -25,4 +25,6 @@ public interface UMenuMapper {
 	Set<String> findPermissionByUserId(Long id);
 	
 	List<Map<String,Object>>  findMenusByUserId(Long userId);
+	
+	List<Map<String,Object>>  findMenusByParentId(Long parentId);
 }

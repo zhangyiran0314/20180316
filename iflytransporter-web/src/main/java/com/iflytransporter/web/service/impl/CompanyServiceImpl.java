@@ -51,13 +51,15 @@ public class CompanyServiceImpl implements CompanyService {
 	public int auth(Company record) {
 		Company company = companyMapper.selectByPrimaryKey(record.getId());
 		User user = userMapper.selectByPrimaryKey(company.getUserId());
-		user.setCompanyAuthStatus(record.getStatus());
 		if(Status.Auth_Yes == record.getStatus().intValue()){
-			user.setLevel(Status.User_Admin);
+			user.setLevel(Status.User_Level_Admin);
 		}
-		userMapper.updateByPrimaryKeySelective(user);
+		user.setCompanyAuthStatus(record.getStatus());
 		company.setStatus(record.getStatus());
-		companyMapper.updateByPrimaryKeySelective(company);
-		return 0;
+		int result = companyMapper.updateByPrimaryKeySelective(company);
+		if(result > 0){
+			userMapper.updateByPrimaryKeySelective(user);
+		}
+		return result;
 	}
 }

@@ -13,8 +13,8 @@
 body{padding: 20px; /*overflow-y: scroll;*/}
 </style>
 <body>
-<input type="hidden" id ="objectId" name="objectId" value="${objectId}"/>
 	<form class="layui-form" style="width:80%;">
+	<input type="hidden" id ="objectId" name="id" value="${objectId}"/>
 		<div class="layui-form-item">
 			<label class="layui-form-label">mobile</label>
 			<div class="layui-input-block">
@@ -36,13 +36,16 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	     <div class="layui-form-item">
 		    <label class="layui-form-label">审核状态</label>
 		    <div class="layui-input-block">
-		      <input type="checkbox" name="authStatus" lay-skin="switch" value="2">
+		     <!--  <input type="checkbox" name="authStatus" lay-skin="switch" value="2"> -->
+		      	  <input type="radio" name="authStatus" value="0" title="未认证">
+			      <input type="radio" name="authStatus" value="1" title="待审核">
+			      <input type="radio" name="authStatus" value="2" title="审核通过" checked>
 		    </div>
 		  </div>
 	    <div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit="" lay-filter="save">立即提交</button>
-				<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				<!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
 		    </div>
 		</div>
 	</form>

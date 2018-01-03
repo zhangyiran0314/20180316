@@ -23,6 +23,8 @@ public class ResponseUtil {
 	
 	public static String Data_Key="data";
 	
+	public static String Msg_Data_Err="数据请求出错,请联系管理员";
+	
 	public static Map<String,Object> successResult(Object data){
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put(Code_Key,Code_Success);

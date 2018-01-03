@@ -66,7 +66,10 @@ public class CompanyController {
 	@RequestMapping("editAuth")
 	@ResponseBody
 	public  Map<String,Object> editAuth(@RequestBody Company obj,HttpServletRequest request){
-		companyService.auth(obj);
-		return ResponseUtil.successResult();
+		int result = companyService.auth(obj);
+		if(result > 0 ){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult(ResponseUtil.Msg_Data_Err);
 	}
 }

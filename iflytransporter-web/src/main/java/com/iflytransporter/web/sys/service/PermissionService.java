@@ -35,4 +35,6 @@ public interface PermissionService {
 	
 	//根据用户ID查询权限（permission），放入到Authorization里。
 	List<Map<String,Object>>  findMenusByUserId(Long userId);
+	
+	List<Map<String,Object>>  findMenusByParentId(Long id);
 }

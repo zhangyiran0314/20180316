@@ -36,8 +36,10 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	      <div class="layui-form-item">
 		    <label class="layui-form-label">审核</label>
 		    <div class="layui-input-block">
-		      <input type="radio" name="status" value="0" title="不通过">
-		      <input type="radio" name="status" value="2" title="通过" checked>
+		      
+		      <input type="radio" name="status" value="0" title="未认证">
+		      <input type="radio" name="status" value="1" title="待审核">
+		      <input type="radio" name="status" value="2" title="审核通过" checked>
 		    </div>
 		  </div>
 	    <div class="layui-form-item">

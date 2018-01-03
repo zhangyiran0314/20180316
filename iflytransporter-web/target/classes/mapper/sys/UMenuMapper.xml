@@ -5,9 +5,11 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+     <result column="level" property="level" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, url, name
+    id, url, name,parent_id
   </sql>
    <select id="findAll" resultMap="BaseResultMap" >
   	 select 
@@ -50,10 +52,17 @@
   		select p.url from sys_menu p , sys_role_menu rp, sys_user_role ur 
 		where uid =#{id,jdbcType=BIGINT} and p.id = rp.pid and rp.rid = ur.rid
   </select>
-   <!-- 根据用ID查询menu -->
+   <!-- 根据用户ID查询menu -->
   <select id="findMenusByUserId" resultType ="java.util.HashMap">
-  		select p.id as id,p.name as title,p.url as href from sys_menu p , sys_role_menu rp, sys_user_role ur 
+  		select p.id as id,p.name as title,p.url as href,p.parent_id as parentId,p.level as level
+  		from sys_menu p , sys_role_menu rp, sys_user_role ur 
 		where uid =#{id,jdbcType=BIGINT} and p.id = rp.pid and rp.rid = ur.rid
+  </select>
+  
+    <!-- 根据用ParentID查询menu -->
+  <select id="findMenusByParentId" resultType ="java.util.HashMap">
+  		select p.id as id,p.name as title,p.url as href from sys_menu p  
+		where  parent_id =#{id,jdbcType=BIGINT} 
   </select>
   
   

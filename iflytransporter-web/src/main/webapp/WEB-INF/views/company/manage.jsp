@@ -39,14 +39,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	
 	<table id="table" lay-filter="table_filter"></table>
 	
-	<script type="text/html" id="bar">
-		{{#  if(d.status == 1){ }}
-			<a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
-		{{#  }  }}
-	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-	  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>	
 	<script type="text/javascript" src="<%=request.getContextPath()%>/layui/layui.js"></script>
 <script type="text/javascript">
 layui.config({
@@ -70,6 +62,8 @@ layui.config({
                 {field: 'id', title: 'ID', width: '170', sort: true}, 
                 {field:'name',title:'名称', width:'180'},
                 {field:'code',title:'对应编码', width:'180'},
+                {field:'eamil',title:'邮件', width:'180'},
+                {field:'status',title:'状态', width:'180',templet: '#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -188,14 +182,20 @@ layui.config({
 })
 </script>
 		<!-- 认证状态-->
-		<script type="text/html" id="authTpl">
-		    {{#  if(d.authStatus == 0){ }}
+	<script type="text/html" id="authTpl">
+		    {{#  if(d.status == 0){ }}
 		   		 未认证
-		    {{# }else if(d.authStatus == 1){ }}
+		    {{# }else if(d.status == 1){ }}
 		  		  待审核
 		    {{#  } else{ }}
 				审核通过			
 			{{# }      }}
-		</script> 
+	</script> 
+	<script type="text/html" id="bar">
+	  <a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
+	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
+	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    </script>	
 </body>
 </html>

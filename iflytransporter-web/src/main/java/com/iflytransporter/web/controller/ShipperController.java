@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -66,7 +67,11 @@ public class ShipperController {
 	}
 	@RequestMapping("editAuth")
 	@ResponseBody
-	public  Map<String,Object> editAuth(User obj,HttpServletRequest request){
-		return ResponseUtil.successResult();
+	public  Map<String,Object> editAuth(@RequestBody User obj,HttpServletRequest request){
+		int result  = userService.updateUser(obj);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult(ResponseUtil.Msg_Data_Err);
 	}
 }
