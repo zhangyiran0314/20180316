@@ -41,6 +41,11 @@ public interface ShipperOrderService  {
 	List<Map<String,Object>> detailAudit(String id,Integer applyStatus);
 	
 	/**
+	 * 车主详情
+	 */
+	Map<String,Object> detailTransporter(String applyId,String orderId,Integer applyStatus);
+	
+	/**
 	 * 审核成功
 	 * 1.修改订单为运单状态
 	 * 2.取消其他申请

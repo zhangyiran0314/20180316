@@ -70,9 +70,9 @@ public class ShipperAuthController {
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
+		/*if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
 			status = null;
-		}
+		}*/
 		User user = userService.detailByCache(userId);
 		PageInfo<Order> page = null;
 		//如果是管理员,查询当前公司所有授权以及未授权记录
@@ -104,6 +104,7 @@ public class ShipperAuthController {
 			if(Status.User_Level_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
+//			op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
@@ -118,10 +119,10 @@ public class ShipperAuthController {
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		List<Order> list = null;
-		if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
+		/*if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
 			status = null;
-		}
-		if(user.getLevel()==Status.User_Level_Admin){
+		}*/
+		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			list = shipperAuthService.list(user.getCompanyId(),null,status);
 		}else{
 			list = shipperAuthService.list(null,userId,null);
@@ -142,9 +143,10 @@ public class ShipperAuthController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-			if(user.getLevel()==Status.User_Level_Admin){
+			if(Status.User_Level_Admin==user.getLevel().intValue()){
 				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			}
+//			op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);

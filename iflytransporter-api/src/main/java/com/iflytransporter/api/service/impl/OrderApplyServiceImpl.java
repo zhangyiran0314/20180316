@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.mapper.OrderApplyMapper;
 import com.iflytransporter.api.service.OrderApplyService;
 import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.enums.Status;
 
 @Service("orderApplyService")
 public class OrderApplyServiceImpl implements OrderApplyService{
@@ -45,6 +46,7 @@ public class OrderApplyServiceImpl implements OrderApplyService{
 		 if(result > 0 && otherStatus!= null){
 			 orderApplyMapper.updateOtherStatus(orderId, otherStatus);
 		 }
+		 orderApplyMapper.updateOtherContactStatus(id, orderId, Status.Audit_Contact_Yes);
 		 return result;
 	}
 

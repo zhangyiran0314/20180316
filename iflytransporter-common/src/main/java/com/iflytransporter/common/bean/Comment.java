@@ -13,7 +13,7 @@ public class Comment {
 
     private String desp;
 
-    private Integer grade;
+    private Integer serveGrade;
 
     private Integer loadingGrade;
 
@@ -79,15 +79,16 @@ public class Comment {
         this.desp = desp == null ? null : desp.trim();
     }
 
-    public Integer getGrade() {
-        return grade;
-    }
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+    public Integer getServeGrade() {
+		return serveGrade;
+	}
 
-    public Integer getLoadingGrade() {
+	public void setServeGrade(Integer serveGrade) {
+		this.serveGrade = serveGrade;
+	}
+
+	public Integer getLoadingGrade() {
         return loadingGrade;
     }
 

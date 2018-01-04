@@ -18,7 +18,7 @@ public class WaybillResp {
 
     private Integer status;
 
-    private Double costs;
+    private String costs;
 
     private String orderNo;
     
@@ -68,7 +68,7 @@ public class WaybillResp {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
 		this.status = waybill.getStatus();
-		this.costs = waybill.getCosts();
+		this.costs = waybill.getCosts().toString();
 		this.orderNo = waybill.getOrderNo();
 		this.confirmDate =waybill.getConfirmDate();
 	}
@@ -76,7 +76,7 @@ public class WaybillResp {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
 		this.status = waybill.getStatus();
-		this.costs = waybill.getCosts();
+		this.costs = waybill.getCosts().toString();
 		this.orderNo = waybill.getOrderNo();
 		this.confirmDate = waybill.getConfirmDate();
 	}
@@ -128,11 +128,11 @@ public class WaybillResp {
 		this.status = status;
 	}
 
-	public Double getCosts() {
+	public String getCosts() {
 		return costs;
 	}
 
-	public void setCosts(Double costs) {
+	public void setCosts(String costs) {
 		this.costs = costs;
 	}
 

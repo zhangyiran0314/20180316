@@ -30,4 +30,6 @@ public interface ShipperOrderMapper {
     int updateAuthStatus(@Param("id")String id,@Param("authStatus")Integer authStatus);
     
     List<Map<String, Object>> detailAudit(@Param("id")String id,@Param("applyStatus")Integer applyStatus) ;
+    
+    Map<String, Object> detailTransporter(@Param("applyId")String id,@Param("applyStatus")Integer applyStatus,@Param("contactStatus")Integer contactStatus) ;
 }

@@ -266,25 +266,25 @@ public class ShipperOrderController {
 	public Map<String,Object> detailAudit(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
-		/*Order order = shipperOrderService.query(id);
-		OrderResp op = new OrderResp(order);  
-		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
-		
-		op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
-		
-		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));*/
-//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-		
 		List<Map<String,Object>> result = shipperOrderService.detailAudit(id,Status.Order_Audit_No);
 		return ResponseUtil.successResult(result);
 	}
+	/**
+	 * 联系车主操作之后,其他申请不可再联系,contactStatus修改为不可联系状态
+	 * */
+	@ApiOperation(value="contactTransporter", notes="详情-联系车主",produces = "application/json",response = OrderResp.class)
+	@RequestMapping(value="contactTransporter", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> contactTransporter(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:orderId,applyId:applyId}") Map<String,Object> requestMap){
+		String applyId = (String) requestMap.get("applyId");
+		String orderId = (String) requestMap.get("orderId");
+		Map<String,Object> result = shipperOrderService.detailTransporter(applyId,orderId,Status.Order_Audit_No);
+		return ResponseUtil.successResult(result);
+	}
+	/**
+	 * 申请取消情况下,其他申请可被联系,contactStatus修改为可联系状态
+	 * */
 	@ApiOperation(value="auditCancel", notes="审核-取消",produces = "application/json")
 	@RequestMapping(value="auditCancel", method=RequestMethod.POST)
 	@ResponseBody
@@ -294,7 +294,7 @@ public class ShipperOrderController {
 		String applyId = (String) requestMap.get("applyId");
 		int result =  orderApplyService.updateStatus(orderId,applyId, Status.Order_Audit_Cancel,null);
 		if(result > 0){
-			return ResponseUtil.successResult();
+			return ResponseUtil.successResultId(orderId);
 		}
 		return ResponseUtil.failureResult();
 	}

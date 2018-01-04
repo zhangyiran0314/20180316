@@ -75,7 +75,7 @@ public class TransporterOrderController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{pageNo:1,pageSize:10} 此列表只能看到已通过授权的接口;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{pageNo:1,pageSize:10} 此列表只能看到已通过授权的数据;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
@@ -110,7 +110,7 @@ public class TransporterOrderController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{} ,此列表只能看到已通过授权的接口;") Map<String,Object> requestMap){
+			@RequestBody @ApiParam("{} ,此列表只能看到已通过授权的数据") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
@@ -164,16 +164,16 @@ public class TransporterOrderController {
 	}
 	
 	
-	@ApiOperation(value="apply", notes="找货-申请",produces = "application/json")
+	@ApiOperation(value="apply", notes="找货-报价",produces = "application/json")
 	@RequestMapping(value="apply", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> apply(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{id:id,costs:costs} id-订单id,costs-报价(使用字符串类型传值)") Map<String,Object> requestMap){
+			@RequestBody @ApiParam(value="{id:id,costs:costs} id-订单id,costs-报价(使用字符串类型传值),carId-车辆id") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
 		String carId = (String) requestMap.get("carId");
 		String costss =  (String) requestMap.get("costs");
 		Double costs = Double.parseDouble(costss);
-		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		OrderApply result = transporterOrderService.apply(id, costs,carId, user);
 		if(result != null){

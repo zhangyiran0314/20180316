@@ -57,7 +57,6 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		oa.setId(UUIDUtil.UUID());
 		oa.setCosts(costs);
 		oa.setOrderId(orderId);
-		oa.setCarId(carId);
 		oa.setTransporterId(user.getId());
 		oa.setCompanyId(user.getCompanyId());
 		int result = orderApplyMapper.insert(oa);

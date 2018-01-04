@@ -80,7 +80,7 @@
       and shipper_id  = #{shipperId,jdbcType=VARCHAR}
     </if>
      <if test="authStatus != null" >
-      and auth_status  = #{authStatus,jdbcType=VARCHAR}
+      and auth_status  = #{authStatus,jdbcType=INTEGER}
     </if>
     <include refid ="Valid_SQL"/>
   </select>
@@ -111,15 +111,29 @@
   </update>
   
   <select id="detailAudit" resultType="java.util.HashMap">
-  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,
-  	e.grade,e.loadingGrade,e.goodsGrade,f.count
+  	select b.id applyId,b.order_id as orderId,convert(b.costs,char)as costs,b.transporter_id as transporterId,c.surname,c.`name`,c.create_date as registerDate,d.id companyId,d.`name` companyName,
+  	round(e.grade) as grade,f.count,b.contact_status as contactStatus
 	from t_order a
 	left join t_order_apply b on a.id = b.order_id  
 	left JOIN t_user c on b.transporter_id = c.id
 	left join t_company d on c.company_id = d.id
-	left join (select transporter_id ,AVG(grade) as grade,AVG(loading_grade) as loadingGrade,AVG(goods_grade) as goodsGrade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
+	left join (select transporter_id,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade
+	from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
 	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on b.transporter_id = f.transporter_id
  where a.id = #{id,jdbcType=VARCHAR} and b.status =  #{applyStatus,jdbcType=INTEGER}
+  </select>
+  
+   <select id="detailTransporter" resultType="java.util.HashMap">
+  	select a.id applyId,a.order_id as orderId,convert(a.costs,char)as costs,a.transporter_id as transporterId,c.surname,
+	c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,
+	 round(e.serveGrade) as serveGrade,round(e.loadingGrade) as loadingGrade, round(e.goodsGrade) as goodsGrade,f.count,e.commentCount as commentCount
+	from t_order_apply a
+	left JOIN t_user c on a.transporter_id = c.id
+	left join t_company d on c.company_id = d.id
+	left join (select transporter_id,count(1) as commentCount ,
+	AVG(IFNULL(serve_grade,0))as serveGrade,AVG(IFNULL(loading_grade,0))as loadingGrade,AVG(IFNULL(goods_grade,0)) as goodsGrade from t_comment GROUP BY transporter_id) e on a.transporter_id = e.transporter_id
+	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on a.transporter_id = f.transporter_id
+ where a.id = #{applyId,jdbcType=VARCHAR} and a.status =  #{applyStatus,jdbcType=INTEGER} and a.contact_status =#{contactStatus,jdbcType=INTEGER}
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

@@ -1,8 +1,13 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.mapper.CommentMapper;
 import com.iflytransporter.api.service.CommentService;
 import com.iflytransporter.common.bean.Comment;
@@ -17,5 +22,27 @@ public class CommentServiceImopl implements CommentService{
 	public int add(Comment record) {
 		return commentMapper.insert(record);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageInfo<List<Map<String, Object>>> queryPageTransporter(Integer pageNo, Integer pageSize,
+			String transporterId, String transporterCompanyId) {
+		if(pageNo!= null && pageSize!= null){  
+            PageHelper.startPage(pageNo, pageSize);  
+        }  
+		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId);
+		return (PageInfo<List<Map<String, Object>>>) list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageInfo<List<Map<String, Object>>> queryPageShipper(Integer pageNo, Integer pageSize, String shipperId,String shipperCompanyId) {
+		if(pageNo!= null && pageSize!= null){  
+            PageHelper.startPage(pageNo, pageSize);  
+        }
+		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId);
+		return (PageInfo<List<Map<String, Object>>>) list;
+	}
+
 
 }

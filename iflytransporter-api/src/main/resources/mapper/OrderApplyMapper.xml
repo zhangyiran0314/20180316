@@ -12,10 +12,9 @@
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
      <result column="company_id" property="companyId" jdbcType="VARCHAR" />
-      <result column="car_id" property="carId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id,company_id,carId
+    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id,company_id
   </sql>
    <select id="queryAll" resultMap="BaseResultMap" >
     select 
@@ -63,7 +62,16 @@
       </set>
     where order_id = #{orderId,jdbcType=VARCHAR} and status = ${@com.iflytransporter.common.enums.Status@Order_Audit_No}
   </update>
-  
+  <update id="updateOtherContactStatus">
+      update  t_order_apply 
+     <set>
+       <if test="contactStatus != null">
+        contact_status = #{contactStatus,jdbcType=INTEGER},
+       </if>
+        update_date =  now(),
+      </set>
+    where id != #{id,jdbcType=VARCHAR} and order_id = #{orderId,jdbcType=VARCHAR}  
+  </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -77,10 +85,10 @@
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply (id, update_date,  desp, 
-      costs, order_id, transporter_id,company_id,car_id)
+      costs, order_id, transporter_id,company_id)
     values (#{id,jdbcType=VARCHAR}, now(), 
       #{desp,jdbcType=VARCHAR}, 
-      #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{carId,jdbcType=VARCHAR})
+      #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply

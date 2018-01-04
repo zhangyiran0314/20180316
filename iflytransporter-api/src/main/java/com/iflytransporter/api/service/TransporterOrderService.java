@@ -19,7 +19,7 @@ public interface TransporterOrderService  {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,Integer status,Integer checkStatus);
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,Integer status,Integer authStatus);
 	
 	/**
 	 * 列表-发布
