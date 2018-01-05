@@ -23,11 +23,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize,String sId) {
+	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Order> list= orderMapper.queryAll(sId);
+		List<Order> list= orderMapper.queryAll();
 		return new PageInfo<Order>(list);
 	}
 

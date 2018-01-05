@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,12 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public PageInfo<Comment> queryPage(Integer pageNo, Integer pageSize,String sId,String tId,String wId) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String sId,String tId,String wId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Comment> list= commentMapper.queryAll(sId, tId, wId);
-		return new PageInfo<Comment>(list);
+		List<Map<String,Object>> list= commentMapper.queryAll(sId, tId, wId);
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
 }

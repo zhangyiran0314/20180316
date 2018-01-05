@@ -18,4 +18,5 @@ public interface CarTypeMapper {
     int updateByPrimaryKey(CarType record);
     
     List<CarType> queryAll();
+    
 }

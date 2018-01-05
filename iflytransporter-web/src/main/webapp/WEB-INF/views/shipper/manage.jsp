@@ -1,13 +1,10 @@
+<%@ include file="../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<title>manage</title>
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/layui/css/layui.css"/>
 </head>
 <style>
 body{padding: 20px; /*overflow-y: scroll;*/}
@@ -39,7 +36,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	
 	<table id="table" lay-filter="table_filter"></table>
 	
-	<script type="text/javascript" src="<%=request.getContextPath()%>/layui/layui.js"></script>
 <script type="text/javascript">
 layui.config({
 	base : "js/"
@@ -63,6 +59,7 @@ layui.config({
                 {field:'mobile',title:'mobile', width:'180'},
                 {field:'surname',title:'姓', width:'180'},
                 {field:'name',title:'名', width:'180'},
+                {field:'level',title:'用户身份', width:'180',templet: '#levelTpl'},
                 {field:'authStatus',title:'个人认证', width:'180',templet: '#authTpl'},
                 {field:'companyAuthStatus',title:'公司认证', width:'180',templet: '#companyAuthTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
@@ -201,11 +198,20 @@ layui.config({
 				审核通过			
 			{{# }      }}
 		</script> 
+		<script type="text/html" id="levelTpl">
+		    {{#  if(d.level == 0){ }}
+		   		 游客
+		    {{# }else if(d.level == 1){ }}
+		  		  管理员
+		    {{#  } else{ }}
+				普通用户		
+			{{# }      }}
+		</script> 
 		<script type="text/html" id="bar">
 			<a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
-	  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  		<!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
 	  		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-	  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+	  		<!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
     	</script>	
 </body>
 </html>

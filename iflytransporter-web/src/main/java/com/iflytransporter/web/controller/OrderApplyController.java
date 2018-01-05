@@ -30,9 +30,9 @@ public class OrderApplyController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,String tId,String oId,HttpServletRequest request){
-		PageInfo<OrderApply> page = orderApplyService.queryPage(pageNo, 10, tId,oId);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String tId,String oId,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = orderApplyService.queryPage(page, limit, tId,oId);
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

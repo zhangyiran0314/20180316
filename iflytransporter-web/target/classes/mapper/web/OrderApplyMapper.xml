@@ -7,25 +7,25 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="INTEGER" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="SMALLINT" />
-    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="costs" property="costs" jdbcType="DOUBLE" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id
+    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id, 
+    company_id
   </sql>
-   <select id="queryAll" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_order_apply
-    where 1 = 1 
-    <if test="transporterId != null" >
-      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
-    </if>
-     <if test="orderId != null" >
-      and order_id  = #{orderId,jdbcType=VARCHAR}
-    </if>
+  
+  <select id="queryAll" resultType="java.util.HashMap" >
+    select  a.id, a.create_date as createDate, a.update_date as updateDate, a.data_status as dataStatus, a.desp as desp,
+     a.status, a.costs, d.order_no as orderNo, b.surname,b.name, 
+    c.name as companyName
+    from t_order_apply a
+    left join t_user b on a.transporter_id = b.id
+    left join t_company c on a.company_id = c.id
+    left join t_order d on a.order_id = d.id
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -41,10 +41,12 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply (id, create_date, update_date, 
       data_status, desp, status, 
-      costs, order_id, transporter_id)
+      costs, order_id, transporter_id, 
+      company_id)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
-      #{costs,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR})
+      #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply
@@ -76,6 +78,9 @@
       <if test="transporterId != null" >
         transporter_id,
       </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -94,16 +99,19 @@
         #{desp,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        #{status,jdbcType=SMALLINT},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
-        #{costs,jdbcType=INTEGER},
+        #{costs,jdbcType=DOUBLE},
       </if>
       <if test="orderId != null" >
         #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="transporterId != null" >
         #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -123,16 +131,19 @@
         desp = #{desp,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
-        status = #{status,jdbcType=SMALLINT},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
-        costs = #{costs,jdbcType=INTEGER},
+        costs = #{costs,jdbcType=DOUBLE},
       </if>
       <if test="orderId != null" >
         order_id = #{orderId,jdbcType=VARCHAR},
       </if>
       <if test="transporterId != null" >
         transporter_id = #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -143,11 +154,11 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=INTEGER},
       desp = #{desp,jdbcType=VARCHAR},
-      status = #{status,jdbcType=SMALLINT},
-      costs = #{costs,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      costs = #{costs,jdbcType=DOUBLE},
       order_id = #{orderId,jdbcType=VARCHAR},
-      transporter_id = #{transporterId,jdbcType=VARCHAR}
-      
+      transporter_id = #{transporterId,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

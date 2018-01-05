@@ -18,7 +18,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		<div class="layui-form-item">
 			<label class="layui-form-label">名称</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input name" name="name">
+				<input type="text" class="layui-input name">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -31,6 +31,11 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			<label class="layui-form-label">创建时间</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input createDate">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图片</label>
+			<div class="layui-input-block attachment1">
 			</div>
 		</div>
 	      <div class="layui-form-item">
@@ -109,6 +114,9 @@ layui.config({
 		$(".name").val(data.name);
 		$(".code").val(data.code);  
 		$(".createDate").val(data.createDate);  
+		if(data.attachmentId1Link!=''){
+			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
+		}
 	}
 })
 </script>

@@ -18,19 +18,34 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		<div class="layui-form-item">
 			<label class="layui-form-label">mobile</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input mobile" name="mobile">
+				<input type="text" class="layui-input mobile">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">姓</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input surname" name="surname">
+				<input type="text" class="layui-input surname">
 			</div>
 		</div>
 		<div class="layui-form-item">
 			<label class="layui-form-label">名</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input name" name="name">
+				<input type="text" class="layui-input name">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图片1</label>
+			<div class="layui-input-block attachment1">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图片2</label>
+			<div class="layui-input-block attachment2">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图片3</label>
+			<div class="layui-input-block attachment3">
 			</div>
 		</div>
 	     <div class="layui-form-item">
@@ -108,7 +123,16 @@ layui.config({
 	function fillData(data){
 		$(".mobile").val(data.mobile);     
 		$(".surname").val(data.surname);  
-		$(".name").val(data.name);   
+		$(".name").val(data.name);  
+		if(data.attachmentId1Link!=''){
+			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
+		}
+		if(data.attachmentId1Link!=''){
+			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
+		}
+		if(data.attachmentId1Link!=''){
+			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
+		}
 	}
 })
 </script>

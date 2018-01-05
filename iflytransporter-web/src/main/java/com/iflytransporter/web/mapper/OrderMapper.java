@@ -8,7 +8,7 @@ import com.iflytransporter.common.bean.Order;
 
 public interface OrderMapper {
 	
-	List<Order> queryAll(@Param("shipperId")String sId);
+	List<Order> queryAll();
 	
     int deleteByPrimaryKey(String id);
 

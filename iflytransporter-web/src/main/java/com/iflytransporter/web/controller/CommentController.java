@@ -30,9 +30,9 @@ public class CommentController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,String sId,String tId,String wId,HttpServletRequest request){
-		PageInfo<Comment> page = commentService.queryPage(pageNo, 10, sId, tId, wId);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String sId,String tId,String wId,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = commentService.queryPage(page, limit, sId, tId, wId);
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

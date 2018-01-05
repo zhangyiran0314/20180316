@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,12 +24,12 @@ public class OrderApplyServiceImpl implements OrderApplyService{
 	}
 
 	@Override
-	public PageInfo<OrderApply> queryPage(Integer pageNo, Integer pageSize,String tId,String oId) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String tId,String oId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<OrderApply> list= orderApplyMapper.queryAll(tId,oId);
-		return new PageInfo<OrderApply>(list);
+		List<Map<String,Object>> list= orderApplyMapper.queryAll(tId,oId);
+		return new PageInfo<Map<String, Object>>(list) ;
 	}
 
 }

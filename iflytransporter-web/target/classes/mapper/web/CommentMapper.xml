@@ -7,33 +7,39 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="serve_grade" property="serveGrade" jdbcType="INTEGER" />
+    <result column="loading_grade" property="loadingGrade" jdbcType="INTEGER" />
+    <result column="goods_grade" property="goodsGrade" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
+    <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
+    <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
+    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+    <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
+    <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, grade, content, shipper_id, transporter_id, 
-    waybill_id
+    id, create_date, update_date, data_status, desp, serve_grade, loading_grade, goods_grade, 
+    content, shipper_id, transporter_id, waybill_id, shipper_company_id, transporter_company_id, 
+    attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4
   </sql>
-  
-  <select id="queryAll" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_comment
-    where 1 = 1 
-    <if test="shipperId != null" >
-      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
-    </if>
-     <if test="transporterId != null" >
-      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
-    </if>
-     <if test="waybillId != null" >
-      and waybill_id  = #{waybillId,jdbcType=VARCHAR}
-    </if>
+  <select id="queryAll" resultType="java.util.HashMap"  >
+    select  a.id, a.create_date as createDate, a.update_date as updateDate, a.data_status as dataStatus, a.desp as desp,
+      a.serve_grade as serveGrade,a.loading_grade as loadingGrade,a.goods_grade as goodsGrade, a.content,
+      b.surname as transporterSurname,b.name as transporterName,
+      c.surname as shipperSurname,c.name as shipperName,
+      d.name as transporterCompanyName,e.name as shipperCompanyName,
+      f.order_no as orderNo
+    from t_comment a
+    left join t_user b on a.transporter_id = b.id
+    left join t_user c on a.shipper_id = c.id
+    left join t_company d on a.transporter_company_id = d.id
+    left join t_company e on a.shipper_company_id = e.id
+    left join t_waybill f on a.waybill_id = f.id
   </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -46,13 +52,19 @@
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Comment" >
     insert into t_comment (id, create_date, update_date, 
-      data_status, desp, grade, 
-      content, shipper_id, transporter_id, 
-      waybill_id)
+      data_status, desp, serve_grade, 
+      loading_grade, goods_grade, content, 
+      shipper_id, transporter_id, waybill_id, 
+      shipper_company_id, transporter_company_id, 
+      attachment_id_1, attachment_id_2, attachment_id_3, 
+      attachment_id_4)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
-      #{content,jdbcType=VARCHAR}, #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
-      #{waybillId,jdbcType=VARCHAR})
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{serveGrade,jdbcType=INTEGER}, 
+      #{loadingGrade,jdbcType=INTEGER}, #{goodsGrade,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
+      #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
+      #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
+      #{attachmentId4,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Comment" >
     insert into t_comment
@@ -72,8 +84,14 @@
       <if test="desp != null" >
         desp,
       </if>
-      <if test="grade != null" >
-        grade,
+      <if test="serveGrade != null" >
+        serve_grade,
+      </if>
+      <if test="loadingGrade != null" >
+        loading_grade,
+      </if>
+      <if test="goodsGrade != null" >
+        goods_grade,
       </if>
       <if test="content != null" >
         content,
@@ -86,6 +104,24 @@
       </if>
       <if test="waybillId != null" >
         waybill_id,
+      </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id,
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id,
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1,
+      </if>
+      <if test="attachmentId2 != null" >
+        attachment_id_2,
+      </if>
+      <if test="attachmentId3 != null" >
+        attachment_id_3,
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -104,8 +140,14 @@
       <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="grade != null" >
-        #{grade,jdbcType=INTEGER},
+      <if test="serveGrade != null" >
+        #{serveGrade,jdbcType=INTEGER},
+      </if>
+      <if test="loadingGrade != null" >
+        #{loadingGrade,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGrade != null" >
+        #{goodsGrade,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
@@ -118,6 +160,24 @@
       </if>
       <if test="waybillId != null" >
         #{waybillId,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperCompanyId != null" >
+        #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        #{attachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId2 != null" >
+        #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId3 != null" >
+        #{attachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId4 != null" >
+        #{attachmentId4,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -136,8 +196,14 @@
       <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="grade != null" >
-        grade = #{grade,jdbcType=INTEGER},
+      <if test="serveGrade != null" >
+        serve_grade = #{serveGrade,jdbcType=INTEGER},
+      </if>
+      <if test="loadingGrade != null" >
+        loading_grade = #{loadingGrade,jdbcType=INTEGER},
+      </if>
+      <if test="goodsGrade != null" >
+        goods_grade = #{goodsGrade,jdbcType=INTEGER},
       </if>
       <if test="content != null" >
         content = #{content,jdbcType=VARCHAR},
@@ -151,6 +217,24 @@
       <if test="waybillId != null" >
         waybill_id = #{waybillId,jdbcType=VARCHAR},
       </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId2 != null" >
+        attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId3 != null" >
+        attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -160,11 +244,19 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
-      grade = #{grade,jdbcType=INTEGER},
+      serve_grade = #{serveGrade,jdbcType=INTEGER},
+      loading_grade = #{loadingGrade,jdbcType=INTEGER},
+      goods_grade = #{goodsGrade,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
-      waybill_id = #{waybillId,jdbcType=VARCHAR}
+      waybill_id = #{waybillId,jdbcType=VARCHAR},
+      shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
+      attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
