@@ -36,6 +36,7 @@ import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.MethodUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
@@ -111,6 +112,13 @@ public class ShipperOrderController {
 			if(Status.Order_Publish==order.getStatus()){
 				op.setApplyTotal(orderApplyService.count(order.getId(),Status.Order_Audit_No));
 			}
+			//已成交状态订单,添加对应的applyDetail信息
+			if(Status.Order_Transfer==order.getStatus().intValue()){
+				List<Map<String,Object>> applyDetail = shipperOrderService.detailAudit(order.getId(),Status.Order_Audit_Yes);
+				if(applyDetail!=null && applyDetail.size() == 1){
+					op.setApplyDetail(applyDetail.get(0));
+				}
+			}
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
@@ -145,6 +153,13 @@ public class ShipperOrderController {
 			//待审核申请
 			if(Status.Order_Publish==order.getStatus().intValue()){
 				op.setApplyTotal(orderApplyService.count(order.getId(),Status.Order_Audit_No));
+			}
+			//已成交状态订单,添加对应的applyDetail信息
+			if(Status.Order_Transfer==order.getStatus().intValue()){
+				List<Map<String,Object>> applyDetail = shipperOrderService.detailAudit(order.getId(),Status.Order_Audit_Yes);
+				if(applyDetail!=null && applyDetail.size() == 1){
+					op.setApplyDetail(applyDetail.get(0));
+				}
 			}
 			result.add(op);
 		}
@@ -280,6 +295,9 @@ public class ShipperOrderController {
 		String applyId = (String) requestMap.get("applyId");
 		String orderId = (String) requestMap.get("orderId");
 		Map<String,Object> result = shipperOrderService.detailTransporter(applyId,orderId,Status.Order_Audit_No);
+		if(result == null){
+			return ResponseUtil.failureResult(BuzExceptionEnums.CanNotContactError);
+		}
 		return ResponseUtil.successResult(result);
 	}
 	/**

@@ -23,4 +23,10 @@ public interface CommentMapper {
     List<Map<String,Object>> queryAllTransporter(@Param("transporterId")String transporterId,@Param("transporterCompanyId")String transporterCompanyId);
     
     List<Map<String,Object>> queryAllShipper(@Param("shipperId")String shipperId,@Param("shipperCompanyId")String shipperCompanyId);
+    
+    
+    //运单查看当前货主是否评价此运单
+  	Integer countByWaybill(@Param("waybillId")String waybillId,@Param("shipperId")String shipperId);
+  	//运单查看当前货主评价详情
+  	Map<String,Object> queryDetailByWaybill(@Param("waybillId")String waybillId,@Param("shipperId")String shipperId);
 }

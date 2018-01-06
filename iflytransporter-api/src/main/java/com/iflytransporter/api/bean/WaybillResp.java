@@ -64,6 +64,10 @@ public class WaybillResp {
     
     private Integer weight;
     
+    private Integer commentFlag;
+    
+    private Integer complaintFlag;
+    
     public WaybillResp(WaybillBO waybill) {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
@@ -342,6 +346,18 @@ public class WaybillResp {
 	}
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+	public Integer getCommentFlag() {
+		return commentFlag;
+	}
+	public void setCommentFlag(Integer commentFlag) {
+		this.commentFlag = commentFlag;
+	}
+	public Integer getComplaintFlag() {
+		return complaintFlag;
+	}
+	public void setComplaintFlag(Integer complaintFlag) {
+		this.complaintFlag = complaintFlag;
 	}
     
     

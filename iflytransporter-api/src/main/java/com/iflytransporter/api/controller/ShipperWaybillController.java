@@ -151,6 +151,7 @@ public class ShipperWaybillController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{id:id}") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
+		String userId =  (String) request.getAttribute("userId");
 		Waybill waybill = waybillService.query(id);
 		WaybillResp op =new WaybillResp(waybill);
 		Order order = shipperOrderService.query(waybill.getOrderId());
@@ -176,10 +177,15 @@ public class ShipperWaybillController {
 		//大于待装车状态,查询收货凭证
 		if(waybill.getStatus() > Status.Waybill_For_Loading){
 			op.setTakeAttachmentList(waybillService.takeAttachmentList(id));
+			op.setComplaintFlag(waybillService.countComplaintByWaybill(waybill.getId(), userId));
 		}
 		//大于运输中状态,查询交货凭证
 		if(waybill.getStatus() > Status.Waybill_In_Transit){
 			op.setDeliverAttachmentList(waybillService.deliverAttachmentList(id));
+		}
+		//等于已完结状态,查询是否已经评价
+		if(Status.Waybill_Finish == waybill.getStatus().intValue()){
+			op.setCommentFlag(waybillService.countCommentByWaybill(waybill.getId(), userId));
 		}
 		return ResponseUtil.successResult(op);
 	}
@@ -215,7 +221,16 @@ public class ShipperWaybillController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="commentDetail", notes="评论详情",produces = "application/json")
+	@RequestMapping(value="commentDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> commentDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String userId = (String) request.getAttribute("userId");
+		Map<String,Object> result = waybillService.queryCommentByWaybill(id, userId);
+		return ResponseUtil.successResult(result);
+	}
 	@ApiOperation(value="complaint", notes="提交投诉",produces = "application/json")
 	@RequestMapping(value="complaint", method=RequestMethod.POST)
 	@ResponseBody
@@ -233,5 +248,14 @@ public class ShipperWaybillController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="complaintDetail", notes="投诉详情",produces = "application/json")
+	@RequestMapping(value="complaintDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> complaintDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String userId = (String) request.getAttribute("userId");
+		Map<String,Object> result = waybillService.queryComplaintByWaybill(id, userId);
+		return ResponseUtil.successResult(result);
+	}
 }

@@ -98,8 +98,12 @@ public class ShipperOrderServiceImpl implements ShipperOrderService{
 
 	@Override
 	public Map<String, Object> detailTransporter(String applyId,String orderId, Integer applyStatus) {
+		Map<String,Object> result  = shipperOrderMapper.detailTransporter(applyId, applyStatus,Status.Audit_Contact_Yes);
+		if(result == null){
+			return null;
+		}
 		orderApplyMapper.updateOtherContactStatus(applyId,orderId, Status.Audit_Contact_No);
-		return shipperOrderMapper.detailTransporter(applyId, applyStatus,Status.Audit_Contact_Yes);
+		return result;
 	}
 
 

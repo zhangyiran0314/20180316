@@ -12,7 +12,10 @@ public enum BuzExceptionEnums implements Enums{
 	//账号密码错误
 	AccountOrPasswordErr(Code_AccountOrPasswordError, "AccountOrPasswordErr"),
 	//账号密码错误
-	NotUpError(Code_NotUpError, "NotUpError");
+	NotUpError(Code_NotUpError, "NotUpError"),
+	
+	//账号密码错误
+	CanNotContactError(Code_CanNotContact, "CanNotContactError");
 	
 	public int code;
 	public String message;

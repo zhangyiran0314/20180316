@@ -3,12 +3,10 @@ package com.iflytransporter.common.enums;
 public interface Enums {
 
 	/**错误码定义*/
-	//未知错误
-	public static int Code_UnknownError = 1000;
+	/**用户相关状态码*/
+	public static int Code_UnknownError = 1000;//未知错误
 	public static String Code_UnknownError_Value = "UnknownError";
-	
-	//重复获取验证码
-	public static int Code_RepeatForCaptchaError=1001;
+	public static int Code_RepeatForCaptchaError=1001;//重复获取验证码
 	//重复获取验证码
 	public static int Code_VerifyCaptchaError=1002;
 	
@@ -19,6 +17,9 @@ public interface Enums {
 	
 	//上级不存在
 	public static int Code_NotUpError = 1005;
+	
+	/**发布相关状态码*/
+	public static int Code_CanNotContact = 2001;
 	
 	public int getCode();
 	public String getMessage();

@@ -175,13 +175,17 @@ public class TransporterWaybillController {
 		op.setCompany(transporterWaybillService.detailCompany(id));
 		//车主信息
 		op.setTransporter(transporterWaybillService.detailShipper(id));
-		//大于待装车状态,查询收货凭证
+		//大于待装车状态,查询收货凭证&&查询是否投诉
 		if(waybill.getStatus() > Status.Waybill_For_Loading){
 			op.setTakeAttachmentList(transporterWaybillService.takeAttachmentList(id));
 		}
 		//大于运输中状态,查询交货凭证
 		if(waybill.getStatus() > Status.Waybill_In_Transit){
 			op.setDeliverAttachmentList(transporterWaybillService.deliverAttachmentList(id));
+		}
+		//等于已完结状态,查询是否已经评价
+		if(Status.Waybill_Finish == waybill.getStatus().intValue()){
+			
 		}
 		return ResponseUtil.successResult(op);
 	}

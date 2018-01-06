@@ -38,6 +38,8 @@ public class Comment {
     private String attachmentId3;
 
     private String attachmentId4;
+    
+    private Integer anonymity;
 
     public String getId() {
         return id;
@@ -183,4 +185,13 @@ public class Comment {
     public void setAttachmentId4(String attachmentId4) {
         this.attachmentId4 = attachmentId4 == null ? null : attachmentId4.trim();
     }
+
+	public Integer getAnonymity() {
+		return anonymity;
+	}
+
+	public void setAnonymity(Integer anonymity) {
+		this.anonymity = anonymity;
+	}
+    
 }

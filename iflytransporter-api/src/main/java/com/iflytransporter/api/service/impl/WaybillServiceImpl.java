@@ -91,6 +91,26 @@ public class WaybillServiceImpl implements WaybillService {
 		return complaintMapper.insert(complaint);
 	}
 
+	@Override
+	public Integer countCommentByWaybill(String waybillId, String shipperId) {
+		return commentMapper.countByWaybill(waybillId, shipperId);
+	}
+
+	@Override
+	public Map<String, Object> queryCommentByWaybill(String waybillId, String shipperId) {
+		return commentMapper.queryDetailByWaybill(waybillId, shipperId);
+	}
+
+	@Override
+	public Integer countComplaintByWaybill(String waybillId, String shipperId) {
+		return complaintMapper.countByWaybill(waybillId, shipperId);
+	}
+
+	@Override
+	public Map<String, Object> queryComplaintByWaybill(String waybillId, String shipperId) {
+		return complaintMapper.queryDetailByWaybill(waybillId, shipperId);
+	}
+
 	/*@Override
 	public List<WaybillBO> listBO(String userId, String shipperCompanyId, Integer status) {
 		return waybillMapper.queryAllBO(userId, null, shipperCompanyId, null, status);

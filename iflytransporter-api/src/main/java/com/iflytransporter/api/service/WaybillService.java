@@ -70,4 +70,14 @@ public interface WaybillService {
 	int addComment(Comment comment);
 	
 	int addComplaint(Complaint complaint);
+	
+	//运单查看当前货主是否评价此运单
+	Integer countCommentByWaybill(String waybillId,String shipperId);
+	//运单查看当前货主评价详情
+	Map<String,Object> queryCommentByWaybill(String waybillId,String shipperId);
+	
+	//运单查看当前货主是否评价此运单
+	Integer countComplaintByWaybill(String waybillId,String shipperId);
+	//运单查看当前货主评价详情
+	Map<String,Object> queryComplaintByWaybill(String waybillId,String shipperId);
 }
