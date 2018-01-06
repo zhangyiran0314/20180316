@@ -68,6 +68,8 @@ public class WaybillResp {
     
     private Integer complaintFlag;
     
+    private Date createDate;
+    
     public WaybillResp(WaybillBO waybill) {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
@@ -75,6 +77,7 @@ public class WaybillResp {
 		this.costs = waybill.getCosts().toString();
 		this.orderNo = waybill.getOrderNo();
 		this.confirmDate =waybill.getConfirmDate();
+		this.createDate = waybill.getCreateDate();
 	}
     public WaybillResp(Waybill waybill) {
     	this.orderId = waybill.getOrderId();
@@ -83,6 +86,7 @@ public class WaybillResp {
 		this.costs = waybill.getCosts().toString();
 		this.orderNo = waybill.getOrderNo();
 		this.confirmDate = waybill.getConfirmDate();
+		this.createDate = waybill.getCreateDate();
 	}
     
     public void setOrder(Order order){
@@ -105,9 +109,9 @@ public class WaybillResp {
     //公司
     private Map<String,Object> company;
     //收货凭证
-    private List<Map<String,Object>> takeAttachmentList;
+    private Map<String,Object> takeAttachmentList;
     //交货凭证
-    private List<Map<String,Object>> deliverAttachmentList;
+    private Map<String,Object> deliverAttachmentList;
 	public String getId() {
 		return id;
 	}
@@ -323,16 +327,16 @@ public class WaybillResp {
 	public void setCompany(Map<String, Object> company) {
 		this.company = company;
 	}
-	public List<Map<String, Object>> getTakeAttachmentList() {
+	public Map<String, Object> getTakeAttachmentList() {
 		return takeAttachmentList;
 	}
-	public void setTakeAttachmentList(List<Map<String, Object>> takeAttachmentList) {
+	public void setTakeAttachmentList(Map<String, Object> takeAttachmentList) {
 		this.takeAttachmentList = takeAttachmentList;
 	}
-	public List<Map<String, Object>> getDeliverAttachmentList() {
+	public Map<String, Object> getDeliverAttachmentList() {
 		return deliverAttachmentList;
 	}
-	public void setDeliverAttachmentList(List<Map<String, Object>> deliverAttachmentList) {
+	public void setDeliverAttachmentList(Map<String, Object> deliverAttachmentList) {
 		this.deliverAttachmentList = deliverAttachmentList;
 	}
 	public Date getConfirmDate() {
@@ -358,6 +362,12 @@ public class WaybillResp {
 	}
 	public void setComplaintFlag(Integer complaintFlag) {
 		this.complaintFlag = complaintFlag;
+	}
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
     
     

@@ -108,10 +108,10 @@
   <select id="detailCompany" resultType="java.util.Map">
   	select b.`name` as companyName,b.create_date as registerDate,round(c.grade) as grade ,d.count as count,f.surname,f.name,f.mobile
 	from t_waybill a
-  left join t_company b on a.shipper_company_id= b.id
+  left join t_company b on a.transporter_company_id= b.id
   left join (select transporter_company_id, AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY transporter_company_id) c on a.transporter_company_id= c.transporter_company_id
   left join (select transporter_company_id ,count(1) as count from t_waybill GROUP BY transporter_company_id) d on a.transporter_company_id = d.transporter_company_id
-  left join t_user f on f.company_id = a.transporter_company_id 
+  left join t_user f on f.id = a.transporter_id 
  	where a.id = #{id,jdbcType=VARCHAR} and f.level = 1
   </select>
    <select id="detailTransporter" resultType="java.util.Map">

@@ -43,10 +43,10 @@ public interface TransporterWaybillService {
 	Map<String,Object> detailShipper(String id);
 	
 	//收货凭证
-	List<Map<String, Object>> takeAttachmentList(String id);
+	Map<String, Object> takeAttachmentList(String id);
 	
 	//交货凭证
-	List<Map<String, Object>> deliverAttachmentList(String id);
+	Map<String, Object> deliverAttachmentList(String id);
 	//修改运单状态
 	int updateStatus(String id,Integer status);
 	

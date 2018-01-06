@@ -35,8 +35,8 @@ public interface WaybillMapper {
     
     Map<String, Object> detailTransporter(String id);
     
-    List<Map<String, Object>> takeAttachmentList(String id);
-    List<Map<String, Object>> deliverAttachmentList(String id);
+    Map<String, Object> takeAttachmentList(String id);
+    Map<String, Object> deliverAttachmentList(String id);
     
     int updateStatus(@Param("id")String id,@Param("status")Integer status);
 }

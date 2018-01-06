@@ -67,12 +67,12 @@ public class WaybillServiceImpl implements WaybillService {
 	}
 
 	@Override
-	public List<Map<String, Object>> takeAttachmentList(String id) {
+	public Map<String, Object> takeAttachmentList(String id) {
 		return waybillMapper.takeAttachmentList(id);
 	}
 
 	@Override
-	public List<Map<String, Object>> deliverAttachmentList(String id) {
+	public Map<String, Object> deliverAttachmentList(String id) {
 		return waybillMapper.deliverAttachmentList(id);
 	}
 
