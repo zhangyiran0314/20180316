@@ -7,7 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +27,7 @@ import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -35,16 +39,14 @@ import io.swagger.annotations.ApiParam;
 @Controller
 @RequestMapping("/user/{version}")
 public class UserController {
-	
 	@Autowired
 	private UserService userService;
-	
 	@Autowired
 	private CompanyService companyService;
-	
 	@Autowired
 	private FeedbackService feedbackService;
-	
+	@Autowired
+    private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	/**反馈意见*/
 	@ApiOperation(value="我的-反馈意见", notes="我的-反馈意见",produces = "application/json")
 	@RequestMapping(value="feedback", method=RequestMethod.POST)
@@ -67,9 +69,32 @@ public class UserController {
 	public Map<String,Object> modifyPwd(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{pwd:pwd}") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
+		String countryCode = (String)  requestMap.get("countryCode");
+		String mobile = (String) requestMap.get("mobile");
+		String captcha = (String) requestMap.get("captcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(!hasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		String captchaCache = operations.get(key);
+		if(!captcha.equals(captchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
 		String pwd = (String) requestMap.get("pwd");
-		int result = userService.updatePwdOrMobileOrEmail(userId, pwd, null, null);
+		String newPwd = (String) requestMap.get("newPwd");
+		//判断原密码是否正确
+		User user = userService.queryBO(userId);
+		if(pwd==null || !pwd.equals(user.getPassword())){
+			return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
+		}
+		int result = userService.updatePwdOrMobileOrEmail(userId, newPwd, null, null);
 		if(result > 0){
+			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
@@ -80,9 +105,41 @@ public class UserController {
 	public Map<String,Object> modifyMobile(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{mobile:mobile}") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
+		String countryCode = (String)  requestMap.get("countryCode");
 		String mobile = (String) requestMap.get("mobile");
-		int result = userService.updatePwdOrMobileOrEmail(userId, null, mobile, null);
+		String captcha = (String) requestMap.get("captcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(!hasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		String captchaCache = operations.get(key);
+		if(!captcha.equals(captchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		
+		String newMobile = (String) requestMap.get("newMobile");
+		String newCaptcha = (String) requestMap.get("newCaptcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String newKey = RedisUtil.getCaptchaKey(countryCode,newMobile);
+		boolean newHasKey = redisTemplate.hasKey(newKey);
+		if(!newHasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String newCaptchaCache = operations.get(newKey);
+		if(!newCaptcha.equals(newCaptchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		int result = userService.updatePwdOrMobileOrEmail(userId, null, newMobile, null);
 		if(result > 0){
+			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
+			redisTemplate.delete(newKey);//验证通过返回之前删除当前验证码
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
@@ -94,8 +151,25 @@ public class UserController {
 			@RequestBody @ApiParam(value="{email:email}") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String email = (String) requestMap.get("email");
+		String countryCode = (String)  requestMap.get("countryCode");
+		String mobile = (String) requestMap.get("mobile");
+		String captcha = (String) requestMap.get("captcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(!hasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		String captchaCache = operations.get(key);
+		if(!captcha.equals(captchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
 		int result = userService.updatePwdOrMobileOrEmail(userId, null, null, email);
 		if(result > 0){
+			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();

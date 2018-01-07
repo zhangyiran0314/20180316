@@ -82,6 +82,7 @@ public class GoodsSource {
 		this.handlingTypeId = order.getHandlingTypeId();
 		this.paymentTypeId = order.getPaymentTypeId();
 		this.weight = order.getWeight();
+		this.deliverDate = order.getDeliverDate();
 	}
 
 	public String getId() {

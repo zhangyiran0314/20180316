@@ -14,9 +14,10 @@ public interface Enums {
 	public static int Code_AccountsAlreadyExist = 1003;
 	//账户密码不正确
 	public static int Code_AccountOrPasswordError = 1004;
-	
 	//上级不存在
 	public static int Code_NotUpError = 1005;
+	//账户不存在
+	public static int Code_AccountsNotExist = 1006;
 	
 	/**发布相关状态码*/
 	public static int Code_CanNotContact = 2001;

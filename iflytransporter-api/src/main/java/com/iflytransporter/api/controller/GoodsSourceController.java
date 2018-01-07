@@ -25,10 +25,12 @@ import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
+import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
+import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -57,7 +59,7 @@ public class GoodsSourceController {
 	@Autowired
 	private UseTypeService useTypeService;
 	@Autowired
-	private GoodsUnitsService goodsUnitsService;
+	private ShipperOrderService shipperOrderService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
@@ -135,7 +137,19 @@ public class GoodsSourceController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="addByOrderId", notes="新增-通过orderId",produces = "application/json")
+	@RequestMapping(value="addByOrderId", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addByOrderId(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{orderId：orderId}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String orderId = (String) requestMap.get("orderId");
+		String id = goodsSourceService.addByOrderId(userId, orderId);
+		if(id !=null){
+			return ResponseUtil.successResultId(id);
+		}
+		return ResponseUtil.failureResult();
+	}
 	@ApiOperation(value="detail", notes="详情",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
@@ -167,8 +181,7 @@ public class GoodsSourceController {
 			@RequestBody GoodsSource goodsSource){
 		int result = goodsSourceService.update(goodsSource);
 		if(result > 0){
-			GoodsSource data = goodsSourceService.query(goodsSource.getId());
-			return ResponseUtil.successResult(new GoodsSourceResp(data));
+			return ResponseUtil.successResultId(goodsSource.getId());
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -181,9 +194,7 @@ public class GoodsSourceController {
 		String id = (String) requestMap.get("id");
 		int result = goodsSourceService.delete(id);
 		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
-			return ResponseUtil.successResult(data);
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}

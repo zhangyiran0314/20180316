@@ -13,6 +13,9 @@ public enum BuzExceptionEnums implements Enums{
 	AccountOrPasswordErr(Code_AccountOrPasswordError, "AccountOrPasswordErr"),
 	//账号密码错误
 	NotUpError(Code_NotUpError, "NotUpError"),
+	//账户不存在
+	AccountsNotExist(Code_AccountsNotExist,"AccountsNotExist"),
+	
 	
 	//账号密码错误
 	CanNotContactError(Code_CanNotContact, "CanNotContactError");

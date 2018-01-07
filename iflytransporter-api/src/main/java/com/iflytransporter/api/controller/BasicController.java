@@ -121,7 +121,8 @@ public class BasicController {
 					ValueOperations<String, String> operations=redisTemplate.opsForValue();
 					String captchaCache = operations.get(key);
 					if(captcha.equals(captchaCache)){
-						return ResponseUtil.successResult(null);
+						redisTemplate.delete(key);//验证通过之后删除当前验证码
+						return ResponseUtil.successResult();
 					}
 					return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 				}
@@ -141,6 +142,21 @@ public class BasicController {
 		String countryCode = (String)  requestMap.get("countryCode");
 		String password = (String) requestMap.get("password");
 		Integer userType = (Integer) requestMap.get("userType");
+		
+		String captcha = (String) requestMap.get("captcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(!hasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		String captchaCache = operations.get(key);
+		if(!captcha.equals(captchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)&& userType!=null){
 			User checkUser = userService.queryByMobile(countryCode, userType, mobile);
 			if(null!=checkUser ){
@@ -153,8 +169,10 @@ public class BasicController {
 					data.put("authStatus", checkUser.getAuthStatus());
 					data.put("companyAuthStatus", checkUser.getCompanyAuthStatus());
 					data.put("level", checkUser.getLevel());
+					redisTemplate.delete(key);//验证通过之后删除当前验证码
 					return ResponseUtil.successResult(data);
 				}
+				redisTemplate.delete(key);//验证通过之后删除当前验证码
 				//已经注册,需要登录
 				return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
 			}
@@ -178,6 +196,7 @@ public class BasicController {
 				JwtUser jwtUser = new JwtUser(user.getId(),user.getCountryCode(),user.getMobile(),user.getPassword(),user.getLastLoginDevice());
 				String token = JwtUtil.createJWT(jwtUser, JwtUtil.JWT_TTL);
 				data.put("token", token);
+				redisTemplate.delete(key);//验证通过之后删除当前验证码
 				return ResponseUtil.successResult(data);
 			}
 		}
@@ -214,6 +233,40 @@ public class BasicController {
 			data.put("companyAuthStatus", user.getCompanyAuthStatus());
 			data.put("level", user.getLevel());
 			return ResponseUtil.successResult(data);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="忘记密码")
+	@RequestMapping(value="forgetPwd", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> forgetPwd(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody  Map<String,Object> requestMap){
+		String countryCode = (String)  requestMap.get("countryCode");
+		String mobile = (String) requestMap.get("mobile");
+		String password = (String) requestMap.get("password");
+		Integer userType = (Integer) requestMap.get("userType");
+		String captcha = (String) requestMap.get("captcha");
+		if(StringUtils.isBlank(captcha)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		boolean hasKey = redisTemplate.hasKey(key);
+		if(!hasKey){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		ValueOperations<String, String> operations=redisTemplate.opsForValue();
+		String captchaCache = operations.get(key);
+		if(!captcha.equals(captchaCache)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
+		}
+		User checkUser = userService.queryByMobile(countryCode, userType, mobile);
+		if(checkUser ==null){
+			return ResponseUtil.failureResult(BuzExceptionEnums.AccountsNotExist);
+		}
+		int result = userService.updatePwdOrMobileOrEmail(checkUser.getId(), password, null, null);
+		if(result > 0){
+			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}

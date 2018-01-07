@@ -18,4 +18,6 @@ public interface GoodsSourceService  {
 	public List<GoodsSource> list(String userId);
 	//分页查询
 	PageInfo<GoodsSource> queryPage(Integer pageNo,Integer pageSize,String sId);
+	//通过订单id新增货源
+	String addByOrderId(String userId,String orderId);
 }
