@@ -71,7 +71,7 @@ layui.config({
                 {field:'height',title:'高', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
-                {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
+               /*  {fixed: 'right', title:'操作', toolbar: '#bar', width:150} */
 		    ]]
 		  });
 		
@@ -212,7 +212,7 @@ layui.config({
 		</script> 
 		<script type="text/html" id="bar">
 			<!--<a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
-	  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+	  		<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> 
 	  		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
 	  		<!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
     	</script>

@@ -1,5 +1,6 @@
 <%@ include file="../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
@@ -64,7 +65,7 @@ layui.config({
                 {field:'companyAuthStatus',title:'公司认证', width:'180',templet: '#companyAuthTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'100'},
-                {fixed: 'right', title:'操作', toolbar: '#bar', width:300}
+                {fixed: 'right', title:'操作', toolbar: '#bar', width:100}
 		    ]]
 		  });
 		
@@ -209,9 +210,9 @@ layui.config({
 		</script> 
 		<script type="text/html" id="bar">
 			<a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
-	  		<!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
+	  		<!-- <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> 
 	  		<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-	  		<!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
+	  		<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
     	</script>	
 </body>
 </html>
