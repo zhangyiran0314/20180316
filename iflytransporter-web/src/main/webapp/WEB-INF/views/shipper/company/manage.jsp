@@ -17,7 +17,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	<blockquote class="layui-elem-quote news_search layui-form ">
 		<div class="layui-inline">
 		    <div class="layui-input-inline">
-		    	<label class="layui-form-label">关键字</label>
+		    	<label class="layui-form-label">公司名称</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
 		    	</div>
@@ -56,7 +56,7 @@ layui.config({
 		    elem: '#table'
 		    ,height: 315
 		    ,id:"layui_table_id"
-		    ,url: '<%=request.getContextPath()%>/company/queryPage' //数据接口
+		    ,url: '<%=request.getContextPath()%>/shipper/company/queryPage' //数据接口
 		    ,page: true //开启分页
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
@@ -80,7 +80,7 @@ layui.config({
 		    if(obj.event === 'del'){
 		      layer.confirm('确认永久删除?', function(index){
 		    	 $.ajax({  
-		                url: "<%=request.getContextPath()%>/company/delete",
+		                url: "<%=request.getContextPath()%>/shipper/company/delete",
 		                type: "post",
 		                dataType:"json",
 		                data:{id:data.id},
@@ -108,7 +108,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/company/toEdit?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/company/toEdit?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -125,7 +125,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/company/toDetail?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/company/toDetail?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -142,7 +142,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/company/toEditAuth?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/company/toEditAuth?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -172,7 +172,7 @@ layui.config({
  				  area: ['90%', '90%'],
  				  fixed: false, //不固定
  				  maxmin: true,
- 				  content: '<%=request.getContextPath()%>/company/toAdd'
+ 				  content: '<%=request.getContextPath()%>/shipper/company/toAdd'
  				}); 
  			}); 
  		})

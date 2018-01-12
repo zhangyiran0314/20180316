@@ -23,11 +23,11 @@ public class ProvinceServiceImpl implements ProvinceService{
 	}
 
 	@Override
-	public PageInfo<Province> queryPage(Integer pageNo, Integer pageSize) {
+	public PageInfo<Province> queryPage(Integer pageNo, Integer pageSize,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Province> list= provinceMapper.queryAll();
+		List<Province> list= provinceMapper.queryAll(name);
 		return new PageInfo<Province>(list);
 	}
 

@@ -7,6 +7,6 @@ public interface OrderService  {
 	//详情查询
 	Order queryDetail(String id);
 	//分页查询
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize);
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String orderNo,String mobile);
 	
 }

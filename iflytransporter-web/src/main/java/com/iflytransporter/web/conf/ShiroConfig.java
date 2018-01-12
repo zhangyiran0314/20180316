@@ -26,7 +26,7 @@ public class ShiroConfig {
 	@Bean
 	public EhCacheManager getEhCacheManager(){
 		EhCacheManager em =new EhCacheManager();
-		em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
+		//em.setCacheManagerConfigFile("classpath:ehcache-shiro.xml");
 		return em;
 	}
 	@Bean(name="shiroDbRealm")
@@ -49,7 +49,7 @@ public class ShiroConfig {
         DefaultWebSecurityManager dwsm = new DefaultWebSecurityManager();
         dwsm.setRealm(shiroDbRealm);
 //      <!-- 用户授权/认证信息Cache, 采用EhCache 缓存 --> 
-        dwsm.setCacheManager(getEhCacheManager());
+//       dwsm.setCacheManager(getEhCacheManager());
         return dwsm;
     }
 	@Bean

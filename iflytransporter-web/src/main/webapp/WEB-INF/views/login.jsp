@@ -45,11 +45,15 @@
 			$(".login_btn").click(function(){
 				var username = $('#username').val();
 		        var password = $('#password').val();
+		        var jsonObject = new Object;
+		        jsonObject.email = username;
+		        jsonObject.pswd = password;
 		        $.ajax({
 		        	url:"<%=request.getContextPath()%>/login",
-		        	data:{pswd:password,email:username},
+		        	data:JSON.stringify(jsonObject),
 		        	type:"post",
 		        	dataType:"json",
+		        	contentType: "application/json", 
 		        	beforeSend:function(){
 		        		layer.msg('开始登录，请注意后台控制台。');
 		        	},

@@ -30,6 +30,8 @@ public class GoodsSourceResp {
     
     private Date createDate;
     private Date updateDate;
+    
+    private String mobile;
 	
 	private Map<String,Object> departureProvince;
 
@@ -249,6 +251,14 @@ public class GoodsSourceResp {
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
 }

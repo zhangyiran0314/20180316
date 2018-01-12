@@ -10,6 +10,6 @@ public interface CityService  {
 	//详情查询
 	CityBO queryDetailBO(String id);
 	//分页查询
-	PageInfo<CityBO> queryPage(Integer pageNo,Integer pageSize);
+	PageInfo<CityBO> queryPage(Integer pageNo,Integer pageSize,String name);
 	
 }

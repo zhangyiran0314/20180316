@@ -40,7 +40,7 @@
 				</div>
 			</a>
 		</div> --%>
-		<div class="panel col">
+		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="/shipper/manage">
 				<div class="panel_icon" style="background-color:#009688;">
 					<i class="layui-icon" data-icon="&#xe613;">&#xe613;</i>
@@ -50,7 +50,7 @@
 					<cite>用户列表</cite>
 				</div>
 			</a>
-		</div>
+		</div> --%>
 		<%-- <div class="panel col">
 			<a href="javascript:;" data-url="page/user/allUsers.html">
 				<div class="panel_icon" style="background-color:#5FB878;">

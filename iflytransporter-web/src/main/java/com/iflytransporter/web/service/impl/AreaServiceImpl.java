@@ -23,11 +23,11 @@ public class AreaServiceImpl implements AreaService{
 	}
 
 	@Override
-	public PageInfo<AreaBO> queryPage(Integer pageNo, Integer pageSize) {
+	public PageInfo<AreaBO> queryPage(Integer pageNo, Integer pageSize,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<AreaBO> list= areaMapper.queryAllBO();
+		List<AreaBO> list= areaMapper.queryAllBO(name);
 		return new PageInfo<AreaBO>(list);
 	}
 

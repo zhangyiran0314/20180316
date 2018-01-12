@@ -30,8 +30,8 @@ public class ProvinceController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,HttpServletRequest request){
-		PageInfo<Province> queryPage = provinceService.queryPage( page, limit);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String name,HttpServletRequest request){
+		PageInfo<Province> queryPage = provinceService.queryPage( page, limit,name);
 		return ResponseUtil.successPage(queryPage.getTotal(), queryPage.getList());
 	}
 	@RequestMapping("toDetail")

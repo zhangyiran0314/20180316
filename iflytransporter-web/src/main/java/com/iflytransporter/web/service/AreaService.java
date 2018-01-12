@@ -7,6 +7,6 @@ public interface AreaService  {
 	//详情查询
 	AreaBO queryDetailBO(String id);
 	//分页查询
-	PageInfo<AreaBO> queryPage(Integer pageNo,Integer pageSize);
+	PageInfo<AreaBO> queryPage(Integer pageNo,Integer pageSize,String name);
 	
 }

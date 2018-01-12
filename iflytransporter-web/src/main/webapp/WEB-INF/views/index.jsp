@@ -34,11 +34,11 @@
 							<img src="<%=request.getContextPath()%>/images/face.jpg" class="layui-circle" width="35" height="35">
 							<cite>Admin</cite>
 						</a>
-						<dl class="layui-nav-child">
+						<%-- <dl class="layui-nav-child">
 							<dd><a href="javascript:;" data-url="<%=request.getContextPath()%>/user/userInfo.html"><i class="iconfont icon-zhanghu" data-icon="icon-zhanghu"></i><cite>个人资料</cite></a></dd>
 							<dd><a href="javascript:;" data-url="<%=request.getContextPath()%>/user/changePwd.html"><i class="iconfont icon-shezhi1" data-icon="icon-shezhi1"></i><cite>修改密码</cite></a></dd>
 							<dd><a href="<%=request.getContextPath()%>/login/login.html" class="signOut"><i class="iconfont icon-loginout"></i><cite>退出</cite></a></dd>
-						</dl>
+						</dl> --%>
 					</li>
 					<li class="layui-nav-item" >
 			    		<a href="<%=request.getContextPath()%>/logout" class="signOut"><i class="iconfont icon-loginout"></i> 退出</a>

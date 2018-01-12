@@ -20,7 +20,7 @@ import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.UserService;
 
 @Controller
-@RequestMapping("/shipper")
+@RequestMapping("/shipper/user")
 public class ShipperController {
 	private static Logger logger = LoggerFactory.getLogger(ShipperController.class);
 	@Autowired
@@ -29,7 +29,7 @@ public class ShipperController {
 	@RequestMapping("/manage")
 	public String index(){
 		logger.info("shipper/list");
-		return "shipper/manage";
+		return "shipper/user/manage";
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
@@ -48,12 +48,12 @@ public class ShipperController {
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "shipper/detail";
+		return "shipper/user/detail";
 	}
 	@RequestMapping("toEdit")
 	public String toEdit(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "shipper/edit";
+		return "shipper/user/edit";
 	}
 	@RequestMapping("edit")
 	@ResponseBody
@@ -63,7 +63,7 @@ public class ShipperController {
 	@RequestMapping("toEditAuth")
 	public String toEditAuth(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "shipper/editAuth";
+		return "shipper/user/editAuth";
 	}
 	@RequestMapping("editAuth")
 	@ResponseBody

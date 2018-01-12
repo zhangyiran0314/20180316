@@ -1,4 +1,4 @@
-<%@ include file="../common.jsp"%> 
+<%@ include file="../../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false"%>
 <!DOCTYPE html>
@@ -14,7 +14,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	<blockquote class="layui-elem-quote news_search layui-form ">
 		<div class="layui-inline">
 		    <div class="layui-input-inline">
-		    	<label class="layui-form-label">mobile</label>
+		    	<label class="layui-form-label">用户手机</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
 		    	</div>
@@ -52,12 +52,12 @@ layui.config({
 		    elem: '#table'
 		    ,height: 315
 		    ,id:"layui_table_id"
-		    ,url: '<%=request.getContextPath()%>/shipper/queryPage' //数据接口
+		    ,url: '<%=request.getContextPath()%>/shipper/user/queryPage' //数据接口
 		    ,page: true //开启分页
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
-                {field: 'id', title: 'ID', width: '170', sort: true}, 
-                {field:'mobile',title:'mobile', width:'180'},
+                /* {field: 'id', title: 'ID', width: '170', sort: true},  */
+                {field:'mobile',title:'用户手机', width:'180'},
                 {field:'surname',title:'姓', width:'180'},
                 {field:'name',title:'名', width:'180'},
                 {field:'level',title:'用户身份', width:'180',templet: '#levelTpl'},
@@ -78,7 +78,7 @@ layui.config({
 		    if(obj.event === 'del'){
 		      layer.confirm('确认永久删除?', function(index){
 		    	 $.ajax({  
-		                url: "<%=request.getContextPath()%>/shipper/delete",
+		                url: "<%=request.getContextPath()%>/shipper/user/delete",
 		                type: "post",
 		                dataType:"json",
 		                data:{id:data.id},
@@ -106,7 +106,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/shipper/toEdit?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/user/toEdit?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -123,7 +123,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/shipper/toDetail?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/user/toDetail?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -140,7 +140,7 @@ layui.config({
 						  area: ['90%', '90%'],
 						  fixed: false, //不固定
 						  maxmin: true,
-						  content: "<%=request.getContextPath()%>/shipper/toEditAuth?id="+data.id,
+						  content: "<%=request.getContextPath()%>/shipper/user/toEditAuth?id="+data.id,
 						  /* success: function (layero, index) {  
 			                    // 获取子页面的iframe  
 			                    var iframe = window['layui-layer-iframe' + index];  
@@ -170,7 +170,7 @@ layui.config({
  				  area: ['90%', '90%'],
  				  fixed: false, //不固定
  				  maxmin: true,
- 				  content: '<%=request.getContextPath()%>/shipper/toAdd'
+ 				  content: '<%=request.getContextPath()%>/shipper/user/toAdd'
  				}); 
  			}); 
  		})

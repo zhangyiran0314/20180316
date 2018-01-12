@@ -72,6 +72,8 @@ public class OrderResp{
 	private Date createDate;
 	private Date updateDate;
 	
+	private String mobile;
+	
 	private Map<String,Object> departureProvince;
 
     private Map<String,Object> departureCity;
@@ -353,6 +355,14 @@ public class OrderResp{
 
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
 }

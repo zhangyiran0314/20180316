@@ -17,45 +17,35 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	<form class="layui-form" style="width:80%;">
 	<input type="hidden" id ="objectId" name="id" value="${objectId}"/>
 		<div class="layui-form-item">
-			<label class="layui-form-label">mobile</label>
-			<div class="layui-input-block">
-				<input type="text" class="layui-input mobile">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">姓</label>
-			<div class="layui-input-block">
-				<input type="text" class="layui-input surname">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">名</label>
+			<label class="layui-form-label">名称</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input name">
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">图片1</label>
+			<label class="layui-form-label">工商注册码</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input code">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">创建时间</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input createDate">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">图片</label>
 			<div class="layui-input-block attachment1">
 			</div>
 		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">图片2</label>
-			<div class="layui-input-block attachment2">
-			</div>
-		</div>
-		<div class="layui-form-item">
-			<label class="layui-form-label">图片3</label>
-			<div class="layui-input-block attachment3">
-			</div>
-		</div>
-	     <div class="layui-form-item">
-		    <label class="layui-form-label">审核状态</label>
+	      <div class="layui-form-item">
+		    <label class="layui-form-label">审核</label>
 		    <div class="layui-input-block">
-		     <!--  <input type="checkbox" name="authStatus" lay-skin="switch" value="2"> -->
-		      	  <input type="radio" name="authStatus" value="0" title="未认证">
-			      <input type="radio" name="authStatus" value="1" title="待审核">
-			      <input type="radio" name="authStatus" value="2" title="审核通过" checked>
+		      
+		      <input type="radio" name="status" value="0" title="未认证">
+		      <input type="radio" name="status" value="1" title="待审核">
+		      <input type="radio" name="status" value="2" title="审核通过" checked>
 		    </div>
 		  </div>
 	    <div class="layui-form-item">
@@ -81,7 +71,7 @@ layui.config({
 		    layer.msg(JSON.stringify(data.field));
 		    
 		    $.ajax({  
-                url: "<%=request.getContextPath()%>/shipper/editAuth",
+                url: "<%=request.getContextPath()%>/shipper/company/editAuth",
                 type: "post",
                 dataType:"json",
                 contentType:"application/json",
@@ -111,7 +101,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "<%=request.getContextPath()%>/shipper/detail",
+			url : "<%=request.getContextPath()%>/shipper/company/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",
@@ -122,17 +112,11 @@ layui.config({
 	}
 	//填充数据方法
 	function fillData(data){
-		$(".mobile").val(data.mobile);     
-		$(".surname").val(data.surname);  
-		$(".name").val(data.name);  
+		$(".name").val(data.name);
+		$(".code").val(data.code);  
+		$(".createDate").val(data.createDate);  
 		if(data.attachmentId1Link!=''){
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
-		}
-		if(data.attachmentId1Link!=''){
-			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
-		}
-		if(data.attachmentId1Link!=''){
-			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
 		}
 	}
 })

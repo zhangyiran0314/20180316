@@ -22,12 +22,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		</div>
-		<div class="layui-inline">
+		<!-- <div class="layui-inline">
 		    <label class="layui-form-label">查询日期</label>
 		    <div class="layui-input-block">
 		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
 		    </div>
-		</div>
+		</div> -->
 		<a class="layui-btn search_btn">查询</a>
 		<!-- <div class="layui-inline">
 			<a class="layui-btn layui-btn-normal add_btn">添加</a>
@@ -143,7 +143,7 @@ layui.config({
         	 var select_input = $(".search_input").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
-        			    search: select_input
+        			    name: select_input
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始

@@ -28,11 +28,11 @@ public class CityServiceImpl implements CityService{
 	}
 
 	@Override
-	public PageInfo<CityBO> queryPage(Integer pageNo, Integer pageSize) {
+	public PageInfo<CityBO> queryPage(Integer pageNo, Integer pageSize,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<CityBO> list= cityMapper.queryAllBO();
+		List<CityBO> list= cityMapper.queryAllBO(name);
 		return new PageInfo<CityBO>(list);
 	}
 

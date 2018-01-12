@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,7 +42,7 @@ public class LoginController{
 	 */
 	@RequestMapping(value="/login",method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> login(UUser user,Boolean rememberMe,HttpServletRequest request){
+	public Map<String,Object> login(@RequestBody UUser user,Boolean rememberMe,HttpServletRequest request){
 		 Map<String,Object> resultMap = new HashMap<String,Object>();
 		try {
 			/* String username = user.getEmail();

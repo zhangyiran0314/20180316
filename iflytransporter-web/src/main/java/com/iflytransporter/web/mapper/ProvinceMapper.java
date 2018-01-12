@@ -2,11 +2,13 @@ package com.iflytransporter.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.iflytransporter.common.bean.Province;
 
 public interface ProvinceMapper {
 	
-	List<Province> queryAll();
+	List<Province> queryAll(@Param("name")String name);
 	
     int deleteByPrimaryKey(String id);
 

@@ -22,12 +22,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		</div>
-		<div class="layui-inline">
+		<!-- <div class="layui-inline">
 		    <label class="layui-form-label">查询日期</label>
 		    <div class="layui-input-block">
 		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
 		    </div>
-		</div>
+		</div> -->
 		<a class="layui-btn search_btn">查询</a>
 		<div class="layui-inline">
 			<a class="layui-btn layui-btn-normal add_btn">添加</a>
@@ -69,8 +69,8 @@ layui.config({
                 {field:'name',title:'名称', width:'180'},
                 {field:'code',title:'对应编码', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
-                {field:'updateDate',title:'修改时间', width:'180'},
-                {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
+                {field:'updateDate',title:'修改时间', width:'180'}
+               /*  {fixed: 'right', title:'操作', toolbar: '#bar', width:150} */
 		    ]]
 		  });
 		

@@ -2,12 +2,14 @@ package com.iflytransporter.web.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.iflytransporter.common.bean.Area;
 import com.iflytransporter.common.bean.AreaBO;
 
 public interface AreaMapper {
 	
-	List<AreaBO> queryAllBO();
+	List<AreaBO> queryAllBO(@Param("name")String name);
 	
 	AreaBO selectByPrimaryKeyBO(String id);
 	
