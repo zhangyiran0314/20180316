@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
-import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.CompanyService;
 

@@ -1,13 +1,14 @@
 package com.iflytransporter.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.iflytransporter.common.bean.Transporter;
 import com.iflytransporter.common.bean.TransporterBO;
 
 public interface TransporterMapper {
 	
-	List<Transporter> queryAll();
+	List<Map<String,Object>> queryAll();
 	
 	TransporterBO selectByPrimaryKeyBO(String id);
 	

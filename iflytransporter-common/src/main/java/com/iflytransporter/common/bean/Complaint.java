@@ -36,6 +36,10 @@ public class Complaint {
     private String shipperCompanyId;
 
     private String transporterCompanyId;
+    
+    private String orderId;
+    
+    private String orderNo;
 
     public String getId() {
         return id;
@@ -172,4 +176,21 @@ public class Complaint {
     public void setTransporterCompanyId(String transporterCompanyId) {
         this.transporterCompanyId = transporterCompanyId == null ? null : transporterCompanyId.trim();
     }
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
+    
 }

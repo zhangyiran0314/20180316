@@ -40,6 +40,10 @@ public class Comment {
     private String attachmentId4;
     
     private Integer anonymity;
+    
+    private String orderId;
+    
+    private String orderNo;
 
     public String getId() {
         return id;
@@ -193,5 +197,19 @@ public class Comment {
 	public void setAnonymity(Integer anonymity) {
 		this.anonymity = anonymity;
 	}
-    
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
+	}
 }

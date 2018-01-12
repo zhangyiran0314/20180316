@@ -21,6 +21,8 @@
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
     <result column="anonymity" property="anonymity" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, serve_grade, loading_grade, goods_grade, 

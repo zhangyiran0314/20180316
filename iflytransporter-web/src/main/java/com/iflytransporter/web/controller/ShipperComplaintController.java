@@ -17,32 +17,32 @@ import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.ComplaintService;
 
 @Controller
-@RequestMapping("/complaint")
-public class ComplaintController {
-	private static Logger logger = LoggerFactory.getLogger(ComplaintController.class);
+@RequestMapping("shipper/complaint")
+public class ShipperComplaintController {
+	private static Logger logger = LoggerFactory.getLogger(ShipperComplaintController.class);
 	@Autowired
 	private ComplaintService complaintService;
 
 	@RequestMapping("/manage")
 	public String index(){
 		logger.info("complaint/list");
-		return "complaint/manage";
+		return "shipper/complaint/manage";
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,String sId,String tId,String wId,HttpServletRequest request){
-		PageInfo<Complaint> page = complaintService.queryPage(pageNo, 10, sId, tId, wId);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String mobile,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = complaintService.queryPage(page, limit,orderNo,mobile);
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "complaint/detail";
+		return "shipper/complaint/detail";
 	}
 	@RequestMapping("toEdit")
 	public String toEdit(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "complaint/edit";
+		return "shipper/complaint/edit";
 	}
 	@RequestMapping("detail")
 	@ResponseBody

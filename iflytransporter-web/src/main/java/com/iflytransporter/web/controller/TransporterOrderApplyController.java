@@ -17,16 +17,16 @@ import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.OrderApplyService;
 
 @Controller
-@RequestMapping("/orderApply")
-public class OrderApplyController {
-	private static Logger logger = LoggerFactory.getLogger(OrderApplyController.class);
+@RequestMapping("transporter/orderApply")
+public class TransporterOrderApplyController {
+	private static Logger logger = LoggerFactory.getLogger(TransporterOrderApplyController.class);
 	@Autowired
 	private OrderApplyService orderApplyService;
 
 	@RequestMapping("/manage")
 	public String index(){
 		logger.info("orderApply/list");
-		return "orderApply/manage";
+		return "transporter/orderApply/manage";
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
@@ -37,12 +37,12 @@ public class OrderApplyController {
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "orderApply/detail";
+		return "transporter/orderApply/detail";
 	}
 	@RequestMapping("toEdit")
 	public String toEdit(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "orderApply/edit";
+		return "transporter/orderApply/edit";
 	}
 	@RequestMapping("detail")
 	@ResponseBody

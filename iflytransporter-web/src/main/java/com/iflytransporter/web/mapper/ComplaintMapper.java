@@ -1,6 +1,7 @@
 package com.iflytransporter.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -8,7 +9,7 @@ import com.iflytransporter.common.bean.Complaint;
 
 public interface ComplaintMapper {
 	
-	List<Complaint> queryAll(@Param("shipperId")String sId,@Param("transporterId")String tId,@Param("waybillId")String wId);
+	List<Map<String,Object>> queryAll(@Param("orderNo")String orderNo,@Param("mobile")String mobile);
 	
     int deleteByPrimaryKey(String id);
 

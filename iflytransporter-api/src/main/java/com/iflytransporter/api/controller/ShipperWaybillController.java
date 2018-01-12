@@ -212,6 +212,8 @@ public class ShipperWaybillController {
 		Waybill waybill = waybillService.query(comment.getWaybillId());
 		comment.setId(UUIDUtil.UUID());
 		comment.setShipperId(waybill.getShipperId());
+		comment.setOrderId(waybill.getOrderId());
+		comment.setOrderNo(waybill.getOrderNo());
 		comment.setShipperCompanyId(waybill.getShipperCompanyId());
 		comment.setTransporterCompanyId(waybill.getTransporterCompanyId());
 		comment.setTransporterId(waybill.getTransporterId());
@@ -239,6 +241,8 @@ public class ShipperWaybillController {
 		Waybill waybill = waybillService.query(complaint.getWaybillId());
 		complaint.setId(UUIDUtil.UUID());
 		complaint.setShipperId(waybill.getShipperId());
+		complaint.setOrderId(waybill.getOrderId());
+		complaint.setOrderNo(waybill.getOrderNo());
 		complaint.setShipperCompanyId(waybill.getShipperCompanyId());
 		complaint.setTransporterCompanyId(waybill.getTransporterCompanyId());
 		complaint.setTransporterId(waybill.getTransporterId());

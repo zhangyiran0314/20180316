@@ -29,16 +29,26 @@
   <select id="queryAll" resultType="java.util.HashMap"  >
     select  a.id, a.create_date as createDate, a.update_date as updateDate, a.data_status as dataStatus, a.desp as desp,
       a.serve_grade as serveGrade,a.loading_grade as loadingGrade,a.goods_grade as goodsGrade, a.content,
-      b.surname as transporterSurname,b.name as transporterName,
-      c.surname as shipperSurname,c.name as shipperName,
-      d.name as transporterCompanyName,e.name as shipperCompanyName,
-      f.order_no as orderNo
+      b.surname as tSurname,b.name as tName,
+      c.surname as sSurname,c.name as sName,c.mobile as sMobile,
+      d.name as tCompanyName
     from t_comment a
     left join t_user b on a.transporter_id = b.id
     left join t_user c on a.shipper_id = c.id
     left join t_company d on a.transporter_company_id = d.id
-    left join t_company e on a.shipper_company_id = e.id
-    left join t_waybill f on a.waybill_id = f.id
+    where 1=1
+    <if test="orderNo!=null and orderNo !=''">
+     and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sMobile != null and sMobile !=''">
+     and c.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="tMobile != null and tMobile !=''">
+     and b.mobile like concat('%',#{tMobile,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="tCompanyName != null and tCompanyName !=''">
+     and d.name like concat('%',#{tCompanyName,jdbcType=VARCHAR},'%')
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

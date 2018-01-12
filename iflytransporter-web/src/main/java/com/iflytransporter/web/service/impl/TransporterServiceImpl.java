@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +25,12 @@ public class TransporterServiceImpl implements TransporterService{
 	}
 
 	@Override
-	public PageInfo<Transporter> queryPage(Integer pageNo, Integer pageSize) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Transporter> list= transporterMapper.queryAll();
-		return new PageInfo<Transporter>(list);
+		List<Map<String,Object>> list= transporterMapper.queryAll();
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
 	@Override

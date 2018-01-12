@@ -1,5 +1,7 @@
 package com.iflytransporter.web.service;
 
+import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Transporter;
 import com.iflytransporter.common.bean.TransporterBO;
@@ -10,6 +12,6 @@ public interface TransporterService  {
 	
 	TransporterBO queryDetailBO(String id);
 	//分页查询
-	PageInfo<Transporter> queryPage(Integer pageNo,Integer pageSize);
+	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize);
 	
 }

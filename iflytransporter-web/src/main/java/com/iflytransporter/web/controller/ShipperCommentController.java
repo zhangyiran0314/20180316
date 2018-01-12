@@ -17,32 +17,32 @@ import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.CommentService;
 
 @Controller
-@RequestMapping("/comment")
-public class CommentController {
-	private static Logger logger = LoggerFactory.getLogger(CommentController.class);
+@RequestMapping("shipper/comment")
+public class ShipperCommentController {
+	private static Logger logger = LoggerFactory.getLogger(ShipperCommentController.class);
 	@Autowired
 	private CommentService commentService;
 
 	@RequestMapping("/manage")
 	public String index(){
 		logger.info("comment/list");
-		return "comment/manage";
+		return "shipper/comment/manage";
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,String sId,String tId,String wId,HttpServletRequest request){
-		PageInfo<Map<String,Object>> result = commentService.queryPage(page, limit, sId, tId, wId);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String sMobile,String tCompanyName,String tMobile,String wId,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = commentService.queryPage(page, limit, orderNo, sMobile, tCompanyName,tMobile);
 		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "comment/detail";
+		return "shipper/comment/detail";
 	}
 	@RequestMapping("toEdit")
 	public String toEdit(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "comment/edit";
+		return "shipper/comment/edit";
 	}
 	@RequestMapping("detail")
 	@ResponseBody

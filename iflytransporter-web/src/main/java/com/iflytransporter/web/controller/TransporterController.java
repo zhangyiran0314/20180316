@@ -31,9 +31,9 @@ public class TransporterController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,HttpServletRequest request){
-		PageInfo<Transporter> page = transporterService.queryPage( pageNo, 10);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = transporterService.queryPage( page, limit);
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){

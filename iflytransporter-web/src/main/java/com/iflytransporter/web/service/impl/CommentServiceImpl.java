@@ -24,11 +24,11 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String sId,String tId,String wId) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String sMobile,String tCompanyName,String tMobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= commentMapper.queryAll(sId, tId, wId);
+		List<Map<String,Object>> list= commentMapper.queryAll(orderNo, sMobile, tCompanyName, tMobile);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 

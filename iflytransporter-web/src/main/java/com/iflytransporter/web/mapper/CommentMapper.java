@@ -9,7 +9,7 @@ import com.iflytransporter.common.bean.Comment;
 
 public interface CommentMapper {
 	
-	List<Map<String,Object>> queryAll(@Param("shipperId")String sId,@Param("transporterId")String tId,@Param("waybillId")String wId);
+	List<Map<String,Object>> queryAll(@Param("orderNo")String orderNo,@Param("sMobile")String sMobile,@Param("tCompanyName")String tCompanyName,@Param("tMobile")String tMobile);
 	
     int deleteByPrimaryKey(String id);
 

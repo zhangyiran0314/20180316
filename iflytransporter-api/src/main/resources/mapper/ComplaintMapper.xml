@@ -19,6 +19,8 @@
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
     <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
     <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, reason, content, mobile, waybill_id, 
