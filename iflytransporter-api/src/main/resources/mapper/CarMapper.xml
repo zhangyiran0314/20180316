@@ -24,7 +24,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
-      <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
@@ -47,6 +47,9 @@
     <if test="companyId != null" >
       and company_id  = #{companyId,jdbcType=VARCHAR}
     </if>
+      <if test="userId != null" >
+      and transporter_id  = #{userId,jdbcType=VARCHAR}
+    </if>
      <include refid="Valid_SQL" />
   </select>
   
@@ -64,9 +67,20 @@
     <if test="companyId != null" >
       and a.company_id  = #{companyId,jdbcType=VARCHAR}
     </if>
+      <if test="userId != null" >
+      and a.transporter_id  = #{userId,jdbcType=VARCHAR}
+    </if>
       and a.data_status = 0
   </select>
   
+  <update id="bindCar">
+  update t_car set driver_id =  #{driverId,jdbcType=VARCHAR},update_date = now() where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <update id="unbindCar">
+  update t_car set driver_id = '',update_date = now() 
+  where id = #{id,jdbcType=VARCHAR} and driver_id = #{driverId,jdbcType=VARCHAR}
+  </update>
   <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 

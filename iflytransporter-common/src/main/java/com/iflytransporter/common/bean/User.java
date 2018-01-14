@@ -53,6 +53,11 @@ public class User extends BaseEntity {
     private Integer authStatus;
     
     private Integer companyAuthStatus;
+    
+    private String drivingLicenseNo;
+    private String attachmentId4;
+    private String gdl;
+    private String attachmentId5;
 
     public String getName() {
 		return name;
@@ -219,6 +224,38 @@ public class User extends BaseEntity {
 
 	public void setCompanyAuthStatus(Integer companyAuthStatus) {
 		this.companyAuthStatus = companyAuthStatus;
+	}
+
+	public String getDrivingLicenseNo() {
+		return drivingLicenseNo;
+	}
+
+	public void setDrivingLicenseNo(String drivingLicenseNo) {
+		this.drivingLicenseNo = drivingLicenseNo;
+	}
+
+	public String getAttachmentId4() {
+		return attachmentId4;
+	}
+
+	public void setAttachmentId4(String attachmentId4) {
+		this.attachmentId4 = attachmentId4;
+	}
+
+	public String getGdl() {
+		return gdl;
+	}
+
+	public void setGdl(String gdl) {
+		this.gdl = gdl;
+	}
+
+	public String getAttachmentId5() {
+		return attachmentId5;
+	}
+
+	public void setAttachmentId5(String attachmentId5) {
+		this.attachmentId5 = attachmentId5;
 	}
 
 	@Override

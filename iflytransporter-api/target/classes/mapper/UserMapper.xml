@@ -28,6 +28,10 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="auth_status" property="authStatus" jdbcType="INTEGER" />
     <result column="company_auth_status" property="companyAuthStatus" jdbcType="INTEGER" />
+    <result column="driving_license_no" property="drivingLicenseNo" jdbcType="VARCHAR" />
+    <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="gdl" property="gdl" jdbcType="VARCHAR" />
+    <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
   </resultMap>
   
     <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.UserBO" >
@@ -57,6 +61,10 @@
     <result column="level" property="level" jdbcType="INTEGER" />
     <result column="auth_status" property="authStatus" jdbcType="INTEGER" />
     <result column="company_auth_status" property="companyAuthStatus" jdbcType="INTEGER" />
+     <result column="driving_license_no" property="drivingLicenseNo" jdbcType="VARCHAR" />
+    <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="gdl" property="gdl" jdbcType="VARCHAR" />
+    <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
     
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
     <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
@@ -67,7 +75,8 @@
     id, create_date, update_date, data_status, desp, mobile, user_type, password, nickname, 
     last_login_ip, last_login_date, status, last_login_device, company_id, parent_id, 
     attachment_id_1, attachment_id_2, attachment_id_3, surname,name, card_no, email, country_code,level,
-    auth_status,company_auth_status
+    auth_status,company_auth_status,
+     driving_license_no, attachment_id_4, gdl, attachment_id_5
   </sql>
 
     <select id="selectByMobile" resultMap="BaseResultMap"  >
@@ -144,14 +153,19 @@
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.mobile, a.password, a.nickname, a.last_login_ip, 
     a.last_login_date, a.status, a.last_login_device, a.company_id, a.parent_id, a.attachment_id_1, 
     a.attachment_id_2, a.attachment_id_3, a.surname,a.name, a.card_no, 
-    a.email,a.level,a.auth_status,a.company_auth_status,
+    a.email,a.level,a.auth_status,a.company_auth_status, 
+    a.driving_license_no, a.attachment_id_4, a.gdl, a.attachment_id_5,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link 
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link ,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link)  as attachment_id_4_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',f.attachment_link) as attachment_id_5_link 
     from t_user a
     left join t_attachment b on a.attachment_id_1 = b.id
     left join t_attachment c on a.attachment_id_2 = c.id
     left join t_attachment d on a.attachment_id_3 = d.id
+    left join t_attachment e on a.attachment_id_4 = e.id
+    left join t_attachment f on a.attachment_id_5 = f.id
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
 
@@ -173,7 +187,8 @@
       last_login_device, company_id, parent_id, 
       attachment_id_1, attachment_id_2, attachment_id_3, 
       surname,name, card_no, email, 
-      country_code,level,auth_status,company_auth_status)
+      country_code,level,auth_status,company_auth_status,
+       driving_license_no, attachment_id_4, gdl, attachment_id_5)
     values (#{id,jdbcType=VARCHAR}, now(), 
       #{desp,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{userType,jdbcType=INTEGER}, #{password,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
@@ -181,7 +196,9 @@
       #{lastLoginDevice,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, #{parentId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
       #{surname,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{countryCode,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{authStatus,jdbcType=INTEGER},#{companyAuthStatus,jdbcType=INTEGER})
+      #{countryCode,jdbcType=VARCHAR},#{level,jdbcType=INTEGER},#{authStatus,jdbcType=INTEGER},#{companyAuthStatus,jdbcType=INTEGER},
+      #{drivingLicenseNo,jdbcType=VARCHAR}, 
+      #{attachmentId4,jdbcType=VARCHAR}, #{gdl,jdbcType=VARCHAR}, #{attachmentId5,jdbcType=VARCHAR})
   </insert>
   
   <select id="listDown" resultType="java.util.Map" parameterType="java.lang.String">
@@ -267,6 +284,18 @@
        <if test="level != null" >
         level,
       </if>
+        <if test="drivingLicenseNo != null" >
+        driving_license_no,
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4,
+      </if>
+      <if test="gdl != null" >
+        gdl,
+      </if>
+      <if test="attachmentId5 != null" >
+        attachment_id_5,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -346,6 +375,18 @@
       </if>
        <if test="companyAuthStatus != null" >
         #{company_auth_status,jdbcType=INTEGER},
+      </if>
+       <if test="drivingLicenseNo != null" >
+        #{drivingLicenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId4 != null" >
+        #{attachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="gdl != null" >
+        #{gdl,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId5 != null" >
+        #{attachmentId5,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -427,6 +468,18 @@
        <if test="companyAuthStatus != null" >
         company_auth_status =#{companyAuthStatus,jdbcType=INTEGER},
       </if>
+        <if test="drivingLicenseNo != null" >
+        driving_license_no = #{drivingLicenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="gdl != null" >
+        gdl = #{gdl,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId5 != null" >
+        attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -456,7 +509,11 @@
       country_code = #{countryCode,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       auth_status = #{authStatus,jdbcType=INTEGER},
-      company_auth_status = #{companyAuthStatus,jdbcType=INTEGER}
+      company_auth_status = #{companyAuthStatus,jdbcType=INTEGER},
+       driving_license_no = #{drivingLicenseNo,jdbcType=VARCHAR},
+      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      gdl = #{gdl,jdbcType=VARCHAR},
+      attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

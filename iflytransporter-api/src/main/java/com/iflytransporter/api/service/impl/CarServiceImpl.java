@@ -18,13 +18,10 @@ public class CarServiceImpl implements CarService{
 	@Autowired
 	private CarMapper carMapper;
 	@Override
-	public CarBO save(Car record,String companyId) {
+	public int save(Car record,String companyId) {
 		record.setCompanyId(companyId);
 		int result  =  carMapper.insert(record);
-		if(result > 0){
-			return carMapper.selectByPrimaryKeyBO(record.getId());
-		}
-		return null;
+		return result;
 	}
 
 	@Override
@@ -43,17 +40,28 @@ public class CarServiceImpl implements CarService{
 	}
 
 	@Override
-	public PageInfo<CarBO> queryPage(Integer pageNo, Integer pageSize, String companyId) {
+	public PageInfo<CarBO> queryPage(Integer pageNo, Integer pageSize, String companyId,String userId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<CarBO> list= carMapper.queryAllBO(companyId);
+		List<CarBO> list= carMapper.queryAllBO(companyId,userId);
 		return new PageInfo<CarBO>(list);
 	}
 
 	@Override
-	public List<CarBO> listByCompany(String companyId) {
-		return carMapper.queryAllBO(companyId);
+	public List<CarBO> list(String companyId,String userId) {
+		return carMapper.queryAllBO(companyId,userId);
 	}
+
+	@Override
+	public int bindCar(String id, String driverId) {
+		return carMapper.bindCar(id, driverId);
+	}
+
+	@Override
+	public int unbindCar(String id, String driverId) {
+		return carMapper.unbindCar(id, driverId);
+	}
+
 
 }

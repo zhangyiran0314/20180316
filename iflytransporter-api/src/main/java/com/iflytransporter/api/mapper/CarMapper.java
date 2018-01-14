@@ -23,5 +23,11 @@ public interface CarMapper {
 
     int updateByPrimaryKey(Car record);
     
-    List<CarBO> queryAllBO(@Param("companyId")String companyId);
+    List<CarBO> queryAllBO(@Param("companyId")String companyId,@Param("userId")String userId);
+    
+    List<Car> queryAll(@Param("companyId")String companyId,@Param("userId")String userId);
+    
+    int bindCar(@Param("id")String id,@Param("driverId")String driverId);
+    
+    int unbindCar(@Param("id")String id,@Param("driverId")String driverId);
 }

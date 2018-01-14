@@ -30,26 +30,18 @@
     attachment_id_2, attachment_id_3, name, card_no, email,country_code
   </sql>
   
-  
-    <select id="selectByMobile" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="listDown" resultType="java.util.Map" parameterType="java.lang.String">
     select 
-    <include refid="Base_Column_List" />
-    from t_transporter
-    where country_code = #{countryCode,jdbcType=VARCHAR} and mobile = #{mobile,jdbcType=VARCHAR} 
+     a.id, a.create_date as registerDate,  a.mobile, 
+    a.surname,a.name, a.card_no as cardNo, a.email,a.auth_status as authStatus,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachmentId1Link,
+    c.id as carId,c.name as carName,c.code as code
+    from t_user a
+    left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_car c on a.id =c.driver_id
+    
+    where a.parent_id = #{parentId,jdbcType=VARCHAR}
   </select>
-   <select id="selectByMobileAndPassword" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_transporter
-    where  country_code = #{countryCode,jdbcType=VARCHAR} and mobile = #{mobile,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
-  </select>
-   <update id="updateLoginInfo" parameterType="com.iflytransporter.common.bean.Transporter" >
-    update t_transporter set
-      last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
-      last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
-      last_login_device = #{lastLoginDevice,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
   
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

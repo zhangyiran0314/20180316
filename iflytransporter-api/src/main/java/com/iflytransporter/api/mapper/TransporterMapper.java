@@ -1,27 +1,26 @@
 package com.iflytransporter.api.mapper;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
-import com.iflytransporter.common.bean.Transporter;
+import com.iflytransporter.common.bean.UserBO;
 
 public interface TransporterMapper {
 	
-	//根据mobile查询
-	Transporter selectByMobile(@Param("countryCode")String countryCode,@Param("mobile")String mobile);
-	//根据mobile和密码查询用户
-	Transporter selectByMobileAndPassword(@Param("countryCode")String countryCode,@Param("mobile")String mobile,@Param("password")String password);
-	//修改当前登录信息
-	int updateLoginInfo(Transporter record);
+	//查询用户详情
+	public UserBO selectByPrimaryKeyBO(String id);
 	
-    int deleteByPrimaryKey(String id);
-
-    int insert(Transporter record);
-
-    int insertSelective(Transporter record);
-
-    Transporter selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(Transporter record);
-
-    int updateByPrimaryKey(Transporter record);
+	//查看下级列表
+	public List<Map<String,Object>> listDown(@Param("parentId")String parentId);
+	
+	//修改认证状态
+	int updateAuthStatus(@Param("id")String id,@Param("authStatus")Integer authStatus,@Param("companyAuthStatus")Integer companyAuthStatus);
+	
+	//修改用户公司信息
+	int updateCompany(@Param("id")String id,@Param("companyId")String companyId,@Param("companyAuthStatus")Integer companyAuthStatus);
+	
+	//删除下级
+	int deleteDown(@Param("id")String id,@Param("parentId")String parentId);
 }

@@ -51,7 +51,7 @@ public class CarController {
 		String userId =  (String) request.getAttribute("userId");
 		UserBO user = userService.detailByCache(userId);
 		
-		PageInfo<CarBO> page = carService.queryPage(pageNo,pageSize, user.getCompanyId());
+		PageInfo<CarBO> page = carService.queryPage(pageNo,pageSize, user.getCompanyId(),userId);
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
 		}
@@ -70,7 +70,7 @@ public class CarController {
 			@RequestBody  Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		UserBO user = userService.detailByCache(userId);
-		List<CarBO> list = carService.listByCompany(user.getCompanyId());
+		List<CarBO> list = carService.list(user.getCompanyId(),userId);
 		List<CarResp> result = new ArrayList<CarResp>();
 		for(CarBO car:list){
 			CarResp op =new CarResp(car);
@@ -87,9 +87,9 @@ public class CarController {
 		UserBO user = userService.detailByCache(userId);
 		String id = UUIDUtil.UUID();
 		car.setId(id);
-		CarBO result = carService.save(car,user.getCompanyId());
-		if(result != null){
-			return ResponseUtil.successResult(new CarResp(result));
+		int result = carService.save(car,user.getCompanyId());
+		if(result >0 ){
+			return ResponseUtil.successResultId(id);
 		}
 		return ResponseUtil.failureResult();
 	}

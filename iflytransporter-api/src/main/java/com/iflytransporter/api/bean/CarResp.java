@@ -15,9 +15,9 @@ public class CarResp {
     
     private String companyId;
     
-    private String attachmentId1Link;
-
-    private String attachmentId2Link;
+//    private String attachmentId1Link;
+//
+//    private String attachmentId2Link;
 
     
 	public CarResp(CarBO car) {
@@ -26,9 +26,9 @@ public class CarResp {
 		this.code = car.getCode();
 		this.attachmentId1 = car.getAttachmentId1();
 		this.attachmentId2 = car.getAttachmentId2();
-		this.companyId = car.getCompanyId();
-		this.attachmentId1Link = car.getAttachmentId1Link();
-		this.attachmentId2Link = car.getAttachmentId2Link();
+//		this.companyId = car.getCompanyId();
+//		this.attachmentId1Link = car.getAttachmentId1Link();
+//		this.attachmentId2Link = car.getAttachmentId2Link();
 	}
 
 	public String getId() {
@@ -79,21 +79,21 @@ public class CarResp {
 		this.companyId = companyId;
 	}
 
-	public String getAttachmentId1Link() {
-		return attachmentId1Link;
-	}
-
-	public void setAttachmentId1Link(String attachmentId1Link) {
-		this.attachmentId1Link = attachmentId1Link;
-	}
-
-	public String getAttachmentId2Link() {
-		return attachmentId2Link;
-	}
-
-	public void setAttachmentId2Link(String attachmentId2Link) {
-		this.attachmentId2Link = attachmentId2Link;
-	}
-    
+//	public String getAttachmentId1Link() {
+//		return attachmentId1Link;
+//	}
+//
+//	public void setAttachmentId1Link(String attachmentId1Link) {
+//		this.attachmentId1Link = attachmentId1Link;
+//	}
+//
+//	public String getAttachmentId2Link() {
+//		return attachmentId2Link;
+//	}
+//
+//	public void setAttachmentId2Link(String attachmentId2Link) {
+//		this.attachmentId2Link = attachmentId2Link;
+//	}
+//    
     
 }

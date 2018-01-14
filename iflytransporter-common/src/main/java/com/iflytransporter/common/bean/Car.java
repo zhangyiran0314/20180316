@@ -24,6 +24,8 @@ public class Car {
     private String companyId;
 
     private String transporterId;
+    
+    private String driverId;
 
     public String getId() {
         return id;
@@ -112,4 +114,13 @@ public class Car {
     public void setTransporterId(String transporterId) {
         this.transporterId = transporterId == null ? null : transporterId.trim();
     }
+
+	public String getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
+	}
+    
 }
