@@ -10,35 +10,33 @@
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
-    <result column="is_transfer" property="isTransfer" jdbcType="INTEGER" />
-    <result column="transporter_transfer_id" property="transporterTransferId" jdbcType="VARCHAR" />
-    <result column="attachment_take_id" property="attachmentTakeId" jdbcType="VARCHAR" />
-    <result column="attachment_deliver_id" property="attachmentDeliverId" jdbcType="VARCHAR" />
+    <result column="dispense_status" property="dispenseStatus" jdbcType="INTEGER" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="costs" property="costs" jdbcType="INTEGER" />
+    <result column="costs" property="costs" jdbcType="DOUBLE" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
+    <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
+    <result column="take_attachment_id_1" property="takeAttachmentId1" jdbcType="VARCHAR" />
+    <result column="take_attachment_id_2" property="takeAttachmentId2" jdbcType="VARCHAR" />
+    <result column="take_attachment_id_3" property="takeAttachmentId3" jdbcType="VARCHAR" />
+    <result column="take_attachment_id_4" property="takeAttachmentId4" jdbcType="VARCHAR" />
+    <result column="take_date" property="takeDate" jdbcType="TIMESTAMP" />
+    <result column="deliver_attachment_id_1" property="deliverAttachmentId1" jdbcType="VARCHAR" />
+    <result column="deliver_attachment_id_2" property="deliverAttachmentId2" jdbcType="VARCHAR" />
+    <result column="deliver_attachment_id_3" property="deliverAttachmentId3" jdbcType="VARCHAR" />
+    <result column="deliver_attachment_id_4" property="deliverAttachmentId4" jdbcType="VARCHAR" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="confirm_date" property="confirmDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, order_id, shipper_id, transporter_id, 
-    is_transfer, transporter_transfer_id, attachment_take_id, attachment_deliver_id, 
-    status, costs
+    dispense_status, driver_id, status, costs, order_no, car_id, transporter_company_id, 
+    shipper_company_id, take_attachment_id_1, take_attachment_id_2, take_attachment_id_3, 
+    take_attachment_id_4, take_date, deliver_attachment_id_1, deliver_attachment_id_2, 
+    deliver_attachment_id_3, deliver_attachment_id_4, deliver_date, confirm_date
   </sql>
-    
-  <select id="queryAll" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_waybill
-    where 1 = 1 
-    <if test="shipperId != null" >
-      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
-    </if>
-     <if test="transporterId != null" >
-      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
-    </if>
-     <if test="orderId != null" >
-      and order_id  = #{orderId,jdbcType=VARCHAR}
-    </if>
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -52,16 +50,24 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Waybill" >
     insert into t_waybill (id, create_date, update_date, 
       data_status, desp, order_id, 
-      shipper_id, transporter_id, is_transfer, 
-      transporter_transfer_id, attachment_take_id, 
-      attachment_deliver_id, status, costs
-      )
+      shipper_id, transporter_id, dispense_status, 
+      driver_id, status, costs, 
+      order_no, car_id, transporter_company_id, 
+      shipper_company_id, take_attachment_id_1, take_attachment_id_2, 
+      take_attachment_id_3, take_attachment_id_4, take_date, 
+      deliver_attachment_id_1, deliver_attachment_id_2, 
+      deliver_attachment_id_3, deliver_attachment_id_4, 
+      deliver_date, confirm_date)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{isTransfer,jdbcType=INTEGER}, 
-      #{transporterTransferId,jdbcType=VARCHAR}, #{attachmentTakeId,jdbcType=VARCHAR}, 
-      #{attachmentDeliverId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{costs,jdbcType=INTEGER}
-      )
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{dispenseStatus,jdbcType=INTEGER}, 
+      #{driverId,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{costs,jdbcType=DOUBLE}, 
+      #{orderNo,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
+      #{shipperCompanyId,jdbcType=VARCHAR}, #{takeAttachmentId1,jdbcType=VARCHAR}, #{takeAttachmentId2,jdbcType=VARCHAR}, 
+      #{takeAttachmentId3,jdbcType=VARCHAR}, #{takeAttachmentId4,jdbcType=VARCHAR}, #{takeDate,jdbcType=TIMESTAMP}, 
+      #{deliverAttachmentId1,jdbcType=VARCHAR}, #{deliverAttachmentId2,jdbcType=VARCHAR}, 
+      #{deliverAttachmentId3,jdbcType=VARCHAR}, #{deliverAttachmentId4,jdbcType=VARCHAR}, 
+      #{deliverDate,jdbcType=TIMESTAMP}, #{confirmDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Waybill" >
     insert into t_waybill
@@ -90,23 +96,62 @@
       <if test="transporterId != null" >
         transporter_id,
       </if>
-      <if test="isTransfer != null" >
-        is_transfer,
+      <if test="dispenseStatus != null" >
+        dispense_status,
       </if>
-      <if test="transporterTransferId != null" >
-        transporter_transfer_id,
-      </if>
-      <if test="attachmentTakeId != null" >
-        attachment_take_id,
-      </if>
-      <if test="attachmentDeliverId != null" >
-        attachment_deliver_id,
+      <if test="driverId != null" >
+        driver_id,
       </if>
       <if test="status != null" >
         status,
       </if>
       <if test="costs != null" >
         costs,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id,
+      </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id,
+      </if>
+      <if test="takeAttachmentId1 != null" >
+        take_attachment_id_1,
+      </if>
+      <if test="takeAttachmentId2 != null" >
+        take_attachment_id_2,
+      </if>
+      <if test="takeAttachmentId3 != null" >
+        take_attachment_id_3,
+      </if>
+      <if test="takeAttachmentId4 != null" >
+        take_attachment_id_4,
+      </if>
+      <if test="takeDate != null" >
+        take_date,
+      </if>
+      <if test="deliverAttachmentId1 != null" >
+        deliver_attachment_id_1,
+      </if>
+      <if test="deliverAttachmentId2 != null" >
+        deliver_attachment_id_2,
+      </if>
+      <if test="deliverAttachmentId3 != null" >
+        deliver_attachment_id_3,
+      </if>
+      <if test="deliverAttachmentId4 != null" >
+        deliver_attachment_id_4,
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date,
+      </if>
+      <if test="confirmDate != null" >
+        confirm_date,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -134,23 +179,62 @@
       <if test="transporterId != null" >
         #{transporterId,jdbcType=VARCHAR},
       </if>
-      <if test="isTransfer != null" >
-        #{isTransfer,jdbcType=INTEGER},
+      <if test="dispenseStatus != null" >
+        #{dispenseStatus,jdbcType=INTEGER},
       </if>
-      <if test="transporterTransferId != null" >
-        #{transporterTransferId,jdbcType=VARCHAR},
-      </if>
-      <if test="attachmentTakeId != null" >
-        #{attachmentTakeId,jdbcType=VARCHAR},
-      </if>
-      <if test="attachmentDeliverId != null" >
-        #{attachmentDeliverId,jdbcType=VARCHAR},
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
-        #{costs,jdbcType=INTEGER},
+        #{costs,jdbcType=DOUBLE},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperCompanyId != null" >
+        #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId1 != null" >
+        #{takeAttachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId2 != null" >
+        #{takeAttachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId3 != null" >
+        #{takeAttachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId4 != null" >
+        #{takeAttachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="takeDate != null" >
+        #{takeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverAttachmentId1 != null" >
+        #{deliverAttachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId2 != null" >
+        #{deliverAttachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId3 != null" >
+        #{deliverAttachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId4 != null" >
+        #{deliverAttachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmDate != null" >
+        #{confirmDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -178,23 +262,62 @@
       <if test="transporterId != null" >
         transporter_id = #{transporterId,jdbcType=VARCHAR},
       </if>
-      <if test="isTransfer != null" >
-        is_transfer = #{isTransfer,jdbcType=INTEGER},
+      <if test="dispenseStatus != null" >
+        dispense_status = #{dispenseStatus,jdbcType=INTEGER},
       </if>
-      <if test="transporterTransferId != null" >
-        transporter_transfer_id = #{transporterTransferId,jdbcType=VARCHAR},
-      </if>
-      <if test="attachmentTakeId != null" >
-        attachment_take_id = #{attachmentTakeId,jdbcType=VARCHAR},
-      </if>
-      <if test="attachmentDeliverId != null" >
-        attachment_deliver_id = #{attachmentDeliverId,jdbcType=VARCHAR},
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
       <if test="costs != null" >
-        costs = #{costs,jdbcType=INTEGER},
+        costs = #{costs,jdbcType=DOUBLE},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterCompanyId != null" >
+        transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="shipperCompanyId != null" >
+        shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId1 != null" >
+        take_attachment_id_1 = #{takeAttachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId2 != null" >
+        take_attachment_id_2 = #{takeAttachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId3 != null" >
+        take_attachment_id_3 = #{takeAttachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="takeAttachmentId4 != null" >
+        take_attachment_id_4 = #{takeAttachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="takeDate != null" >
+        take_date = #{takeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliverAttachmentId1 != null" >
+        deliver_attachment_id_1 = #{deliverAttachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId2 != null" >
+        deliver_attachment_id_2 = #{deliverAttachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId3 != null" >
+        deliver_attachment_id_3 = #{deliverAttachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverAttachmentId4 != null" >
+        deliver_attachment_id_4 = #{deliverAttachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="confirmDate != null" >
+        confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -208,12 +331,25 @@
       order_id = #{orderId,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
-      is_transfer = #{isTransfer,jdbcType=INTEGER},
-      transporter_transfer_id = #{transporterTransferId,jdbcType=VARCHAR},
-      attachment_take_id = #{attachmentTakeId,jdbcType=VARCHAR},
-      attachment_deliver_id = #{attachmentDeliverId,jdbcType=VARCHAR},
+      dispense_status = #{dispenseStatus,jdbcType=INTEGER},
+      driver_id = #{driverId,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      costs = #{costs,jdbcType=INTEGER}
+      costs = #{costs,jdbcType=DOUBLE},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
+      shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
+      take_attachment_id_1 = #{takeAttachmentId1,jdbcType=VARCHAR},
+      take_attachment_id_2 = #{takeAttachmentId2,jdbcType=VARCHAR},
+      take_attachment_id_3 = #{takeAttachmentId3,jdbcType=VARCHAR},
+      take_attachment_id_4 = #{takeAttachmentId4,jdbcType=VARCHAR},
+      take_date = #{takeDate,jdbcType=TIMESTAMP},
+      deliver_attachment_id_1 = #{deliverAttachmentId1,jdbcType=VARCHAR},
+      deliver_attachment_id_2 = #{deliverAttachmentId2,jdbcType=VARCHAR},
+      deliver_attachment_id_3 = #{deliverAttachmentId3,jdbcType=VARCHAR},
+      deliver_attachment_id_4 = #{deliverAttachmentId4,jdbcType=VARCHAR},
+      deliver_date = #{deliverDate,jdbcType=TIMESTAMP},
+      confirm_date = #{confirmDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

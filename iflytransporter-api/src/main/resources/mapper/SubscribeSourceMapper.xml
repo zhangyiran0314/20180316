@@ -25,6 +25,12 @@
     departure_city_id, departure_area_id, destination_province_id, destination_city_id, 
     destination_area_id, car_type_id, tyre_no, car_length, use_type_id
   </sql>
+  <select id="listByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+   	select 
+  	  <include refid="Base_Column_List" />
+  	   from t_subscribe_source
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

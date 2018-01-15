@@ -6,6 +6,7 @@ import java.util.Map;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.bean.SubscribeSource;
 import com.iflytransporter.common.bean.User;
 
 public interface TransporterOrderService  {
@@ -34,7 +35,8 @@ public interface TransporterOrderService  {
 	 * @param userId
 	 * @return
 	 */
-	OrderApply apply(String id,Double costs,String carId,User user);
+	OrderApply apply(String id,Double costs,User user);
+	
 	/**
 	 * 审核详情
 	 */
@@ -43,4 +45,15 @@ public interface TransporterOrderService  {
 	//审核状态修改
 	int updateStatus(String id,Integer status);
 	
+	/**订阅路线部分*/
+	//增删改查
+	public int save(SubscribeSource record);
+	
+	public SubscribeSource querySubscribeSource(String id);
+	
+	public int update(SubscribeSource record);
+	
+	public int delete(String id);
+	
+	public List<SubscribeSource> listByUserId(String userId);
 }

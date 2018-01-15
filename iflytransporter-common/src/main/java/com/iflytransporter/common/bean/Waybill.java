@@ -19,15 +19,17 @@ public class Waybill {
 
     private String transporterId;
 
-    private Integer isTransfer;
+    private Integer dispenseStatus;
 
-    private String transferTransporterId;
+    private String driverId;
 
     private Integer status;
 
     private Double costs;
 
     private String orderNo;
+
+    private String carId;
 
     private String transporterCompanyId;
 
@@ -41,6 +43,8 @@ public class Waybill {
 
     private String takeAttachmentId4;
 
+    private Date takeDate;
+
     private String deliverAttachmentId1;
 
     private String deliverAttachmentId2;
@@ -48,9 +52,9 @@ public class Waybill {
     private String deliverAttachmentId3;
 
     private String deliverAttachmentId4;
-    
-    private Date takeDate;
+
     private Date deliverDate;
+
     private Date confirmDate;
 
     public String getId() {
@@ -117,20 +121,20 @@ public class Waybill {
         this.transporterId = transporterId == null ? null : transporterId.trim();
     }
 
-    public Integer getIsTransfer() {
-        return isTransfer;
+    public Integer getDispenseStatus() {
+        return dispenseStatus;
     }
 
-    public void setIsTransfer(Integer isTransfer) {
-        this.isTransfer = isTransfer;
+    public void setDispenseStatus(Integer dispenseStatus) {
+        this.dispenseStatus = dispenseStatus;
     }
 
-    public String getTransferTransporterId() {
-        return transferTransporterId;
+    public String getDriverId() {
+        return driverId;
     }
 
-    public void setTransferTransporterId(String transferTransporterId) {
-        this.transferTransporterId = transferTransporterId == null ? null : transferTransporterId.trim();
+    public void setDriverId(String driverId) {
+        this.driverId = driverId == null ? null : driverId.trim();
     }
 
     public Integer getStatus() {
@@ -155,6 +159,14 @@ public class Waybill {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
+
+    public String getCarId() {
+        return carId;
+    }
+
+    public void setCarId(String carId) {
+        this.carId = carId == null ? null : carId.trim();
     }
 
     public String getTransporterCompanyId() {
@@ -205,6 +217,14 @@ public class Waybill {
         this.takeAttachmentId4 = takeAttachmentId4 == null ? null : takeAttachmentId4.trim();
     }
 
+    public Date getTakeDate() {
+        return takeDate;
+    }
+
+    public void setTakeDate(Date takeDate) {
+        this.takeDate = takeDate;
+    }
+
     public String getDeliverAttachmentId1() {
         return deliverAttachmentId1;
     }
@@ -237,28 +257,19 @@ public class Waybill {
         this.deliverAttachmentId4 = deliverAttachmentId4 == null ? null : deliverAttachmentId4.trim();
     }
 
-	public Date getTakeDate() {
-		return takeDate;
-	}
+    public Date getDeliverDate() {
+        return deliverDate;
+    }
 
-	public void setTakeDate(Date takeDate) {
-		this.takeDate = takeDate;
-	}
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
+    }
 
-	public Date getDeliverDate() {
-		return deliverDate;
-	}
+    public Date getConfirmDate() {
+        return confirmDate;
+    }
 
-	public void setDeliverDate(Date deliverDate) {
-		this.deliverDate = deliverDate;
-	}
-
-	public Date getConfirmDate() {
-		return confirmDate;
-	}
-
-	public void setConfirmDate(Date confirmDate) {
-		this.confirmDate = confirmDate;
-	}
-    
+    public void setConfirmDate(Date confirmDate) {
+        this.confirmDate = confirmDate;
+    }
 }

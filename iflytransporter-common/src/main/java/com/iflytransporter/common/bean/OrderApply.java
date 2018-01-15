@@ -1,12 +1,19 @@
 package com.iflytransporter.common.bean;
 
-import com.iflytransporter.common.base.BaseEntity;
+import java.util.Date;
 
-public class OrderApply extends BaseEntity{
+public class OrderApply {
+    private String id;
 
-	private static final long serialVersionUID = 1L;
+    private Date createDate;
 
-	private Integer status;
+    private Date updateDate;
+
+    private Integer dataStatus;
+
+    private String desp;
+
+    private Integer status;
 
     private Double costs;
 
@@ -15,12 +22,52 @@ public class OrderApply extends BaseEntity{
     private String transporterId;
 
     private String companyId;
-    
-    public OrderApply() {
-		super();
-	}
-    
-	public Integer getStatus() {
+
+    private Integer browseStatus;
+
+    private String orderNo;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Integer getDataStatus() {
+        return dataStatus;
+    }
+
+    public void setDataStatus(Integer dataStatus) {
+        this.dataStatus = dataStatus;
+    }
+
+    public String getDesp() {
+        return desp;
+    }
+
+    public void setDesp(String desp) {
+        this.desp = desp == null ? null : desp.trim();
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
@@ -52,12 +99,27 @@ public class OrderApply extends BaseEntity{
         this.transporterId = transporterId == null ? null : transporterId.trim();
     }
 
-	public String getCompanyId() {
-		return companyId;
-	}
+    public String getCompanyId() {
+        return companyId;
+    }
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
-	}
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId == null ? null : companyId.trim();
+    }
 
+    public Integer getBrowseStatus() {
+        return browseStatus;
+    }
+
+    public void setBrowseStatus(Integer browseStatus) {
+        this.browseStatus = browseStatus;
+    }
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo == null ? null : orderNo.trim();
+    }
 }

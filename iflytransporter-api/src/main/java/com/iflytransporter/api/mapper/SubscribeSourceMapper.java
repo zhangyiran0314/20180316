@@ -1,5 +1,7 @@
 package com.iflytransporter.api.mapper;
 
+import java.util.List;
+
 import com.iflytransporter.common.bean.SubscribeSource;
 
 public interface SubscribeSourceMapper {
@@ -14,4 +16,6 @@ public interface SubscribeSourceMapper {
     int updateByPrimaryKeySelective(SubscribeSource record);
 
     int updateByPrimaryKey(SubscribeSource record);
+    
+    List<SubscribeSource> listByUserId(String userId);
 }

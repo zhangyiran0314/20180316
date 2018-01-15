@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.mapper.OrderApplyMapper;
+import com.iflytransporter.api.mapper.SubscribeSourceMapper;
 import com.iflytransporter.api.mapper.TransporterOrderMapper;
 import com.iflytransporter.api.service.TransporterOrderService;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
+import com.iflytransporter.common.bean.SubscribeSource;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -23,6 +25,8 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	private TransporterOrderMapper transporterOrderMapper;
 	@Autowired
 	private OrderApplyMapper orderApplyMapper;
+	@Autowired
+	private SubscribeSourceMapper subscribeSourceMapper;
 	
 	@Override
 	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, Integer status,Integer authStatus) {
@@ -51,7 +55,7 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		return transporterOrderMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public OrderApply apply(String orderId, Double costs,String carId,User user) {
+	public OrderApply apply(String orderId, Double costs,User user) {
 //		Order order = transporterOrderMapper.selectByPrimaryKey(id);
 		OrderApply oa = new OrderApply();
 		oa.setId(UUIDUtil.UUID());
@@ -64,6 +68,26 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 			return oa;
 		}
 		return null;
+	}
+	@Override
+	public int save(SubscribeSource record) {
+		return subscribeSourceMapper.insert(record);
+	}
+	@Override
+	public SubscribeSource querySubscribeSource(String id) {
+		return subscribeSourceMapper.selectByPrimaryKey(id);
+	}
+	@Override
+	public int update(SubscribeSource record) {
+		return subscribeSourceMapper.updateByPrimaryKeySelective(record);
+	}
+	@Override
+	public int delete(String id) {
+		return subscribeSourceMapper.deleteByPrimaryKey(id);
+	}
+	@Override
+	public List<SubscribeSource> listByUserId(String userId) {
+		return subscribeSourceMapper.listByUserId(userId);
 	}
 
 
