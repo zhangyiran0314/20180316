@@ -13,10 +13,11 @@
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="browse_status" property="browseStatus" jdbcType="INTEGER" />
+    <result column="browse_date" property="browseDate" jdbcType="TIMESTAMP" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id,company_id,order_no,browse_status
+    id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id,company_id,order_no,browse_status,browse_date
   </sql>
    <select id="queryAll" resultMap="BaseResultMap" >
     select 
@@ -28,6 +29,19 @@
     </if>
      <if test="orderId != null" >
       and order_id  = #{orderId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+   <select id="listApply" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_apply
+    where 1 = 1 
+    <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="browseStatus != null" >
+      and browse_status  = #{browseStatus,jdbcType=VARCHAR}
     </if>
   </select>
   
@@ -73,6 +87,10 @@
         update_date =  now(),
       </set>
     where id != #{id,jdbcType=VARCHAR} and order_id = #{orderId,jdbcType=VARCHAR}  
+  </update>
+    <update id="updateBrowseStatus">
+      update  t_order_apply  browse_status = #{browseStatus,jdbcType=INTEGER},browse_date =  now()
+   	 where id = #{id,jdbcType=VARCHAR} 
   </update>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -128,6 +146,9 @@
       <if test="browseStatus != null" >
         browse_status,
       </if>
+       <if test="browseDate != null" >
+        browse_date,
+      </if>
       <if test="orderNo != null" >
         order_no,
       </if>
@@ -165,6 +186,9 @@
       </if>
       <if test="browseStatus != null" >
         #{browseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="browseDate != null" >
+        #{browseDate,jdbcType=TIMESTAMP},
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
@@ -204,6 +228,9 @@
       <if test="browseStatus != null" >
         browse_status = #{browseStatus,jdbcType=INTEGER},
       </if>
+       <if test="browseDate != null" >
+        browse_date = #{browseDate,jdbcType=TIMESTAMP},
+      </if>
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
@@ -222,6 +249,7 @@
       transporter_id = #{transporterId,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
       browse_status = #{browseStatus,jdbcType=INTEGER},
+      browse_date =  #{browseDate,jdbcType=TIMESTAMP},
       order_no = #{orderNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

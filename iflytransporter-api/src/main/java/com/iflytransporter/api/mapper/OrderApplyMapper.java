@@ -18,6 +18,9 @@ public interface OrderApplyMapper {
 	
 	List<OrderApply> queryAll(@Param("transporterId")String tId,@Param("orderId")String oId);
 	
+	//修改浏览状态
+	int updateBrowseStatus(String id,Integer browseStatus);
+	
     int deleteByPrimaryKey(String id);
 
     int insert(OrderApply record);
@@ -29,4 +32,6 @@ public interface OrderApplyMapper {
     int updateByPrimaryKeySelective(OrderApply record);
 
     int updateByPrimaryKey(OrderApply record);
+    
+    List<OrderApply> listApply(@Param("transporterId")String tId,@Param("browseStatus")Integer browseStatus);
 }

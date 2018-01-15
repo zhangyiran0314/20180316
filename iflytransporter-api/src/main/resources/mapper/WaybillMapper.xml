@@ -103,6 +103,9 @@
      <if test="status != null" >
       and status  = #{status,jdbcType=INTEGER}
     </if>
+     <if test="dispenseStatus != null" >
+      and dispense_status  = #{dispenseStatus,jdbcType=INTEGER}
+    </if>
   </select>
   
   <select id="detailCompany" resultType="java.util.Map">

@@ -35,7 +35,7 @@ public interface TransporterOrderService  {
 	 * @param userId
 	 * @return
 	 */
-	OrderApply apply(String id,Double costs,User user);
+	int apply(OrderApply orderApply);
 	
 	/**
 	 * 审核详情
@@ -56,4 +56,16 @@ public interface TransporterOrderService  {
 	public int delete(String id);
 	
 	public List<SubscribeSource> listByUserId(String userId);
+	
+	//货主资料
+	public Map<String,Object> detailShipper(String shipperId);
+	//货主评价
+	public Map<String,Object> commentShipper(String shipperId);
+	
+	//报价列表
+	public List<OrderApply> listApplyByUserId(String userId);
+	
+	//找货记录
+	public List<OrderApply> listApplyRecord(String userId,Integer browseStatus);
+	
 }

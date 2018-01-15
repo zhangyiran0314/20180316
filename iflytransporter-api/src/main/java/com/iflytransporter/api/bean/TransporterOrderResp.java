@@ -1,10 +1,10 @@
 package com.iflytransporter.api.bean;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.OrderApply;
 
 public class TransporterOrderResp{
 	
@@ -18,18 +18,15 @@ public class TransporterOrderResp{
 		this.carLength = order.getCarLength();
 		this.goodsType = order.getGoodsType();
 		this.deliverDate = order.getDeliverDate();
-		this.costs = order.getCosts();
 		this.remark = order.getRemark();
-		this.status = order.getStatus();
-		this.repeatFlag = order.getRepeatFlag();
 		this.length = order.getLength();
 		this.width = order.getWidth();
 		this.height = order.getHeight();
-		this.authStatus = order.getAuthStatus();
-		this.authDate = order.getAuthDate();
 		this.orderNo = order.getOrderNo();
 		this.weight = order.getWeight();
 		this.goodsUnits = order.getGoodsUnits();
+		this.publishTime = order.getAuthDate();
+		this.shipperId = order.getShipperId();
 	}
 
 
@@ -43,23 +40,13 @@ public class TransporterOrderResp{
 
     private Date deliverDate;
 
-    private Integer costs;
-
     private String remark;
-
-    private Integer status;
-
-    private Integer repeatFlag;
 
     private String length;
 
     private String width;
 
     private String height;
-
-    private Integer authStatus;
-
-    private Date authDate;
 
     private String orderNo;
     
@@ -87,8 +74,32 @@ public class TransporterOrderResp{
 
     private CommonParam paymentType;
     
-    //审核通过详情
-    private Map<String,Object> applyDetail;
+    private String shipperId;//货主id
+    
+    private Date publishTime;//发布时间
+    
+    private Map<String,Object> detailShipper;//货主信息
+    
+    /**---我的报价部分---*/
+    private Date applyDate;//报价时间
+    private Integer applyStatus;//报价状态
+    private Double costs;//报价
+    
+    /**---我的报价记录---*/
+    private Date recordDate;//记录时间
+    private Integer recordStatus;//记录状态
+   
+    public void setOrderApply(OrderApply orderApply) {
+    	this.applyDate = orderApply.getCreateDate();
+    	this.applyStatus = orderApply.getStatus();
+    	this.costs = orderApply.getCosts();
+	}
+
+    public void setOrderApplyRecord(OrderApply orderApply) {
+    	this.recordDate = orderApply.getBrowseDate();
+    	this.recordStatus = orderApply.getBrowseStatus();
+    	this.costs = orderApply.getCosts();
+	}
     
 	public CommonParam getDepartureProvince() {
 		return departureProvince;
@@ -210,11 +221,11 @@ public class TransporterOrderResp{
 		this.deliverDate = deliverDate;
 	}
 
-	public Integer getCosts() {
+	public Double getCosts() {
 		return costs;
 	}
 
-	public void setCosts(Integer costs) {
+	public void setCosts(Double costs) {
 		this.costs = costs;
 	}
 
@@ -224,22 +235,6 @@ public class TransporterOrderResp{
 
 	public void setRemark(String remark) {
 		this.remark = remark;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Integer getRepeatFlag() {
-		return repeatFlag;
-	}
-
-	public void setRepeatFlag(Integer repeatFlag) {
-		this.repeatFlag = repeatFlag;
 	}
 
 	public String getLength() {
@@ -266,21 +261,6 @@ public class TransporterOrderResp{
 		this.height = height;
 	}
 
-	public Integer getAuthStatus() {
-		return authStatus;
-	}
-
-	public void setAuthStatus(Integer authStatus) {
-		this.authStatus = authStatus;
-	}
-
-	public Date getAuthDate() {
-		return authDate;
-	}
-
-	public void setAuthDate(Date authDate) {
-		this.authDate = authDate;
-	}
 
 	public String getOrderNo() {
 		return orderNo;
@@ -288,14 +268,6 @@ public class TransporterOrderResp{
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
-	}
-
-	public Map<String, Object> getApplyDetail() {
-		return applyDetail;
-	}
-
-	public void setApplyDetail(Map<String, Object> applyDetail) {
-		this.applyDetail = applyDetail;
 	}
 
 	public Integer getWeight() {
@@ -312,6 +284,62 @@ public class TransporterOrderResp{
 
 	public void setGoodsUnits(String goodsUnits) {
 		this.goodsUnits = goodsUnits;
+	}
+
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
+	public Map<String, Object> getDetailShipper() {
+		return detailShipper;
+	}
+
+	public void setDetailShipper(Map<String, Object> detailShipper) {
+		this.detailShipper = detailShipper;
+	}
+
+	public String getShipperId() {
+		return shipperId;
+	}
+
+	public void setShipperId(String shipperId) {
+		this.shipperId = shipperId;
+	}
+
+	public Date getApplyDate() {
+		return applyDate;
+	}
+
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
+	}
+
+	public Integer getApplyStatus() {
+		return applyStatus;
+	}
+
+	public void setApplyStatus(Integer applyStatus) {
+		this.applyStatus = applyStatus;
+	}
+
+	public Date getRecordDate() {
+		return recordDate;
+	}
+
+	public void setRecordDate(Date recordDate) {
+		this.recordDate = recordDate;
+	}
+
+	public Integer getRecordStatus() {
+		return recordStatus;
+	}
+
+	public void setRecordStatus(Integer recordStatus) {
+		this.recordStatus = recordStatus;
 	}
 	
 }

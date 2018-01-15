@@ -37,6 +37,10 @@ public class Status {
 	public static int Order_Audit_Yes=1;//已审核
 	public static int Order_Audit_Cancel=2;//取消审核
 	
+	//申请浏览$联系状态
+	public static int Apply_Browse_No =0;//未处理
+	public static int Apply_Browse_Yes=1;//已浏览
+	public static int Apply_Browse_Contact=2;//电话联系
 	//审核联系状态
 	public static int Audit_Contact_Yes=0;//
 	public static int Audit_Contact_No=1;//已审核
@@ -46,6 +50,10 @@ public class Status {
 	public static int Waybill_In_Transit = 1;//运输中
 	public static int Waybill_To_Confirm = 2;//待确认
 	public static int Waybill_Finish = 3;//已完结
+	
+	/**派单状态*/
+	public static int Waybill_Dispense_No = 0; //未派单
+	public static int Waybill_Dispense_Yes = 1; //已派单
 	
 	
 }

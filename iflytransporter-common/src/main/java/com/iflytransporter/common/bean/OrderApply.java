@@ -25,6 +25,8 @@ public class OrderApply {
 
     private Integer browseStatus;
 
+    private Date browseDate;
+    
     private String orderNo;
 
     public String getId() {
@@ -119,7 +121,15 @@ public class OrderApply {
         return orderNo;
     }
 
-    public void setOrderNo(String orderNo) {
+    public Date getBrowseDate() {
+		return browseDate;
+	}
+
+	public void setBrowseDate(Date browseDate) {
+		this.browseDate = browseDate;
+	}
+
+	public void setOrderNo(String orderNo) {
         this.orderNo = orderNo == null ? null : orderNo.trim();
     }
 }

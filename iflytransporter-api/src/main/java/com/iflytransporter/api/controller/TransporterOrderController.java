@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
+import com.iflytransporter.api.bean.GoodsSourceResp;
+import com.iflytransporter.api.bean.SubscribeSourceResp;
 import com.iflytransporter.api.bean.TransporterOrderResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
@@ -28,6 +30,7 @@ import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
@@ -61,8 +64,6 @@ public class TransporterOrderController {
 	private PaymentTypeService paymentTypeService;
 	@Autowired
 	private UseTypeService useTypeService;
-	@Autowired
-	private OrderApplyService orderApplyService;
 	
 	/**
 	 * 添加订阅路线
@@ -90,7 +91,23 @@ public class TransporterOrderController {
 	@ResponseBody
 	public Map<String,Object> listSubscribe(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		List<SubscribeSource> result = transporterOrderService.listByUserId(userId);
+		List<SubscribeSource> list = transporterOrderService.listByUserId(userId);
+		List<SubscribeSourceResp> result = new ArrayList<SubscribeSourceResp>();
+		for(SubscribeSource source:list){
+			SubscribeSourceResp op =new SubscribeSourceResp(source);
+			op.setDepartureProvince(provinceService.queryCommonParam(source.getDepartureProvinceId()));
+			op.setDepartureCity(cityService.queryCommonParam(source.getDepartureCityId()));
+			op.setDepartureArea(areaService.queryCommonParam(source.getDepartureAreaId()));
+			
+			op.setDestinationProvince(provinceService.queryCommonParam(source.getDestinationProvinceId()));
+			op.setDestinationCity(cityService.queryCommonParam(source.getDestinationCityId()));
+			op.setDestinationArea(areaService.queryCommonParam(source.getDestinationAreaId()));
+			
+			op.setCarType(carTypeService.queryCommonParam(source.getCarTypeId()));
+			op.setUseType(useTypeService.queryCommonParam(source.getUseTypeId()));
+//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
+			result.add(op);
+		}
 		return ResponseUtil.successResult(result);
 	}
 	/**
@@ -102,9 +119,20 @@ public class TransporterOrderController {
 	public Map<String,Object> detailSubscribe(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
-		String subscribeId =  (String) request.getAttribute("subscribeId");
-		SubscribeSource result = transporterOrderService.querySubscribeSource(subscribeId);
-		return ResponseUtil.successResult(result);
+		String subscribeId =  (String) requestMap.get("subscribeId");
+		SubscribeSource source = transporterOrderService.querySubscribeSource(subscribeId);
+		SubscribeSourceResp op =new SubscribeSourceResp(source);
+		op.setDepartureProvince(provinceService.queryCommonParam(source.getDepartureProvinceId()));
+		op.setDepartureCity(cityService.queryCommonParam(source.getDepartureCityId()));
+		op.setDepartureArea(areaService.queryCommonParam(source.getDepartureAreaId()));
+		
+		op.setDestinationProvince(provinceService.queryCommonParam(source.getDestinationProvinceId()));
+		op.setDestinationCity(cityService.queryCommonParam(source.getDestinationCityId()));
+		op.setDestinationArea(areaService.queryCommonParam(source.getDestinationAreaId()));
+		
+		op.setCarType(carTypeService.queryCommonParam(source.getCarTypeId()));
+		op.setUseType(useTypeService.queryCommonParam(source.getUseTypeId()));
+		return ResponseUtil.successResult(op);
 	}
 	
 	@ApiOperation(position=1,value="queryPage", notes="分页列表-找货",produces = "application/json")
@@ -136,7 +164,8 @@ public class TransporterOrderController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+			//添加货主详情
+			op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
 			
 			result.add(op);
 		}
@@ -168,7 +197,8 @@ public class TransporterOrderController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-//			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
+			//添加货主详情
+			op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
@@ -178,25 +208,12 @@ public class TransporterOrderController {
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		Order order = transporterOrderService.query(id);
-		TransporterOrderResp op = new TransporterOrderResp(order);  
-		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
-		
-		op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
-		
-		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-//		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
-		
-		return ResponseUtil.successResult(op);
+			@RequestBody @ApiParam(value="shipperId") Map<String,Object> requestMap){
+		String shipperId = (String) requestMap.get("shipperId");
+//		Order order = transporterOrderService.query(id);
+		//订单内容有app端直接页面传递,此处只返回货主评论内容
+		Map<String,Object> result = transporterOrderService.commentShipper(shipperId);
+		return ResponseUtil.successResult(result);
 	}
 	
 	
@@ -210,25 +227,88 @@ public class TransporterOrderController {
 		String costss =  (String) requestMap.get("costs");
 		Double costs = Double.parseDouble(costss);
 		User user = userService.detailByCache(userId);
-		OrderApply result = transporterOrderService.apply(id, costs, user);
-		if(result != null){
-			return ResponseUtil.successResult(result);
+		Order order = transporterOrderService.query(id);
+		OrderApply orderApply = new OrderApply();
+		String applyId = UUIDUtil.UUID();
+		orderApply.setId(applyId);
+		orderApply.setCompanyId(user.getCompanyId());
+		orderApply.setTransporterId(userId);
+		orderApply.setOrderNo(order.getOrderNo());
+		orderApply.setOrderId(order.getId());
+		orderApply.setCosts(costs);
+		int result = transporterOrderService.apply(orderApply);
+		if(result > 0){
+			return ResponseUtil.successResultId(applyId);
 		}
 		return ResponseUtil.failureResult();
 	}
 	@ApiOperation(value="applyList", notes="找货-我的报价",produces = "application/json")
 	@RequestMapping(value="applyList", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> applyList(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{status:status} status-报价浏览状态:1-浏览,2-通话") Map<String,Object> requestMap){
+	public Map<String,Object> applyList(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		String status =  (String) requestMap.get("status");
-		/*OrderApply result = transporterOrderService.
-		if(result != null){
+		List<OrderApply> list = transporterOrderService.listApplyByUserId(userId);
+		if(list != null && list.size() > 0){
+			List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
+			for(OrderApply orderApply: list){
+				Order order = transporterOrderService.query(orderApply.getOrderId());
+				TransporterOrderResp op =new TransporterOrderResp(order);
+				op.setOrderApply(orderApply);
+				
+				op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
+				op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
+				op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+				
+				op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
+				op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
+				op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+				
+				op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
+				op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
+				op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
+				op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+				//添加货主详情
+				op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+				result.add(op);
+			}
 			return ResponseUtil.successResult(result);
-		}*/
+		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="applyListRecord", notes="找货-找货记录",produces = "application/json")
+	@RequestMapping(value="applyListRecord", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> applyListRecord(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{recordStatus:recordStatus} status:1-浏览状态,2-通话记录") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		Integer recordStatus =  (Integer) requestMap.get("recordStatus");
+		List<OrderApply> list = transporterOrderService.listApplyRecord(userId, recordStatus);
+		if(list != null && list.size() > 0){
+			List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
+			for(OrderApply orderApply: list){
+				Order order = transporterOrderService.query(orderApply.getOrderId());
+				TransporterOrderResp op =new TransporterOrderResp(order);
+				op.setOrderApplyRecord(orderApply);
+				
+				op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
+				op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
+				op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+				
+				op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
+				op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
+				op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+				
+				op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
+				op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
+				op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
+				op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+				//添加货主详情
+				op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+				result.add(op);
+			}
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.successResult();
+	}
 	
 }

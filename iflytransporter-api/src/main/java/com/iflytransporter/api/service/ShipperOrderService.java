@@ -45,6 +45,8 @@ public interface ShipperOrderService  {
 	 */
 	Map<String,Object> detailTransporter(String applyId,String orderId,Integer applyStatus);
 	
+	int contactTransporterRecord(String applyId,Integer browseStatus);
+	
 	/**
 	 * 审核成功
 	 * 1.修改订单为运单状态

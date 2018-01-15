@@ -50,7 +50,7 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 
 	@Override
 	public PageInfo<Waybill> queryPage(Integer pageNo, Integer pageSize, String transporterId, String transporterCompanyId,
-			Integer status) {
+			Integer status,Integer dispenseStatus) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  

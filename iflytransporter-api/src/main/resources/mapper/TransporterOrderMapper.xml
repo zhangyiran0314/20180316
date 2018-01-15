@@ -33,7 +33,7 @@
     <result column="handling_type_id" jdbcType="VARCHAR" property="handlingTypeId" />
     <result column="payment_type_id" jdbcType="VARCHAR" property="paymentTypeId" />
     <result column="auth_status" jdbcType="INTEGER" property="authStatus" />
-    <result column="auth_date" jdbcType="DATE" property="authDate" />
+    <result column="auth_date" jdbcType="TIMESTAMP" property="authDate" />
     <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
     <result column="company_id" jdbcType="VARCHAR" property="companyId" />
   </resultMap>
@@ -119,6 +119,26 @@
 	left join (select transporter_id ,AVG(grade) as grade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
 	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on b.transporter_id = f.transporter_id
  where a.id = #{id,jdbcType=VARCHAR} and b.status =  #{applyStatus,jdbcType=INTEGER}
+  </select>
+  
+   <select id="detailShipper" resultType="java.util.HashMap">
+  	select a.id,a.surname,a.`name`,a.create_date as registerDate,round(b.grade) as grade,c.count
+	from t_user a 
+	left join 
+	(select shipper_id,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade
+	 from t_transporter_comment GROUP BY shipper_id) b on a.id = b.shipper_id
+	left join (select shipper_id ,count(1) as count from t_waybill GROUP BY shipper_id) c on a.id = c.shipper_id
+ where a.id = #{shipperId,jdbcType=VARCHAR} 
+  </select>
+  
+  <select id="commentShipper" resultType="java.util.HashMap">
+  	select round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+	from t_user a 
+	left join 
+	(select shipper_id,count(1) as commentCount ,
+	AVG(IFNULL(serve_grade,0))as serveGrade,AVG(IFNULL(loading_grade,0))as loadingGrade,AVG(IFNULL(goods_grade,0)) as goodsGrade
+	 from t_transporter_comment GROUP BY shipper_id) b on a.id = b.shipper_id
+ where a.id = #{shipperId,jdbcType=VARCHAR} 
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

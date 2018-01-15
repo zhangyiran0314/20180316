@@ -300,6 +300,19 @@ public class ShipperOrderController {
 		}
 		return ResponseUtil.successResult(result);
 	}
+	@ApiOperation(value="contactTransporterRecord", notes="详情-联系车主-电话记录",produces = "application/json",response = OrderResp.class)
+	@RequestMapping(value="contactTransporterRecord", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> contactTransporterRecord(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{applyId:applyId}") Map<String,Object> requestMap){
+		String applyId = (String) requestMap.get("applyId");
+//		String orderId = (String) requestMap.get("orderId");
+		int result = shipperOrderService.contactTransporterRecord(applyId, Status.Apply_Browse_Contact);
+		if(result > 0 ){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 	/**
 	 * 申请取消情况下,其他申请可被联系,contactStatus修改为可联系状态
 	 * */

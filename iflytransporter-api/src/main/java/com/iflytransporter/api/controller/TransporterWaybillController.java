@@ -71,7 +71,7 @@ public class TransporterWaybillController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车,1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待派单,1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
@@ -81,9 +81,9 @@ public class TransporterWaybillController {
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel()){
-			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status);
+			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,Status.Waybill_Dispense_No);
 		}else{
-			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status);
+			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes);
 		}
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);

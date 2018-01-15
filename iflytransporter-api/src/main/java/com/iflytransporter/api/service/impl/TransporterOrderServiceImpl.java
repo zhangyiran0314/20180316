@@ -55,19 +55,9 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		return transporterOrderMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public OrderApply apply(String orderId, Double costs,User user) {
+	public int apply(OrderApply orderApply) {
 //		Order order = transporterOrderMapper.selectByPrimaryKey(id);
-		OrderApply oa = new OrderApply();
-		oa.setId(UUIDUtil.UUID());
-		oa.setCosts(costs);
-		oa.setOrderId(orderId);
-		oa.setTransporterId(user.getId());
-		oa.setCompanyId(user.getCompanyId());
-		int result = orderApplyMapper.insert(oa);
-		if(result > 0){
-			return oa;
-		}
-		return null;
+		return orderApplyMapper.insert(orderApply);
 	}
 	@Override
 	public int save(SubscribeSource record) {
@@ -88,6 +78,22 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	@Override
 	public List<SubscribeSource> listByUserId(String userId) {
 		return subscribeSourceMapper.listByUserId(userId);
+	}
+	@Override
+	public Map<String, Object> detailShipper(String shipperId) {
+		return transporterOrderMapper.detailShipper(shipperId);
+	}
+	@Override
+	public Map<String, Object> commentShipper(String shipperId) {
+		return transporterOrderMapper.commentShipper(shipperId);
+	}
+	@Override
+	public List<OrderApply> listApplyByUserId(String userId) {
+		return orderApplyMapper.listApply(userId, null);
+	}
+	@Override
+	public List<OrderApply> listApplyRecord(String userId,Integer browseStatus) {
+		return orderApplyMapper.listApply(userId, browseStatus);
 	}
 
 

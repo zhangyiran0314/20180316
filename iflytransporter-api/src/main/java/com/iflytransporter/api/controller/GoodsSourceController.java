@@ -58,8 +58,6 @@ public class GoodsSourceController {
 	private PaymentTypeService paymentTypeService;
 	@Autowired
 	private UseTypeService useTypeService;
-	@Autowired
-	private ShipperOrderService shipperOrderService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)

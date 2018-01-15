@@ -20,7 +20,7 @@ import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 @Service("shipperOrderService")
-public class ShipperOrderServiceImpl implements ShipperOrderService{
+public  class ShipperOrderServiceImpl implements ShipperOrderService{
 	
 	@Autowired
 	private ShipperOrderMapper shipperOrderMapper;
@@ -102,8 +102,15 @@ public class ShipperOrderServiceImpl implements ShipperOrderService{
 		if(result == null){
 			return null;
 		}
+		//修改浏览记录
+		orderApplyMapper.updateBrowseStatus(applyId, Status.Apply_Browse_Yes);
 		orderApplyMapper.updateOtherContactStatus(applyId,orderId, Status.Audit_Contact_No);
 		return result;
+	}
+
+	@Override
+	public int contactTransporterRecord(String applyId, Integer browseStatus) {
+		return orderApplyMapper.updateBrowseStatus(applyId, browseStatus);
 	}
 
 

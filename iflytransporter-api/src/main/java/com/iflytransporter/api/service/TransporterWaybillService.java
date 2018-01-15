@@ -20,7 +20,7 @@ public interface TransporterWaybillService {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status);
+	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status,Integer dispenseStatus);
 	
 	/**
 	 * 列表

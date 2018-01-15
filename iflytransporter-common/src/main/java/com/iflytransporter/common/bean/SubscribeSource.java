@@ -36,6 +36,8 @@ public class SubscribeSource {
     private Integer carLength;
 
     private String useTypeId;
+    
+    private String goodsType;
 
     public String getId() {
         return id;
@@ -172,4 +174,13 @@ public class SubscribeSource {
     public void setUseTypeId(String useTypeId) {
         this.useTypeId = useTypeId == null ? null : useTypeId.trim();
     }
+
+	public String getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType;
+	}
+    
 }
