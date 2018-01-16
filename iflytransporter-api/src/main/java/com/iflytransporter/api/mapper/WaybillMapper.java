@@ -6,7 +6,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.common.bean.Waybill;
-import com.iflytransporter.common.bean.WaybillBO;
 
 public interface WaybillMapper {
     int deleteByPrimaryKey(String id);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.iflytransporter.api.mapper.WaybillMapper" >
+<mapper namespace="com.iflytransporter.api.mapper.TransporterWaybillMapper" >
   <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Waybill" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -94,23 +94,35 @@
       and dispense_status  = #{dispenseStatus,jdbcType=INTEGER}
     </if>
   </select>
-  
-  <select id="detailShipperCompany" resultType="java.util.Map">
-  	select b.`name` as companyName,b.create_date as registerDate,round(c.grade) as grade ,d.count as count,f.surname,f.name,f.mobile
-	from t_waybill a
-  left join t_company b on a.shipper_company_id= b.id
-  left join (select shipper_company_id, AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_transporter_comment GROUP BY shipper_company_id) c on a.shipper_company_id= c.shipper_company_id
-  left join (select shipper_company_id ,count(1) as count from t_waybill GROUP BY shipper_company_id) d on a.shipper_company_id = d.shipper_company_id
-  left join t_user f on f.id = a.shipper_id 
- 	where a.id = #{id,jdbcType=VARCHAR} and f.level = 1
+  <!-- 发货人 -->
+  <select id="detailShipper" resultType="java.util.Map">
+   select a.id ,a.mobile ,a.surname,a.name ,a.create_date as registerDate ,b.count
+   from t_user a 
+   left join (select shipper_id ,count(1) as count from t_waybill GROUP BY shipper_id) b on a.id = b.shipper_id
+   where a.id = #{shipperId,jdbcType=VARCHAR} 
   </select>
+  <!-- 货主公司 -->
+  <select id="detailShipperCompany" resultType="java.util.Map">
+  	select a.`name` as companyName,a.create_date as registerDate,round(b.grade) as grade ,c.count as count,d.id as shipperId,d.surname,d.name,d.mobile
+	from t_company a
+  left join (select shipper_company_id, AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_transporter_comment GROUP BY shipper_company_id) b on a.id= b.shipper_company_id
+  left join (select shipper_company_id ,count(1) as count from t_waybill GROUP BY shipper_company_id) c on a.id = c.shipper_company_id
+  left join t_user d on a.id = d.company_id 
+ 	where a.id = #{companyId,jdbcType=VARCHAR} and d.level = 1
+  </select>
+  <!-- 货主详情 -->
    <select id="detailShipperComment" resultType="java.util.Map">
-  	select round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+  	select a.mobile,a.create_date as registerDate,a.surname ,a.name ,d.`name` as companyName,c.count as count,
+  	round(b.grade) as grade,round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
 		from t_user a 
 		left join 
-		(select shipper_id,count(1) as commentCount ,
-		AVG(IFNULL(serve_grade,0))as serveGrade,AVG(IFNULL(loading_grade,0))as loadingGrade,AVG(IFNULL(goods_grade,0)) as goodsGrade
-		 from t_transporter_comment GROUP BY shipper_id) b on a.id = b.shipper_id
+			(select shipper_id,count(1) as commentCount ,
+			AVG(IFNULL(serve_grade,0))as serveGrade,AVG(IFNULL(loading_grade,0))as loadingGrade,AVG(IFNULL(goods_grade,0)) as goodsGrade,
+			AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade
+		 	from t_transporter_comment GROUP BY shipper_id)
+		 b on a.id = b.shipper_id
+		 left join (select shipper_id ,count(1) as count from t_waybill GROUP BY shipper_id) c on a.id = c.shipper_id
+		 left join t_company d on d.id = a.company_id
  	where a.id = #{shipperId,jdbcType=VARCHAR} 
   </select>
   
@@ -120,9 +132,10 @@
   
   
   <select id="listDriver" resultType="java.util.Map">
-  	select id,name,mobile from t_user where company_id = #{companyId,jdbcType=VARCHAR} 
+  	select id,surname,name,mobile from t_user where company_id = #{companyId,jdbcType=VARCHAR} 
     <if test="level != null" >
     and  level = #{level,jdbcType=INTEGER}
+    </if>
   </select>
   
   <select id="listCar" resultType="java.util.Map">
@@ -137,16 +150,75 @@
 	 	car_id = #{carId,jdbcType=VARCHAR}
 	 	where id = #{id,jdbcType=VARCHAR}
 	</update>
+	<!-- 司机信息 -->
+	<select id="detailDriver" resultType="java.util.Map">
+	   select id ,mobile ,surname,name 
+	   from t_user 
+	   where id = #{driverId,jdbcType=VARCHAR} 
+	</select>
 	<!-- 派单司机以及车辆信息 -->
 	<select id="detailDispense" resultType="java.util.Map">
-	select b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,round(d.grade) as grade
+	select b.id as driverId,b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,round(d.grade) as grade
 	from t_waybill a
 	left join t_user b on a.driver_id = b.id
 	left join t_car c on a.car_id  = c.id
 	left join (select transporter_id ,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY transporter_id) d on a.driver_id= d.transporter_id
  	where a.id = #{id,jdbcType=VARCHAR}
 	</select>
-	
+	<!-- 车辆详情 (司机评价)-->
+  <select id="detailDispenseComment" resultType="java.util.Map">
+  	select a.create_date as registerDate,a.surname,a.name,a.mobile,c.count as count,
+  	round(b.grade) as grade,round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+		from t_user a 
+		 left join 
+			(select driver_id,count(1) as commentCount ,
+			AVG(IFNULL(serve_grade,0))as serveGrade,AVG(IFNULL(loading_grade,0))as loadingGrade,AVG(IFNULL(goods_grade,0)) as goodsGrade,
+			AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade
+		 	from t_comment GROUP BY driver_id) b 
+		 on a.id = b.driver_id
+		 left join (select driver_id ,count(1) as count from t_waybill GROUP BY driver_id) c on a.id = c.driver_id
+ 	where a.id = #{driverId,jdbcType=VARCHAR} 
+  </select>
+  <update id="loadingProof">
+   update t_waybill 
+    <set>
+     <if test="takeAttachmentId1 != null" >
+        take_attachment_id_1 = #{takeAttachmentId1,jdbcType=VARCHAR},
+      </if>
+       <if test="takeAttachmentId2 != null" >
+        take_attachment_id_2 = #{takeAttachmentId2,jdbcType=VARCHAR},
+      </if>
+       <if test="takeAttachmentId3 != null" >
+        take_attachment_id_3 = #{takeAttachmentId3,jdbcType=VARCHAR},
+      </if>
+       <if test="takeAttachmentId4 != null" >
+        take_attachment_id_4 = #{takeAttachmentId4,jdbcType=VARCHAR},
+      </if>
+       take_date = now(),status = #{status,jdbcType=INTEGER} 
+   </set>
+   where id = #{id,jdbcType=VARCHAR} 
+  </update>
+  
+  <update id="deliverProof">
+   update t_waybill 
+    <set>
+     <if test="deliverAttachmentId1 != null" >
+        deliver_attachment_id_1 = #{deliverAttachmentId1,jdbcType=VARCHAR},
+      </if>
+       <if test="deliverAttachmentId2 != null" >
+        deliver_attachment_id_2 = #{deliverAttachmentId2,jdbcType=VARCHAR},
+      </if>
+       <if test="deliverAttachmentId3 != null" >
+        deliver_attachment_id_3 = #{deliverAttachmentId3,jdbcType=VARCHAR},
+      </if>
+       <if test="deliverAttachmentId4 != null" >
+        deliver_attachment_id_4 = #{deliverAttachmentId4,jdbcType=VARCHAR},
+      </if>
+       deliver_date = now(),status = #{status,jdbcType=INTEGER} 
+   </set>
+   where id = #{id,jdbcType=VARCHAR} 
+  </update>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

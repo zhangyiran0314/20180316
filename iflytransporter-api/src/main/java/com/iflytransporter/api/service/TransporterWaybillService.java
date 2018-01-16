@@ -30,14 +30,12 @@ public interface TransporterWaybillService {
 	 * @return
 	 */
 	List<Waybill> list(String userId,String transporterCompanyId,Integer status,Integer dispenseStatus);
-	/**
-	 * 货主公司信息
-	 * @param companyId
-	 * @return
-	 */
-	Map<String,Object> detailShipperCompany(String id);
-	
-	Map<String,Object> detailShipperComment(String id);
+	/**发货人*/
+	Map<String,Object> detailShipper(String shipperId);
+	/** 货主公司信息 */
+	Map<String,Object> detailShipperCompany(String shipperCompanyId);
+	/** 货主详情 */
+	Map<String,Object> detailShipperComment(String shipperId);
 	
 	//收货凭证
 	Map<String, Object> takeAttachmentList(String id);
@@ -53,22 +51,29 @@ public interface TransporterWaybillService {
 	int addComplaint(TransporterComplaint complaint);
 	
 	//运单查看当前车主是否评价此运单
-	Integer countCommentByWaybill(String waybillId,String shipperId);
+	Integer countCommentByWaybill(String waybillId);
 	//运单查看当前车主评价详情
-	Map<String,Object> queryCommentByWaybill(String waybillId,String shipperId);
+	Map<String,Object> queryCommentByWaybill(String waybillId);
 	
 	//运单查看当前车主是否评价此运单
 	Integer countComplaintByWaybill(String waybillId,String shipperId);
 	//运单查看当前车主评价详情
-	Map<String,Object> queryComplaintByWaybill(String waybillId,String shipperId);
+	Map<String,Object> queryComplaintByWaybill(String waybillId);
 	/** 司机列表 */
-	Map<String,Object> listDriver(String companyId);
+	List<Map<String,Object>> listDriver(String companyId);
 	/** 车辆列表 */
-	Map<String,Object> listCar(String companyId);
+	List<Map<String,Object>> listCar(String companyId);
 	
 	/**派单*/
 	int dispense(String id,String driverId,String carId,Integer dispenseStatus);
+	/** 司机信息 */
+	Map<String,Object> detailDriver(String driverId);
 	/** 派单司机以及车辆信息 */
 	Map<String,Object> detailDispense(String id);
-	
+	/** 派单司机以及车辆信息 */
+	Map<String,Object> detailDispenseComment(String driverId);
+	/**收货凭证 */
+	int loadingProof(String id,String attachment1,String attachment2,String attachment3,String attachment4);
+	/**交货凭证 */
+	int deliverProof(String id,String attachment1,String attachment2,String attachment3,String attachment4);
 }

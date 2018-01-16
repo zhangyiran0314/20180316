@@ -16,6 +16,7 @@ import com.iflytransporter.api.service.TransporterWaybillService;
 import com.iflytransporter.common.bean.TransporterComment;
 import com.iflytransporter.common.bean.TransporterComplaint;
 import com.iflytransporter.common.bean.Waybill;
+import com.iflytransporter.common.enums.Status;
 
 @Service("transporterWaybillService")
 public class TransporterWaybillServiceImpl implements TransporterWaybillService {
@@ -88,13 +89,13 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 	}
 
 	@Override
-	public Integer countCommentByWaybill(String waybillId, String shipperId) {
-		return transporterCommentMapper.countByWaybill(waybillId, shipperId);
+	public Integer countCommentByWaybill(String waybillId) {
+		return transporterCommentMapper.countByWaybill(waybillId, null);
 	}
 
 	@Override
-	public Map<String, Object> queryCommentByWaybill(String waybillId, String shipperId) {
-		return transporterCommentMapper.queryDetailByWaybill(waybillId, shipperId);
+	public Map<String, Object> queryCommentByWaybill(String waybillId) {
+		return transporterCommentMapper.queryDetailByWaybill(waybillId, null);
 	}
 
 	@Override
@@ -103,17 +104,17 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 	}
 
 	@Override
-	public Map<String, Object> queryComplaintByWaybill(String waybillId, String shipperId) {
-		return transporterComplaintMapper.queryDetailByWaybill(waybillId, shipperId);
+	public Map<String, Object> queryComplaintByWaybill(String waybillId) {
+		return transporterComplaintMapper.queryDetailByWaybill(waybillId, null);
 	}
 
 	@Override
-	public Map<String, Object> listDriver(String companyId) {
+	public List<Map<String,Object>> listDriver(String companyId) {
 		return transporterWaybillMapper.listDriver(companyId, null);
 	}
 
 	@Override
-	public Map<String, Object> listCar(String companyId) {
+	public List<Map<String,Object>> listCar(String companyId) {
 		return transporterWaybillMapper.listCar(companyId);
 	}
 
@@ -125,5 +126,30 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 	@Override
 	public Map<String, Object> detailDispense(String id) {
 		return transporterWaybillMapper.detailDispense(id);
+	}
+
+	@Override
+	public Map<String, Object> detailDispenseComment(String driverId) {
+		return transporterWaybillMapper.detailDispenseComment(driverId);
+	}
+
+	@Override
+	public int loadingProof(String id, String attachment1, String attachment2, String attachment3, String attachment4) {
+		return transporterWaybillMapper.loadingProof(id, attachment1, attachment2, attachment3, attachment4,Status.Waybill_In_Transit);
+	}
+
+	@Override
+	public int deliverProof(String id, String attachment1, String attachment2, String attachment3, String attachment4) {
+		return transporterWaybillMapper.deliverProof(id, attachment1, attachment2, attachment3, attachment4,Status.Waybill_To_Confirm);
+	}
+
+	@Override
+	public Map<String, Object> detailShipper(String shipperId) {
+		return transporterWaybillMapper.detailShipper(shipperId);
+	}
+
+	@Override
+	public Map<String, Object> detailDriver(String driverId) {
+		return transporterWaybillMapper.detailDriver(driverId);
 	}
 }

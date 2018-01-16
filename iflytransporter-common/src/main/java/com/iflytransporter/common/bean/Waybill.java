@@ -20,6 +20,8 @@ public class Waybill {
     private String transporterId;
 
     private Integer dispenseStatus;
+    
+    private Date dispenseDate;
 
     private String driverId;
 
@@ -272,4 +274,13 @@ public class Waybill {
     public void setConfirmDate(Date confirmDate) {
         this.confirmDate = confirmDate;
     }
+
+	public Date getDispenseDate() {
+		return dispenseDate;
+	}
+
+	public void setDispenseDate(Date dispenseDate) {
+		this.dispenseDate = dispenseDate;
+	}
+    
 }

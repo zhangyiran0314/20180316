@@ -70,15 +70,10 @@ public class TransporterWaybillResp {
     
     private Date createDate;
     
-    public TransporterWaybillResp(WaybillBO waybill) {
-    	this.orderId = waybill.getOrderId();
-    	this.id = waybill.getId();
-		this.status = waybill.getStatus();
-		this.costs = waybill.getCosts().toString();
-		this.orderNo = waybill.getOrderNo();
-		this.confirmDate =waybill.getConfirmDate();
-		this.createDate = waybill.getCreateDate();
-	}
+    private Integer dispenseStatus;
+    
+    private Date dispenseDate;
+    
     public TransporterWaybillResp(Waybill waybill) {
     	this.orderId = waybill.getOrderId();
     	this.id = waybill.getId();
@@ -87,6 +82,8 @@ public class TransporterWaybillResp {
 		this.orderNo = waybill.getOrderNo();
 		this.confirmDate = waybill.getConfirmDate();
 		this.createDate = waybill.getCreateDate();
+		this.dispenseStatus = waybill.getDispenseStatus();
+		this.dispenseDate = waybill.getDispenseDate();
 	}
     
     public void setOrder(Order order){
@@ -104,9 +101,7 @@ public class TransporterWaybillResp {
     }
     //货主
     private Map<String,Object> shipper;
-    //公司
-    private Map<String,Object> company;
-    //车主
+    //司机信息
     private Map<String,Object> driver;
     //收货凭证
     private Map<String,Object> takeAttachmentList;
@@ -304,21 +299,6 @@ public class TransporterWaybillResp {
 		this.paymentType = paymentType;
 	}
 
-	public Map<String, Object> getShipper() {
-		return shipper;
-	}
-
-	public void setShipper(Map<String, Object> shipper) {
-		this.shipper = shipper;
-	}
-
-	public Map<String, Object> getCompany() {
-		return company;
-	}
-
-	public void setCompany(Map<String, Object> company) {
-		this.company = company;
-	}
 	public Map<String, Object> getTakeAttachmentList() {
 		return takeAttachmentList;
 	}
@@ -361,9 +341,33 @@ public class TransporterWaybillResp {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	public Integer getDispenseStatus() {
+		return dispenseStatus;
+	}
+	public void setDispenseStatus(Integer dispenseStatus) {
+		this.dispenseStatus = dispenseStatus;
+	}
+
+	public Date getDispenseDate() {
+		return dispenseDate;
+	}
+
+	public void setDispenseDate(Date dispenseDate) {
+		this.dispenseDate = dispenseDate;
+	}
+
+	public Map<String, Object> getShipper() {
+		return shipper;
+	}
+
+	public void setShipper(Map<String, Object> shipper) {
+		this.shipper = shipper;
+	}
+
 	public Map<String, Object> getDriver() {
 		return driver;
 	}
+
 	public void setDriver(Map<String, Object> driver) {
 		this.driver = driver;
 	}

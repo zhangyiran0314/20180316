@@ -72,7 +72,7 @@ public class TransporterWaybillController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车|待派单(管理员),1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车|待派单(管理员),1-运输中,2-已完结(待确认),3-已完结(已确认);pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
@@ -110,8 +110,12 @@ public class TransporterWaybillController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			
-			//添加货主信息
-			op.setShipper(transporterOrderService.detailShipper(waybill.getShipperId()));
+			//发货人
+			op.setShipper(transporterWaybillService.detailShipper(waybill.getShipperId()));
+			//管理员角色,已派单状态下,添加派单信息
+			if(Status.User_Level_Admin==user.getLevel().intValue() && Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
+				op.setDriver(transporterWaybillService.detailDriver(waybill.getDriverId()));
+			}
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
@@ -150,8 +154,12 @@ public class TransporterWaybillController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			
-			//添加货主信息
-			op.setShipper(transporterOrderService.detailShipper(waybill.getShipperId()));
+			//发货人
+			op.setShipper(transporterWaybillService.detailShipper(waybill.getShipperId()));
+			//管理员角色,已派单状态下,添加司机信息
+			if(Status.User_Level_Admin==user.getLevel().intValue() && Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
+				op.setDriver(transporterWaybillService.detailDriver(waybill.getDriverId()));
+			}
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
@@ -167,8 +175,11 @@ public class TransporterWaybillController {
 		
 		Map<String,Object> result = new HashMap<String,Object>();
 		//公司信息
-		result.put("shipperCompany", transporterWaybillService.detailShipperCompany(id));
-		
+		result.put("shipperCompany", transporterWaybillService.detailShipperCompany(waybill.getShipperCompanyId()));
+		//已派单状态,派单信息
+		if( Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
+			result.put("dispense", transporterWaybillService.detailDispense(waybill.getId()));
+		}
 		//大于待装车状态,查询收货凭证&&查询是否投诉
 		if(waybill.getStatus() > Status.Waybill_For_Loading){
 			result.put("takeAttachmentList", transporterWaybillService.takeAttachmentList(id));
@@ -180,8 +191,28 @@ public class TransporterWaybillController {
 		}
 		//等于已完结状态,查询是否已经评价
 		if(Status.Waybill_To_Confirm <= waybill.getStatus().intValue()){
-			result.put("commentFlag",transporterWaybillService.countCommentByWaybill(waybill.getId(), userId));
+			result.put("commentFlag",transporterWaybillService.countCommentByWaybill(waybill.getId()));
 		}
+		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="detailShipper", notes="货主详情",produces = "application/json")
+	@RequestMapping(value="detailShipper", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> detailShipper(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{shipperId:shipperId}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String shipperId = (String) requestMap.get("shipperId");
+		Map<String,Object> result = transporterWaybillService.detailShipperComment(shipperId);
+		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="detailDispense", notes="车辆详情",produces = "application/json")
+	@RequestMapping(value="detailDispense", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> detailDispense(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{driverId:driverId}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String driverId = (String) requestMap.get("driverId");
+		Map<String,Object> result = transporterWaybillService.detailDispenseComment(driverId);
 		return ResponseUtil.successResult(result);
 	}
 	@ApiOperation(value="listDriver", notes="司机列表",produces = "application/json")
@@ -191,7 +222,7 @@ public class TransporterWaybillController {
 		String userId = (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
-			Map<String,Object>  result = transporterWaybillService.listDriver(user.getCompanyId());
+			List<Map<String,Object>>  result = transporterWaybillService.listDriver(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
@@ -203,7 +234,7 @@ public class TransporterWaybillController {
 		String userId = (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
-			Map<String,Object>  result = transporterWaybillService.listCar(user.getCompanyId());
+			List<Map<String,Object>>  result = transporterWaybillService.listCar(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
@@ -218,11 +249,44 @@ public class TransporterWaybillController {
 		String carId = (String) requestMap.get("carId");
 		int result = transporterWaybillService.dispense(id, driverId, carId, Status.Waybill_Dispense_Yes);
 		if(result > 0){
-			return ResponseUtil.successResult();
+			return ResponseUtil.successResultId(id);
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="loadingProof", notes="收货凭证",produces = "application/json")
+	@RequestMapping(value="loadingProof", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> loadingProof(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{attachmentId1,attachmentId2:attachmentId3,attachmentId4}") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String attachment1 = (String) requestMap.get("attachmentId1");
+		String attachment2 = (String) requestMap.get("attachmentId2");
+		String attachment3 = (String) requestMap.get("attachmentId3");
+		String attachment4 = (String) requestMap.get("attachmentId4");
+		String carId = (String) requestMap.get("carId");
+		int result = transporterWaybillService.loadingProof(id, attachment1, attachment2, attachment3, attachment4);
+		if(result > 0){
+			return ResponseUtil.successResultId(id);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="deliverProof", notes="交货凭证",produces = "application/json")
+	@RequestMapping(value="deliverProof", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> deliverProof(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{attachmentId1,attachmentId2:attachmentId3,attachmentId4}") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String attachment1 = (String) requestMap.get("attachmentId1");
+		String attachment2 = (String) requestMap.get("attachmentId2");
+		String attachment3 = (String) requestMap.get("attachmentId3");
+		String attachment4 = (String) requestMap.get("attachmentId4");
+		String carId = (String) requestMap.get("carId");
+		int result = transporterWaybillService.deliverProof(id, attachment1, attachment2, attachment3, attachment4);
+		if(result > 0){
+			return ResponseUtil.successResultId(id);
+		}
+		return ResponseUtil.failureResult();
+	}
 	@ApiOperation(value="comment", notes="发布评论",produces = "application/json")
 	@RequestMapping(value="comment", method=RequestMethod.POST)
 	@ResponseBody
@@ -242,7 +306,16 @@ public class TransporterWaybillController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="commentDetail", notes="评论详情",produces = "application/json")
+	@RequestMapping(value="commentDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> commentDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String userId = (String) request.getAttribute("userId");
+		Map<String,Object> result = transporterWaybillService.queryCommentByWaybill(id);
+		return ResponseUtil.successResult(result);
+	}
 	@ApiOperation(value="complaint", notes="提交投诉",produces = "application/json")
 	@RequestMapping(value="complaint", method=RequestMethod.POST)
 	@ResponseBody
@@ -262,5 +335,14 @@ public class TransporterWaybillController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="complaintDetail", notes="投诉详情",produces = "application/json")
+	@RequestMapping(value="complaintDetail", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> complaintDetail(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String userId = (String) request.getAttribute("userId");
+		Map<String,Object> result = transporterWaybillService.queryComplaintByWaybill(id);
+		return ResponseUtil.successResult(result);
+	}
 }

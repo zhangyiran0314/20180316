@@ -216,6 +216,7 @@ public class ShipperWaybillController {
 		comment.setOrderNo(waybill.getOrderNo());
 		comment.setShipperCompanyId(waybill.getShipperCompanyId());
 		comment.setTransporterCompanyId(waybill.getTransporterCompanyId());
+		comment.setDriverId(waybill.getDriverId());
 		comment.setTransporterId(waybill.getTransporterId());
 		int result = waybillService.addComment(comment);
 		if(result > 0){
@@ -245,6 +246,7 @@ public class ShipperWaybillController {
 		complaint.setOrderNo(waybill.getOrderNo());
 		complaint.setShipperCompanyId(waybill.getShipperCompanyId());
 		complaint.setTransporterCompanyId(waybill.getTransporterCompanyId());
+		complaint.setDriverId(waybill.getDriverId());
 		complaint.setTransporterId(waybill.getTransporterId());
 		int result = waybillService.addComplaint(complaint);
 		if(result > 0){

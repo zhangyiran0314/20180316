@@ -24,6 +24,8 @@ public class Complaint {
     private String shipperId;
 
     private String transporterId;
+    
+    private String driverId;
 
     private String attachmentId1;
 
@@ -192,5 +194,14 @@ public class Complaint {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+
+	public String getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
+	}
+	
     
 }

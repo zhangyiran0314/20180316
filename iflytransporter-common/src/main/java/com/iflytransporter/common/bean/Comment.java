@@ -24,6 +24,8 @@ public class Comment {
     private String shipperId;
 
     private String transporterId;
+    
+    private String driverId;
 
     private String waybillId;
 
@@ -212,4 +214,13 @@ public class Comment {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+
+	public String getDriverId() {
+		return driverId;
+	}
+
+	public void setDriverId(String driverId) {
+		this.driverId = driverId;
+	}
+	
 }

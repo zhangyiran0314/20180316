@@ -40,7 +40,10 @@
   <select id="countByWaybill" resultType="java.lang.Integer" >
     select count(1)
     from t_transporter_comment
-    where waybill_id = #{waybillId,jdbcType=VARCHAR} and transporter_id = #{transporterId,jdbcType=VARCHAR}
+    where waybill_id = #{waybillId,jdbcType=VARCHAR} 
+    <if test="transporterId !=null">
+    and transporter_id = #{transporterId,jdbcType=VARCHAR}
+    </if>
   </select>
   
   <select id="queryDetailByWaybill" resultType="java.util.HashMap" >
@@ -55,8 +58,11 @@
     left join t_attachment b on a.attachment_id_1 = b.id
     left join t_attachment c on a.attachment_id_2 = c.id
     left join t_attachment d on a.attachment_id_3 = d.id
-    left join t_attachment e on a.attachment_id_3 = d.id
-    where a.waybill_id = #{waybillId,jdbcType=VARCHAR} and a.transporter_id = #{transporterId,jdbcType=VARCHAR}
+    left join t_attachment e on a.attachment_id_4 = e.id
+    where a.waybill_id = #{waybillId,jdbcType=VARCHAR} 
+    <if test="transporterId !=null">
+  	 and a.transporter_id = #{transporterId,jdbcType=VARCHAR}
+    </if>
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -83,7 +89,7 @@
       #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
       #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
-      #{attachmentId4,jdbcType=VARCHAR},#{anonymity,jdbcType=INTEGER}, #{order_id,jdbcType=VARCHAR}, #{order_no,jdbcType=VARCHAR})
+      #{attachmentId4,jdbcType=VARCHAR},#{anonymity,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.TransporterComment" >
     insert into t_transporter_comment

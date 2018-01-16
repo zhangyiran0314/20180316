@@ -11,6 +11,7 @@
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="dispense_status" property="dispenseStatus" jdbcType="INTEGER" />
+     <result column="dispense_date" property="dispenseDate" jdbcType="TIMESTAMP" />
     <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="costs" property="costs" jdbcType="DOUBLE" />
@@ -33,7 +34,7 @@
   
    <sql id="Base_Column_List" >
    id, create_date, update_date, data_status, desp, order_id, shipper_id, transporter_id, 
-    dispense_status, driver_id, status, costs, order_no, transporter_company_id, 
+    dispense_status, dispense_date,driver_id, status, costs, order_no, transporter_company_id, 
     shipper_company_id, take_attachment_id_1, take_attachment_id_2, take_attachment_id_3, 
     take_attachment_id_4, take_date, deliver_attachment_id_1, deliver_attachment_id_2, 
     deliver_attachment_id_3, deliver_attachment_id_4, deliver_date, confirm_date
@@ -122,6 +123,7 @@
   	select id,name,mobile from t_user where company_id = #{companyId,jdbcType=VARCHAR} 
     <if test="level != null" >
     and  level = #{level,jdbcType=INTEGER}
+    </if>
   </select>
   
   <select id="listCar" resultType="java.util.Map">
@@ -159,13 +161,13 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Waybill" >
     insert into t_waybill (id, update_date, 
        desp, order_id, 
-      shipper_id, transporter_id, dispense_status, 
+      shipper_id, transporter_id,
       driver_id, costs, 
       order_no, shipper_company_id, transporter_company_id
       )
     values (#{id,jdbcType=VARCHAR}, now(), 
       #{desp,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
-      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{dispenseStatus,jdbcType=INTEGER}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
       #{driverId,jdbcType=VARCHAR},  #{costs,jdbcType=DOUBLE}, 
       #{orderNo,jdbcType=VARCHAR}, #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}
       )
