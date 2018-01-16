@@ -193,7 +193,7 @@ public class ShipperWaybillController {
 	@ApiOperation(value="confirm", notes="确认收货",produces = "application/json")
 	@RequestMapping(value="confirm", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> auditCancel(HttpServletRequest request, HttpServletResponse response,
+	public Map<String,Object> confirm(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
 		String id = (String) requestMap.get("id");
 		int result = waybillService.updateStatus(id, Status.Waybill_Finish);

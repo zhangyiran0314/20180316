@@ -23,13 +23,7 @@ public interface WaybillMapper {
     
     List<Waybill> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
     		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status);
-    
-   /* List<WaybillBO> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
-    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status);*/
-    
-//    WaybillBO selectByPrimaryKeyBO(String id);
+    		@Param("status")Integer status,@Param("dispenseStatus")Integer dispenseStatus); 
     
     Map<String, Object> detailCompany(String id);
     
@@ -39,4 +33,5 @@ public interface WaybillMapper {
     Map<String, Object> deliverAttachmentList(String id);
     
     int updateStatus(@Param("id")String id,@Param("status")Integer status);
+    
 }

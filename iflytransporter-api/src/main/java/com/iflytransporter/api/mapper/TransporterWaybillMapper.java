@@ -1,42 +1,21 @@
 package com.iflytransporter.api.mapper;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.iflytransporter.common.bean.Waybill;
-import com.iflytransporter.common.bean.WaybillBO;
-
 public interface TransporterWaybillMapper {
-    int deleteByPrimaryKey(String id);
-
-    int insert(Waybill record);
-
-    int insertSelective(Waybill record);
-
-    Waybill selectByPrimaryKey(String id);
-
-    int updateByPrimaryKeySelective(Waybill record);
-
-    int updateByPrimaryKey(Waybill record);
+	
+	Map<String, Object> detailShipperCompany(String id);
+	
+	Map<String, Object> detailShipperComment(String id);
+	
+	Map<String,Object> listDriver(@Param("companyId")String companyId,@Param("level")Integer level);
+	    
+    Map<String,Object> listCar(String companyId);
     
-    List<Waybill> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
-    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status,Integer dispenseStatus);
+    int dispense(@Param("id")String id,@Param("driverId")String driverId,@Param("carId")String carId,@Param("dispenseStatus")Integer dispenseStatus);
     
-   /* List<WaybillBO> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
-    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status);*/
-    
-//    WaybillBO selectByPrimaryKeyBO(String id);
-    
-    Map<String, Object> detailCompany(String id);
-    
-    Map<String, Object> detailTransporter(String id);
-    
-    Map<String, Object> takeAttachmentList(String id);
-    Map<String, Object> deliverAttachmentList(String id);
-    
-    int updateStatus(@Param("id")String id,@Param("status")Integer status);
+    /** 派单司机以及车辆信息 */
+	Map<String,Object> detailDispense(String id);
 }

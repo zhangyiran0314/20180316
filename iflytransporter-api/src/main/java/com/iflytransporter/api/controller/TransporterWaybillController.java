@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,25 +16,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.api.bean.WaybillResp;
+import com.iflytransporter.api.bean.TransporterWaybillResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
-import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.api.service.TransporterOrderService;
 import com.iflytransporter.api.service.TransporterWaybillService;
 import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.service.WaybillService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.Comment;
 import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.common.bean.Order;
+import com.iflytransporter.common.bean.TransporterComment;
+import com.iflytransporter.common.bean.TransporterComplaint;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.Waybill;
 import com.iflytransporter.common.enums.Status;
@@ -67,21 +68,22 @@ public class TransporterWaybillController {
 	@Autowired
 	private UseTypeService useTypeService;
 	
-	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response = WaybillResp.class)
+	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response = TransporterWaybillResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待派单,1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车|待派单(管理员),1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
+		Integer dispenseStatus = (Integer) requestMap.get("dispenseStatus");//派单状态 0 -未派单,1-已派单
 		String userId =  (String) request.getAttribute("userId");
 		
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
-		if(Status.User_Level_Admin==user.getLevel()){
-			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,Status.Waybill_Dispense_No);
+		if(Status.User_Level_Admin==user.getLevel().intValue()){
+			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus);
 		}else{
 			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes);
 		}
@@ -89,9 +91,10 @@ public class TransporterWaybillController {
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
 		}
 		List<Waybill> list = page.getList();
-		List<WaybillResp> result = new ArrayList<WaybillResp>();
+		List<TransporterWaybillResp> result = new ArrayList<TransporterWaybillResp>();
 		for(Waybill waybill:list){
-			WaybillResp op =new WaybillResp(waybill);
+			TransporterWaybillResp op =new TransporterWaybillResp(waybill);
+			
 			Order order = transporterOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
 			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
@@ -106,29 +109,32 @@ public class TransporterWaybillController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+			
+			//添加货主信息
+			op.setShipper(transporterOrderService.detailShipper(waybill.getShipperId()));
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
 	}
 	
-	@ApiOperation(value="list", notes="列表",produces = "application/json",response = WaybillResp.class)
+	@ApiOperation(value="list", notes="列表",produces = "application/json",response = TransporterWaybillResp.class)
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车,1-运输中,2-待确认,3-已完结") Map<String,Object> requestMap){
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		
+		Integer dispenseStatus = (Integer) requestMap.get("dispenseStatus");//派单状态 0 -未派单,1-已派单
 		List<Waybill> list =null;
 		User user = userService.detailByCache(userId);
-		if(Status.User_Level_Admin==user.getLevel()){
-			list = transporterWaybillService.list(null, user.getCompanyId(), status);
+		if(Status.User_Level_Admin==user.getLevel().intValue()){
+			list = transporterWaybillService.list(null, user.getCompanyId(), status,dispenseStatus);
 		}else{
-			list = transporterWaybillService.list(userId,null,status);
+			list = transporterWaybillService.list(userId,null,status,Status.Waybill_Dispense_Yes);
 		}
-		List<WaybillResp> result = new ArrayList<WaybillResp>();
+		List<TransporterWaybillResp> result = new ArrayList<TransporterWaybillResp>();
 		for(Waybill waybill:list){
-			WaybillResp op =new WaybillResp(waybill);
+			TransporterWaybillResp op =new TransporterWaybillResp(waybill);
 			Order order = transporterOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
 			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
@@ -143,74 +149,89 @@ public class TransporterWaybillController {
 			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+			
+			//添加货主信息
+			op.setShipper(transporterOrderService.detailShipper(waybill.getShipperId()));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
 	}
-	@ApiOperation(value="detail", notes="详情",produces = "application/json",response = WaybillResp.class)
+	@ApiOperation(value="detail", notes="详情",produces = "application/json",response = TransporterWaybillResp.class)
 	@RequestMapping(value="detail", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{id:id}") Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
 		Waybill waybill = transporterWaybillService.query(id);
-		WaybillResp op =new WaybillResp(waybill);
-		Order order = transporterOrderService.query(waybill.getOrderId());
-		op.setOrder(order);
 		
-		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
-		
-		op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
-		
-		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
-		
+		Map<String,Object> result = new HashMap<String,Object>();
 		//公司信息
-		op.setCompany(transporterWaybillService.detailCompany(id));
-		//车主信息
-		op.setTransporter(transporterWaybillService.detailShipper(id));
+		result.put("shipperCompany", transporterWaybillService.detailShipperCompany(id));
+		
 		//大于待装车状态,查询收货凭证&&查询是否投诉
 		if(waybill.getStatus() > Status.Waybill_For_Loading){
-			op.setTakeAttachmentList(transporterWaybillService.takeAttachmentList(id));
+			result.put("takeAttachmentList", transporterWaybillService.takeAttachmentList(id));
+			result.put("complaintFlag", transporterWaybillService.countComplaintByWaybill(waybill.getId(), userId));
 		}
 		//大于运输中状态,查询交货凭证
 		if(waybill.getStatus() > Status.Waybill_In_Transit){
-			op.setDeliverAttachmentList(transporterWaybillService.deliverAttachmentList(id));
+			result.put("deliverAttachmentList", transporterWaybillService.deliverAttachmentList(id));
 		}
 		//等于已完结状态,查询是否已经评价
-		if(Status.Waybill_Finish == waybill.getStatus().intValue()){
-			
+		if(Status.Waybill_To_Confirm <= waybill.getStatus().intValue()){
+			result.put("commentFlag",transporterWaybillService.countCommentByWaybill(waybill.getId(), userId));
 		}
-		return ResponseUtil.successResult(op);
+		return ResponseUtil.successResult(result);
 	}
-	
-	@ApiOperation(value="confirm", notes="确认收货",produces = "application/json")
-	@RequestMapping(value="confirm", method=RequestMethod.POST)
+	@ApiOperation(value="listDriver", notes="司机列表",produces = "application/json")
+	@RequestMapping(value="listDriver", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> auditCancel(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="{id:id} id-运单id") Map<String,Object> requestMap){
-		String id = (String) requestMap.get("id");
-		int result = transporterWaybillService.updateStatus(id, Status.Waybill_Finish);
-		if(result > 0){
-			return ResponseUtil.successResultId(id);
+	public Map<String,Object> listDriver(HttpServletRequest request, HttpServletResponse response){
+		String userId = (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		if(Status.User_Level_Admin==user.getLevel().intValue()){
+			Map<String,Object>  result = transporterWaybillService.listDriver(user.getCompanyId());
+			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	@ApiOperation(value="listCar", notes="车辆列表",produces = "application/json")
+	@RequestMapping(value="listCar", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCar(HttpServletRequest request, HttpServletResponse response){
+		String userId = (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		if(Status.User_Level_Admin==user.getLevel().intValue()){
+			Map<String,Object>  result = transporterWaybillService.listCar(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="dispense", notes="派单",produces = "application/json")
+	@RequestMapping(value="dispense", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> dispense(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="{id:id,driverId:司机id,carId:车辆id}") Map<String,Object> requestMap){
+		String id = (String) requestMap.get("id");
+		String driverId = (String) requestMap.get("driverId");
+		String carId = (String) requestMap.get("carId");
+		int result = transporterWaybillService.dispense(id, driverId, carId, Status.Waybill_Dispense_Yes);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 	
 	@ApiOperation(value="comment", notes="发布评论",produces = "application/json")
 	@RequestMapping(value="comment", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> comment(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Comment comment){
+			@RequestBody TransporterComment comment){
 		Waybill waybill = transporterWaybillService.query(comment.getWaybillId());
 		comment.setId(UUIDUtil.UUID());
+		comment.setOrderId(waybill.getOrderId());
+		comment.setOrderNo(waybill.getOrderNo());
 		comment.setShipperId(waybill.getShipperId());
 		comment.setShipperCompanyId(waybill.getShipperCompanyId());
 		comment.setTransporterCompanyId(waybill.getTransporterCompanyId());
@@ -226,9 +247,11 @@ public class TransporterWaybillController {
 	@RequestMapping(value="complaint", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> complaint(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Complaint complaint){
+			@RequestBody TransporterComplaint complaint){
 		Waybill waybill = transporterWaybillService.query(complaint.getWaybillId());
 		complaint.setId(UUIDUtil.UUID());
+		complaint.setOrderId(waybill.getOrderId());
+		complaint.setOrderNo(waybill.getOrderNo());
 		complaint.setShipperId(waybill.getShipperId());
 		complaint.setShipperCompanyId(waybill.getShipperCompanyId());
 		complaint.setTransporterCompanyId(waybill.getTransporterCompanyId());

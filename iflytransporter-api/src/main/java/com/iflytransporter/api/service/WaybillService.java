@@ -19,24 +19,6 @@ public interface WaybillService {
 	 * @param status
 	 * @return
 	 */
-	//PageInfo<WaybillBO> queryPageBO(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status);
-	
-	/**
-	 * 列表
-	 * @param userId
-	 * @param status 发布状态
-	 * @return
-	 */
-	//List<WaybillBO> listBO(String userId,String shipperCompanyId,Integer status);
-	
-	/**
-	 * 分页查询
-	 * @param pageNo
-	 * @param pageSize
-	 * @param userId
-	 * @param status
-	 * @return
-	 */
 	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status);
 	
 	/**
