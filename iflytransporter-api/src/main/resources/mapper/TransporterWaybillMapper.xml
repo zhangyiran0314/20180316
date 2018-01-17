@@ -78,9 +78,6 @@
      <if test="transporterId != null" >
       and transporter_id  = #{transporterId,jdbcType=VARCHAR}
     </if>
-    <if test="shipperId != null" >
-      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
-    </if>
     <if test="shipperCompanyId != null" >
       and shipper_company_id  = #{shipperCompanyId,jdbcType=VARCHAR}
     </if>

@@ -292,5 +292,11 @@ public class TransporterResp {
 	public void setAttachmentId5Link(String attachmentId5Link) {
 		this.attachmentId5Link = attachmentId5Link;
 	}
+	public String getAttachmentId4() {
+		return attachmentId4;
+	}
+	public void setAttachmentId4(String attachmentId4) {
+		this.attachmentId4 = attachmentId4;
+	}
     
 }

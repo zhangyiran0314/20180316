@@ -14,6 +14,8 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+    <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
   </resultMap>
   
     <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CompanyBO" >
@@ -30,11 +32,15 @@
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
      <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
+     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+     <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
+     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
+     <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code, email, address, status, 
-    attachment_id_1,user_id
+    attachment_id_1,user_id,attachment_id_2,attachment_id_3
   </sql>
   <sql id="Valid_SQL" >
     and data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
@@ -52,9 +58,13 @@
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, 
     a.attachment_id_1,a.user_id,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as attachment_id_1_link
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as attachment_id_1_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as attachment_id_2_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link
     from t_company a
     left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_attachment c on a.attachment_id_1 = c.id
+    left join t_attachment d on a.attachment_id_1 = d.id
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
   
@@ -71,11 +81,11 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company (id, update_date, 
       desp, name, 
-      code, email, address, attachment_id_1,user_id)
+      code, email, address, attachment_id_1,user_id,attachment_id_2,attachment_id_3)
     values (#{id,jdbcType=VARCHAR}, now(),
        #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR})
+      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{attachmentId2,jdbcType=VARCHAR},#{attachmentId3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company
@@ -113,6 +123,12 @@
       <if test="attachmentId1 != null" >
         attachment_id_1,
       </if>
+       <if test="attachmentId1 != null" >
+        attachment_id_2,
+      </if>
+       <if test="attachmentId1 != null" >
+        attachment_id_3,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -147,6 +163,12 @@
       </if>
       <if test="attachmentId1 != null" >
         #{attachmentId1,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        #{attachmentId3,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -183,6 +205,12 @@
       <if test="attachmentId1 != null" >
         attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       </if>
+       <if test="attachmentId1 != null" >
+        attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      </if>
+       <if test="attachmentId1 != null" >
+        attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -197,7 +225,9 @@
       email = #{email,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
-      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR}
+      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
+      attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
+      attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

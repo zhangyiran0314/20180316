@@ -69,6 +69,8 @@
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
     <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
     <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_4_link" property="attachmentId4Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_5_link" property="attachmentId5Link" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >

@@ -79,18 +79,22 @@
      <if test="transporterId != null" >
       and transporter_id  = #{transporterId,jdbcType=VARCHAR}
     </if>
-    <if test="shipperId != null" >
-      and shipper_id  = #{shipperId,jdbcType=VARCHAR}
-    </if>
     <if test="shipperCompanyId != null" >
       and shipper_company_id  = #{shipperCompanyId,jdbcType=VARCHAR}
     </if>
      <if test="transporterCompanyId != null" >
       and transporter_company_id  = #{transporterCompanyId,jdbcType=VARCHAR}
     </if>
-     <if test="status != null" >
+    <!-- 0-待装车(待派单-管理员),1-运输中,2-已完结(对应货主端2待确认,3已完结) -->
+    <!-- 查询status不等于2,查询对应status状态 -->
+     <if test="status != null and status != 2" >
       and status  = #{status,jdbcType=INTEGER}
     </if>
+    <!-- 查询status不等于2,查询对应status=2 or status = 3状态 -->
+     <if test="status != null and status == 2" >
+      and (status =2 or status =3)  
+    </if>
+    
      <if test="dispenseStatus != null" >
       and dispense_status  = #{dispenseStatus,jdbcType=INTEGER}
     </if>

@@ -61,7 +61,7 @@ public class MyBatisConfig implements TransactionManagementConfigurer {
        //分页插件
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
-        properties.setProperty("reasonable", "true");
+        properties.setProperty("reasonable", "false"); //此处定义reasonable为false,即不定义合理优化,如果定义为true,不满足条件数据量为自动优化
         properties.setProperty("supportMethodsArguments", "true");
         properties.setProperty("returnPageInfo", "check");
         properties.setProperty("params", "count=countSql");

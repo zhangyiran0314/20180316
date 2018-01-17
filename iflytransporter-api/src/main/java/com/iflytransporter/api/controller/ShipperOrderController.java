@@ -255,9 +255,7 @@ public class ShipperOrderController {
 		String id = (String) requestMap.get("id");
 		int result = shipperOrderService.cancel(id);
 		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
-			return ResponseUtil.successResult(data);
+			return ResponseUtil.successResultId(id);
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -269,9 +267,7 @@ public class ShipperOrderController {
 		String id = (String) requestMap.get("id");
 		int result = shipperOrderService.delete(id);
 		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", id);
-			return ResponseUtil.successResult(data);
+			return ResponseUtil.successResultId(id);
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -339,9 +335,7 @@ public class ShipperOrderController {
 		//修改一个申请状态,其他申请全部取消
 		int result = shipperOrderService.auditOk(orderId, applyId);
 		if(result > 0){
-			Map<String,Object> data = new HashMap<String,Object>();
-			data.put("id", orderId);
-			return ResponseUtil.successResult();
+			return ResponseUtil.successResultId(orderId);
 		}
 		return ResponseUtil.failureResult();
 	}

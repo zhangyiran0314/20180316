@@ -112,7 +112,7 @@
   
   <select id="detailAudit" resultType="java.util.HashMap">
   	select b.id applyId,b.order_id as orderId,convert(b.costs,char)as costs,b.transporter_id as transporterId,c.surname,c.`name`,c.create_date as registerDate,d.id companyId,d.`name` companyName,
-  	round(e.grade) as grade,f.count,b.contact_status as contactStatus
+  	ifnull(round(e.grade),5) as grade,ifnull(f.count,0),b.contact_status as contactStatus
 	from t_order a
 	left join t_order_apply b on a.id = b.order_id  
 	left JOIN t_user c on b.transporter_id = c.id
@@ -126,7 +126,7 @@
    <select id="detailTransporter" resultType="java.util.HashMap">
   	select a.id applyId,a.order_id as orderId,convert(a.costs,char)as costs,a.transporter_id as transporterId,c.surname,
 	c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,
-	 round(e.serveGrade) as serveGrade,round(e.loadingGrade) as loadingGrade, round(e.goodsGrade) as goodsGrade,f.count,e.commentCount as commentCount
+	 ifnull(round(e.serveGrade),5) as serveGrade,ifnull(round(e.loadingGrade),5) as loadingGrade, ifnull(round(e.goodsGrade),5) as goodsGrade,f.count,ifnull(e.commentCount,0) as commentCount
 	from t_order_apply a
 	left JOIN t_user c on a.transporter_id = c.id
 	left join t_company d on c.company_id = d.id

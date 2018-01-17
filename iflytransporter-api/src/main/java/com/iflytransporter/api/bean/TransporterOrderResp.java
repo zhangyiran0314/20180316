@@ -78,7 +78,7 @@ public class TransporterOrderResp{
     
     private Date publishTime;//发布时间
     
-    private Map<String,Object> detailShipper;//货主信息
+    private Map<String,Object> shipper;//货主信息
     
     /**---我的报价部分---*/
     private Date applyDate;//报价时间
@@ -294,13 +294,6 @@ public class TransporterOrderResp{
 		this.publishTime = publishTime;
 	}
 
-	public Map<String, Object> getDetailShipper() {
-		return detailShipper;
-	}
-
-	public void setDetailShipper(Map<String, Object> detailShipper) {
-		this.detailShipper = detailShipper;
-	}
 
 	public String getShipperId() {
 		return shipperId;
@@ -340,6 +333,14 @@ public class TransporterOrderResp{
 
 	public void setRecordStatus(Integer recordStatus) {
 		this.recordStatus = recordStatus;
+	}
+
+	public Map<String, Object> getShipper() {
+		return shipper;
+	}
+
+	public void setShipper(Map<String, Object> shipper) {
+		this.shipper = shipper;
 	}
 	
 }

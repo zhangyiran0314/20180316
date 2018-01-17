@@ -70,7 +70,7 @@ public class TransporterWaybillController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车|待派单(管理员),1-运输中,2-已完结(待确认),3-已完结(已确认);pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
+			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车|待派单(管理员),1-运输中,2-已完结(status:2待确认3-已确认);pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
@@ -80,6 +80,9 @@ public class TransporterWaybillController {
 		
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
+		/**
+		 * 司机已完结状态对应 货主端两种状态:待确认和已确认(货主端已完结状态),此处在通过sql查询判断 status查询为2时 定义 (status = 2 or status =3)查询
+		 */
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus);
 		}else{

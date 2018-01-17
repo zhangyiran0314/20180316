@@ -107,7 +107,7 @@ public class TransporterController {
 		String driverId = (String) requestMap.get("driverId");
 		int result = carService.bindCar(carId, driverId);
 		if(result > 0){
-			return ResponseUtil.successResultId(carId);
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -120,9 +120,9 @@ public class TransporterController {
 		String userId =  (String) request.getAttribute("userId");
 		String carId = (String) requestMap.get("carId");
 		String driverId = (String) requestMap.get("driverId");
-		int result = carService.bindCar(carId, driverId);
+		int result = carService.unbindCar(carId, driverId);
 		if(result > 0){
-			return ResponseUtil.successResultId(carId);
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}

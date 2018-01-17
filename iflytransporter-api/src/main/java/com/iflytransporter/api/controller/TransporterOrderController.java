@@ -105,11 +105,12 @@ public class TransporterOrderController {
 	@RequestMapping(value="deleteSubscribe", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> deleteSubscribe(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody SubscribeSource ss){
+			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
-		int result = transporterOrderService.update(ss);
+		String subscribeId =  (String) requestMap.get("subscribeId");
+		int result = transporterOrderService.delete(subscribeId);
 		if(result > 0){
-			return ResponseUtil.successResultId(ss.getId());
+			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
 	}
@@ -195,7 +196,7 @@ public class TransporterOrderController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			//添加货主详情
-			op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+			op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
 			
 			result.add(op);
 		}
@@ -228,7 +229,7 @@ public class TransporterOrderController {
 			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 			//添加货主详情
-			op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+			op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
@@ -298,7 +299,7 @@ public class TransporterOrderController {
 				op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 				op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 				//添加货主详情
-				op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+				op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
 				result.add(op);
 			}
 			return ResponseUtil.successResult(result);
@@ -333,7 +334,7 @@ public class TransporterOrderController {
 				op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
 				op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
 				//添加货主详情
-				op.setDetailShipper(transporterOrderService.detailShipper(order.getShipperId()));
+				op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
 				result.add(op);
 			}
 			return ResponseUtil.successResult(result);

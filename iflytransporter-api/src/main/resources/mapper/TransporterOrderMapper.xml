@@ -111,18 +111,19 @@
   </update>
   
   <select id="detailAudit" resultType="java.util.HashMap">
-  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,e.grade,f.count
+  	select b.id applyId,b.order_id as orderId,b.costs,b.transporter_id as transporterId,c.surname,c.`name`,c.mobile,c.create_date as registerDate,d.id companyId,d.`name` companyName,
+  	ifnull(round(e.grade),5) as grade,ifnull(f.count,0) as count
 	from t_order a
 	left join t_order_apply b on a.id = b.order_id  
 	left JOIN t_user c on b.transporter_id = c.id
 	left join t_company d on c.company_id = d.id
-	left join (select transporter_id ,AVG(grade) as grade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
+	left join (select transporter_id,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY transporter_id) e on b.transporter_id = e.transporter_id
 	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on b.transporter_id = f.transporter_id
  where a.id = #{id,jdbcType=VARCHAR} and b.status =  #{applyStatus,jdbcType=INTEGER}
   </select>
   
    <select id="detailShipper" resultType="java.util.HashMap">
-  	select a.id,a.surname,a.`name`,a.create_date as registerDate,round(b.grade) as grade,c.count
+  	select a.id,a.surname,a.`name`,a.create_date as registerDate,ifnull(round(b.grade),5) as grade,ifnull(c.count,0) as count
 	from t_user a 
 	left join 
 	(select shipper_id,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade
@@ -132,7 +133,7 @@
   </select>
   
   <select id="commentShipper" resultType="java.util.HashMap">
-  	select round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+  	select ifnull(round(b.serveGrade),5) as serveGrade,ifnull(round(b.loadingGrade),5) as loadingGrade, ifnull(round(b.goodsGrade),5) as goodsGrade,ifnull(b.commentCount,0) as commentCount
 	from t_user a 
 	left join 
 	(select shipper_id,count(1) as commentCount ,
