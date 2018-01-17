@@ -30,8 +30,6 @@ import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
-import com.iflytransporter.common.bean.Comment;
-import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.TransporterComment;
 import com.iflytransporter.common.bean.TransporterComplaint;

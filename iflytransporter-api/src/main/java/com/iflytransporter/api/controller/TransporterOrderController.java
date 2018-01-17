@@ -84,6 +84,36 @@ public class TransporterOrderController {
 		return ResponseUtil.failureResult();
 	}
 	/**
+	 * 修改订阅路线
+	 */
+	@ApiOperation(value="modifySubscribe", notes="找货-修改订阅路线",produces = "application/json")
+	@RequestMapping(value="modifySubscribe", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifySubscribe(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody SubscribeSource ss){
+		String userId =  (String) request.getAttribute("userId");
+		int result = transporterOrderService.update(ss);
+		if(result > 0){
+			return ResponseUtil.successResultId(ss.getId());
+		}
+		return ResponseUtil.failureResult();
+	}
+	/**
+	 * 删除订阅路线
+	 */
+	@ApiOperation(value="deleteSubscribe", notes="找货-删除订阅路线",produces = "application/json")
+	@RequestMapping(value="deleteSubscribe", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> deleteSubscribe(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody SubscribeSource ss){
+		String userId =  (String) request.getAttribute("userId");
+		int result = transporterOrderService.update(ss);
+		if(result > 0){
+			return ResponseUtil.successResultId(ss.getId());
+		}
+		return ResponseUtil.failureResult();
+	}
+	/**
 	 * 查看订阅路线列表
 	 */
 	@ApiOperation(value="listSubscribe", notes="找货-订阅路线列表",produces = "application/json")

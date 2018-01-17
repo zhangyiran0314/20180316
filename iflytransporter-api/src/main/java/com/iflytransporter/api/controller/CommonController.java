@@ -80,8 +80,6 @@ public class CommonController {
 	@Autowired
 	private InsuranceService insuranceService;
 	@Autowired
-	private GoodsUnitsService goodsUnitsService;
-	@Autowired
 	private GoodsTypeService goodsTypeService;
 	@Autowired
 	private HandlingTypeService handlingTypeService;

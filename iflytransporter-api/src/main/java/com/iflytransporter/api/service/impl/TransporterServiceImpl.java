@@ -5,14 +5,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.iflytransporter.api.mapper.TransporterMapper;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.TransporterService;
 import com.iflytransporter.api.utils.UUIDUtil;
-import com.iflytransporter.common.bean.Transporter;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.Status;
