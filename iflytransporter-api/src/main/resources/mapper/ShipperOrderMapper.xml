@@ -112,7 +112,7 @@
   
   <select id="detailAudit" resultType="java.util.HashMap">
   	select b.id applyId,b.order_id as orderId,convert(b.costs,char)as costs,b.transporter_id as transporterId,c.surname,c.`name`,c.create_date as registerDate,d.id companyId,d.`name` companyName,
-  	ifnull(round(e.grade),5) as grade,ifnull(f.count,0),b.contact_status as contactStatus
+  	ifnull(round(e.grade),5) as grade,ifnull(f.count,0) as count,b.contact_status as contactStatus
 	from t_order a
 	left join t_order_apply b on a.id = b.order_id  
 	left JOIN t_user c on b.transporter_id = c.id

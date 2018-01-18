@@ -89,7 +89,7 @@
     where id != #{id,jdbcType=VARCHAR} and order_id = #{orderId,jdbcType=VARCHAR}  
   </update>
     <update id="updateBrowseStatus">
-      update  t_order_apply  browse_status = #{browseStatus,jdbcType=INTEGER},browse_date =  now()
+      update  t_order_apply set browse_status = #{browseStatus,jdbcType=INTEGER},browse_date =  now()
    	 where id = #{id,jdbcType=VARCHAR} 
   </update>
   
