@@ -19,6 +19,8 @@ public class Company extends BaseEntity{
     private String attachmentId1;
 
     private String userId;
+    private Integer userType;
+    
     private String attachmentId2;//spad照片
     private String attachmentId3;//公司保单
 
@@ -92,6 +94,14 @@ public class Company extends BaseEntity{
 
 	public void setAttachmentId3(String attachmentId3) {
 		this.attachmentId3 = attachmentId3;
+	}
+
+	public Integer getUserType() {
+		return userType;
+	}
+
+	public void setUserType(Integer userType) {
+		this.userType = userType;
 	}
 
 	@Override

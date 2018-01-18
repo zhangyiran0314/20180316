@@ -19,16 +19,18 @@ public class ComplaintServiceImpl implements ComplaintService{
 	private ComplaintMapper complaintMapper;
 
 	@Override
-	public Complaint queryDetail(String id) {
-		return complaintMapper.selectByPrimaryKey(id);
+	public Map<String,Object> queryDetail(String id) {
+		return complaintMapper.queryDetail(id);
 	}
 
+
 	@Override
-	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String mobile) {
+	public PageInfo<Map<String, Object>> queryPage(Integer pageNo, Integer pageSize, String orderNo, String sMobile,
+			String tCompanyName, String tMobile, String dMobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= complaintMapper.queryAll(orderNo,mobile);
+		List<Map<String,Object>> list= complaintMapper.queryAll(orderNo, sMobile, tCompanyName, tMobile,dMobile);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 

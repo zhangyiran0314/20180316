@@ -1,12 +1,13 @@
 package com.iflytransporter.web.service;
 
+import java.util.Map;
+
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.GoodsSource;
 
 public interface GoodsSourceService  {
 	//详情查询
-	GoodsSource queryDetail(String id);
+	Map<String,Object> queryDetail(String id);
 	//分页查询
-	PageInfo<GoodsSource> queryPage(Integer pageNo,Integer pageSize,String sId,String tId);
+	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize,String orderNo,String mobile);
 	
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.CompanyService;
 
@@ -33,7 +34,7 @@ public class ShipperCompanyController {
 	@RequestMapping("queryPage")
 	@ResponseBody
 	public Map<String,Object> queryPage(Integer page,Integer limit,String name,HttpServletRequest request){
-		PageInfo<CompanyBO> result = companyService.queryPage( page, limit,name);
+		PageInfo<Company> result = companyService.queryPage( page, limit,Status.Type_User_Shipper,name);
 		return ResponseUtil.successPage(result.getTotal(), result.getList());
 	}
 	@RequestMapping("toDetail")
@@ -49,7 +50,7 @@ public class ShipperCompanyController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		CompanyBO obj = companyService.queryDetailBO(id);
+		Map<String,Object> obj = companyService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

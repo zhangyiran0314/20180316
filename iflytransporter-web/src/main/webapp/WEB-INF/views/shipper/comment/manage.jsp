@@ -36,6 +36,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
 		    	</div>
 		    </div>
+		    <div class="layui-input-inline">
+		    	<label class="layui-form-label">司机手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" placeholder="请输入关键字" class="layui-input dMobile">
+		    	</div>
+		    </div>
 		    
 		</div>
 		<!-- <div class="layui-inline">
@@ -76,17 +82,14 @@ layui.config({
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
 		        {field:'orderNo',title:'订单号', width:'180'},
-                {field:'sMobile',title:'货主手机', width:'180'},
-                {field:'sSurname',title:'货主姓', width:'180'},
-                {field:'sName',title:'货主名', width:'180'},
 		        {field:'serveGrade',title:'服务评分', width:'180'},
 		        {field:'loadingGrade',title:'装车评分', width:'180'},
 		        {field:'goodsGrade',title:'货物评分', width:'180'},
-		        {field:'content',title:'评价内容', width:'180'},
-                {field:'tCompanyName',title:'车主公司名称', width:'180'},
-                {field:'tSurname',title:'车主姓', width:'180'},
-                {field:'tName',title:'车主名', width:'180'},
-                {field:'tMobile',title:'车主名', width:'180'},
+		        {field:'shipperMobile',title:'货主手机', width:'180'},
+                {field:'transporterCompanyName',title:'车主公司名称', width:'180'},
+                {field:'transporterMobile',title:'车主手机', width:'180'},
+                {field:'driverMobile',title:'司机手机', width:'180'},
+                {field:'anonymity',title:'匿名', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -180,12 +183,14 @@ layui.config({
         	 var sMobile = $(".sMobile").val();
         	 var tCompanyName = $(".tCompanyName").val();
         	 var tMobile = $(".tMobile").val();
+        	 var dMobile = $(".dMobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
         			    sMobile:sMobile,
         			    tCompanyName:tCompanyName,
-        			    tMobile:tMobile
+        			    tMobile:tMobile,
+        			    dMobile:dMobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始
@@ -223,6 +228,15 @@ layui.config({
 		  		  已授权
 		    {{#  } else{ }}
 				授权取消			
+			{{# }      }}
+		</script> 
+		<script type="text/html" id="statusTpl">
+		    {{#  if(d.status == 0){ }}
+		   		待审核
+		    {{# }else if(d.status == 1){ }}
+		  		 审核通过
+		    {{#  } else{ }}
+				审核取消		
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="statusTpl">

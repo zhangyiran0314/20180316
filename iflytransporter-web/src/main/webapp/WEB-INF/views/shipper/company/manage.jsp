@@ -63,7 +63,7 @@ layui.config({
                /*  {field: 'id', title: 'ID', width: '170', sort: true},  */
                 {field:'name',title:'名称', width:'180'},
                 {field:'code',title:'对应编码', width:'180'},
-                {field:'eamil',title:'邮件', width:'180'},
+                {field:'email',title:'邮件', width:'180'},
                 {field:'status',title:'状态', width:'180',templet: '#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},

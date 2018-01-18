@@ -2,8 +2,6 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 public class Order {
     private String id;
 

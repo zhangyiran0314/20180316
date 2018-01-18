@@ -1,7 +1,5 @@
 package com.iflytransporter.common.bean;
 
-import java.util.Date;
-
 import com.iflytransporter.common.base.BaseEntity;
 
 public class Notice extends BaseEntity{

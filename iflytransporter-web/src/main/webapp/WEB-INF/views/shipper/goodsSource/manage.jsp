@@ -14,9 +14,9 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	<blockquote class="layui-elem-quote news_search layui-form ">
 		<div class="layui-inline">
 		    <div class="layui-input-inline">
-		    	<label class="layui-form-label">关键字</label>
+		    	<label class="layui-form-label">货主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input mobile">
 		    	</div>
 		    </div>
 		</div>
@@ -159,10 +159,10 @@ layui.config({
 		    }
          });  
          $(".search_btn").click(function(){
-        	 var select_input = $(".search_input").val();
+        	 var mobile = $(".mobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
-        			    name: select_input
+        			 mobile: mobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始

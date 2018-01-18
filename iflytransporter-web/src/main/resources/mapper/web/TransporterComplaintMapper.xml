@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.iflytransporter.web.mapper.ComplaintMapper" >
-  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.Complaint" >
+<mapper namespace="com.iflytransporter.web.mapper.TransporterComplaintMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.TransporterComplaint" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
@@ -12,8 +12,8 @@
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
-    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
@@ -21,87 +21,40 @@
     <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
     <result column="order_id" property="orderId" jdbcType="VARCHAR" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
-    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, reason, content, mobile, waybill_id, 
-    shipper_id, attachment_id_1, transporter_id, attachment_id_2, attachment_id_3, attachment_id_4, 
-    shipper_company_id, transporter_company_id, order_id, order_no, driver_id
+    shipper_id, transporter_id, attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4, 
+    shipper_company_id, transporter_company_id, order_id, order_no
   </sql>
-  
-    <select id="queryAll" resultType="java.util.Map">
-   select 
-    a.id, a.create_date as createDate,
-    a.reason,a.content,a.mobile,
-    a.order_no as orderNo,
-    b.mobile as shipperMobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName
-   from t_complaint a 
-     left join t_user b on a.shipper_id = b.id 
-     left join t_user c on a.transporter_id = c.id
-     left join t_user d on a.driver_id = d.id
-     left join t_user e on a.transporter_company_id = e.id
-     <if test="orderNo !=null and orderNo !=''">
-    	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
-    </if>
-    <if test="shipperMobile !=null and shipperMobile !=''">
-    	and b.mobile like concat('%',#{shipperMobile,jdbcType=VARCHAR},'%')
-    </if>
-    <if test="transporterCompanyName !=null and transporterCompanyName !=''">
-    	and e.name like concat('%',#{transporterCompanyName,jdbcType=VARCHAR},'%')
-    </if>
-     <if test="transporterMobile !=null and transporterMobile !=''">
-    	and c.mobile like concat('%',#{transporterMobile,jdbcType=VARCHAR},'%')
-    </if>
-     <if test="driverMobile !=null and driverMobile !=''">
-    	and d.mobile like concat('%',#{driverMobile,jdbcType=VARCHAR},'%')
-    </if>
-  </select>
-  
-  
-  <select id="queryDetail" resultType="java.util.Map">
-   select 
-    a.id, a.create_date as createDate,
-    a.reason,a.content,a.mobile,
-    a.order_no as orderNo,
-    b.mobile as shipperMobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName
-   from t_complaint a 
-     left join t_user b on a.shipper_id = b.id 
-     left join t_user c on a.transporter_id = c.id
-     left join t_user d on a.driver_id = d.id
-     left join t_user e on a.transporter_company_id = e.id
-   where a.id = #{id,jdbcType=VARCHAR}
-  </select>
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    from t_complaint
+    from t_transporter_complaint
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_complaint
+    delete from t_transporter_complaint
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.iflytransporter.common.bean.Complaint" >
-    insert into t_complaint (id, create_date, update_date, 
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.TransporterComplaint" >
+    insert into t_transporter_complaint (id, create_date, update_date, 
       data_status, desp, reason, 
       content, mobile, waybill_id, 
-      shipper_id, attachment_id_1, transporter_id, 
+      shipper_id, transporter_id, attachment_id_1, 
       attachment_id_2, attachment_id_3, attachment_id_4, 
       shipper_company_id, transporter_company_id, 
-      order_id, order_no, driver_id
-      )
+      order_id, order_no)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
-      #{shipperId,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, 
       #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, #{attachmentId4,jdbcType=VARCHAR}, 
       #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
-      #{orderId,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}
-      )
+      #{orderId,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Complaint" >
-    insert into t_complaint
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.TransporterComplaint" >
+    insert into t_transporter_complaint
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -133,11 +86,11 @@
       <if test="shipperId != null" >
         shipper_id,
       </if>
-      <if test="attachmentId1 != null" >
-        attachment_id_1,
-      </if>
       <if test="transporterId != null" >
         transporter_id,
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1,
       </if>
       <if test="attachmentId2 != null" >
         attachment_id_2,
@@ -159,9 +112,6 @@
       </if>
       <if test="orderNo != null" >
         order_no,
-      </if>
-      <if test="driverId != null" >
-        driver_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -195,11 +145,11 @@
       <if test="shipperId != null" >
         #{shipperId,jdbcType=VARCHAR},
       </if>
-      <if test="attachmentId1 != null" >
-        #{attachmentId1,jdbcType=VARCHAR},
-      </if>
       <if test="transporterId != null" >
         #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        #{attachmentId1,jdbcType=VARCHAR},
       </if>
       <if test="attachmentId2 != null" >
         #{attachmentId2,jdbcType=VARCHAR},
@@ -222,13 +172,10 @@
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="driverId != null" >
-        #{driverId,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.Complaint" >
-    update t_complaint
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.TransporterComplaint" >
+    update t_transporter_complaint
     <set >
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -257,11 +204,11 @@
       <if test="shipperId != null" >
         shipper_id = #{shipperId,jdbcType=VARCHAR},
       </if>
-      <if test="attachmentId1 != null" >
-        attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
-      </if>
       <if test="transporterId != null" >
         transporter_id = #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId1 != null" >
+        attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       </if>
       <if test="attachmentId2 != null" >
         attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
@@ -284,14 +231,11 @@
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="driverId != null" >
-        driver_id = #{driverId,jdbcType=VARCHAR},
-      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Complaint" >
-    update t_complaint
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.TransporterComplaint" >
+    update t_transporter_complaint
     set create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
@@ -301,16 +245,15 @@
       mobile = #{mobile,jdbcType=VARCHAR},
       waybill_id = #{waybillId,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
-      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
+      attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
       attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
       attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
       shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
       transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
       order_id = #{orderId,jdbcType=VARCHAR},
-      order_no = #{orderNo,jdbcType=VARCHAR},
-      driver_id = #{driverId,jdbcType=VARCHAR}
+      order_no = #{orderNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

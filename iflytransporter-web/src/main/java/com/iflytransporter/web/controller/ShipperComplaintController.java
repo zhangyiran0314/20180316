@@ -30,8 +30,8 @@ public class ShipperComplaintController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String mobile,HttpServletRequest request){
-		PageInfo<Map<String,Object>> result = complaintService.queryPage(page, limit,orderNo,mobile);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String sMobile,String tCompanyName,String tMobile,String dMobile,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = complaintService.queryPage(page, limit, orderNo, sMobile, tCompanyName, tMobile, dMobile);
 		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
@@ -47,7 +47,7 @@ public class ShipperComplaintController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		Complaint obj = complaintService.queryDetail(id);
+		Map<String,Object> obj = complaintService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

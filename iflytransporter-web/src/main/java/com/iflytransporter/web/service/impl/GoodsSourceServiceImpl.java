@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +19,17 @@ public class GoodsSourceServiceImpl implements GoodsSourceService{
 	private GoodsSourceMapper goodsSourceMapper;
 
 	@Override
-	public GoodsSource queryDetail(String id) {
-		return goodsSourceMapper.selectByPrimaryKey(id);
+	public Map<String,Object> queryDetail(String id) {
+		return goodsSourceMapper.queryDetail(id);
 	}
 
 	@Override
-	public PageInfo<GoodsSource> queryPage(Integer pageNo, Integer pageSize,String sId,String tId) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String mobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<GoodsSource> list= goodsSourceMapper.queryAll(sId, tId);
-		return new PageInfo<GoodsSource>(list);
+		List<Map<String,Object>> list= goodsSourceMapper.queryAll(orderNo,mobile);
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
 }

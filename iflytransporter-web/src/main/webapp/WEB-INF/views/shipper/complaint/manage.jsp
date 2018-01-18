@@ -18,13 +18,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    		<input type="text"  placeholder="请输入关键字" class="layui-input orderNo">
 		    	</div>
 		    </div>
-			 <div class="layui-input-inline">
-		    	<label class="layui-form-label">手机</label>
+		   <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input mobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input sMobile">
 		    	</div>
 		    </div>
-		    <!--  
 		     <div class="layui-input-inline">
 		    	<label class="layui-form-label">车主公司</label>
 		    	<div class="layui-input-block">
@@ -36,7 +35,13 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	<div class="layui-input-block">
 		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
 		    	</div>
-		    </div> -->
+		    </div>
+		    <div class="layui-input-inline">
+		    	<label class="layui-form-label">司机手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" placeholder="请输入关键字" class="layui-input dMobile">
+		    	</div>
+		    </div>
 		    
 		</div>
 		<!-- <div class="layui-inline">
@@ -77,9 +82,13 @@ layui.config({
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
 		        {field:'orderNo',title:'订单号', width:'180'},
-                {field:'mobile',title:'手机', width:'180'},
+                {field:'mobile',title:'预留手机', width:'180'},
                 {field:'reason',title:'投诉原因', width:'180'},
 		        {field:'content',title:'评价内容', width:'180'},
+		        {field:'shipperMobile',title:'货主手机', width:'180'},
+                {field:'transporterCompanyName',title:'车主公司名称', width:'180'},
+                {field:'transporterMobile',title:'车主手机', width:'180'},
+                {field:'driverMobile',title:'司机手机', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -170,11 +179,17 @@ layui.config({
          });  
          $(".search_btn").click(function(){
         	 var orderNo = $(".orderNo").val();
-        	 var mobile = $(".mobile").val();
+        	 var sMobile = $(".sMobile").val();
+        	 var tCompanyName = $(".tCompanyName").val();
+        	 var tMobile = $(".tMobile").val();
+        	 var dMobile = $(".dMobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
-        			    mobile:mobile
+        			    sMobile:sMobile,
+        			    tCompanyName:tCompanyName,
+        			    tMobile:tMobile,
+        			    dMobile:dMobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始

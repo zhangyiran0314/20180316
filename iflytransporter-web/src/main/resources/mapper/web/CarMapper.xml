@@ -12,57 +12,14 @@
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
   </resultMap>
-  
-   <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CarBO" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
-    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
-    <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
-    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
-    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
-    <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
-    <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
-  </resultMap>
-  
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2,company_id
+    id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2, 
+    company_id, transporter_id, driver_id
   </sql>
-  
-    <select id="queryAllBO" resultMap="BaseResultMapBO" >
-    select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
-    a.attachment_id_1, a.attachment_id_2,a.company_id,
-    b.attachment_link as attachment_id_1_link,
-    c.attachment_link as attachment_id_2_link
-    from 
-    t_car a
-    left join t_attachment b on a.attachment_id_1 = b.id
-    left join t_attachment c on a.attachment_id_2 = c.id
-    where 1 = 1 
-    <if test="companyId != null" >
-      and a.company_id  = #{companyId,jdbcType=VARCHAR}
-    </if>
-  </select>
-  
-  <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
-    select 
-    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
-    a.attachment_id_1, a.attachment_id_2,a.company_id,
-    b.attachment_link as attachment_id_1_link,
-    c.attachment_link as attachment_id_2_link
-    
-    from t_car a
-    left join t_attachment b on a.attachment_id_1 = b.id
-    left join t_attachment c on a.attachment_id_2 = c.id
-    where a.id = #{id,jdbcType=VARCHAR}
-  </select>
-  
-   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from t_car
@@ -76,11 +33,13 @@
     insert into t_car (id, create_date, update_date, 
       data_status, desp, name, 
       code, attachment_id_1, attachment_id_2, 
-      company_id)
+      company_id, transporter_id, driver_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, 
-      #{companyId,jdbcType=VARCHAR})
+      #{companyId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car
@@ -115,6 +74,12 @@
       <if test="companyId != null" >
         company_id,
       </if>
+      <if test="transporterId != null" >
+        transporter_id,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -146,6 +111,12 @@
       </if>
       <if test="companyId != null" >
         #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="transporterId != null" >
+        #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +150,12 @@
       <if test="companyId != null" >
         company_id = #{companyId,jdbcType=VARCHAR},
       </if>
+      <if test="transporterId != null" >
+        transporter_id = #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -192,7 +169,9 @@
       code = #{code,jdbcType=VARCHAR},
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
-      company_id = #{companyId,jdbcType=VARCHAR}
+      company_id = #{companyId,jdbcType=VARCHAR},
+      transporter_id = #{transporterId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

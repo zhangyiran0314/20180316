@@ -37,12 +37,56 @@
     deliver_date, remark, use_type_id, length, width, height, handling_type_id, payment_type_id
   </sql>
   
-  <select id="queryAll" resultMap="BaseResultMap" >
+   <select id="queryAll" resultType="java.util.Map" >
     select 
-    <include refid="Base_Column_List" />
-    from t_goods_source
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+   	a.departure_province_id as departureProvinceId,
+   	a.departure_city_id as departureCityId, 
+    a.departure_area_id as departureAreaId, 
+    a.destination_province_id as destinationProvinceId, 
+    a.destination_city_id as destinationCityId, 
+    a.destination_area_id as destinationAreaId, 
+    a.car_type_id as carTypeId, a.tyre_no as tyreNo, 
+    a.car_length as carLength, a.goods_type goodsType, 
+    a.weight, a.goods_units as goodsUnits, 
+    a.deliver_date deliverDate, 
+    a.remark,a.user_id as userId, 
+    a.use_type_id as useTypeId, 
+    a.length, a.width, a.height, 
+    a.handling_type_id as handlingTypeId, 
+    a.payment_type_id as paymentTypeId,
+    b.name as name,b.mobile
+    from t_goods_source a
+    left join t_user b on a.user_id = b.id
+    where 1=1 
+    <if test="mobile!=null and mobile !=''">
+    	and b.mobile like concat('%',#{mobile,jdbcType=VARCHAR},'%')
+    </if>
   </select>
-  
+   <select id="queryDetail" resultType="java.util.Map" >
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+   	a.departure_province_id as departureProvinceId,
+   	a.departure_city_id as departureCityId, 
+    a.departure_area_id as departureAreaId, 
+    a.destination_province_id as destinationProvinceId, 
+    a.destination_city_id as destinationCityId, 
+    a.destination_area_id as destinationAreaId, 
+    a.car_type_id as carTypeId, a.tyre_no as tyreNo, 
+    a.car_length as carLength, a.goods_type goodsType, 
+    a.weight, a.goods_units as goodsUnits, 
+    a.deliver_date deliverDate, a.remark, 
+    a.user_id as userId, 
+    a.use_type_id as useTypeId, 
+    a.length, a.width, a.height, 
+    a.handling_type_id as handlingTypeId, 
+    a.payment_type_id as paymentTypeId,
+    b.name as name,b.mobile
+    from t_goods_source a
+    left join t_user b on a.user_id = b.id
+    where id = #{id,jdbcType=VARCHAR}
+   </select>
+   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

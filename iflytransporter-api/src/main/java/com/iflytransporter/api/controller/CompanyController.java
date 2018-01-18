@@ -41,9 +41,11 @@ public class CompanyController {
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="实体")Company company){
 		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
 		String id = UUIDUtil.UUID();
 		company.setId(id);
 		company.setUserId(userId);
+		company.setUserType(user.getUserType());//添加用户类型对应公司
 		int result = companyService.save(company,userId);
 		if(result > 0){
 			return ResponseUtil.successResultId(id);

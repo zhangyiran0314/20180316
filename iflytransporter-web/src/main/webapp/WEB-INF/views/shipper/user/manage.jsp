@@ -63,6 +63,7 @@ layui.config({
                 {field:'level',title:'用户身份', width:'180',templet: '#levelTpl'},
                 {field:'authStatus',title:'个人认证', width:'180',templet: '#authTpl'},
                 {field:'companyAuthStatus',title:'公司认证', width:'180',templet: '#companyAuthTpl'},
+                {field:'lastLoginDate',title:'最近登录时间', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'100'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:100}

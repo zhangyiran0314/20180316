@@ -19,16 +19,16 @@ public class CommentServiceImpl implements CommentService{
 	private CommentMapper commentMapper;
 
 	@Override
-	public Comment queryDetail(String id) {
-		return commentMapper.selectByPrimaryKey(id);
+	public Map<String,Object> queryDetail(String id) {
+		return commentMapper.queryDetail(id);
 	}
 
 	@Override
-	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String sMobile,String tCompanyName,String tMobile) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String sMobile,String tCompanyName,String tMobile,String dMobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= commentMapper.queryAll(orderNo, sMobile, tCompanyName, tMobile);
+		List<Map<String,Object>> list= commentMapper.queryAll(orderNo, sMobile, tCompanyName, tMobile,dMobile);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 

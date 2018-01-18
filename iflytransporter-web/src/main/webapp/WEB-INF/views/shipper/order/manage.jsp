@@ -15,7 +15,19 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    <div class="layui-input-inline">
 		    	<label class="layui-form-label">订单号</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input search_input">
+		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input orderNo">
+		    	</div>
+		    </div>
+		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input mobile">
+		    	</div>
+		    </div>
+		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主公司</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input companyName">
 		    	</div>
 		    </div>
 		</div>
@@ -164,10 +176,14 @@ layui.config({
 		    }
          });  
          $(".search_btn").click(function(){
-        	 var select_input = $(".search_input").val();
+        	 var orderNo = $(".orderNo").val();
+        	 var mobile = $(".mobile").val();
+        	 var companyName = $(".companyName").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
-        			    orderNo: select_input
+        			    orderNo: orderNo,
+        			    mobile:mobile,
+        			    companyName:companyName
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始

@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,21 +26,17 @@ public class CompanyServiceImpl implements CompanyService {
 	private UserMapper userMapper;
 	
 	@Override
-	public Company queryDetail(String id) {
-		return companyMapper.selectByPrimaryKey(id);
+	public Map<String,Object> queryDetail(String id) {
+		return companyMapper.queryDetail(id);
 	}
 
 	@Override
-	public PageInfo<CompanyBO> queryPage(Integer pageNo, Integer pageSize,String name) {
+	public PageInfo<Company> queryPage(Integer pageNo, Integer pageSize,Integer userType,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<CompanyBO> list= companyMapper.queryAllBO(name);
-		return new PageInfo<CompanyBO>(list);
-	}
-	@Override
-	public CompanyBO queryDetailBO(String id) {
-		return companyMapper.selectByPrimaryKeyBO(id);
+		List<Company> list= companyMapper.queryAll(userType,name);
+		return new PageInfo<Company>(list);
 	}
 
 	@Override

@@ -39,25 +39,32 @@ public class ShipperGoodsSourceController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,String sId,String tId,String wId,HttpServletRequest request){
-		PageInfo<GoodsSource> result = goodsSourceService.queryPage(page, limit,sId,tId);
-		List<GoodsSourceResp> list = new ArrayList<GoodsSourceResp>();
-		for(GoodsSource gs:result.getList()){
-			GoodsSourceResp op =new GoodsSourceResp(gs);
-			op.setDepartureProvince(commonService.queryProvince(gs.getDepartureProvinceId()));
-			op.setDepartureCity(commonService.queryCity(gs.getDepartureCityId()));
-			op.setDepartureArea(commonService.queryArea(gs.getDepartureAreaId()));
+	public Map<String,Object> queryPage(Integer page,Integer limit,String sId,String orderNo,String mobile,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = goodsSourceService.queryPage(page, limit, orderNo, mobile);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> op: result.getList()){
+			op.put("departureProvice",commonService.queryProvince((String)op.get("departureProviceId")));
 			
-			op.setDestinationProvince(commonService.queryProvince(gs.getDestinationProvinceId()));
-			op.setDestinationCity(commonService.queryCity(gs.getDestinationCityId()));
-			op.setDestinationArea(commonService.queryArea(gs.getDestinationAreaId()));
+			//op.setDepartureCity(commonService.queryCity(order.getDepartureCityId()));
+			op.put("departureCity",commonService.queryCity((String)op.get("departureCityId")));
+//			op.setDepartureArea(commonService.queryArea(order.getDepartureAreaId()));
+			op.put("departureArea",commonService.queryArea((String)op.get("departureAreaId")));
 			
-			op.setCarType(commonService.queryCarType(gs.getCarTypeId()));
-			op.setHandlingType(commonService.queryHandlingType(gs.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryPaymentType(gs.getPaymentTypeId()));
-			op.setUseType(commonService.queryUseType(gs.getUseTypeId()));
-			//添加用户
-			op.setMobile(userService.queryDetail(gs.getUserId()).getMobile());
+//			op.setDestinationProvince(commonService.queryProvince(order.getDestinationProvinceId()));
+			op.put("destinationProvince",commonService.queryProvince((String)op.get("destinationProvinceId")));
+//			op.setDestinationCity(commonService.queryCity(order.getDestinationCityId()));
+			op.put("destinationCity",commonService.queryCity((String)op.get("destinationCityId")));
+//			op.setDestinationArea(commonService.queryArea(order.getDestinationAreaId()));
+			op.put("destinationArea",commonService.queryArea((String)op.get("destinationAreaId")));
+		
+//			op.setCarType(commonService.queryCarType(order.getCarTypeId()));
+			op.put("carType",commonService.queryCarType((String)op.get("carTypeId")));
+//			op.setHandlingType(commonService.queryHandlingType(order.getHandlingTypeId()));
+			op.put("handlingType",commonService.queryHandlingType((String)op.get("handlingTypeId")));
+//			op.setPaymentType(commonService.queryPaymentType(order.getPaymentTypeId()));
+			op.put("paymentType",commonService.queryPaymentType((String)op.get("paymentTypeId")));
+//			op.setUseType(commonService.queryUseType(order.getUseTypeId()));
+			op.put("useType",commonService.queryUseType((String)op.get("useTypeId")));
 			list.add(op);
 		}
 		return ResponseUtil.successPage(result.getTotal(), list);
@@ -75,7 +82,7 @@ public class ShipperGoodsSourceController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		GoodsSource obj = goodsSourceService.queryDetail(id);
+		Map<String,Object> obj = goodsSourceService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

@@ -14,10 +14,12 @@
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="browse_status" property="browseStatus" jdbcType="INTEGER" />
     <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="contact_status" property="contactStatus" jdbcType="INTEGER" />
+    <result column="browse_date" property="browseDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id, 
-    company_id, browse_status, order_no
+    company_id, browse_status, order_no, contact_status, browse_date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -33,13 +35,13 @@
     insert into t_order_apply (id, create_date, update_date, 
       data_status, desp, status, 
       costs, order_id, transporter_id, 
-      company_id, browse_status, order_no
-      )
+      company_id, browse_status, order_no, 
+      contact_status, browse_date)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=INTEGER}, #{desp,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{costs,jdbcType=DOUBLE}, #{orderId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, 
-      #{companyId,jdbcType=VARCHAR}, #{browseStatus,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}
-      )
+      #{companyId,jdbcType=VARCHAR}, #{browseStatus,jdbcType=INTEGER}, #{orderNo,jdbcType=VARCHAR}, 
+      #{contactStatus,jdbcType=INTEGER}, #{browseDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.OrderApply" >
     insert into t_order_apply
@@ -80,6 +82,12 @@
       <if test="orderNo != null" >
         order_no,
       </if>
+      <if test="contactStatus != null" >
+        contact_status,
+      </if>
+      <if test="browseDate != null" >
+        browse_date,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -117,6 +125,12 @@
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contactStatus != null" >
+        #{contactStatus,jdbcType=INTEGER},
+      </if>
+      <if test="browseDate != null" >
+        #{browseDate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -156,6 +170,12 @@
       <if test="orderNo != null" >
         order_no = #{orderNo,jdbcType=VARCHAR},
       </if>
+      <if test="contactStatus != null" >
+        contact_status = #{contactStatus,jdbcType=INTEGER},
+      </if>
+      <if test="browseDate != null" >
+        browse_date = #{browseDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -171,7 +191,9 @@
       transporter_id = #{transporterId,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
       browse_status = #{browseStatus,jdbcType=INTEGER},
-      order_no = #{orderNo,jdbcType=VARCHAR}
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      contact_status = #{contactStatus,jdbcType=INTEGER},
+      browse_date = #{browseDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

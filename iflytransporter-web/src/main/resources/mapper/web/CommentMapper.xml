@@ -13,6 +13,7 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
     <result column="waybill_id" property="waybillId" jdbcType="VARCHAR" />
     <result column="shipper_company_id" property="shipperCompanyId" jdbcType="VARCHAR" />
     <result column="transporter_company_id" property="transporterCompanyId" jdbcType="VARCHAR" />
@@ -20,36 +21,68 @@
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="anonymity" property="anonymity" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_no" property="orderNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, serve_grade, loading_grade, goods_grade, 
-    content, shipper_id, transporter_id, waybill_id, shipper_company_id, transporter_company_id, 
-    attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4
+    content, shipper_id, transporter_id, driver_id, waybill_id, shipper_company_id, transporter_company_id, 
+    attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4, anonymity, order_id, 
+    order_no
   </sql>
-  <select id="queryAll" resultType="java.util.HashMap"  >
-    select  a.id, a.create_date as createDate, a.update_date as updateDate, a.data_status as dataStatus, a.desp as desp,
-      a.serve_grade as serveGrade,a.loading_grade as loadingGrade,a.goods_grade as goodsGrade, a.content,
-      b.surname as tSurname,b.name as tName,
-      c.surname as sSurname,c.name as sName,c.mobile as sMobile,
-      d.name as tCompanyName
-    from t_comment a
-    left join t_user b on a.transporter_id = b.id
-    left join t_user c on a.shipper_id = c.id
-    left join t_company d on a.transporter_company_id = d.id
-    where 1=1
-    <if test="orderNo!=null and orderNo !=''">
-     and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
+  
+  <select id="queryAll" resultType="java.util.Map">
+   select 
+    a.id, a.create_date as createDate,
+    a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
+    a.anonymity,a.order_no as orderNo,
+    b.mobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName
+   from t_comment a 
+     left join t_user b on a.shipper_id = b.id 
+     left join t_user c on a.transporter_id = c.id
+     left join t_user d on a.driver_id = d.id
+     left join t_user e on a.transporter_company_id = e.id
+     <if test="orderNo !=null and orderNo !=''">
+    	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
     </if>
-    <if test="sMobile != null and sMobile !=''">
-     and c.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
+    <if test="shipperMobile !=null and shipperMobile !=''">
+    	and b.mobile like concat('%',#{shipperMobile,jdbcType=VARCHAR},'%')
     </if>
-    <if test="tMobile != null and tMobile !=''">
-     and b.mobile like concat('%',#{tMobile,jdbcType=VARCHAR},'%')
+    <if test="transporterCompanyName !=null and transporterCompanyName !=''">
+    	and e.name like concat('%',#{transporterCompanyName,jdbcType=VARCHAR},'%')
     </if>
-    <if test="tCompanyName != null and tCompanyName !=''">
-     and d.name like concat('%',#{tCompanyName,jdbcType=VARCHAR},'%')
+     <if test="transporterMobile !=null and transporterMobile !=''">
+    	and c.mobile like concat('%',#{transporterMobile,jdbcType=VARCHAR},'%')
+    </if>
+     <if test="driverMobile !=null and driverMobile !=''">
+    	and d.mobile like concat('%',#{driverMobile,jdbcType=VARCHAR},'%')
     </if>
   </select>
+  <select id="queryDetail" resultType="java.util.Map">
+   select 
+    a.id, a.create_date as createDate,
+    a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
+    a.anonymity,a.order_no as orderNo,
+    b.mobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName,
+  
+  	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a1.attachment_link)  as attachmentId1Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a3.attachment_link)  as attachmentId3Link
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a4.attachment_link)  as attachmentId4Link
+   from t_comment a 
+     left join t_user b on a.shipper_id = b.id 
+     left join t_user c on a.transporter_id = c.id
+     left join t_user d on a.driver_id = d.id
+     left join t_user e on a.transporter_company_id = e.id
+     
+     left join t_attachment a1 on a.attachment_id_1 = a1.id
+     left join t_attachment a2 on a.attachment_id_2 = a2.id
+     left join t_attachment a3 on a.attachment_id_3 = a3.id
+     left join t_attachment a4 on a.attachment_id_4 = a4.id
+    where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -64,17 +97,19 @@
     insert into t_comment (id, create_date, update_date, 
       data_status, desp, serve_grade, 
       loading_grade, goods_grade, content, 
-      shipper_id, transporter_id, waybill_id, 
-      shipper_company_id, transporter_company_id, 
+      shipper_id, transporter_id, driver_id, 
+      waybill_id, shipper_company_id, transporter_company_id, 
       attachment_id_1, attachment_id_2, attachment_id_3, 
-      attachment_id_4)
+      attachment_id_4, anonymity, order_id, 
+      order_no)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{serveGrade,jdbcType=INTEGER}, 
       #{loadingGrade,jdbcType=INTEGER}, #{goodsGrade,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{waybillId,jdbcType=VARCHAR}, 
-      #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
+      #{shipperId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}, 
+      #{waybillId,jdbcType=VARCHAR}, #{shipperCompanyId,jdbcType=VARCHAR}, #{transporterCompanyId,jdbcType=VARCHAR}, 
       #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, #{attachmentId3,jdbcType=VARCHAR}, 
-      #{attachmentId4,jdbcType=VARCHAR})
+      #{attachmentId4,jdbcType=VARCHAR}, #{anonymity,jdbcType=INTEGER}, #{orderId,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Comment" >
     insert into t_comment
@@ -112,6 +147,9 @@
       <if test="transporterId != null" >
         transporter_id,
       </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
       <if test="waybillId != null" >
         waybill_id,
       </if>
@@ -132,6 +170,15 @@
       </if>
       <if test="attachmentId4 != null" >
         attachment_id_4,
+      </if>
+      <if test="anonymity != null" >
+        anonymity,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderNo != null" >
+        order_no,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -168,6 +215,9 @@
       <if test="transporterId != null" >
         #{transporterId,jdbcType=VARCHAR},
       </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
       <if test="waybillId != null" >
         #{waybillId,jdbcType=VARCHAR},
       </if>
@@ -188,6 +238,15 @@
       </if>
       <if test="attachmentId4 != null" >
         #{attachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="anonymity != null" >
+        #{anonymity,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -224,6 +283,9 @@
       <if test="transporterId != null" >
         transporter_id = #{transporterId,jdbcType=VARCHAR},
       </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
       <if test="waybillId != null" >
         waybill_id = #{waybillId,jdbcType=VARCHAR},
       </if>
@@ -245,6 +307,15 @@
       <if test="attachmentId4 != null" >
         attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
       </if>
+      <if test="anonymity != null" >
+        anonymity = #{anonymity,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -260,13 +331,17 @@
       content = #{content,jdbcType=VARCHAR},
       shipper_id = #{shipperId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
       waybill_id = #{waybillId,jdbcType=VARCHAR},
       shipper_company_id = #{shipperCompanyId,jdbcType=VARCHAR},
       transporter_company_id = #{transporterCompanyId,jdbcType=VARCHAR},
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
       attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
-      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR}
+      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      anonymity = #{anonymity,jdbcType=INTEGER},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

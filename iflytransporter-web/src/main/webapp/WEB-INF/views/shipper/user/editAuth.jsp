@@ -17,7 +17,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 	<form class="layui-form" style="width:80%;">
 	<input type="hidden" id ="objectId" name="id" value="${objectId}"/>
 		<div class="layui-form-item">
-			<label class="layui-form-label">mobile</label>
+			<label class="layui-form-label">手机号码</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input mobile">
 			</div>
@@ -125,13 +125,13 @@ layui.config({
 		$(".mobile").val(data.mobile);     
 		$(".surname").val(data.surname);  
 		$(".name").val(data.name);  
-		if(data.attachmentId1Link!=''){
+		if(data.attachmentId1Link!=undefined){
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
 		}
-		if(data.attachmentId1Link!=''){
+		if(data.attachmentId1Link!=undefined){
 			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
 		}
-		if(data.attachmentId1Link!=''){
+		if(data.attachmentId1Link!=undefined){
 			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
 		}
 	}

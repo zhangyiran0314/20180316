@@ -1,18 +1,17 @@
 package com.iflytransporter.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.common.bean.Company;
-import com.iflytransporter.common.bean.CompanyBO;
 
 public interface CompanyMapper {
 	
-	List<CompanyBO> queryAllBO(@Param("name")String name);
+	List<Company> queryAll(@Param("userType")Integer userType,@Param("name")String name);
 	
-	CompanyBO selectByPrimaryKeyBO(String id);
-	
+	Map<String,Object> queryDetail(String id);
 	
 	int deleteByPrimaryKey(String id);
 

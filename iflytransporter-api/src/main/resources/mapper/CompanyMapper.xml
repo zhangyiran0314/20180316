@@ -13,6 +13,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
+     <result column="user_type" property="userType" jdbcType="INTEGER" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
@@ -30,6 +31,7 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="VARCHAR" />
+     <result column="user_type" property="userType" jdbcType="INTEGER" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
      <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
      <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
@@ -40,7 +42,7 @@
   
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code, email, address, status, 
-    attachment_id_1,user_id,attachment_id_2,attachment_id_3
+    attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3
   </sql>
   <sql id="Valid_SQL" >
     and data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
@@ -81,11 +83,11 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company (id, update_date, 
       desp, name, 
-      code, email, address, attachment_id_1,user_id,attachment_id_2,attachment_id_3)
+      code, email, address, attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3)
     values (#{id,jdbcType=VARCHAR}, now(),
        #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{attachmentId2,jdbcType=VARCHAR},#{attachmentId3,jdbcType=VARCHAR})
+      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{userType,jdbcType=INTEGER},#{attachmentId2,jdbcType=VARCHAR},#{attachmentId3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company

@@ -30,8 +30,8 @@ public class ShipperCommentController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String sMobile,String tCompanyName,String tMobile,String wId,HttpServletRequest request){
-		PageInfo<Map<String,Object>> result = commentService.queryPage(page, limit, orderNo, sMobile, tCompanyName,tMobile);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,String sMobile,String tCompanyName,String tMobile,String dMobile,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = commentService.queryPage(page, limit, orderNo, sMobile, tCompanyName,tMobile,dMobile);
 		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
@@ -47,7 +47,7 @@ public class ShipperCommentController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		Comment obj = commentService.queryDetail(id);
+		Map<String,Object> obj = commentService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")
