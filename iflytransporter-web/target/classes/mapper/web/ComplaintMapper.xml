@@ -39,7 +39,7 @@
      left join t_user b on a.shipper_id = b.id 
      left join t_user c on a.transporter_id = c.id
      left join t_user d on a.driver_id = d.id
-     left join t_user e on a.transporter_company_id = e.id
+     left join t_company e on a.transporter_company_id = e.id
      <if test="orderNo !=null and orderNo !=''">
     	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
     </if>
@@ -68,7 +68,7 @@
      left join t_user b on a.shipper_id = b.id 
      left join t_user c on a.transporter_id = c.id
      left join t_user d on a.driver_id = d.id
-     left join t_user e on a.transporter_company_id = e.id
+     left join t_company e on a.transporter_company_id = e.id
    where a.id = #{id,jdbcType=VARCHAR}
   </select>
   

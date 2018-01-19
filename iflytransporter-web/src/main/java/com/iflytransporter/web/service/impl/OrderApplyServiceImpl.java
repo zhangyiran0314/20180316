@@ -24,11 +24,11 @@ public class OrderApplyServiceImpl implements OrderApplyService{
 	}
 
 	@Override
-	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String tId,String oId) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,String orderNo,String mobile,String companyName) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= orderApplyMapper.queryAll(tId,oId);
+		List<Map<String,Object>> list= orderApplyMapper.queryAll(orderNo,mobile,companyName);
 		return new PageInfo<Map<String, Object>>(list) ;
 	}
 

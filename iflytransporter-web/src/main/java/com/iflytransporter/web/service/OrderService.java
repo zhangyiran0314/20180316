@@ -3,7 +3,6 @@ package com.iflytransporter.web.service;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.Order;
 
 public interface OrderService  {
 	//详情查询

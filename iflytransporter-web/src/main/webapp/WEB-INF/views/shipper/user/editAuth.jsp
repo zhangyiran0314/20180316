@@ -34,17 +34,17 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				<input type="text" class="layui-input name">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-form-item div_attachment1" style="display:none">
 			<label class="layui-form-label">图片1</label>
 			<div class="layui-input-block attachment1">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-form-item div_attachment2" style="display:none">
 			<label class="layui-form-label">图片2</label>
 			<div class="layui-input-block attachment2">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<div class="layui-form-item div_attachment3" style="display:none">
 			<label class="layui-form-label">图片3</label>
 			<div class="layui-input-block attachment3">
 			</div>
@@ -126,12 +126,15 @@ layui.config({
 		$(".surname").val(data.surname);  
 		$(".name").val(data.name);  
 		if(data.attachmentId1Link!=undefined){
+			$(".div_attachment1").show();
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
 		}
-		if(data.attachmentId1Link!=undefined){
+		if(data.attachmentId2Link!=undefined){
+			$(".div_attachment2").show();
 			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
 		}
-		if(data.attachmentId1Link!=undefined){
+		if(data.attachmentId3Link!=undefined){
+			$(".div_attachment3").show();
 			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
 		}
 	}

@@ -20,7 +20,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
     
-    List<UserBO> queryAll(@Param("userType")Integer userType,@Param("mobile")String mobile);
+    List<User> queryAll(@Param("userType")Integer userType,@Param("mobile")String mobile);
 	
     UserBO selectByPrimaryKeyBO(String id);
 	

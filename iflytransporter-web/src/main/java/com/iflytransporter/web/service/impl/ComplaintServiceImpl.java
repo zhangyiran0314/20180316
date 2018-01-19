@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.Complaint;
 import com.iflytransporter.web.mapper.ComplaintMapper;
 import com.iflytransporter.web.service.ComplaintService;
 

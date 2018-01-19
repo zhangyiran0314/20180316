@@ -21,6 +21,79 @@
     id, create_date, update_date, data_status, desp, status, costs, order_id, transporter_id, 
     company_id, browse_status, order_no, contact_status, browse_date
   </sql>
+  
+   <select id="queryAll" resultType="java.util.Map" >
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+    a.order_no orderNo, 
+    a.status, 
+    a.costs as costs,
+    a.browse_status as browseStatus,a.browse_date as browseDate,
+    b.name as name,b.mobile as mobile,
+    c.name as companyName,
+    d.departure_province_id as departureProvinceId,
+   	d.departure_city_id as departureCityId, 
+    d.departure_area_id as departureAreaId, 
+    d.destination_province_id as destinationProvinceId, 
+    d.destination_city_id as destinationCityId, 
+    d.destination_area_id as destinationAreaId, 
+    d.car_type_id as carTypeId, a.tyre_no as tyreNo, 
+    d.car_length as carLength, a.goods_type goodsType, 
+    d.weight, 
+    d.goods_units as goodsUnits, 
+    d.deliver_date deliverDate, 
+    d.use_type_id as useTypeId, 
+    d.length, d.width, d.height, 
+    d.handling_type_id as handlingTypeId, 
+    d.payment_type_id as paymentTypeId
+    from t_order_apply a
+    left join t_user b on a.transporter_id = b.id
+    left join t_company c on a.company_id = c.id
+    left join t_order d on a.order_id = d.id
+    where 1=1 
+    <if test="orderNo!=null and orderNo !=''">
+    	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="mobile!=null and mobile !=''">
+    	and b.mobile like concat('%',#{mobile,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="companyName != null and companyName !=''">
+    	and c.name like concat('%',#{companyName,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+    <select id="queryDetail" resultType="java.util.Map" >
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+    a.order_no orderNo, 
+    a.status, 
+    a.costs as costs,
+    a.browse_status as browseStatus,a.browse_date as browseDate,
+    b.name as name,b.mobile as mobile,
+    c.name as companyName,
+    d.departure_province_id as departureProvinceId,
+   	d.departure_city_id as departureCityId, 
+    d.departure_area_id as departureAreaId, 
+    d.destination_province_id as destinationProvinceId, 
+    d.destination_city_id as destinationCityId, 
+    d.destination_area_id as destinationAreaId, 
+    d.car_type_id as carTypeId, a.tyre_no as tyreNo, 
+    d.car_length as carLength, a.goods_type goodsType, 
+    d.weight, 
+    d.goods_units as goodsUnits, 
+    d.deliver_date deliverDate, 
+    d.use_type_id as useTypeId, 
+    d.length, d.width, d.height, 
+    d.handling_type_id as handlingTypeId, 
+    d.payment_type_id as paymentTypeId
+    from t_order_apply a
+    left join t_user b on a.transporter_id = b.id
+    left join t_company c on a.company_id = c.id
+    left join t_order d on a.order_id = d.id
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

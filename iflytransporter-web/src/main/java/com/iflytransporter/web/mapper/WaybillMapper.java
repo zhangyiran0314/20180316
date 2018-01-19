@@ -1,15 +1,20 @@
 package com.iflytransporter.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.Waybill;
 
 public interface WaybillMapper {
 	
-	List<Waybill> queryAll(@Param("shipperId")String sId,@Param("transporterId") String tId,@Param("orderId")String oId);
+	List<Map<String,Object>> queryAll(Integer pageNo,Integer pageSize,@Param("orderNo")String orderNo,
+			@Param("status")Integer stauts,@Param("dispenseStatus")Integer dispenseStuts,
+			@Param("sCompanyName")String sCompanyName,@Param("sMobile")String sMobile,
+			@Param("tCompanyName")String tCompanyName,@Param("tMobile")String tMobile,@Param("dMobile")String dMobile);
+	
+	Map<String,Object> queryDetail(String id);
 	
     int deleteByPrimaryKey(String id);
 

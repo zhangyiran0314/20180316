@@ -35,7 +35,7 @@ public class ShipperController {
 	@ResponseBody
 	public Map<String,Object> queryPage(Integer page,Integer limit,String mobile,
 			HttpServletRequest request){
-		PageInfo<UserBO> result = userService.queryPage(page, limit, Status.Type_User_Shipper, mobile);
+		PageInfo<User> result = userService.queryPage(page, limit, Status.Type_User_Shipper, mobile);
 		return ResponseUtil.successPage(result.getTotal(), result.getList());
 				
 	}

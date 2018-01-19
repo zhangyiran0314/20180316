@@ -1,13 +1,13 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.Waybill;
 import com.iflytransporter.web.mapper.WaybillMapper;
 import com.iflytransporter.web.service.WaybillService;
 
@@ -18,17 +18,20 @@ public class WaybillServiceImpl implements WaybillService{
 	private WaybillMapper waybillMapper;
 
 	@Override
-	public Waybill queryDetail(String id) {
-		return waybillMapper.selectByPrimaryKey(id);
+	public Map<String, Object> queryDetail(String id) {
+		return waybillMapper.queryDetail(id);
 	}
 
 	@Override
-	public PageInfo<Waybill> queryPage(Integer pageNo, Integer pageSize,String sId,String tId,String oId) {
+	public PageInfo<Map<String, Object>> queryPage(Integer pageNo, Integer pageSize, String orderNo, Integer status,
+			Integer dispenseStuts, String sCompanyName, String sMobile, String tCompanyName, String tMobile,
+			String dMobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Waybill> list= waybillMapper.queryAll(sId, tId, oId);
-		return new PageInfo<Waybill>(list);
+		List<Map<String,Object>> list= waybillMapper.queryAll(pageNo, pageSize, orderNo, status, dispenseStuts, sCompanyName, sMobile, tCompanyName, tMobile, dMobile);
+		return new PageInfo<Map<String,Object>>(list);
 	}
+
 
 }

@@ -10,7 +10,7 @@ public interface UserService {
 	
 	UserBO queryDetailBO(String id);
 	//分页查询
-	PageInfo<UserBO> queryPage(Integer pageNo,Integer pageSize,Integer userType,String mobile);
+	PageInfo<User> queryPage(Integer pageNo,Integer pageSize,Integer userType,String mobile);
 	
 	int updateUser(User user);
 }

@@ -9,7 +9,7 @@ import com.iflytransporter.common.bean.OrderApply;
 
 public interface OrderApplyMapper {
 	
-	List<Map<String,Object>> queryAll(@Param("transporterId")String tId,@Param("orderId")String oId);
+	List<Map<String,Object>> queryAll(@Param("orderNo")String orderNo,@Param("mobile")String mobile,@Param("companyName")String tCompanyName);
 	
     int deleteByPrimaryKey(String id);
 

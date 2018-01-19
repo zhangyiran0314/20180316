@@ -30,9 +30,9 @@ public class WaybillController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,String sId,String tId,String wId,HttpServletRequest request){
-		PageInfo<Waybill> page = waybillService.queryPage(pageNo, 10, sId, tId, wId);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String orderNo,Integer status, Integer dispenseStuts,String sCompanyName, String sMobile, String tCompanyName, String tMobile, String dMobile,HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = waybillService.queryPage(page, limit, orderNo, status, dispenseStuts, sCompanyName, sMobile, tCompanyName, tMobile, dMobile);
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
@@ -47,7 +47,7 @@ public class WaybillController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		Waybill obj = waybillService.queryDetail(id);
+		Map<String,Object> obj = waybillService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

@@ -9,6 +9,6 @@ public interface OrderApplyService  {
 	//详情查询
 	OrderApply queryDetail(String id);
 	//分页查询
-	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize,String sId,String tId);
+	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize,String orderNo,String mobile,String companyName);
 	
 }

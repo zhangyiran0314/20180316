@@ -30,6 +30,61 @@
     attachment_id_1, attachment_id_2, attachment_id_3, attachment_id_4, anonymity, order_id, 
     order_no
   </sql>
+  
+  <select id="queryAll" resultType="java.util.Map">
+   select 
+    a.id, a.create_date as createDate,
+     a.update_date as updateDate,
+    a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
+    a.anonymity,a.order_no as orderNo,
+    b.mobile,b.surname,b.name,
+    c.mobile as shipperMobile,
+    e.name as shipperCompanyName
+   from t_transporter_comment a 
+     left join t_user b on a.transporter_id = b.id
+     left join t_user c on a.shipper_id = c.id 
+     left join t_company e on a.shipper_company_id = e.id
+     <if test="orderNo !=null and orderNo !=''">
+    	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
+    </if>
+     <if test="transporterMobile !=null and transporterMobile !=''">
+    	and b.mobile like concat('%',#{transporterMobile,jdbcType=VARCHAR},'%')
+    </if>
+    
+    <if test="shipperMobile !=null and shipperMobile !=''">
+    	and c.mobile like concat('%',#{shipperMobile,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="shipperCompanyName !=null and shipperCompanyName !=''">
+    	and e.name like concat('%',#{shipperCompanyName,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  <select id="queryDetail" resultType="java.util.Map">
+   select 
+    a.id, a.create_date as createDate,
+    a.id, a.update_date as updateDate,
+    a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
+    a.anonymity,a.order_no as orderNo,
+    b.mobile,b.surname,b.name,
+    c.mobile as shipperMobile,
+    e.name as shipperCompanyName,
+  
+  	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a1.attachment_link)  as attachmentId1Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a3.attachment_link)  as attachmentId3Link
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a4.attachment_link)  as attachmentId4Link
+   from t_transporter_comment a 
+     left join t_user b on a.transporter_id = b.id
+     left join t_user c on a.shipper_id = c.id 
+     left join t_company e on a.shipper_company_id = e.id
+     
+     left join t_attachment a1 on a.attachment_id_1 = a1.id
+     left join t_attachment a2 on a.attachment_id_2 = a2.id
+     left join t_attachment a3 on a.attachment_id_3 = a3.id
+     left join t_attachment a4 on a.attachment_id_4 = a4.id
+    where a.id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

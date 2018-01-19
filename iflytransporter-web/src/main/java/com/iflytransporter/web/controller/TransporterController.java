@@ -12,48 +12,54 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.Transporter;
-import com.iflytransporter.common.bean.TransporterBO;
+import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.ResponseUtil;
-import com.iflytransporter.web.service.TransporterService;
+import com.iflytransporter.web.service.UserService;
 
 @Controller
-@RequestMapping("/transporter")
+@RequestMapping("/transporter/user")
 public class TransporterController {
 	private static Logger logger = LoggerFactory.getLogger(TransporterController.class);
 	@Autowired
-	private TransporterService transporterService;
+	private UserService userService;
 
 	@RequestMapping("/manage")
 	public String index(){
-		logger.info("transporter/list");
-		return "transporter/manage";
+		logger.info("user/list");
+		return "transporter/user/manage";
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer page,Integer limit,HttpServletRequest request){
-		PageInfo<Map<String,Object>> result = transporterService.queryPage( page, limit);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String mobile,HttpServletRequest request){
+		PageInfo<User> result = userService.queryPage(page, limit, Status.Type_User_Transporter, mobile);
 		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "transporter/detail";
+		return "transporter/user/detail";
 	}
 	@RequestMapping("toEdit")
 	public String toEdit(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "transporter/edit";
+		return "transporter/user/edit";
+	}
+	@RequestMapping("toEditAuth")
+	public String toEditAuth(String id,HttpServletRequest request){
+		request.setAttribute("objectId", id);
+		return "shipper/user/editAuth";
 	}
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		TransporterBO obj = transporterService.queryDetailBO(id);
+		UserBO obj = userService.queryDetailBO(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")
 	@ResponseBody
-	public  Map<String,Object> edit(Transporter obj,HttpServletRequest request){
+	public  Map<String,Object> edit(User obj,HttpServletRequest request){
 		return ResponseUtil.successResult();
 	}
 }

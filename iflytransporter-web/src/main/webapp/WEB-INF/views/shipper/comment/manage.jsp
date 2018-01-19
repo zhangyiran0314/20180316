@@ -19,27 +19,21 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 			<div class="layui-input-inline">
-		    	<label class="layui-form-label">货主手机</label>
-		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input sMobile">
-		    	</div>
-		    </div>
-		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">车主公司</label>
-		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input tCompanyName">
-		    	</div>
-		    </div>
-		     <div class="layui-input-inline">
 		    	<label class="layui-form-label">车主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input tMobile">
 		    	</div>
 		    </div>
-		    <div class="layui-input-inline">
-		    	<label class="layui-form-label">司机手机</label>
+		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主公司</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input dMobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input sCompanyName">
+		    	</div>
+		    </div>
+		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" placeholder="请输入关键字" class="layui-input sMobile">
 		    	</div>
 		    </div>
 		    
@@ -180,17 +174,15 @@ layui.config({
          });  
          $(".search_btn").click(function(){
         	 var orderNo = $(".orderNo").val();
-        	 var sMobile = $(".sMobile").val();
-        	 var tCompanyName = $(".tCompanyName").val();
         	 var tMobile = $(".tMobile").val();
-        	 var dMobile = $(".dMobile").val();
+        	 var sCompanyName = $(".sCompanyName").val();
+        	 var sMobile = $(".sMobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
         			    sMobile:sMobile,
-        			    tCompanyName:tCompanyName,
-        			    tMobile:tMobile,
-        			    dMobile:dMobile
+        			    sCompanyName:sCompanyName,
+        			    tMobile:tMobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始

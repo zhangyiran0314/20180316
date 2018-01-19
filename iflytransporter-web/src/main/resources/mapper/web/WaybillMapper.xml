@@ -11,6 +11,7 @@
     <result column="shipper_id" property="shipperId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="dispense_status" property="dispenseStatus" jdbcType="INTEGER" />
+    <result column="dispense_date" property="dispenseDate" jdbcType="TIMESTAMP" />
     <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="costs" property="costs" jdbcType="DOUBLE" />
@@ -37,6 +38,54 @@
     take_attachment_id_4, take_date, deliver_attachment_id_1, deliver_attachment_id_2, 
     deliver_attachment_id_3, deliver_attachment_id_4, deliver_date, confirm_date
   </sql>
+  
+  <select id="queryAll" resultType="java.util.Map" >
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, a.orderNo,a.costs,
+   	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
+   	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
+    b.name as shipperComanyName,
+    c.name as shipperName,
+    d.name as transporterComanyName,
+    e.name as transporterName,
+    f.name as driverName,
+    g.name as carName,g.code as carCode
+    from t_waybill a
+    
+    left join t_company b on a.shipper_company_id = b.id
+    left join t_user c on a.shipper_id = c.id
+    left join t_company d on a.transporter_company_id = d.id
+    left join t_user e on a.transporter_id = e.id
+    left join t_user f on a.driver_id = f.id
+    left join t_car g on a.car_id = g.id
+    where 1=1 
+    <if test="status !=null and status != ''">
+    	and a.status = #{status,jdbcType=VARCHAR}
+    </if>
+     <if test="dispenseStatus !=null and dispenseStatus != ''">
+    	and a.dispense_status = #{dispenseStatus,jdbcType=VARCHAR}
+    </if>
+    <if test="orderNo!=null and orderNo !=''">
+    	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sCompanyName != null and sCompanyName !=''">
+    	and b.name like concat('%',#{sCompanyName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="sMobile !=null and sMobile != ''">
+    	and b.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="tCompanyName != null and tCompanyName !=''">
+    	and d.name like concat('%',#{tCompanyName,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="tMobile !=null and tMobile != ''">
+    	and e.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
+    </if>
+      <if test="dMobile !=null and dMobile != ''">
+    	and f.mobile like concat('%',#{dMobile,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

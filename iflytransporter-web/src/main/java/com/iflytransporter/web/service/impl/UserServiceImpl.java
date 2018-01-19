@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.common.bean.UseType;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.web.mapper.UserMapper;
@@ -28,12 +27,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public PageInfo<UserBO> queryPage(Integer pageNo, Integer pageSize, Integer userType, String mobile) {
+	public PageInfo<User> queryPage(Integer pageNo, Integer pageSize, Integer userType, String mobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<UserBO> list= userMapper.queryAll(userType,mobile);
-		return new PageInfo<UserBO>(list);
+		List<User> list= userMapper.queryAll(userType,mobile);
+		return new PageInfo<User>(list);
 	}
 
 	@Override
