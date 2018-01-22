@@ -43,7 +43,7 @@ public class ShipperGoodsSourceController {
 		PageInfo<Map<String,Object>> result = goodsSourceService.queryPage(page, limit, orderNo, mobile);
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		for(Map<String,Object> op: result.getList()){
-			op.put("departureProvice",commonService.queryProvince((String)op.get("departureProviceId")));
+			op.put("departureProvince",commonService.queryProvince((String)op.get("departureProvinceId")));
 			
 			//op.setDepartureCity(commonService.queryCity(order.getDepartureCityId()));
 			op.put("departureCity",commonService.queryCity((String)op.get("departureCityId")));

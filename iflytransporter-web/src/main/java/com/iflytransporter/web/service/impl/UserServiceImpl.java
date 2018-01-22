@@ -1,6 +1,7 @@
 package com.iflytransporter.web.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,7 @@ import com.iflytransporter.web.service.UserService;
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private UserMapper userMapper;
-	@Override
-	public User queryDetail(String id) {
-		return userMapper.selectByPrimaryKey(id);
-	}
 
-	@Override
-	public UserBO queryDetailBO(String id) {
-		return userMapper.selectByPrimaryKeyBO(id);
-	}
 
 	@Override
 	public PageInfo<User> queryPage(Integer pageNo, Integer pageSize, Integer userType, String mobile) {
@@ -38,6 +31,18 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateUser(User user) {
 		return userMapper.updateByPrimaryKeySelective(user);
+	}
+
+
+	@Override
+	public User selectOne(String id) {
+		return userMapper.selectByPrimaryKey(id);
+	}
+
+
+	@Override
+	public Map<String, Object> queryDetail(String id) {
+		return userMapper.queryDetail(id);
 	}
 
 }

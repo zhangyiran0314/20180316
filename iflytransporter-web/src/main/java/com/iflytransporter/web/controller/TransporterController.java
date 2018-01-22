@@ -49,12 +49,12 @@ public class TransporterController {
 	@RequestMapping("toEditAuth")
 	public String toEditAuth(String id,HttpServletRequest request){
 		request.setAttribute("objectId", id);
-		return "shipper/user/editAuth";
+		return "transporter/user/editAuth";
 	}
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		UserBO obj = userService.queryDetailBO(id);
+		Map<String,Object> obj = userService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

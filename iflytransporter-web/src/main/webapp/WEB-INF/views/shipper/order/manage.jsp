@@ -1,5 +1,6 @@
 <%@ include file="../../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
@@ -68,8 +69,9 @@ layui.config({
 		    ,page: true //开启分页
 		    ,cols: [[ //表头
 		        {type: 'checkbox', fixed: 'left'},
-		        {field:'mobile',title:'发货人手机', width:'180'},
 		        {field:'orderNo',title:'订单号', width:'180'},
+		        {field:'mobile',title:'发货人手机', width:'180'},
+		        {field:'companyName',title:'货主公司', width:'180'},
                 {field:'departure',title:'出发地', width:'180',templet:'#departureTpl'},
                 {field:'destination',title:'目的地', width:'180',templet:'#destinationTpl'},
                 {field:'useType',title:'用车类型', width:'180',templet:'<div> {{ d.useType.name }}</div>'},
@@ -89,7 +91,7 @@ layui.config({
                 {field:'authStatus',title:'授权状态', width:'180',templet:'#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
-               /*  {fixed: 'right', title:'操作', toolbar: '#bar', width:150} */
+                {fixed: 'right', title:'操作', toolbar: '#bar', width:150} 
 		    ]]
 		  });
 		

@@ -15,20 +15,26 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 </style>
 <body>
 	<blockquote class="layui-elem-quote news_search layui-form ">
-		<div class="layui-inline">
+	    <div class="layui-inline">
 		    <div class="layui-input-inline">
 		    	<label class="layui-form-label">公司名称</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input companyName">
 		    	</div>
+		    </div>
+		   <div class="layui-inline">
 		    	<label class="layui-form-label">车牌号</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input code">
 		    	</div>
+		    </div>
+		 	<div class="layui-inline">
 		    	<label class="layui-form-label">车主电话</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input transporterMobile">
 		    	</div>
+		     </div>
+		  	<div class="layui-inline">
 		    	<label class="layui-form-label">司机电话</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input driverMobile">

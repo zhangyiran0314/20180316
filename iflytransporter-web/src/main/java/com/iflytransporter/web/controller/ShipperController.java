@@ -42,7 +42,7 @@ public class ShipperController {
 	@RequestMapping("detail")
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
-		UserBO obj = userService.queryDetailBO(id);
+		Map<String,Object> obj = userService.queryDetail(id);
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("toDetail")

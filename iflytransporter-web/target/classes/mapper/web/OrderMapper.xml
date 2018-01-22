@@ -71,6 +71,7 @@
     a.auth_date authDate, 
     a.order_no orderNo, 
     a.company_id as companyId,
+    b.mobile as mobile,
     b.name as name,
     c.name as companyName
     from t_order a
@@ -113,11 +114,12 @@
     a.order_no orderNo, 
     a.company_id as companyId,
     b.name as name,
+    b.mobile as mobile,
     c.name as companyName
-    from t_order
+    from t_order a
     left join t_user b on a.shipper_id = b.id
     left join t_company c on a.company_id = c.id
-    where id = #{id,jdbcType=VARCHAR}
+    where a.id = #{id,jdbcType=VARCHAR}
     </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

@@ -1,11 +1,11 @@
 package com.iflytransporter.web.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.common.bean.User;
-import com.iflytransporter.common.bean.UserBO;
 
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
@@ -22,6 +22,6 @@ public interface UserMapper {
     
     List<User> queryAll(@Param("userType")Integer userType,@Param("mobile")String mobile);
 	
-    UserBO selectByPrimaryKeyBO(String id);
+    Map<String,Object> queryDetail(String id);
 	
 }

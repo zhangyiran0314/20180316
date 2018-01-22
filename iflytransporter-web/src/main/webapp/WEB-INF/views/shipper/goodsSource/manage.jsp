@@ -1,7 +1,6 @@
 <%@ include file="../../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -20,12 +19,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		</div>
-		<!-- <div class="layui-inline">
-		    <label class="layui-form-label">查询日期</label>
-		    <div class="layui-input-block">
-		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
-		    </div>
-		</div> -->
 		<a class="layui-btn search_btn">查询</a>
 		<!-- <div class="layui-inline">
 			<a class="layui-btn layui-btn-normal dataAdd_btn">添加用户</a>

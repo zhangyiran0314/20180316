@@ -34,6 +34,24 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				<input type="text" class="layui-input name">
 			</div>
 		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">身份证</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input cardNo">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">驾驶证</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input drivingLicenseNo">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">GDL</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input gdl">
+			</div>
+		</div>
 		<div class="layui-form-item div_attachment1" style="display:none">
 			<label class="layui-form-label">图片1</label>
 			<div class="layui-input-block attachment1">
@@ -51,12 +69,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		</div>
 		<div class="layui-form-item  div_attachment4" style="display:none">
 			<label class="layui-form-label">图片4</label>
-			<div class="layui-input-block attachment3">
+			<div class="layui-input-block attachment4">
 			</div>
 		</div>
 		<div class="layui-form-item  div_attachment5" style="display:none">
 			<label class="layui-form-label">图片5</label>
-			<div class="layui-input-block attachment3">
+			<div class="layui-input-block attachment5">
 			</div>
 		</div>
 	     <div class="layui-form-item">
@@ -76,7 +94,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		</div>
 	</form>
 	<script type="text/javascript" src="<%=request.getContextPath()%>/layui/layui.js"></script>
-	<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/user/editUser.js"></script> --%>
 <script type="text/javascript">
 layui.config({
 	base : "js/"
@@ -135,6 +152,9 @@ layui.config({
 		$(".mobile").val(data.mobile);     
 		$(".surname").val(data.surname);  
 		$(".name").val(data.name);  
+		$(".cardNo").val(data.cardNo);  
+		$(".drivingLicenseNo").val(data.drivingLicenseNo);  
+		$(".gdl").val(data.gdl);  
 		if(data.attachmentId1Link!=undefined){
 			$(".div_attachment1").show();
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");

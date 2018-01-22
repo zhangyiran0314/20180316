@@ -43,7 +43,7 @@ public class ShipperOrderController {
 		PageInfo<Map<String,Object>> result = orderService.queryPage(page, limit,orderNo,mobile,companyName);
 		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
 		for(Map<String,Object> op: result.getList()){
-			op.put("departureProvice",commonService.queryProvince((String)op.get("departureProviceId")));
+			op.put("departureProvince",commonService.queryProvince((String)op.get("departureProvinceId")));
 			
 			//op.setDepartureCity(commonService.queryCity(order.getDepartureCityId()));
 			op.put("departureCity",commonService.queryCity((String)op.get("departureCityId")));
@@ -83,6 +83,19 @@ public class ShipperOrderController {
 	@ResponseBody
 	public Map<String,Object> detail(String id,HttpServletRequest request){
 		Map<String,Object> obj = orderService.queryDetail(id);
+		obj.put("departureProvince",commonService.queryProvince((String)obj.get("departureProvinceId")));
+		
+		obj.put("departureCity",commonService.queryCity((String)obj.get("departureCityId")));
+		obj.put("departureArea",commonService.queryArea((String)obj.get("departureAreaId")));
+		
+		obj.put("destinationProvince",commonService.queryProvince((String)obj.get("destinationProvinceId")));
+		obj.put("destinationCity",commonService.queryCity((String)obj.get("destinationCityId")));
+		obj.put("destinationArea",commonService.queryArea((String)obj.get("destinationAreaId")));
+	
+		obj.put("carType",commonService.queryCarType((String)obj.get("carTypeId")));
+		obj.put("handlingType",commonService.queryHandlingType((String)obj.get("handlingTypeId")));
+		obj.put("paymentType",commonService.queryPaymentType((String)obj.get("paymentTypeId")));
+		obj.put("useType",commonService.queryUseType((String)obj.get("useTypeId")));
 		return ResponseUtil.successResult(obj);
 	}
 	@RequestMapping("edit")

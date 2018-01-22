@@ -1,5 +1,6 @@
 <%@ include file="../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
@@ -106,7 +107,7 @@ layui.config({
                 {field:'transporterComanyName',title:'车主公司', width:'180'},
                 {field:'transporterMobile',title:'车主手机', width:'180'},
                 {field:'driverMobile',title:'司机手机', width:'180'},
-                {field:'dispenseStatus',title:'派单状态', width:'180',templet:'#statusTpl'},
+                {field:'dispenseStatus',title:'派单状态', width:'180',templet:'#dispenseStatusTpl'},
                 {field:'dispenseDate',title:'派单日期', width:'180'},
                 {field:'carName',title:'车辆名称', width:'180'},
                 {field:'carCode',title:'车牌', width:'180'},
@@ -248,22 +249,24 @@ layui.config({
 		<script type="text/html" id="destinationTpl">
 		<div>{{ d.destinationProvince.name + d.destinationCity.name + d.destinationArea.name }}</div>
 		</script> 
-		<script type="text/html" id="authTpl">
+		<script type="text/html" id="dispenseStatusTpl">
 		    {{#  if(d.authStatus == 0){ }}
-		   		 未授权
+		   		 未派单
 		    {{# }else if(d.authStatus == 1){ }}
-		  		  已授权
+		  		  已派单
 		    {{#  } else{ }}
 				授权取消			
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="statusTpl">
 		    {{#  if(d.status == 0){ }}
-		   		 发布中
+		   		待装车
 		    {{# }else if(d.status == 1){ }}
-		  		 已成交
-		    {{#  } else{ }}
-				已取消			
+		  		运输中
+		    {{#  } if(d.status == 1){ }}
+				待确认
+ 			{{#  } else{ }}
+				已完结			
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="bar">
