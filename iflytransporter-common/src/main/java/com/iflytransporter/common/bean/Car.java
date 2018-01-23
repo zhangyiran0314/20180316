@@ -18,6 +18,8 @@ public class Car {
     private String code;
 
     private String attachmentId1;
+    
+    private String registerNo;
 
     private String attachmentId2;
 
@@ -212,4 +214,13 @@ public class Car {
     public void setAttachmentId5(String attachmentId5) {
         this.attachmentId5 = attachmentId5 == null ? null : attachmentId5.trim();
     }
+
+	public String getRegisterNo() {
+		return registerNo;
+	}
+
+	public void setRegisterNo(String registerNo) {
+		this.registerNo = registerNo;
+	}
+    
 }

@@ -10,6 +10,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="register_no" property="registerNo" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
@@ -26,26 +27,40 @@
   </resultMap>
   
    <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CarBO" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
+    <result column="register_no" property="registerNo" jdbcType="VARCHAR" />
+    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
-    <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
-    <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="TIMESTAMP" />
+    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
+    <result column="tax_start_date" property="taxStartDate" jdbcType="TIMESTAMP" />
+    <result column="tax_end_date" property="taxEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="check_start_date" property="checkStartDate" jdbcType="TIMESTAMP" />
+    <result column="check_end_date" property="checkEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
+    
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
     <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_4_link" property="attachmentId4Link" jdbcType="VARCHAR" />
+    <result column="attachment_id_5_link" property="attachmentId5Link" jdbcType="VARCHAR" />
   </resultMap>
   
    <sql id="Base_Column_List" >
   	id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2, 
     company_id, transporter_id, driver_id, insurance_start_date, insurance_end_date, 
     attachment_id_3, tax_start_date, tax_end_date, attachment_id_4, check_start_date, 
-    check_end_date, attachment_id_5
+    check_end_date, attachment_id_5,register_no,driver_id
   </sql>
   <sql id="Valid_SQL" >
    and data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
@@ -68,13 +83,21 @@
     <select id="queryAllBO" resultMap="BaseResultMapBO" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
-    a.attachment_id_1, a.attachment_id_2,a.company_id,a.transporter_id,
+    a.attachment_id_1, a.attachment_id_2,a.company_id,a.transporter_id,  a.driver_id, 
+    a.insurance_start_date, a.insurance_end_date,  a.attachment_id_3, 
+    a.tax_start_date, a.tax_end_date, a.attachment_id_4, 
+    a.check_start_date, a.check_end_date, a.attachment_id_5,a.register_no,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link
-    from 
-    t_car a
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link)  as attachment_id_3_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link)  as attachment_id_4_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',f.attachment_link)  as attachment_id_5_link
+    from  t_car a
     left join t_attachment b on a.attachment_id_1 = b.id
     left join t_attachment c on a.attachment_id_2 = c.id
+    left join t_attachment d on a.attachment_id_3 = d.id
+    left join t_attachment e on a.attachment_id_4 = e.id
+    left join t_attachment f on a.attachment_id_5 = f.id
     where 1 = 1 
     <if test="companyId != null" >
       and a.company_id  = #{companyId,jdbcType=VARCHAR}
@@ -82,7 +105,7 @@
       <if test="userId != null" >
       and a.transporter_id  = #{userId,jdbcType=VARCHAR}
     </if>
-      and a.data_status = 0
+      and a.data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
   </select>
   
   <update id="bindCar">
@@ -96,13 +119,21 @@
   <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
-    a.attachment_id_1, a.attachment_id_2,a.company_id,a.transporter_id,
+    a.attachment_id_1, a.attachment_id_2,a.company_id,a.transporter_id,  a.driver_id, 
+    a.insurance_start_date, a.insurance_end_date,  a.attachment_id_3, 
+    a.tax_start_date, a.tax_end_date, a.attachment_id_4, 
+    a.check_start_date, a.check_end_date, a.attachment_id_5,a.register_no,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link
-    
-    from t_car a
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link)  as attachment_id_3_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link)  as attachment_id_4_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',f.attachment_link)  as attachment_id_5_link
+    from  t_car a
     left join t_attachment b on a.attachment_id_1 = b.id
     left join t_attachment c on a.attachment_id_2 = c.id
+    left join t_attachment d on a.attachment_id_3 = d.id
+    left join t_attachment e on a.attachment_id_4 = e.id
+    left join t_attachment f on a.attachment_id_5 = f.id
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
     <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -125,7 +156,7 @@
       insurance_start_date, insurance_end_date, 
       attachment_id_3, tax_start_date, tax_end_date, 
       attachment_id_4, check_start_date, check_end_date, 
-      attachment_id_5)
+      attachment_id_5,register_no)
     values (#{id,jdbcType=VARCHAR},  now(),
       #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, 
@@ -133,7 +164,7 @@
       #{insuranceStartDate,jdbcType=TIMESTAMP}, #{insuranceEndDate,jdbcType=TIMESTAMP}, 
       #{attachmentId3,jdbcType=VARCHAR}, #{taxStartDate,jdbcType=TIMESTAMP}, #{taxEndDate,jdbcType=TIMESTAMP}, 
       #{attachmentId4,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, #{checkEndDate,jdbcType=TIMESTAMP}, 
-      #{attachmentId5,jdbcType=VARCHAR})
+      #{attachmentId5,jdbcType=VARCHAR},#{registerNo,jdbcType=VARCHAR})
   </insert>
  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car
@@ -201,6 +232,9 @@
       <if test="attachmentId5 != null" >
         attachment_id_5,
       </if>
+       <if test="registerNo != null" >
+        register_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -265,6 +299,9 @@
       </if>
       <if test="attachmentId5 != null" >
         #{attachmentId5,jdbcType=VARCHAR},
+      </if>
+       <if test="registerNo != null" >
+        registerNo,
       </if>
     </trim>
   </insert>
@@ -331,6 +368,9 @@
       <if test="attachmentId5 != null" >
         attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
       </if>
+      <if test="registerNo != null" >
+        register_no =#{registerNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -355,7 +395,8 @@
       attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
       check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
       check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
-      attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR}
+      attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
+      register_no =#{registerNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

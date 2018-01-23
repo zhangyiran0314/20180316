@@ -198,8 +198,8 @@ public class CommonServiceImpl implements CommonService {
 				map.put("name",(messageSource.getMessage((String)map.get("code"), null, mayaLocale)));
 			}
 		}
-		/*for(Map<String,Object> map :list){
+		for(Map<String,Object> map :list){
 			map.put("name",(messageSource.getMessage(map.get("code").toString(), null, null, Locale.US)));
-		}*/
+		}
 	}
 }

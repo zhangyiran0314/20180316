@@ -69,6 +69,8 @@ public class TransporterController {
 		UserBO user = userService.detailByCache(userId);
 		String id = UUIDUtil.UUID();
 		car.setId(id);
+		car.setCompanyId(user.getCompanyId());
+		car.setTransporterId(user.getId());
 		int result = carService.save(car,user.getCompanyId());
 		if(result > 0){
 			return ResponseUtil.successResultId(id);
@@ -91,10 +93,45 @@ public class TransporterController {
 		}
 		List<CarResp> result = new ArrayList<CarResp>();
 		for(CarBO car:list){
-			CarResp op =new CarResp(car);
+			CarResp op =new CarResp();
+			op.setCar(car);
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="detailCar", notes="我的-车辆详情",produces = "application/json")
+	@RequestMapping(value="detailCar", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> detailCar(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="carId") Map<String,Object> requestMap){
+		String carId = (String) requestMap.get("carId");
+		CarBO car = carService.query(carId);
+		CarResp result = new CarResp(car);
+		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="modifyCar", notes="我的-修改车辆",produces = "application/json")
+	@RequestMapping(value="modifyCar", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> modifyCar(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="车辆实体")Car car){
+		String userId =  (String) request.getAttribute("userId");
+		int result = carService.update(car);
+		if(result > 0){
+			return ResponseUtil.successResultId(car.getId());
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="deleteCar", notes="我的-删除车辆",produces = "application/json")
+	@RequestMapping(value="deleteCar", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> deleteCar(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody @ApiParam(value="carId") Map<String,Object> requestMap){
+		String carId = (String) requestMap.get("carId");
+		int result = carService.delete(carId);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
 	}
 	/**绑定车辆*/
 	@ApiOperation(value="bindCar", notes="我的-绑定车辆",produces = "application/json")

@@ -155,7 +155,7 @@
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.mobile, a.password, a.nickname, a.last_login_ip, 
     a.last_login_date, a.status, a.last_login_device, a.company_id, a.parent_id, a.attachment_id_1, 
     a.attachment_id_2, a.attachment_id_3, a.surname,a.name, a.card_no, 
-    a.email,a.level,a.auth_status,a.company_auth_status, 
+    a.email,a.level,a.auth_status,a.company_auth_status, a.user_type,
     a.driving_license_no, a.attachment_id_4, a.gdl, a.attachment_id_5,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,

@@ -19,9 +19,7 @@ public class CarServiceImpl implements CarService{
 	private CarMapper carMapper;
 	@Override
 	public int save(Car record,String companyId) {
-		record.setCompanyId(companyId);
-		int result  =  carMapper.insert(record);
-		return result;
+		return carMapper.insert(record);
 	}
 
 	@Override
