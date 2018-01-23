@@ -5,22 +5,23 @@ import java.util.Map;
 
 public interface CommonMapper {
 	
-	Map<String,String> queryProvince(String id);
+	Map<String,Object> queryProvince(String id);
 	
-	Map<String,String> queryCity(String id);
+	Map<String,Object> queryCity(String id);
 	
-	Map<String,String> queryArea(String id);
+	Map<String,Object> queryArea(String id);
 	
-	Map<String,String> queryCarType(String id);
+	Map<String,Object> queryCarType(String id);
 	
-	Map<String,String> queryHandlingType(String id);
+	Map<String,Object> queryHandlingType(String id);
 	
-	Map<String,String> queryPaymentType(String id);
+	Map<String,Object> queryPaymentType(String id);
 	
-	Map<String,String> queryUseType(String id);
+	Map<String,Object> queryUseType(String id);
 	
-	List<Map<String,String>> listUseType();
-	List<Map<String,String>> listCarType();
-	List<Map<String,String>> listHandlingType();
-	List<Map<String,String>> listPaymentType();
+	List<Map<String,Object>> listUseType();
+	List<Map<String,Object>> listCarType();
+	List<Map<String,Object>> listHandlingType();
+	List<Map<String,Object>> listPaymentType();
+	List<Map<String,Object>> listGoodsType();
 }

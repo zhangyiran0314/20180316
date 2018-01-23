@@ -146,7 +146,7 @@ public class CommonController {
 	@ResponseBody 
 	public Map<String,Object> getPosition(@RequestBody @ApiParam(value="countryCode") Map<String,Object> requestMap) {
 		String countryCode = (String)requestMap.get("countryCode");
-		String key = RedisUtil.getPostionKey(countryCode);
+		String key = RedisUtil.getPositionCountryKey(countryCode);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(hasKey){
 			ValueOperations<String, String> operations=redisTemplate.opsForValue();

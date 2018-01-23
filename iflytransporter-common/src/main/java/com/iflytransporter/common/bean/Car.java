@@ -24,8 +24,26 @@ public class Car {
     private String companyId;
 
     private String transporterId;
-    
+
     private String driverId;
+
+    private Date insuranceStartDate;
+
+    private Date insuranceEndDate;
+
+    private String attachmentId3;
+
+    private Date taxStartDate;
+
+    private Date taxEndDate;
+
+    private String attachmentId4;
+
+    private Date checkStartDate;
+
+    private Date checkEndDate;
+
+    private String attachmentId5;
 
     public String getId() {
         return id;
@@ -115,12 +133,83 @@ public class Car {
         this.transporterId = transporterId == null ? null : transporterId.trim();
     }
 
-	public String getDriverId() {
-		return driverId;
-	}
+    public String getDriverId() {
+        return driverId;
+    }
 
-	public void setDriverId(String driverId) {
-		this.driverId = driverId;
-	}
-    
+    public void setDriverId(String driverId) {
+        this.driverId = driverId == null ? null : driverId.trim();
+    }
+
+    public Date getInsuranceStartDate() {
+        return insuranceStartDate;
+    }
+
+    public void setInsuranceStartDate(Date insuranceStartDate) {
+        this.insuranceStartDate = insuranceStartDate;
+    }
+
+    public Date getInsuranceEndDate() {
+        return insuranceEndDate;
+    }
+
+    public void setInsuranceEndDate(Date insuranceEndDate) {
+        this.insuranceEndDate = insuranceEndDate;
+    }
+
+    public String getAttachmentId3() {
+        return attachmentId3;
+    }
+
+    public void setAttachmentId3(String attachmentId3) {
+        this.attachmentId3 = attachmentId3 == null ? null : attachmentId3.trim();
+    }
+
+    public Date getTaxStartDate() {
+        return taxStartDate;
+    }
+
+    public void setTaxStartDate(Date taxStartDate) {
+        this.taxStartDate = taxStartDate;
+    }
+
+    public Date getTaxEndDate() {
+        return taxEndDate;
+    }
+
+    public void setTaxEndDate(Date taxEndDate) {
+        this.taxEndDate = taxEndDate;
+    }
+
+    public String getAttachmentId4() {
+        return attachmentId4;
+    }
+
+    public void setAttachmentId4(String attachmentId4) {
+        this.attachmentId4 = attachmentId4 == null ? null : attachmentId4.trim();
+    }
+
+    public Date getCheckStartDate() {
+        return checkStartDate;
+    }
+
+    public void setCheckStartDate(Date checkStartDate) {
+        this.checkStartDate = checkStartDate;
+    }
+
+    public Date getCheckEndDate() {
+        return checkEndDate;
+    }
+
+    public void setCheckEndDate(Date checkEndDate) {
+        this.checkEndDate = checkEndDate;
+    }
+
+    public String getAttachmentId5() {
+        return attachmentId5;
+    }
+
+    public void setAttachmentId5(String attachmentId5) {
+        this.attachmentId5 = attachmentId5 == null ? null : attachmentId5.trim();
+    }
 }

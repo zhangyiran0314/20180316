@@ -25,4 +25,5 @@ public interface CommonService {
 	List<Map<String,Object>> listCarType(String lang);
 	List<Map<String,Object>> listHandlingType(String lang);
 	List<Map<String,Object>> listPaymentType(String lang);
+	List<Map<String,Object>> listGoodsType(String lang);
 }

@@ -13,6 +13,16 @@
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="TIMESTAMP" />
+    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
+    <result column="tax_start_date" property="taxStartDate" jdbcType="TIMESTAMP" />
+    <result column="tax_end_date" property="taxEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
+    <result column="check_start_date" property="checkStartDate" jdbcType="TIMESTAMP" />
+    <result column="check_end_date" property="checkEndDate" jdbcType="TIMESTAMP" />
+    <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
   </resultMap>
   
    <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CarBO" >
@@ -32,8 +42,10 @@
   </resultMap>
   
    <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2, 
-    company_id, transporter_id
+  	id, create_date, update_date, data_status, desp, name, code, attachment_id_1, attachment_id_2, 
+    company_id, transporter_id, driver_id, insurance_start_date, insurance_end_date, 
+    attachment_id_3, tax_start_date, tax_end_date, attachment_id_4, check_start_date, 
+    check_end_date, attachment_id_5
   </sql>
   <sql id="Valid_SQL" >
    and data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
@@ -105,14 +117,23 @@
     from t_car
     where id = #{id,jdbcType=VARCHAR}
   </select>
-  <insert id="insert" parameterType="com.iflytransporter.common.bean.Car" >
+  
+   <insert id="insert" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car (id, update_date,  desp, name, 
-      code, attachment_id_1, attachment_id_2,company_id,transporter_id
-      )
-    values (#{id,jdbcType=VARCHAR}, now(),
+      code, attachment_id_1, attachment_id_2, 
+      company_id, transporter_id, driver_id, 
+      insurance_start_date, insurance_end_date, 
+      attachment_id_3, tax_start_date, tax_end_date, 
+      attachment_id_4, check_start_date, check_end_date, 
+      attachment_id_5)
+    values (#{id,jdbcType=VARCHAR},  now(),
       #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR},#{companyId,jdbcType=VARCHAR}
-      )
+      #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, 
+      #{companyId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}, 
+      #{insuranceStartDate,jdbcType=TIMESTAMP}, #{insuranceEndDate,jdbcType=TIMESTAMP}, 
+      #{attachmentId3,jdbcType=VARCHAR}, #{taxStartDate,jdbcType=TIMESTAMP}, #{taxEndDate,jdbcType=TIMESTAMP}, 
+      #{attachmentId4,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, #{checkEndDate,jdbcType=TIMESTAMP}, 
+      #{attachmentId5,jdbcType=VARCHAR})
   </insert>
  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
     insert into t_car
@@ -150,6 +171,36 @@
       <if test="transporterId != null" >
         transporter_id,
       </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="insuranceStartDate != null" >
+        insurance_start_date,
+      </if>
+      <if test="insuranceEndDate != null" >
+        insurance_end_date,
+      </if>
+      <if test="attachmentId3 != null" >
+        attachment_id_3,
+      </if>
+      <if test="taxStartDate != null" >
+        tax_start_date,
+      </if>
+      <if test="taxEndDate != null" >
+        tax_end_date,
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4,
+      </if>
+      <if test="checkStartDate != null" >
+        check_start_date,
+      </if>
+      <if test="checkEndDate != null" >
+        check_end_date,
+      </if>
+      <if test="attachmentId5 != null" >
+        attachment_id_5,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -184,6 +235,36 @@
       </if>
       <if test="transporterId != null" >
         #{transporterId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceStartDate != null" >
+        #{insuranceStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuranceEndDate != null" >
+        #{insuranceEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId3 != null" >
+        #{attachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="taxStartDate != null" >
+        #{taxStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxEndDate != null" >
+        #{taxEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId4 != null" >
+        #{attachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStartDate != null" >
+        #{checkStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndDate != null" >
+        #{checkEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId5 != null" >
+        #{attachmentId5,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -220,6 +301,36 @@
       <if test="transporterId != null" >
         transporter_id = #{transporterId,jdbcType=VARCHAR},
       </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceStartDate != null" >
+        insurance_start_date = #{insuranceStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="insuranceEndDate != null" >
+        insurance_end_date = #{insuranceEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId3 != null" >
+        attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="taxStartDate != null" >
+        tax_start_date = #{taxStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taxEndDate != null" >
+        tax_end_date = #{taxEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId4 != null" >
+        attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      </if>
+      <if test="checkStartDate != null" >
+        check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkEndDate != null" >
+        check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachmentId5 != null" >
+        attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -234,7 +345,17 @@
       attachment_id_1 = #{attachmentId1,jdbcType=VARCHAR},
       attachment_id_2 = #{attachmentId2,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
-      transporter_id = #{transporterId,jdbcType=VARCHAR}
+      transporter_id = #{transporterId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      insurance_start_date = #{insuranceStartDate,jdbcType=TIMESTAMP},
+      insurance_end_date = #{insuranceEndDate,jdbcType=TIMESTAMP},
+      attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      tax_start_date = #{taxStartDate,jdbcType=TIMESTAMP},
+      tax_end_date = #{taxEndDate,jdbcType=TIMESTAMP},
+      attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
+      check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
+      check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+      attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -47,9 +47,7 @@ public class BasicController {
     private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	
 	
-//	@ApiResponses(value = {@ApiResponse(code = 200, message = "Invalid input", response = User.class) })
-	@ApiOperation(value="获取支持国家列表",response= List.class,responseContainer="java.util.List<String>")
-//	@ApiModelProperty(position = 2, dataType="java.util.List<String>", example = "PRD1, PRD2, PRD3")
+	@ApiOperation(value="获取支持国家列表")
 	@RequestMapping(value="getSupportCountries", method=RequestMethod.GET)
 	@ResponseBody
 	public Map<String,Object>  getSupportCountries(HttpServletRequest request, HttpServletResponse response){
@@ -68,7 +66,6 @@ public class BasicController {
 	}
 	
 	@ApiOperation(value="获取验证码", notes="根据用户手机获取验证码,默认十分钟有效,两分钟之内不允许重复请求",produces = "application/json")
-//	@ApiImplicitParam(name = "mobile",value = "手机号码",paramType = "body",required=true)
 	@RequestMapping(value="getCaptcha", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object>  getCaptcha(HttpServletRequest request, HttpServletResponse response,
