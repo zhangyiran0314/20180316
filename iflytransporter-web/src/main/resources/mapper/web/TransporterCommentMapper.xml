@@ -37,7 +37,7 @@
      a.update_date as updateDate,
     a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
     a.anonymity,a.order_no as orderNo,
-    b.mobile,b.surname,b.name,
+    b.mobile as transporterMobile,b.surname,b.name,
     c.mobile as shipperMobile,
     e.name as shipperCompanyName
    from t_transporter_comment a 
@@ -64,9 +64,9 @@
     a.id, a.update_date as updateDate,
     a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
     a.anonymity,a.order_no as orderNo,
-    b.mobile,b.surname,b.name,
+    b.mobile as transporterMobile,b.surname,b.name,
     c.mobile as shipperMobile,
-    e.name as shipperCompanyName,
+    e.name as shipperCompanyName
   
   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a1.attachment_link)  as attachmentId1Link,
    	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link,

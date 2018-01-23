@@ -13,4 +13,8 @@ public interface WaybillService  {
 			String sCompanyName,String sMobile,
 			String tCompanyName,String tMobile,String dMobile);
 	
+	Map<String,Object> takeAttachmentList(String id);
+	
+	Map<String,Object> deliverAttachmentList(String id);
+	
 }

@@ -11,16 +11,17 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 </style>
 <body class="childrenBody">
 	<blockquote class="layui-elem-quote news_search layui-form ">
+		  <div class="layui-inline">
 		  <div class="layui-input-inline">
 		    	<label class="layui-form-label">订单号</label>
 		    	<div class="layui-input-block">
 		    		<input type="text"  placeholder="请输入关键字" class="layui-input orderNo">
 		    	</div>
 		    </div>
-		   <div class="layui-input-inline">
-		    	<label class="layui-form-label">货主手机</label>
+			<div class="layui-input-inline">
+		    	<label class="layui-form-label">车主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input sMobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input tMobile">
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
@@ -29,18 +30,20 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    		<input type="text"  placeholder="请输入关键字" class="layui-input tCompanyName">
 		    	</div>
 		    </div>
-		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">车主手机</label>
-		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
-		    	</div>
-		    </div>
 		    <div class="layui-input-inline">
 		    	<label class="layui-form-label">司机手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input dMobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input dMobile">
 		    	</div>
 		    </div>
+		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">货主手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text" placeholder="请输入关键字" class="layui-input sMobile">
+		    	</div>
+		    </div>
+		    
+		</div>
 		    
 		<!-- <div class="layui-inline">
 		    <label class="layui-form-label">查询日期</label>

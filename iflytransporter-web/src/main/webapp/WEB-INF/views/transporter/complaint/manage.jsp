@@ -19,9 +19,9 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		   <div class="layui-input-inline">
-		    	<label class="layui-form-label">车主手机</label>
+		    	<label class="layui-form-label">货主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input tMobile">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input sMobile">
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
@@ -31,26 +31,14 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">货主手机</label>
+		    	<label class="layui-form-label">车主手机</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input sMobile">
+		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
 		    	</div>
 		    </div>
 		    
 		</div>
-		<!-- <div class="layui-inline">
-		    <label class="layui-form-label">查询日期</label>
-		    <div class="layui-input-block">
-		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
-		    </div>
-		</div> -->
 		<a class="layui-btn search_btn">查询</a>
-		<!-- <div class="layui-inline">
-			<a class="layui-btn layui-btn-normal dataAdd_btn">添加用户</a>
-		</div>
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-		</div> -->
 	</blockquote>
 	
 	<table id="table" lay-filter="table_filter"></table>
@@ -80,7 +68,7 @@ layui.config({
                 {field:'reason',title:'投诉原因', width:'180'},
 		        {field:'content',title:'评价内容', width:'180'},
 		        {field:'transporterMobile',title:'车主手机', width:'180'},
-                {field:'shipperCompanyName',title:'车主公司名称', width:'180'},
+                {field:'shipperCompanyName',title:'货主公司名称', width:'180'},
                 {field:'shipperMobile',title:'货主手机', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},

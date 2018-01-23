@@ -37,7 +37,10 @@
     a.id, a.create_date as createDate,
     a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
     a.anonymity,a.order_no as orderNo,
-    b.mobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName
+    b.mobile as shipperMobile,b.surname,b.name,
+    c.mobile as transporterMobile,
+    d.mobile as driverMobile,
+    e.name as transporterCompanyName
    from t_comment a 
      left join t_user b on a.shipper_id = b.id 
      left join t_user c on a.transporter_id = c.id
@@ -64,7 +67,10 @@
     a.id, a.create_date as createDate,
     a.serve_grade as serveGrade, a.loading_grade as loadGrade, a.goods_grade goodsGrade,a.content, 
     a.anonymity,a.order_no as orderNo,
-    b.mobile,b.surname,b.name,c.mobile as transporterMobile,d.mobile as driverMobile,e.name as transporterCompanyName,
+    b.mobile as shipperMobile,b.surname,b.name,
+    c.mobile as transporterMobile,
+    d.mobile as driverMobile,
+    e.name as transporterCompanyName
   
   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a1.attachment_link)  as attachmentId1Link,
    	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link,

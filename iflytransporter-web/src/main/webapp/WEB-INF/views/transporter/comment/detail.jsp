@@ -1,72 +1,101 @@
+<%@ include file="../../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page isELIgnored="false"%>
+<!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
-	<title>会员添加--layui后台管理模板</title>
-	<meta name="renderer" content="webkit">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="format-detection" content="telephone=no">
-	<link rel="stylesheet" href="<%=request.getContextPath()%>/layui/css/layui.css" media="all" />
-	<style type="text/css">
-		.layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
-		@media(max-width:1240px){
-			.layui-form-item .layui-inline{ width:100%; float:none; }
-		}
-	</style>
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>detail</title>
 </head>
+<style>
+body{padding: 20px; /*overflow-y: scroll;*/}
+</style>
 <body class="childrenBody">
 <input type="hidden" id ="objectId" name="objectId" value="${objectId}"/>
 	<form class="layui-form" style="width:80%;">
 		<div class="layui-form-item">
-			<label class="layui-form-label">评分</label>
+			<label class="layui-form-label">订单号</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input grade">
+				<input type="text" class="layui-input orderNo">
 			</div>
 		</div>
 		
 		<div class="layui-form-item">
-			<label class="layui-form-label">shipper</label>
+			<label class="layui-form-label">服务评分</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input shipperId">
+				<input type="text" class="layui-input serveGrade">
 			</div>
 		</div>
 		
 		<div class="layui-form-item">
-			<label class="layui-form-label">transporterId</label>
+			<label class="layui-form-label">装车评分</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input transporterId">
+				<input type="text" class="layui-input loadingGrade">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">货物评分</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input goodsGrade">
 			</div>
 		</div>
 		
+		
 		<div class="layui-form-item">
-			<label class="layui-form-label">waybillId</label>
+	    	<label class="layui-form-label">货主手机</label>
+	    	<div class="layui-input-block">
+	    		<input type="text"  class="layui-input transporterMobile">
+	    	</div>
+	    </div>
+	     <div class="layui-form-item">
+	    	<label class="layui-form-label">货主公司</label>
+	    	<div class="layui-input-block">
+	    		<input type="text" class="layui-input transporterCompanyName">
+	    	</div>
+	    </div>
+	     <div class="layui-form-item">
+	    	<label class="layui-form-label">车主手机</label>
+	    	<div class="layui-input-block">
+	    		<input type="text" class="layui-input shipperMobile">
+	    	</div>
+	    </div>
+		
+		<div class="layui-form-item">
+		    <label class="layui-form-label">内容</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input waybillId">
+				<input type="text" class="layui-input content">
+			</div>
+	    </div>
+	    
+	    <div class="layui-form-item div_attachment1" style="display:none">
+			<label class="layui-form-label">图片1</label>
+			<div class="layui-input-block attachment1">
 			</div>
 		</div>
-		<div class="layui-form-item">
-		    <label class="layui-form-label">createDate</label>
+		<div class="layui-form-item  div_attachment2" style="display:none">
+			<label class="layui-form-label">图片2</label>
+			<div class="layui-input-block attachment2">
+			</div>
+		</div>
+		<div class="layui-form-item  div_attachment3" style="display:none">
+			<label class="layui-form-label">图片3</label>
+			<div class="layui-input-block attachment3">
+			</div>
+		</div>
+		<div class="layui-form-item  div_attachment4" style="display:none">
+			<label class="layui-form-label">图片4</label>
+			<div class="layui-input-block attachment4">
+			</div>
+		</div>
+		
+	    <div class="layui-form-item">
+		    <label class="layui-form-label">创建时间</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input createDate">
 			</div>
 	    </div>
 		
-		<div class="layui-form-item">
-		    <label class="layui-form-label">content</label>
-			<div class="layui-input-block">
-				<input type="text" class="layui-input content">
-			</div>
-	    </div>
 	</form>
-	<script type="text/javascript" src="<%=request.getContextPath()%>/layui/layui.js"></script>
-	<%-- <script type="text/javascript" src="<%=request.getContextPath()%>/js/user/editUser.js"></script> --%>
 <script type="text/javascript">
 layui.config({
 	base : "js/"
@@ -81,7 +110,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "/comment/detail",
+			url : "<%=request.getContextPath()%>/transporter/comment/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",
@@ -92,12 +121,34 @@ layui.config({
 	}
 	//填充数据方法
 	function fillData(data){
-		$(".grade").val(data.grade);     
-		$(".shipperId").val(data.shipperId);     
-		$(".transporterId").val(data.transporterId);     
-		$(".waybillId").val(data.waybillId);  
+		$(".orderNo").val(data.orderNo);   
+		$(".serveGrade").val(data.serveGrade);    
+		$(".loadingGrade").val(data.loadingGrade);     
+		$(".goodsGrade").val(data.goodsGrade); 
+		
+		$(".shipperCompanyName").val(data.shipperCompanyName); 
+		$(".transporterMobile").val(data.transporterMobile); 
+		$(".shipperMobile").val(data.shipperMobile); 
+		
 		$(".content").val(data.content);    
 		$(".createDate").val(data.createDate); 
+		
+		if(data.attachmentId1Link!=undefined){
+			$(".div_attachment1").show();
+			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
+		}
+		if(data.attachmentId2Link!=undefined){
+			$(".div_attachment2").show();
+			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
+		}
+		if(data.attachmentId3Link!=undefined){
+			$(".div_attachment3").show();
+			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
+		}
+		if(data.attachmentId4Link!=undefined){
+			$(".div_attachment4").show();
+			$(".attachment4").append("<img src="+data.attachmentId4Link+">");
+		}
 	}
 })
 </script>

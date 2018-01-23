@@ -1,6 +1,6 @@
 <%@ include file="../common.jsp"%> 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page isELIgnored="false"%
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html>
 <head>
 	<meta charset="utf-8">
@@ -18,12 +18,6 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input orderNo">
 		    	</div>
 		     </div>
-		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">运单状态</label>
-		    	<div class="layui-input-block">
-		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input status">
-		    	</div>
-		    </div>
 		     <div class="layui-input-inline">
 		    	<label class="layui-form-label">货主公司</label>
 		    	<div class="layui-input-block">
@@ -49,9 +43,25 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
+		    	<label class="layui-form-label">运单状态</label>
+		    	<div class="layui-input-block">
+			    	<select id="status" name="status">
+					  <option value="">请选择</option>
+					  <option value="0">待装车</option>
+					  <option value="1">运输中</option>
+					  <option value="2">待确认</option>
+					  <option value="3">已完结</option>
+					</select>   
+				</div>
+		    </div>
+		     <div class="layui-input-inline">
 		    	<label class="layui-form-label">派单状态</label>
 		    	<div class="layui-input-block">
-		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input dispenseStatus">
+		    		<select id="dispenseStatus" name="dispenseStatus" lay-verify="">
+					  <option value="">请选择</option>
+					  <option value="0">未派单</option>
+					  <option value="1">已派单</option>
+					</select>   
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
@@ -60,19 +70,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    		<input type="text" value="" placeholder="请输入关键字" class="layui-input dMobile">
 		    	</div>
 		    </div>
-		<!-- <div class="layui-inline">
-		    <label class="layui-form-label">查询日期</label>
-		    <div class="layui-input-block">
-		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
-		    </div>
-		</div> -->
 		<a class="layui-btn search_btn">查询</a>
-		<!-- <div class="layui-inline">
-			<a class="layui-btn layui-btn-normal dataAdd_btn">添加用户</a>
-		</div>
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-		</div> -->
 	</blockquote>
 	
 	<table id="table" lay-filter="table_filter"></table>
@@ -114,7 +112,7 @@ layui.config({
                 
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
-               /*  {fixed: 'right', title:'操作', toolbar: '#bar', width:150} */
+                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150} 
 		    ]]
 		  });
 		
@@ -207,12 +205,12 @@ layui.config({
         	 var tMobile = $(".tMobile").val();
         	 var tCompanyName = $(".tCompanyName").val();
         	 var dMobile = $(".dMobile").val();
-        	 var status = $(".status").val();
-        	 var dispenseStatus = $(".dispenseStatus").val();
+        	 var status = $("#status").val();
+        	 var dispenseStatus = $("#dispenseStatus").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
-        			    status:stauts,
+        			    status:status,
         			    dispenseStatus:dispenseStatus,
         			    sCompanyName: sCompanyName,
         			    sMobile:sMobile,
@@ -250,12 +248,12 @@ layui.config({
 		<div>{{ d.destinationProvince.name + d.destinationCity.name + d.destinationArea.name }}</div>
 		</script> 
 		<script type="text/html" id="dispenseStatusTpl">
-		    {{#  if(d.authStatus == 0){ }}
+		    {{#  if(d.dispenseStatus == 0){ }}
 		   		 未派单
-		    {{# }else if(d.authStatus == 1){ }}
+		    {{# }else if(d.dispenseStatus == 1){ }}
 		  		  已派单
 		    {{#  } else{ }}
-				授权取消			
+				未知	
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="statusTpl">

@@ -24,13 +24,23 @@ public class WaybillServiceImpl implements WaybillService{
 
 	@Override
 	public PageInfo<Map<String, Object>> queryPage(Integer pageNo, Integer pageSize, String orderNo, Integer status,
-			Integer dispenseStuts, String sCompanyName, String sMobile, String tCompanyName, String tMobile,
+			Integer dispenseStatus, String sCompanyName, String sMobile, String tCompanyName, String tMobile,
 			String dMobile) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= waybillMapper.queryAll(pageNo, pageSize, orderNo, status, dispenseStuts, sCompanyName, sMobile, tCompanyName, tMobile, dMobile);
+		List<Map<String,Object>> list= waybillMapper.queryAll(pageNo, pageSize, orderNo, status, dispenseStatus, sCompanyName, sMobile, tCompanyName, tMobile, dMobile);
 		return new PageInfo<Map<String,Object>>(list);
+	}
+
+	@Override
+	public Map<String, Object> takeAttachmentList(String id) {
+		return waybillMapper.takeAttachmentList(id);
+	}
+
+	@Override
+	public Map<String, Object> deliverAttachmentList(String id) {
+		return waybillMapper.deliverAttachmentList(id);
 	}
 
 

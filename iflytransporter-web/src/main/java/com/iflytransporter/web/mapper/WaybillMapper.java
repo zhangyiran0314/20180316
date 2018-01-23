@@ -10,11 +10,16 @@ import com.iflytransporter.common.bean.Waybill;
 public interface WaybillMapper {
 	
 	List<Map<String,Object>> queryAll(Integer pageNo,Integer pageSize,@Param("orderNo")String orderNo,
-			@Param("status")Integer stauts,@Param("dispenseStatus")Integer dispenseStuts,
+			@Param("status")Integer stauts,@Param("dispenseStatus")Integer dispenseStatus,
 			@Param("sCompanyName")String sCompanyName,@Param("sMobile")String sMobile,
 			@Param("tCompanyName")String tCompanyName,@Param("tMobile")String tMobile,@Param("dMobile")String dMobile);
 	
 	Map<String,Object> queryDetail(String id);
+	
+	Map<String,Object> takeAttachmentList(String id);
+	
+	Map<String,Object> deliverAttachmentList(String id);
+	
 	
     int deleteByPrimaryKey(String id);
 

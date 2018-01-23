@@ -41,7 +41,10 @@
   
   <select id="queryAll" resultType="java.util.Map" >
     select 
-   	a.id, a.create_date as createDate, a.update_date as updateDate, a.orderNo,a.costs,
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+   	a.order_No as orderNo,
+   	a.costs,
+   	a.status,
    	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
    	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
     b.name as shipperComanyName,
@@ -59,20 +62,20 @@
     left join t_user f on a.driver_id = f.id
     left join t_car g on a.car_id = g.id
     where 1=1 
-    <if test="status !=null and status != ''">
-    	and a.status = #{status,jdbcType=VARCHAR}
+    <if test="status !=null">
+    	and a.status = #{status,jdbcType=INTEGER}
     </if>
-     <if test="dispenseStatus !=null and dispenseStatus != ''">
-    	and a.dispense_status = #{dispenseStatus,jdbcType=VARCHAR}
+     <if test="dispenseStatus !=null">
+    	and a.dispense_status = #{dispenseStatus,jdbcType=INTEGER}
     </if>
-    <if test="orderNo!=null and orderNo !=''">
+    <if test="orderNo != null and orderNo !=''">
     	and a.order_no like concat('%',#{orderNo,jdbcType=VARCHAR},'%')
     </if>
     <if test="sCompanyName != null and sCompanyName !=''">
     	and b.name like concat('%',#{sCompanyName,jdbcType=VARCHAR},'%')
     </if>
     <if test="sMobile !=null and sMobile != ''">
-    	and b.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
+    	and c.mobile like concat('%',#{sMobile,jdbcType=VARCHAR},'%')
     </if>
     <if test="tCompanyName != null and tCompanyName !=''">
     	and d.name like concat('%',#{tCompanyName,jdbcType=VARCHAR},'%')
@@ -83,6 +86,79 @@
       <if test="dMobile !=null and dMobile != ''">
     	and f.mobile like concat('%',#{dMobile,jdbcType=VARCHAR},'%')
     </if>
+  </select>
+  
+  <select id="queryDetail" resultType="java.util.Map" parameterType="java.lang.String">
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+   	a.order_no as orderNo,a.costs,
+   	a.status as status,
+   	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
+   	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
+    b.name as shipperComanyName,
+    c.surname as shipperSurname, c.name as shipperName, c.mobile as shipperMobile,
+    d.name as transporterComanyName,
+    e.surname as transporterSurname, e.name as transporterName,e.mobile as transporterMobile,
+    f.surname as driverSurname,f.name as driverName,f.mobile as driverMobile,
+    g.name as carName,g.code as carCode,
+    
+    j.departure_province_id as departureProvinceId,
+   	j.departure_city_id as departureCityId, 
+    j.departure_area_id as departureAreaId, 
+    j.destination_province_id as destinationProvinceId, 
+    j.destination_city_id as destinationCityId, 
+    j.destination_area_id as destinationAreaId, 
+    j.car_type_id as carTypeId, 
+    j.tyre_no as tyreNo, 
+    j.handling_type_id as handlingTypeId, 
+    j.payment_type_id as paymentTypeId, 
+    j.car_length as carLength, 
+    j.goods_type goodsType, 
+    j.goods_units as goodsUnits, 
+    j.deliver_date deliverDate, 
+    j.remark,
+    j.insurance_id,  
+    j.use_type_id as useTypeId, 
+    j.length, j.width, j.height, j.weight
+    
+    from t_waybill a
+    left join t_company b on a.shipper_company_id = b.id
+    left join t_user c on a.shipper_id = c.id
+    left join t_company d on a.transporter_company_id = d.id
+    left join t_user e on a.transporter_id = e.id
+    left join t_user f on a.driver_id = f.id
+    left join t_car g on a.car_id = g.id
+    
+    left join t_order j on a.order_id = j.id
+    where a.id = #{id,jdbcType=VARCHAR}
+   </select>
+  
+   <select id="takeAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
+   select a.take_date as takeDate,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link
+	from t_waybill a 
+	LEFT JOIN t_attachment b on a.take_attachment_id_1 = b.id
+	LEFT JOIN t_attachment c on a.take_attachment_id_2 = c.id
+	LEFT JOIN t_attachment d on a.take_attachment_id_3 = d.id
+	LEFT JOIN t_attachment e on a.take_attachment_id_4 = e.id
+    where a.id =  #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
+   select a.deliver_date as deliverDate,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
+   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
+	from t_waybill a 
+	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
+	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id
+	LEFT JOIN t_attachment d on a.deliver_attachment_id_3 = d.id
+	LEFT JOIN t_attachment e on a.deliver_attachment_id_4 = e.id
+	where a.id =  #{id,jdbcType=VARCHAR}
   </select>
   
   

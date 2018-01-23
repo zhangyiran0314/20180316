@@ -45,25 +45,15 @@ public class ShipperOrderController {
 		for(Map<String,Object> op: result.getList()){
 			op.put("departureProvince",commonService.queryProvince((String)op.get("departureProvinceId")));
 			
-			//op.setDepartureCity(commonService.queryCity(order.getDepartureCityId()));
 			op.put("departureCity",commonService.queryCity((String)op.get("departureCityId")));
-//			op.setDepartureArea(commonService.queryArea(order.getDepartureAreaId()));
 			op.put("departureArea",commonService.queryArea((String)op.get("departureAreaId")));
-			
-//			op.setDestinationProvince(commonService.queryProvince(order.getDestinationProvinceId()));
 			op.put("destinationProvince",commonService.queryProvince((String)op.get("destinationProvinceId")));
-//			op.setDestinationCity(commonService.queryCity(order.getDestinationCityId()));
 			op.put("destinationCity",commonService.queryCity((String)op.get("destinationCityId")));
-//			op.setDestinationArea(commonService.queryArea(order.getDestinationAreaId()));
 			op.put("destinationArea",commonService.queryArea((String)op.get("destinationAreaId")));
 		
-//			op.setCarType(commonService.queryCarType(order.getCarTypeId()));
 			op.put("carType",commonService.queryCarType((String)op.get("carTypeId")));
-//			op.setHandlingType(commonService.queryHandlingType(order.getHandlingTypeId()));
 			op.put("handlingType",commonService.queryHandlingType((String)op.get("handlingTypeId")));
-//			op.setPaymentType(commonService.queryPaymentType(order.getPaymentTypeId()));
 			op.put("paymentType",commonService.queryPaymentType((String)op.get("paymentTypeId")));
-//			op.setUseType(commonService.queryUseType(order.getUseTypeId()));
 			op.put("useType",commonService.queryUseType((String)op.get("useTypeId")));
 			list.add(op);
 		}

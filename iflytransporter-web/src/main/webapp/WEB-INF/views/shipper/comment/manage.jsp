@@ -25,9 +25,15 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">货主公司</label>
+		    	<label class="layui-form-label">车主公司</label>
 		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input sCompanyName">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input tCompanyName">
+		    	</div>
+		    </div>
+		    <div class="layui-input-inline">
+		    	<label class="layui-form-label">司机手机</label>
+		    	<div class="layui-input-block">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input dMobile">
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
@@ -38,19 +44,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    </div>
 		    
 		</div>
-		<!-- <div class="layui-inline">
-		    <label class="layui-form-label">查询日期</label>
-		    <div class="layui-input-block">
-		    	<input type="text" value="" placeholder="请输入查询日期" lay-verify="required|date" onclick="layui.laydate({elem: this,max: laydate.now()})" class="layui-input userBirthday">
-		    </div>
-		</div> -->
 		<a class="layui-btn search_btn">查询</a>
-		<!-- <div class="layui-inline">
-			<a class="layui-btn layui-btn-normal dataAdd_btn">添加用户</a>
-		</div>
-		<div class="layui-inline">
-			<a class="layui-btn layui-btn-danger batchDel">批量删除</a>
-		</div> -->
 	</blockquote>
 	
 	<table id="table" lay-filter="table_filter"></table>
@@ -83,7 +77,7 @@ layui.config({
                 {field:'transporterCompanyName',title:'车主公司名称', width:'180'},
                 {field:'transporterMobile',title:'车主手机', width:'180'},
                 {field:'driverMobile',title:'司机手机', width:'180'},
-                {field:'anonymity',title:'匿名', width:'180'},
+                {field:'anonymity',title:'匿名', width:'180' ,templete:'#anonymityTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -175,14 +169,16 @@ layui.config({
          $(".search_btn").click(function(){
         	 var orderNo = $(".orderNo").val();
         	 var tMobile = $(".tMobile").val();
-        	 var sCompanyName = $(".sCompanyName").val();
+        	 var tCompanyName = $(".tCompanyName").val();
+        	 var dMobile = $(".dMobile").val();
         	 var sMobile = $(".sMobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
         			    sMobile:sMobile,
-        			    sCompanyName:sCompanyName,
-        			    tMobile:tMobile
+        			    tCompanyName:tCompanyName,
+        			    tMobile:tMobile,
+        			    dMobile:dMobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始
@@ -213,31 +209,13 @@ layui.config({
 		<script type="text/html" id="destinationTpl">
 		<div>{{ d.destinationProvince.name + d.destinationCity.name + d.destinationArea.name }}</div>
 		</script> 
-		<script type="text/html" id="authTpl">
-		    {{#  if(d.authStatus == 0){ }}
-		   		 未授权
-		    {{# }else if(d.authStatus == 1){ }}
-		  		  已授权
+		<script type="text/html" id="anonymityTpl">
+		    {{#  if(d.anonymity == 0){ }}
+		   		不匿名
+		    {{# }else if(d.anonymity == 1){ }}
+		  		 匿名
 		    {{#  } else{ }}
-				授权取消			
-			{{# }      }}
-		</script> 
-		<script type="text/html" id="statusTpl">
-		    {{#  if(d.status == 0){ }}
-		   		待审核
-		    {{# }else if(d.status == 1){ }}
-		  		 审核通过
-		    {{#  } else{ }}
-				审核取消		
-			{{# }      }}
-		</script> 
-		<script type="text/html" id="statusTpl">
-		    {{#  if(d.status == 0){ }}
-		   		待审核
-		    {{# }else if(d.status == 1){ }}
-		  		 审核通过
-		    {{#  } else{ }}
-				审核取消		
+				不匿名	
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="bar">

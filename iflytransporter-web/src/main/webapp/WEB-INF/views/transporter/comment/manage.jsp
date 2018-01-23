@@ -25,21 +25,15 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
-		    	<label class="layui-form-label">车主公司</label>
+		    	<label class="layui-form-label">货主公司</label>
 		    	<div class="layui-input-block">
-		    		<input type="text"  placeholder="请输入关键字" class="layui-input tCompanyName">
+		    		<input type="text"  placeholder="请输入关键字" class="layui-input sCompanyName">
 		    	</div>
 		    </div>
 		     <div class="layui-input-inline">
 		    	<label class="layui-form-label">车主手机</label>
 		    	<div class="layui-input-block">
 		    		<input type="text" placeholder="请输入关键字" class="layui-input tMobile">
-		    	</div>
-		    </div>
-		    <div class="layui-input-inline">
-		    	<label class="layui-form-label">司机手机</label>
-		    	<div class="layui-input-block">
-		    		<input type="text" placeholder="请输入关键字" class="layui-input dMobile">
 		    	</div>
 		    </div>
 		    
@@ -88,7 +82,7 @@ layui.config({
 		        {field:'transporterMobile',title:'车主手机', width:'180'},
                 {field:'shipperCompanyName',title:'货主公司名称', width:'180'},
                 {field:'shipperMobile',title:'货主手机', width:'180'},
-                {field:'anonymity',title:'匿名', width:'180'},
+                {field:'anonymity',title:'匿名', width:'180',templete:'#anonymityTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150}
@@ -180,16 +174,14 @@ layui.config({
          $(".search_btn").click(function(){
         	 var orderNo = $(".orderNo").val();
         	 var sMobile = $(".sMobile").val();
-        	 var tCompanyName = $(".tCompanyName").val();
+        	 var sCompanyName = $(".sCompanyName").val();
         	 var tMobile = $(".tMobile").val();
-        	 var dMobile = $(".dMobile").val();
         	 table.reload('layui_table_id', {
         		 where: { //设定异步数据接口的额外参数，任意设
         			    orderNo: orderNo,
         			    sMobile:sMobile,
-        			    tCompanyName:tCompanyName,
-        			    tMobile:tMobile,
-        			    dMobile:dMobile
+        			    sCompanyName:sCompanyName,
+        			    tMobile:tMobile
         			  }
         			  ,page: {
         			    curr: 1 //重新从第 1 页开始
@@ -220,31 +212,13 @@ layui.config({
 		<script type="text/html" id="destinationTpl">
 		<div>{{ d.destinationProvince.name + d.destinationCity.name + d.destinationArea.name }}</div>
 		</script> 
-		<script type="text/html" id="authTpl">
-		    {{#  if(d.authStatus == 0){ }}
-		   		 未授权
-		    {{# }else if(d.authStatus == 1){ }}
-		  		  已授权
+		<script type="text/html" id="anonymityTpl">
+		    {{#  if(d.anonymity == 0){ }}
+		   		不匿名
+		    {{# }else if(d.anonymity == 1){ }}
+		  		 匿名
 		    {{#  } else{ }}
-				授权取消			
-			{{# }      }}
-		</script> 
-		<script type="text/html" id="statusTpl">
-		    {{#  if(d.status == 0){ }}
-		   		待审核
-		    {{# }else if(d.status == 1){ }}
-		  		 审核通过
-		    {{#  } else{ }}
-				审核取消		
-			{{# }      }}
-		</script> 
-		<script type="text/html" id="statusTpl">
-		    {{#  if(d.status == 0){ }}
-		   		待审核
-		    {{# }else if(d.status == 1){ }}
-		  		 审核通过
-		    {{#  } else{ }}
-				审核取消		
+				不匿名	
 			{{# }      }}
 		</script> 
 		<script type="text/html" id="bar">
