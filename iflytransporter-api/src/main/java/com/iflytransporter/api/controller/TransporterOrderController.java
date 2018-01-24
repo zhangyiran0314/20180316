@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.iflytransporter.api.bean.GoodsSourceResp;
+import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.api.bean.SubscribeSourceResp;
 import com.iflytransporter.api.bean.TransporterOrderResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.HandlingTypeService;
-import com.iflytransporter.api.service.OrderApplyService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.service.TransporterOrderService;
@@ -30,7 +29,6 @@ import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
-import com.iflytransporter.common.bean.GoodsSource;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
@@ -92,6 +90,7 @@ public class TransporterOrderController {
 	public Map<String,Object> modifySubscribe(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody SubscribeSource ss){
 		String userId =  (String) request.getAttribute("userId");
+		ss.setUserId(userId);
 		int result = transporterOrderService.update(ss);
 		if(result > 0){
 			return ResponseUtil.successResultId(ss.getId());
@@ -171,11 +170,11 @@ public class TransporterOrderController {
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam("{pageNo:1,pageSize:10} 此列表只能看到已通过授权的数据;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
-			Map<String,Object> requestMap){
-		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
-		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+			QueryOrderParam queryParam){
+//		Integer pageNo = queryParam.getPageNo()==null ? 1: queryParam.getPageNo();
+//		Integer pageSize = queryParam.getPageSize()==null ? 10: queryParam.getPageSize();
 		String userId =  (String) request.getAttribute("userId");
-		PageInfo<Order> page = transporterOrderService.queryPage(pageNo,pageSize,Status.Order_Publish,Status.Order_Auth_Yes);
+		PageInfo<Order> page = transporterOrderService.queryPage(queryParam);
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
 		}
@@ -206,13 +205,10 @@ public class TransporterOrderController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{} ,此列表只能看到已通过授权的数据") Map<String,Object> requestMap){
-		Integer status = RequestMapUtil.formatStatus(requestMap);
+			@RequestBody @ApiParam("{} ,此列表只能看到已通过授权的数据") QueryOrderParam queryParam){
+//		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		if(status !=null && Status.Order_Publish!=status.intValue()){//非发布中状态查询已成交和已取消状态
-			status = null;
-		}
-		List<Order> list = transporterOrderService.list(Status.Order_Publish,Status.Order_Auth_Yes);
+		List<Order> list = transporterOrderService.list(queryParam);
 		List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
 		for(Order order:list){
 			TransporterOrderResp op =new TransporterOrderResp(order);

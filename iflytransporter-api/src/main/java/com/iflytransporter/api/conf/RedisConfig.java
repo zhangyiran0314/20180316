@@ -33,7 +33,7 @@ public class RedisConfig {
         //用stringSerializer定义key序列化
         StringRedisSerializer stringSerializer = new StringRedisSerializer();
         redisTemplate.setKeySerializer(stringSerializer);
-        redisTemplate.setValueSerializer(stringSerializer);
+//        redisTemplate.setValueSerializer(stringSerializer);
 //        redisTemplate.setHashKeySerializer(stringSerializer);
 //        redisTemplate.setHashValueSerializer(stringSerializer);
         redisTemplate.afterPropertiesSet();

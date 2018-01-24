@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,11 +20,12 @@ import com.iflytransporter.api.utils.RedisUtil;
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {
 	
-	public static String Lang_China ="zh-cn";
-	public static String Lang_English ="en";
-	public static String Lang_Maya="maya";
 	
-	public static Locale mayaLocale =  new Locale("ma", "MAYA");  
+	public static String Lang_China ="zh_CN";
+	public static String Lang_English ="en_US";
+	public static String Lang_Maya="en_MY";
+	
+	public static Locale myLocale =  new Locale("en", "MY");  
 	@Autowired
 	private CommonMapper commonMapper;
 	
@@ -175,7 +177,7 @@ public class CommonServiceImpl implements CommonService {
 			return commonParam;
 		}
 		if(Lang_Maya.equals(lang)){
-			commonParam.setName(messageSource.getMessage((String)map.get("code"), null, mayaLocale));
+			commonParam.setName(messageSource.getMessage((String)map.get("code"), null, myLocale));
 			return commonParam;
 		}
 		commonParam.setName(messageSource.getMessage((String)map.get("code"), null, null, Locale.US));
@@ -185,21 +187,34 @@ public class CommonServiceImpl implements CommonService {
 	public void getMessage(String lang,List<Map<String,Object>> list){
 		if(Lang_China.equals(lang)){
 			for(Map<String,Object> map :list){
-				map.put("name", messageSource.getMessage((String)map.get("code"), null, Locale.SIMPLIFIED_CHINESE));
+				try{
+					map.put("name", messageSource.getMessage((String)map.get("code"), null, Locale.SIMPLIFIED_CHINESE));
+				}catch(NoSuchMessageException e){
+					//捕获当前适配属性不存在异常
+				}
 			}
 		}
 		if(Lang_English.equals(lang)){
 			for(Map<String,Object> map :list){
-				map.put("name",(messageSource.getMessage((String)map.get("code"), null, Locale.US)));
+				try{
+					map.put("name",(messageSource.getMessage((String)map.get("code"), null, Locale.US)));
+				}catch(NoSuchMessageException e){
+					//捕获当前适配属性不存在异常
+				}
+//				map.put("name",(messageSource.getMessage((String)map.get("code"), null, Locale.US)));
 			}
 		}
 		if(Lang_Maya.equals(lang)){
 			for(Map<String,Object> map :list){
-				map.put("name",(messageSource.getMessage((String)map.get("code"), null, mayaLocale)));
+				try{
+					map.put("name",(messageSource.getMessage((String)map.get("code"), null, myLocale)));
+				}catch(NoSuchMessageException e){
+					//捕获当前适配属性不存在异常
+				}
 			}
 		}
-		for(Map<String,Object> map :list){
+		/*for(Map<String,Object> map :list){
 			map.put("name",(messageSource.getMessage(map.get("code").toString(), null, null, Locale.US)));
-		}
+		}*/
 	}
 }

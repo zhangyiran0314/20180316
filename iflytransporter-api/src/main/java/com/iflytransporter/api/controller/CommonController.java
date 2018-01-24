@@ -32,6 +32,7 @@ import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.AttachmentService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
+import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.GoodsTypeService;
 import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.HandlingTypeService;
@@ -88,11 +89,16 @@ public class CommonController {
 	@Autowired
 	private UseTypeService useTypeService;
 	
+	@Autowired
+	private CommonService commonService;
+	
 	@ApiOperation(value="用车类型列表")
 	@RequestMapping(value = "/getUseType", method = RequestMethod.POST)
 	@ResponseBody 
-	public Map<String,Object> getUseType() {
-		List<Map<String,Object>> list = useTypeService.list();
+	public Map<String,Object> getUseType(HttpServletRequest request) {
+//		List<Map<String,Object>> list = useTypeService.list();
+		String lang = (String) request.getHeader("lang");
+		List<Map<String,Object>> list = commonService.listUseType(lang);
 		return ResponseUtil.successResult(list);
 	}
 	

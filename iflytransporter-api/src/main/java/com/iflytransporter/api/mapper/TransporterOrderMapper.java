@@ -5,13 +5,14 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.common.bean.Order;
 
 public interface TransporterOrderMapper {
     
 	Order selectByPrimaryKey(String id);
 	 
-    List<Order> queryAll(@Param("status") Integer status);
+    List<Order> queryAll(QueryOrderParam queryOrderParam);
     
     List<Order> queryAllAuth(@Param("companyId")String companyId,@Param("shipperId")String sId,@Param("authStatus")Integer authStatus);
     

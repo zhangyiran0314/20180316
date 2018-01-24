@@ -3,11 +3,15 @@ package com.iflytransporter.api.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.StringUtil;
+import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.api.mapper.OrderApplyMapper;
 import com.iflytransporter.api.mapper.SubscribeSourceMapper;
 import com.iflytransporter.api.mapper.TransporterOrderMapper;
@@ -29,16 +33,26 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	private SubscribeSourceMapper subscribeSourceMapper;
 	
 	@Override
-	public PageInfo<Order> queryPage(Integer pageNo, Integer pageSize, Integer status,Integer authStatus) {
-		if(pageNo!= null && pageSize!= null){  
-            PageHelper.startPage(pageNo, pageSize);  
-        }  
-		List<Order> list= transporterOrderMapper.queryAll(status);
+	public PageInfo<Order> queryPage(QueryOrderParam queryOrderParam) {
+		Integer pageNo = queryOrderParam.getPageNo()==null ? 1: queryOrderParam.getPageNo();
+		Integer pageSize = queryOrderParam.getPageSize()==null ? 10: queryOrderParam.getPageSize();
+        PageHelper.startPage(pageNo, pageSize); 
+        if(StringUtils.isNotBlank(queryOrderParam.getSubscribeSourceId())){
+        	SubscribeSource ss = subscribeSourceMapper.selectByPrimaryKey(queryOrderParam.getSubscribeSourceId());
+        	BeanUtils.copyProperties(ss, queryOrderParam);
+        }
+		List<Order> list= transporterOrderMapper.queryAll(queryOrderParam);
 		return new PageInfo<Order>(list);
 	}
+	
+	
 	@Override
-	public List<Order> list(Integer status,Integer authStatus) {
-		return transporterOrderMapper.queryAll(status);
+	public List<Order> list(QueryOrderParam queryOrderParam) {
+		if(StringUtils.isNotBlank(queryOrderParam.getSubscribeSourceId())){
+        	SubscribeSource ss = subscribeSourceMapper.selectByPrimaryKey(queryOrderParam.getSubscribeSourceId());
+        	BeanUtils.copyProperties(ss, queryOrderParam);
+	    }
+		return transporterOrderMapper.queryAll(queryOrderParam);
 	}
 
 	@Override
@@ -95,7 +109,5 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	public List<OrderApply> listApplyRecord(String userId,Integer browseStatus) {
 		return orderApplyMapper.listApply(userId, browseStatus);
 	}
-
-
 
 }

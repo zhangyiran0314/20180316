@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
+import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
-import com.iflytransporter.common.bean.User;
 
 public interface TransporterOrderService  {
 	
@@ -20,7 +20,7 @@ public interface TransporterOrderService  {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,Integer status,Integer authStatus);
+	PageInfo<Order> queryPage(QueryOrderParam queryOrderParam);
 	
 	/**
 	 * 列表-发布
@@ -28,7 +28,7 @@ public interface TransporterOrderService  {
 	 * @param status 发布状态
 	 * @return
 	 */
-	List<Order> list(Integer status,Integer checkStatus);
+	List<Order> list(QueryOrderParam queryOrderParam);
 	/**
 	 * 申请订单
 	 * @param id
