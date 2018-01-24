@@ -15,14 +15,14 @@
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
-    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="TIMESTAMP" />
-    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="TIMESTAMP" />
+    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="DATE" />
+    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="DATE" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
-    <result column="tax_start_date" property="taxStartDate" jdbcType="TIMESTAMP" />
-    <result column="tax_end_date" property="taxEndDate" jdbcType="TIMESTAMP" />
+    <result column="tax_start_date" property="taxStartDate" jdbcType="DATE" />
+    <result column="tax_end_date" property="taxEndDate" jdbcType="DATE" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
-    <result column="check_start_date" property="checkStartDate" jdbcType="TIMESTAMP" />
-    <result column="check_end_date" property="checkEndDate" jdbcType="TIMESTAMP" />
+    <result column="check_start_date" property="checkStartDate" jdbcType="DATE" />
+    <result column="check_end_date" property="checkEndDate" jdbcType="DATE" />
     <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -39,14 +39,14 @@
     <result column="company_id" property="companyId" jdbcType="VARCHAR" />
     <result column="transporter_id" property="transporterId" jdbcType="VARCHAR" />
     <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
-    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="TIMESTAMP" />
-    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="TIMESTAMP" />
+    <result column="insurance_start_date" property="insuranceStartDate" jdbcType="DATE" />
+    <result column="insurance_end_date" property="insuranceEndDate" jdbcType="DATE" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
-    <result column="tax_start_date" property="taxStartDate" jdbcType="TIMESTAMP" />
-    <result column="tax_end_date" property="taxEndDate" jdbcType="TIMESTAMP" />
+    <result column="tax_start_date" property="taxStartDate" jdbcType="DATE" />
+    <result column="tax_end_date" property="taxEndDate" jdbcType="DATE" />
     <result column="attachment_id_4" property="attachmentId4" jdbcType="VARCHAR" />
-    <result column="check_start_date" property="checkStartDate" jdbcType="TIMESTAMP" />
-    <result column="check_end_date" property="checkEndDate" jdbcType="TIMESTAMP" />
+    <result column="check_start_date" property="checkStartDate" jdbcType="DATE" />
+    <result column="check_end_date" property="checkEndDate" jdbcType="DATE" />
     <result column="attachment_id_5" property="attachmentId5" jdbcType="VARCHAR" />
     
     <result column="attachment_id_1_link" property="attachmentId1Link" jdbcType="VARCHAR" />
@@ -161,9 +161,9 @@
       #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{attachmentId1,jdbcType=VARCHAR}, #{attachmentId2,jdbcType=VARCHAR}, 
       #{companyId,jdbcType=VARCHAR}, #{transporterId,jdbcType=VARCHAR}, #{driverId,jdbcType=VARCHAR}, 
-      #{insuranceStartDate,jdbcType=TIMESTAMP}, #{insuranceEndDate,jdbcType=TIMESTAMP}, 
-      #{attachmentId3,jdbcType=VARCHAR}, #{taxStartDate,jdbcType=TIMESTAMP}, #{taxEndDate,jdbcType=TIMESTAMP}, 
-      #{attachmentId4,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=TIMESTAMP}, #{checkEndDate,jdbcType=TIMESTAMP}, 
+      #{insuranceStartDate,jdbcType=DATE}, #{insuranceEndDate,jdbcType=DATE}, 
+      #{attachmentId3,jdbcType=VARCHAR}, #{taxStartDate,jdbcType=DATE}, #{taxEndDate,jdbcType=DATE}, 
+      #{attachmentId4,jdbcType=VARCHAR}, #{checkStartDate,jdbcType=DATE}, #{checkEndDate,jdbcType=DATE}, 
       #{attachmentId5,jdbcType=VARCHAR},#{registerNo,jdbcType=VARCHAR})
   </insert>
  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Car" >
@@ -274,28 +274,28 @@
         #{driverId,jdbcType=VARCHAR},
       </if>
       <if test="insuranceStartDate != null" >
-        #{insuranceStartDate,jdbcType=TIMESTAMP},
+        #{insuranceStartDate,jdbcType=DATE},
       </if>
       <if test="insuranceEndDate != null" >
-        #{insuranceEndDate,jdbcType=TIMESTAMP},
+        #{insuranceEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId3 != null" >
         #{attachmentId3,jdbcType=VARCHAR},
       </if>
       <if test="taxStartDate != null" >
-        #{taxStartDate,jdbcType=TIMESTAMP},
+        #{taxStartDate,jdbcType=DATE},
       </if>
       <if test="taxEndDate != null" >
-        #{taxEndDate,jdbcType=TIMESTAMP},
+        #{taxEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId4 != null" >
         #{attachmentId4,jdbcType=VARCHAR},
       </if>
       <if test="checkStartDate != null" >
-        #{checkStartDate,jdbcType=TIMESTAMP},
+        #{checkStartDate,jdbcType=DATE},
       </if>
       <if test="checkEndDate != null" >
-        #{checkEndDate,jdbcType=TIMESTAMP},
+        #{checkEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId5 != null" >
         #{attachmentId5,jdbcType=VARCHAR},
@@ -342,28 +342,28 @@
         driver_id = #{driverId,jdbcType=VARCHAR},
       </if>
       <if test="insuranceStartDate != null" >
-        insurance_start_date = #{insuranceStartDate,jdbcType=TIMESTAMP},
+        insurance_start_date = #{insuranceStartDate,jdbcType=DATE},
       </if>
       <if test="insuranceEndDate != null" >
-        insurance_end_date = #{insuranceEndDate,jdbcType=TIMESTAMP},
+        insurance_end_date = #{insuranceEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId3 != null" >
         attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
       </if>
       <if test="taxStartDate != null" >
-        tax_start_date = #{taxStartDate,jdbcType=TIMESTAMP},
+        tax_start_date = #{taxStartDate,jdbcType=DATE},
       </if>
       <if test="taxEndDate != null" >
-        tax_end_date = #{taxEndDate,jdbcType=TIMESTAMP},
+        tax_end_date = #{taxEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId4 != null" >
         attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
       </if>
       <if test="checkStartDate != null" >
-        check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
+        check_start_date = #{checkStartDate,jdbcType=DATE},
       </if>
       <if test="checkEndDate != null" >
-        check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+        check_end_date = #{checkEndDate,jdbcType=DATE},
       </if>
       <if test="attachmentId5 != null" >
         attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
@@ -387,14 +387,14 @@
       company_id = #{companyId,jdbcType=VARCHAR},
       transporter_id = #{transporterId,jdbcType=VARCHAR},
       driver_id = #{driverId,jdbcType=VARCHAR},
-      insurance_start_date = #{insuranceStartDate,jdbcType=TIMESTAMP},
-      insurance_end_date = #{insuranceEndDate,jdbcType=TIMESTAMP},
+      insurance_start_date = #{insuranceStartDate,jdbcType=DATE},
+      insurance_end_date = #{insuranceEndDate,jdbcType=DATE},
       attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
-      tax_start_date = #{taxStartDate,jdbcType=TIMESTAMP},
-      tax_end_date = #{taxEndDate,jdbcType=TIMESTAMP},
+      tax_start_date = #{taxStartDate,jdbcType=DATE},
+      tax_end_date = #{taxEndDate,jdbcType=DATE},
       attachment_id_4 = #{attachmentId4,jdbcType=VARCHAR},
-      check_start_date = #{checkStartDate,jdbcType=TIMESTAMP},
-      check_end_date = #{checkEndDate,jdbcType=TIMESTAMP},
+      check_start_date = #{checkStartDate,jdbcType=DATE},
+      check_end_date = #{checkEndDate,jdbcType=DATE},
       attachment_id_5 = #{attachmentId5,jdbcType=VARCHAR},
       register_no =#{registerNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

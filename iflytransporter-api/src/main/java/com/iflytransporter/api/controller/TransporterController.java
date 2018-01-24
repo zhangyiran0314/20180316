@@ -81,8 +81,7 @@ public class TransporterController {
 	@ApiOperation(value="listCar", notes="我的-车辆列表",produces = "application/json")
 	@RequestMapping(value="listCar", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> listCar(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  Map<String,Object> requestMap){
+	public Map<String,Object> listCar(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		UserBO user = userService.detailByCache(userId);
 		List<CarBO> list = null;

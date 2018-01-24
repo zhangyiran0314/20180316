@@ -2,6 +2,7 @@ package com.iflytransporter.api.bean;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.iflytransporter.common.bean.CarBO;
 
 public class CarResp {
@@ -30,21 +31,25 @@ public class CarResp {
     private String transporterId;
 
     private String driverId;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date insuranceStartDate;
-
+    @JSONField(format="yyyy-MM-dd")
     private Date insuranceEndDate;
 
     private String attachmentId3;
-
+    
+    @JSONField(format="yyyy-MM-dd")
     private Date taxStartDate;
-
+    
+    @JSONField(format="yyyy-MM-dd")
     private Date taxEndDate;
 
     private String attachmentId4;
-
+    
+    @JSONField(format="yyyy-MM-dd")
     private Date checkStartDate;
-
+    
+    @JSONField(format="yyyy-MM-dd")
     private Date checkEndDate;
 
     private String attachmentId5;

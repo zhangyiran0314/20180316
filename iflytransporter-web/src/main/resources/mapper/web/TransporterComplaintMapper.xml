@@ -34,7 +34,7 @@
 	   a.id, a.create_date as createDate,
 	    a.reason,a.content,a.mobile,
 	    a.order_no as orderNo,
-	    b.mobile,b.surname.b.name,
+	    b.mobile,b.surname,b.name,
 	    c.mobile as shipperMobile,
 	    e.name as shipperCompanyName
 	 from t_transporter_complaint a 
@@ -63,7 +63,7 @@
 	   a.id, a.create_date as createDate,
 	    a.reason,a.content,a.mobile,
 	    a.order_no as orderNo,
-	    b.mobile,b.surname.b.name,
+	    b.mobile,b.surname,b.name,
 	    c.mobile as shipperMobile,
 	    e.name as shipperCompanyName
 	 from t_transporter_complaint a 
