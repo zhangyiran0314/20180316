@@ -32,7 +32,7 @@
   
   <select id="listDown" resultType="java.util.Map" parameterType="java.lang.String">
     select 
-     a.id, a.create_date as registerDate,  a.mobile,
+     a.id, a.create_date as registerDate,  a.mobile,auth_status as authStatus,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachmentId1Link,
     c.id as carId,c.name as carName,c.code as code
     from t_user a

@@ -7,6 +7,12 @@ import com.iflytransporter.api.bean.CommonParam;
 
 public interface CommonService {
 	
+	List<Map<String,Object>> getPosition(String lang,String countryCode);
+	
+	List<Map<String, Object>> queryProvinceAll(String lang,String countryCode);
+	List<Map<String, Object>> queryCityAll(String lang,String countryCode,String provinceId);
+	List<Map<String, Object>> queryAreaAll(String lang,String countryCode,String cityId);
+	
 	CommonParam queryProvince(String lang,String id);
 	
 	CommonParam queryCity(String lang,String id);

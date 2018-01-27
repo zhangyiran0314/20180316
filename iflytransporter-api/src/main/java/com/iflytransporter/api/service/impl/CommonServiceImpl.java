@@ -1,5 +1,6 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +17,10 @@ import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.api.mapper.CommonMapper;
 import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.utils.RedisUtil;
+import com.iflytransporter.common.bean.Area;
+import com.iflytransporter.common.bean.City;
+import com.iflytransporter.common.bean.Position;
+import com.iflytransporter.common.bean.Province;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {
@@ -129,7 +134,7 @@ public class CommonServiceImpl implements CommonService {
 		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
 		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getTypeKey(RedisUtil.Redis_CarType,null));
 		if(list == null || list.isEmpty()){
-			list =  commonMapper.listUseType();
+			list =  commonMapper.listCarType();
 			listOperations.leftPush(RedisUtil.getTypeKey(RedisUtil.Redis_CarType,null), list);
 		}
 		getMessage(lang,list);
@@ -155,7 +160,7 @@ public class CommonServiceImpl implements CommonService {
 		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
 		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getTypeKey(RedisUtil.Redis_PaymentType,null));
 		if(list == null || list.isEmpty()){
-			list =  commonMapper.listUseType();
+			list =  commonMapper.listPaymentType();
 			listOperations.leftPush(RedisUtil.getTypeKey(RedisUtil.Redis_PaymentType,null), list);
 		}
 		getMessage(lang,list);
@@ -216,5 +221,69 @@ public class CommonServiceImpl implements CommonService {
 		/*for(Map<String,Object> map :list){
 			map.put("name",(messageSource.getMessage(map.get("code").toString(), null, null, Locale.US)));
 		}*/
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> getPosition(String lang, String countryCode) {
+		String key = RedisUtil.getPositionCountryKey(countryCode);
+		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+		List<Map<String, Object>> list = (List<Map<String, Object>>) listOperations.leftPop(key);
+		if(list!=null && list.size() > 0){
+			return list;
+		}
+		List<Map<String,Object>> provinceList = commonMapper.queryProvinceAll(countryCode);
+		getMessage(lang,provinceList);
+		for(Map<String,Object> province :provinceList){
+			List<Map<String,Object>> cityList = commonMapper.queryCityAll(countryCode, (String) province.get("id"));
+			getMessage(lang,cityList);
+			for(Map<String,Object> city:cityList){
+				List<Map<String,Object>> areaList = commonMapper.queryAreaAll(countryCode, (String)city.get("id"));
+				getMessage(lang,areaList);
+				city.put("areaList", areaList);
+			}
+			province.put("cityList", cityList);
+		}
+		listOperations.leftPush(key, provinceList);
+		return provinceList;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> queryProvinceAll(String lang, String countryCode) {
+		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Province,null));
+		if(list == null || list.isEmpty()){
+			list =  commonMapper.queryProvinceAll(countryCode);
+			listOperations.leftPush(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Province,null), list);
+		}
+		getMessage(lang,list);
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> queryCityAll(String lang, String countryCode,String provinceId) {
+		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getPositionKey(RedisUtil.Redis_Position_City,null));
+		if(list == null || list.isEmpty()){
+			list =  commonMapper.queryCityAll(countryCode, provinceId);
+			listOperations.leftPush(RedisUtil.getPositionKey(RedisUtil.Redis_Position_City,null), list);
+		}
+		getMessage(lang,list);
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Map<String, Object>> queryAreaAll(String lang, String countryCode,String cityId) {
+		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Area,null));
+		if(list == null || list.isEmpty()){
+			list =  commonMapper.queryAreaAll(countryCode, cityId);
+			listOperations.leftPush(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Area,null), list);
+		}
+		getMessage(lang,list);
+		return list;
 	}
 }
