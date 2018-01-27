@@ -129,14 +129,17 @@
   
   
   <select id="listDriver" resultType="java.util.Map">
-  	select id,surname,name,mobile from t_user where company_id = #{companyId,jdbcType=VARCHAR} 
+  	select a.id as driverId,a.surname,a.name,a.mobile,b.id as carId,b.name as carName,b.code as carCode 
+  	 from t_user a 
+  	 left join t_car b on a.id = b.driver_id
+  	 where a.company_id = #{companyId,jdbcType=VARCHAR} 
     <if test="level != null" >
-    and  level = #{level,jdbcType=INTEGER}
+    and  a.level = #{level,jdbcType=INTEGER}
     </if>
   </select>
   
   <select id="listCar" resultType="java.util.Map">
-  	select id,name,code,driver_id as driverId from t_car where company_id = #{companyId,jdbcType=VARCHAR} 
+  	select id,name,code from t_car where company_id = #{companyId,jdbcType=VARCHAR} 
   </select>
  	<!-- 派单 --> 
 	 <update id="dispense">

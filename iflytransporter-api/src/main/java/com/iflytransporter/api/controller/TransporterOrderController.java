@@ -174,6 +174,7 @@ public class TransporterOrderController {
 //		Integer pageNo = queryParam.getPageNo()==null ? 1: queryParam.getPageNo();
 //		Integer pageSize = queryParam.getPageSize()==null ? 10: queryParam.getPageSize();
 		String userId =  (String) request.getAttribute("userId");
+		queryParam.setTransporterId(userId);
 		PageInfo<Order> page = transporterOrderService.queryPage(queryParam);
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
@@ -208,6 +209,7 @@ public class TransporterOrderController {
 			@RequestBody @ApiParam("{} ,此列表只能看到已通过授权的数据") QueryOrderParam queryParam){
 //		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
+		queryParam.setTransporterId(userId);
 		List<Order> list = transporterOrderService.list(queryParam);
 		List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
 		for(Order order:list){
@@ -275,8 +277,8 @@ public class TransporterOrderController {
 	public Map<String,Object> applyList(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		List<OrderApply> list = transporterOrderService.listApplyByUserId(userId);
+		List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
 		if(list != null && list.size() > 0){
-			List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
 			for(OrderApply orderApply: list){
 				Order order = transporterOrderService.query(orderApply.getOrderId());
 				TransporterOrderResp op =new TransporterOrderResp(order);
@@ -298,9 +300,8 @@ public class TransporterOrderController {
 				op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
 				result.add(op);
 			}
-			return ResponseUtil.successResult(result);
 		}
-		return ResponseUtil.failureResult();
+		return ResponseUtil.successResult(result);
 	}
 	@ApiOperation(value="applyListRecord", notes="找货-找货记录",produces = "application/json")
 	@RequestMapping(value="applyListRecord", method=RequestMethod.POST)

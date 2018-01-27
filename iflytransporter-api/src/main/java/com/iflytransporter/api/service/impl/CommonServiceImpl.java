@@ -168,7 +168,14 @@ public class CommonServiceImpl implements CommonService {
 	}
 	@Override
 	public List<Map<String, Object>> listGoodsType(String lang) {
-		return null;
+		ListOperations<String, Object> listOperations = redisTemplate.opsForList();
+		List<Map<String, Object>> list =  (List<Map<String, Object>>) listOperations.leftPop(RedisUtil.getTypeKey(RedisUtil.Redis_GoodsType,null));
+		if(list == null || list.isEmpty()){
+			list =  commonMapper.listGoodsType();
+			listOperations.leftPush(RedisUtil.getTypeKey(RedisUtil.Redis_GoodsType,null), list);
+		}
+		getMessage(lang,list);
+		return list;
 	}
 	public CommonParam getMessage(String lang,Map<String,Object> map){
 		CommonParam commonParam = new CommonParam();

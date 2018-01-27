@@ -55,7 +55,7 @@
     <include refid="Base_Column_List" />
     from t_order
     where 
-      status  != ${@com.iflytransporter.common.enums.Status@Order_Publish}
+      status = ${@com.iflytransporter.common.enums.Status@Order_Publish}
       and auth_status  = ${@com.iflytransporter.common.enums.Status@Order_Auth_Yes}
       
       <if test="departureProvinceId != null">
@@ -88,6 +88,8 @@
       <if test="goodsType != null">
       and   goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
+      <!-- 已经参与过报价,不管审核是否通过,不出现在货源搜索里面 -->
+      and not exists (select 1 from t_order_apply where order_id = t_order.id and transporter_id = #{transporterId,jdbcType=VARCHAR} )
     <include refid ="Valid_SQL"/>
   </select>
   

@@ -28,6 +28,9 @@ public class QueryOrderParam {
     private String useTypeId;
     
     private String goodsType;
+    
+    //货源搜索时,用于判断当前车主是否申请过此货源记录属性
+    private String transporterId;
 
 	public String getDepartureProvinceId() {
 		return departureProvinceId;
@@ -139,6 +142,14 @@ public class QueryOrderParam {
 
 	public void setSubscribeSourceId(String subscribeSourceId) {
 		this.subscribeSourceId = subscribeSourceId;
+	}
+
+	public String getTransporterId() {
+		return transporterId;
+	}
+
+	public void setTransporterId(String transporterId) {
+		this.transporterId = transporterId;
 	}
     
     
