@@ -100,17 +100,17 @@
   </select>
   <!-- 货主公司 -->
   <select id="detailShipperCompany" resultType="java.util.Map">
-  	select a.`name` as companyName,a.create_date as registerDate,round(b.grade) as grade ,c.count as count,d.id as shipperId,d.surname,d.name,d.mobile
+  	select a.`name` as companyName,a.create_date as registerDate,round(ifnull(b.grade,5)) as grade ,c.count as count,d.id as shipperId,d.surname,d.name,d.mobile
 	from t_company a
   left join (select shipper_company_id, AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_transporter_comment GROUP BY shipper_company_id) b on a.id= b.shipper_company_id
   left join (select shipper_company_id ,count(1) as count from t_waybill GROUP BY shipper_company_id) c on a.id = c.shipper_company_id
   left join t_user d on a.id = d.company_id 
- 	where a.id = #{companyId,jdbcType=VARCHAR} and d.level = 1
+ 	where a.id = #{companyId,jdbcType=VARCHAR} and d.user_type = 0 and d.level = 1
   </select>
   <!-- 货主详情 -->
    <select id="detailShipperComment" resultType="java.util.Map">
   	select a.mobile,a.create_date as registerDate,a.surname ,a.name ,d.`name` as companyName,c.count as count,
-  	round(b.grade) as grade,round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+  	round(ifnull(b.grade,5)) as grade,round(ifnull(b.serveGrade,5)) as serveGrade,round(ifnull(b.loadingGrade,5)) as loadingGrade, round(ifnull(b.goodsGrade,5)) as goodsGrade,b.commentCount
 		from t_user a 
 		left join 
 			(select shipper_id,count(1) as commentCount ,
@@ -158,7 +158,7 @@
 	</select>
 	<!-- 派单司机以及车辆信息 -->
 	<select id="detailDispense" resultType="java.util.Map">
-	select b.id as driverId,b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,round(d.grade) as grade
+	select b.id as driverId,b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,round(ifnull(d.grade,5)) as grade
 	from t_waybill a
 	left join t_user b on a.driver_id = b.id
 	left join t_car c on a.car_id  = c.id
@@ -168,7 +168,7 @@
 	<!-- 车辆详情 (司机评价)-->
   <select id="detailDispenseComment" resultType="java.util.Map">
   	select a.create_date as registerDate,a.surname,a.name,a.mobile,c.count as count,
-  	round(b.grade) as grade,round(b.serveGrade) as serveGrade,round(b.loadingGrade) as loadingGrade, round(b.goodsGrade) as goodsGrade,b.commentCount
+  	round(ifnull(b.grade,5)) as grade,round(ifnull(b.serveGrade,5)) as serveGrade,round(ifnull(b.loadingGrade,5)) as loadingGrade, round(ifnull(b.goodsGrade,5)) as goodsGrade,b.commentCount
 		from t_user a 
 		 left join 
 			(select driver_id,count(1) as commentCount ,
