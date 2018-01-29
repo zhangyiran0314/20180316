@@ -59,34 +59,34 @@
       and auth_status  = ${@com.iflytransporter.common.enums.Status@Order_Auth_Yes}
       
       <if test="departureProvinceId != null">
-       and departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
+       and departure_province_id = #{departureProvinceId,jdbcType=VARCHAR}
       </if>
       <if test="departureCityId != null">
-       and  departure_city_id = #{departureCityId,jdbcType=VARCHAR},
+       and  departure_city_id = #{departureCityId,jdbcType=VARCHAR}
       </if>
       <if test="departureAreaId != null">
-       and departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+       and departure_area_id = #{departureAreaId,jdbcType=VARCHAR}
       </if>
       <if test="destinationProvinceId != null">
-       and destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+       and destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR}
       </if>
       <if test="destinationCityId != null">
-       and destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+       and destination_city_id = #{destinationCityId,jdbcType=VARCHAR}
       </if>
       <if test="destinationAreaId != null">
-       and destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
+       and destination_area_id = #{destinationAreaId,jdbcType=VARCHAR}
       </if>
       <if test="carTypeId != null">
-      and car_type_id = #{carTypeId,jdbcType=VARCHAR},
+      and car_type_id = #{carTypeId,jdbcType=VARCHAR}
       </if>
       <if test="tyreNo != null">
-      and tyre_no = #{tyreNo,jdbcType=VARCHAR},
+      and tyre_no = #{tyreNo,jdbcType=VARCHAR}
       </if>
       <if test="carLength != null">
-      and car_length = #{carLength,jdbcType=INTEGER},
+      and car_length = #{carLength,jdbcType=INTEGER}
       </if>
       <if test="goodsType != null">
-      and   goods_type = #{goodsType,jdbcType=VARCHAR},
+      and   goods_type = #{goodsType,jdbcType=VARCHAR}
       </if>
       <!-- 已经参与过报价,不管审核是否通过,不出现在货源搜索里面 -->
       and not exists (select 1 from t_order_apply where order_id = t_order.id and transporter_id = #{transporterId,jdbcType=VARCHAR} )
