@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.api.mapper.CarManageMapper" >
+
+  <insert id="insertCarAirCoolant" parameterType="com.iflytransporter.common.bean.CarAirCoolant" >
+    insert into t_car_air_coolant (id, update_date, 
+      desp, company_id, 
+      driver_id, car_id, air_coolant_enough, 
+      remark)
+    values (#{id,jdbcType=VARCHAR},  now(),
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{airCoolantEnough,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  
+   <insert id="insertCarDocuments" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    insert into t_car_documents (id, update_date, 
+      desp, company_id, 
+      driver_id, car_id, road_tax_prime_mover_trailer, 
+      puspakom_prime_mover_trailer, premit_spad, 
+      lesen_pengendalian_spad, lesen_prekhidmatan_spad, 
+      remark)
+    values (#{id,jdbcType=VARCHAR},  now(), 
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER}, 
+      #{puspakomPrimeMoverTrailer,jdbcType=INTEGER}, #{premitSpad,jdbcType=INTEGER}, 
+      #{lesenPengendalianSpad,jdbcType=INTEGER}, #{lesenPrekhidmatanSpad,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+   <insert id="insertCarEngineOil" parameterType="com.iflytransporter.common.bean.CarEngineOil" >
+    insert into t_car_engine_oil (id, update_date, 
+      desp, company_id, 
+      driver_id, car_id, engine_oil_enough, 
+      oil_clutch_enough, oil_break_enough, remark
+      )
+    values (#{id,jdbcType=VARCHAR},  now(),
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{engineOilEnough,jdbcType=INTEGER}, 
+      #{oilClutchEnough,jdbcType=INTEGER}, #{oilBreakEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertCarSafetyEquipment" parameterType="com.iflytransporter.common.bean.CarSafetyEquipment" >
+    insert into t_car_safety_equipment (id, update_date, 
+      desp, company_id, 
+      driver_id, car_id, safety_helmet, 
+      safety_shoes, safety_google, safety_glove, 
+      sealt_belt_in_good_conditions, lorry_is_conplete_jack_kabin, 
+      equipment_in_full_toolbox, first_aid_box, safety_cone, 
+      fire_extinguister_tool, fire_extinguister_tool_1, 
+      torch_light, remark)
+    values (#{id,jdbcType=VARCHAR},now(),
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{safetyHelmet,jdbcType=INTEGER}, 
+      #{safetyShoes,jdbcType=INTEGER}, #{safetyGoogle,jdbcType=INTEGER}, #{safetyGlove,jdbcType=INTEGER}, 
+      #{sealtBeltInGoodConditions,jdbcType=INTEGER}, #{lorryIsConpleteJackKabin,jdbcType=INTEGER}, 
+      #{equipmentInFullToolbox,jdbcType=INTEGER}, #{firstAidBox,jdbcType=INTEGER}, #{safetyCone,jdbcType=INTEGER}, 
+      #{fireExtinguisterTool,jdbcType=INTEGER}, #{fireExtinguisterTool1,jdbcType=INTEGER}, 
+      #{torchLight,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertCarSignalLight" parameterType="com.iflytransporter.common.bean.CarSignalLight" >
+    insert into t_car_signal_light (id, update_date, desp, company_id, 
+      driver_id, car_id, signal_light_lamp, 
+      great_light, side_mirror, temperature_in_good_condition, 
+      double_signal, good_plate_number, takometer_working, 
+      odometer_working, level_meter_working, winds_tank_remove_water_oil_mud, 
+      beacon_lamp_function, hon_function, wiper_in_a_good_condition, 
+      break_hand, stereng, colder_heater, 
+      light_sticker, sticker_limited, remark
+      )
+    values (#{id,jdbcType=VARCHAR},now(),
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{signalLightLamp,jdbcType=INTEGER}, 
+      #{greatLight,jdbcType=INTEGER}, #{sideMirror,jdbcType=INTEGER}, #{temperatureInGoodCondition,jdbcType=VARCHAR}, 
+      #{doubleSignal,jdbcType=INTEGER}, #{goodPlateNumber,jdbcType=INTEGER}, #{takometerWorking,jdbcType=INTEGER}, 
+      #{odometerWorking,jdbcType=INTEGER}, #{levelMeterWorking,jdbcType=INTEGER}, #{windsTankRemoveWaterOilMud,jdbcType=INTEGER}, 
+      #{beaconLampFunction,jdbcType=INTEGER}, #{honFunction,jdbcType=INTEGER}, #{wiperInAGoodCondition,jdbcType=INTEGER}, 
+      #{breakHand,jdbcType=INTEGER}, #{stereng,jdbcType=INTEGER}, #{colderHeater,jdbcType=INTEGER}, 
+      #{lightSticker,jdbcType=INTEGER}, #{stickerLimited,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      )
+  </insert>
+   <insert id="insertCarTyre" parameterType="com.iflytransporter.common.bean.CarTyre" >
+    insert into t_car_tyre (id, update_date,  desp, company_id, 
+      driver_id, car_id, all_tyre_pressure_enough, 
+      tyre_flower_not_boot_rosak, nut_hub_tyre_no_effects, 
+      strengthen_tyre_spare_enough, remark)
+    values (#{id,jdbcType=VARCHAR}, now(),
+      #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{allTyrePressureEnough,jdbcType=INTEGER}, 
+      #{tyreFlowerNotBootRosak,jdbcType=INTEGER}, #{nutHubTyreNoEffects,jdbcType=INTEGER}, 
+      #{strengthenTyreSpareEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+   
+</mapper>

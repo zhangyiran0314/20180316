@@ -15,8 +15,18 @@ public interface UserService  {
 	public int updateLoginInfo(User record);
 	//通过账户密码查询用户
 	public User login(String countryCode,Integer userType,String mobile,String password);
-	//
+	/**
+	 * 通过缓存查询userBO
+	 * @param id
+	 * @return
+	 */
 	public UserBO detailByCache(String id);
+	/**
+	 * 通过缓存查询user
+	 * @param id
+	 * @return
+	 */
+	public User detailUserByCache(String id);
 	
 	//认证个人
 	public int auth(User user) ;

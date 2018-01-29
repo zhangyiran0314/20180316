@@ -166,4 +166,9 @@ public class UserServiceImpl implements UserService{
 		return userMapper.updatePwdOrMobileOrEmail(userId, pwd, mobile, email);
 	}
 
+	@Override
+	public User detailUserByCache(String id) {
+		return userMapper.selectByPrimaryKey(id);
+	}
+
 }

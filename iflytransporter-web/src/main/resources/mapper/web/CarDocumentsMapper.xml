@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CarDocumentsMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.CarDocuments" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="road_tax_prime_mover_trailer" property="roadTaxPrimeMoverTrailer" jdbcType="INTEGER" />
+    <result column="puspakom_prime_mover_trailer" property="puspakomPrimeMoverTrailer" jdbcType="INTEGER" />
+    <result column="premit_spad" property="premitSpad" jdbcType="INTEGER" />
+    <result column="lesen_pengendalian_spad" property="lesenPengendalianSpad" jdbcType="INTEGER" />
+    <result column="lesen_prekhidmatan_spad" property="lesenPrekhidmatanSpad" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, road_tax_prime_mover_trailer, puspakom_prime_mover_trailer, 
+    premit_spad, lesen_pengendalian_spad, lesen_prekhidmatan_spad, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_car_documents
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_car_documents
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    insert into t_car_documents (id, create_date, update_date, 
+      data_status, desp, road_tax_prime_mover_trailer, 
+      puspakom_prime_mover_trailer, premit_spad, 
+      lesen_pengendalian_spad, lesen_prekhidmatan_spad, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER}, 
+      #{puspakomPrimeMoverTrailer,jdbcType=INTEGER}, #{premitSpad,jdbcType=INTEGER}, 
+      #{lesenPengendalianSpad,jdbcType=INTEGER}, #{lesenPrekhidmatanSpad,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    insert into t_car_documents
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="roadTaxPrimeMoverTrailer != null" >
+        road_tax_prime_mover_trailer,
+      </if>
+      <if test="puspakomPrimeMoverTrailer != null" >
+        puspakom_prime_mover_trailer,
+      </if>
+      <if test="premitSpad != null" >
+        premit_spad,
+      </if>
+      <if test="lesenPengendalianSpad != null" >
+        lesen_pengendalian_spad,
+      </if>
+      <if test="lesenPrekhidmatanSpad != null" >
+        lesen_prekhidmatan_spad,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="roadTaxPrimeMoverTrailer != null" >
+        #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER},
+      </if>
+      <if test="puspakomPrimeMoverTrailer != null" >
+        #{puspakomPrimeMoverTrailer,jdbcType=INTEGER},
+      </if>
+      <if test="premitSpad != null" >
+        #{premitSpad,jdbcType=INTEGER},
+      </if>
+      <if test="lesenPengendalianSpad != null" >
+        #{lesenPengendalianSpad,jdbcType=INTEGER},
+      </if>
+      <if test="lesenPrekhidmatanSpad != null" >
+        #{lesenPrekhidmatanSpad,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    update t_car_documents
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="roadTaxPrimeMoverTrailer != null" >
+        road_tax_prime_mover_trailer = #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER},
+      </if>
+      <if test="puspakomPrimeMoverTrailer != null" >
+        puspakom_prime_mover_trailer = #{puspakomPrimeMoverTrailer,jdbcType=INTEGER},
+      </if>
+      <if test="premitSpad != null" >
+        premit_spad = #{premitSpad,jdbcType=INTEGER},
+      </if>
+      <if test="lesenPengendalianSpad != null" >
+        lesen_pengendalian_spad = #{lesenPengendalianSpad,jdbcType=INTEGER},
+      </if>
+      <if test="lesenPrekhidmatanSpad != null" >
+        lesen_prekhidmatan_spad = #{lesenPrekhidmatanSpad,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    update t_car_documents
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      road_tax_prime_mover_trailer = #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER},
+      puspakom_prime_mover_trailer = #{puspakomPrimeMoverTrailer,jdbcType=INTEGER},
+      premit_spad = #{premitSpad,jdbcType=INTEGER},
+      lesen_pengendalian_spad = #{lesenPengendalianSpad,jdbcType=INTEGER},
+      lesen_prekhidmatan_spad = #{lesenPrekhidmatanSpad,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
