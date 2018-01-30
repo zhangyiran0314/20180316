@@ -142,4 +142,8 @@ public class CarDocuments {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+    /**统计当前对象是否故障*/
+    public int getCount(){
+    	return roadTaxPrimeMoverTrailer+puspakomPrimeMoverTrailer+premitSpad+lesenPengendalianSpad+lesenPrekhidmatanSpad;
+    }
 }

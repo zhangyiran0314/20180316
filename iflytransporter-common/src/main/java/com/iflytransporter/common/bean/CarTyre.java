@@ -29,6 +29,11 @@ public class CarTyre {
 
     private String remark;
 
+    /**统计当前对象是否故障*/
+    public int getCount(){
+    	return allTyrePressureEnough+tyreFlowerNotBootRosak+nutHubTyreNoEffects+strengthenTyreSpareEnough;
+    }
+    
     public String getId() {
         return id;
     }

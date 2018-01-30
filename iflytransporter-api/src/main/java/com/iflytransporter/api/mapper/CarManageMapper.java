@@ -1,6 +1,7 @@
 package com.iflytransporter.api.mapper;
 
 import com.iflytransporter.common.bean.CarAirCoolant;
+import com.iflytransporter.common.bean.CarDailyInspection;
 import com.iflytransporter.common.bean.CarDocuments;
 import com.iflytransporter.common.bean.CarEngineOil;
 import com.iflytransporter.common.bean.CarSafetyEquipment;
@@ -19,4 +20,6 @@ public interface CarManageMapper {
 	int insertCarSignalLight(CarSignalLight record);
 	
 	int insertCarTyre(CarTyre record);
+	
+	int insertCarDailyInspection(CarDailyInspection record);
 }

@@ -70,7 +70,7 @@
     values (#{id,jdbcType=VARCHAR},now(),
       #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
       #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{signalLightLamp,jdbcType=INTEGER}, 
-      #{greatLight,jdbcType=INTEGER}, #{sideMirror,jdbcType=INTEGER}, #{temperatureInGoodCondition,jdbcType=VARCHAR}, 
+      #{greatLight,jdbcType=INTEGER}, #{sideMirror,jdbcType=INTEGER}, #{temperatureInGoodCondition,jdbcType=INTEGER}, 
       #{doubleSignal,jdbcType=INTEGER}, #{goodPlateNumber,jdbcType=INTEGER}, #{takometerWorking,jdbcType=INTEGER}, 
       #{odometerWorking,jdbcType=INTEGER}, #{levelMeterWorking,jdbcType=INTEGER}, #{windsTankRemoveWaterOilMud,jdbcType=INTEGER}, 
       #{beaconLampFunction,jdbcType=INTEGER}, #{honFunction,jdbcType=INTEGER}, #{wiperInAGoodCondition,jdbcType=INTEGER}, 
@@ -90,4 +90,21 @@
       #{strengthenTyreSpareEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
    
+    <insert id="insertCarDailyInspection" parameterType="com.iflytransporter.common.bean.CarDailyInspection" >
+    insert into t_car_daily_inspection (id, update_date, desp, company_id, 
+      driver_id, car_id, inspection_date, 
+      engine_oil_id, engine_oil_count, air_coolant_id, 
+      air_coolant_count, tyre_id, tyre_count, 
+      signal_light_id, signal_light_count, safety_equipment_id, 
+      safety_equipment_count, documents_id, documents_count
+      )
+    values (#{id,jdbcType=VARCHAR}, now(),
+       #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, now(),
+      #{engineOilId,jdbcType=VARCHAR}, #{engineOilCount,jdbcType=INTEGER}, #{airCoolantId,jdbcType=VARCHAR}, 
+      #{airCoolantCount,jdbcType=INTEGER}, #{tyreId,jdbcType=VARCHAR}, #{tyreCount,jdbcType=INTEGER}, 
+      #{signalLightId,jdbcType=VARCHAR}, #{signalLightCount,jdbcType=INTEGER}, #{safetyEquipmentId,jdbcType=VARCHAR}, 
+      #{safetyEquipmentCount,jdbcType=INTEGER}, #{documentsId,jdbcType=VARCHAR}, #{documentsCount,jdbcType=INTEGER}
+      )
+  </insert>
 </mapper>

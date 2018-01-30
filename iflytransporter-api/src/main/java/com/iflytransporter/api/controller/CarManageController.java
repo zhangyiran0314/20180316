@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.CarResp;
+import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
 import com.iflytransporter.api.service.CarManageService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.ResponseUtil;
@@ -29,7 +30,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-@Api(value = "carManage api",description="车辆操作 Controller")
+@Api(value = "carManage api",description="车辆管理操作 Controller")
 @Controller
 @RequestMapping("/carManage/{version}")
 public class CarManageController {
@@ -39,7 +40,23 @@ public class CarManageController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value="addCarAirCoolant", notes="新增",produces = "application/json")
+	@ApiOperation(value="addCarDailyInspection", notes="新增",produces = "application/json")
+	@RequestMapping(value="addCarDailyInspection", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addCarDailyInspection(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody CarDailyInspectionReq dailyInspection){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		String companyId = user.getCompanyId();
+		
+		int result = carManageService.addCarDailyInspection(dailyInspection, companyId, userId);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	
+	/*@ApiOperation(value="addCarAirCoolant", notes="新增",produces = "application/json")
 	@RequestMapping(value="addCarAirCoolant", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> addCarAirCoolant(HttpServletRequest request, HttpServletResponse response,
@@ -146,5 +163,5 @@ public class CarManageController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	
+	*/
 }
