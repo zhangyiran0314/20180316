@@ -1,10 +1,12 @@
 package com.iflytransporter.api.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +26,7 @@ import com.iflytransporter.common.bean.CarSafetyEquipment;
 import com.iflytransporter.common.bean.CarSignalLight;
 import com.iflytransporter.common.bean.CarTyre;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -40,7 +43,7 @@ public class CarManageController {
 	@Autowired
 	private UserService userService;
 	
-	@ApiOperation(value="addCarDailyInspection", notes="新增",produces = "application/json")
+	@ApiOperation(value="addCarDailyInspection", notes="新增-每日一检",produces = "application/json")
 	@RequestMapping(value="addCarDailyInspection", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> addCarDailyInspection(HttpServletRequest request, HttpServletResponse response,
@@ -55,7 +58,70 @@ public class CarManageController {
 		}
 		return ResponseUtil.failureResult();
 	}
+	@ApiOperation(value="addDriveRest", notes="新增-行车休息",produces = "application/json")
+	@RequestMapping(value="addDriveRest", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addDriveRest(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		// TODO
+		/*if(result > 0){
+			return ResponseUtil.successResult();
+		}*/
+		return ResponseUtil.failureResult();
+	}
 	
+	@ApiOperation(value="index", notes="车辆管理-主页",produces = "application/json")
+	@RequestMapping(value="index", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> index(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		
+		User user = userService.detailUserByCache(userId);
+		String companyId = user.getCompanyId();
+		Map<String,Object> result  = new HashMap<String,Object>();
+	
+		//管理员首页
+		if(Status.User_Level_Admin == user.getLevel()){
+			//1.查询我的运单
+			//2.每日一检
+			//3.司机休息
+			//4.保险提醒
+			//5.路税提醒
+			//6.车检提醒
+			// TODO
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="listDailyInspection", notes="车辆管理-每日一检列表",produces = "application/json")
+	@RequestMapping(value="listDailyInspection", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listDailyInspection(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			// TODO
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="dailyInspection", notes="车辆管理-每日一检",produces = "application/json")
+	@RequestMapping(value="dailyInspection", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> dailyInspection(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		String carId = (String) requestMap.get("carId");
+		if(Status.User_Level_Admin == user.getLevel() && StringUtils.isNotBlank(carId)){
+			// TODO
+			return ResponseUtil.successResult();
+		}else if(Status.User_Level_Admin != user.getLevel()){
+			// TODO
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 	/*@ApiOperation(value="addCarAirCoolant", notes="新增",produces = "application/json")
 	@RequestMapping(value="addCarAirCoolant", method=RequestMethod.POST)
 	@ResponseBody
