@@ -81,7 +81,7 @@ layui.config({
 		    layer.msg(JSON.stringify(data.field));
 		    
 		    $.ajax({  
-                url: "<%=request.getContextPath()%>/shipper/company/editAuth",
+                url: "<%=request.getContextPath()%>/transporter/company/editAuth",
                 type: "post",
                 dataType:"json",
                 contentType:"application/json",
@@ -111,7 +111,7 @@ layui.config({
 	var objectId = $("#objectId").val();
 	if(objectId!=""){
 		$.ajax({
-			url : "<%=request.getContextPath()%>/shipper/company/detail",
+			url : "<%=request.getContextPath()%>/transporter/company/detail",
 			type : "get",
 			data:{id:objectId},
 			dataType : "json",
