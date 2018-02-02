@@ -80,7 +80,7 @@
 		</div>
 		<!-- 底部 -->
 		<div class="layui-footer footer">
-			<p>copyright @2017 诚壹科技鼎力支持　</p>
+			<p>copyright @2017 爱福莱科技鼎力支持　</p>
 		</div>
 	</div>
 	

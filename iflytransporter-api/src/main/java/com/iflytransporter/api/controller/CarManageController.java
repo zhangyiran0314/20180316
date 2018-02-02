@@ -14,24 +14,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iflytransporter.api.bean.CarResp;
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
 import com.iflytransporter.api.service.CarManageService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.ResponseUtil;
-import com.iflytransporter.common.bean.CarAirCoolant;
-import com.iflytransporter.common.bean.CarDocuments;
-import com.iflytransporter.common.bean.CarEngineOil;
-import com.iflytransporter.common.bean.CarSafetyEquipment;
-import com.iflytransporter.common.bean.CarSignalLight;
-import com.iflytransporter.common.bean.CarTyre;
+import com.iflytransporter.api.utils.UUIDUtil;
+import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.Status;
-import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 
 @Api(value = "carManage api",description="车辆管理操作 Controller")
 @Controller
@@ -56,18 +49,6 @@ public class CarManageController {
 		if(result > 0){
 			return ResponseUtil.successResult();
 		}
-		return ResponseUtil.failureResult();
-	}
-	@ApiOperation(value="addDriveRest", notes="新增-行车休息",produces = "application/json")
-	@RequestMapping(value="addDriveRest", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> addDriveRest(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Map<String,Object> requestMap){
-		String userId =  (String) request.getAttribute("userId");
-		// TODO
-		/*if(result > 0){
-			return ResponseUtil.successResult();
-		}*/
 		return ResponseUtil.failureResult();
 	}
 	
@@ -230,4 +211,26 @@ public class CarManageController {
 		return ResponseUtil.failureResult();
 	}
 	*/
+	@ApiOperation(value="addCarDriveRest", notes="新增-行车休息",produces = "application/json")
+	@RequestMapping(value="addCarDriveRest", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> addCarDriveRest(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String carId = (String) requestMap.get("carId");
+		Integer type = (Integer) requestMap.get("type");
+		User user = userService.detailUserByCache(userId);
+		String companyId = user.getCompanyId();
+		CarDriveRest cdr = new CarDriveRest();
+		cdr.setCarId(carId);
+		cdr.setCompanyId(companyId);
+		cdr.setDriverId(userId);
+		cdr.setType(type);
+		cdr.setId(UUIDUtil.UUID());
+		int result = carManageService.addCarDriveRest(cdr);
+		if(result > 0){
+			return ResponseUtil.successResult();
+		}
+		return ResponseUtil.failureResult();
+	}
 }

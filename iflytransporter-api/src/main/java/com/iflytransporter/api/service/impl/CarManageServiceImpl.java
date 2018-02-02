@@ -1,5 +1,7 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.Map;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.CarAirCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
 import com.iflytransporter.common.bean.CarDocuments;
+import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.CarEngineOil;
 import com.iflytransporter.common.bean.CarSafetyEquipment;
 import com.iflytransporter.common.bean.CarSignalLight;
@@ -121,6 +124,73 @@ public class CarManageServiceImpl implements CarManageService{
 		int result = carManageMapper.insertCarDailyInspection(dailyInspection);
 		return result;
 	}
+
+	@Override
+	public int addCarDriveRest(CarDriveRest record) {
+		return carManageMapper.insertCarDriveRest(record);
+	}
+
+	@Override
+	public Map<String, Object> queryTransporterWaybill(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryDriverWaybill(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryTransporterCarDailyInspection(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryDriverCarDailyInspection(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryTransporterCarDriveRest(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryDriverCarDriveRest(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryCarInsurance(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryCarTax(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryCarCheck(String companyId, String driverId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryTransporterWaybillList(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
 	/*@Override
 	public int addCarAirCoolant(CarAirCoolant record) {
 		return carManageMapper.insertCarAirCoolant(record);

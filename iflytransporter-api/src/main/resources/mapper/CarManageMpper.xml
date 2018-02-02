@@ -1,7 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.iflytransporter.api.mapper.CarManageMapper" >
-
+	<!-- //我的运单-车主
+	Map<String,Object> queryTransporterWaybill(String companyId);
+	//我的运单-司机
+	Map<String,Object> queryDriverWaybill(String companyId,String driverId);
+	//每日一检-车主
+	Map<String,Object> queryTransporterCarDailyInspection(String companyId);
+	//每日一检-司机
+	Map<String,Object> queryDriverCarDailyInspection(String companyId,String driverId);
+	//司机休息-车主
+	Map<String,Object> queryTransporterCarDriveRest(String companyId);
+	//司机休息-司机
+	Map<String,Object> queryDriverCarDriveRest(String companyId,String driverId);
+	
+	//保险提醒
+	Map<String,Object> queryCarInsurance(String companyId,String driverId);
+	//路税提醒
+	Map<String,Object> queryCarTax(String companyId,String driverId);
+	//年检提醒
+	Map<String,Object> queryCarCheck(String companyId,String driverId); -->
+	
+	<!--车主-运单- 车辆总数,运单总数,待派单运单数 -->
+	<select id="queryTransporterWaybill">
+		select 
+		ifnull(b.count,0) as carCount,ifnull(c.count,0) as waybillCount,
+		count(1) as count
+		from t_waybill a
+		left join  (select company_id,count(1) as count from t_car group by company_id ) b on b.company_id = a.transporter_company_id
+		left join  (select transporter_company_id,count(1) as count from t_waybill group by transporter_company_id ) c on c.transporter_company_id = a.transporter_company_id
+		where a.`status` = 0 and a.dispense_status = 0
+		and a.transporter_company_id=#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!--车主-运单- 车牌,车辆运单数,待装车数量 -->
+	<select id="queryTransporterWaybillList">
+		select a.id as carId,a.`name`,a.`code`,ifnull(b.count,0) as count,ifnull(c.count,0) as loadingCount
+		from t_car a 
+		left join (
+			select count(1) as count,car_id from t_waybill where transporter_company_id = #{companyId,jdbcType=VARCHAR} group by car_id
+		) b on a.id = b.car_id 
+		left join(
+			select car_id ,count(1) as count from t_waybill where transporter_company_id = #{companyId,jdbcType=VARCHAR} and status = 0 and dispense_status = 0 group by car_id
+		) c on a.id = c.car_id 
+		where a.company_id = #{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 预留根据车辆id查询运单相关详情信息 -->
+	
+	<!-- 车主-每日一检 -->
+	<select id="queryTransporterCarDailyInspection">
+		select a.company_id,ifnull(count(1),0) as carCount,
+		     ifnull(b.count,0) as successCount,
+		     ifnull(count(1) -b.count,count(1)) as failureCount
+		from t_car a
+		left join (
+			select company_id,count(1) as count from t_car_daily_inspection where inspection_date = #{currentDate,jdbcType=DATE} group by company_id 
+		)b on b.company_id = a.company_id
+		where a.company_id = #{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 车主-每日一检 -列表-->
+	<select id="queryTransporterCarDailyInspectionList">
+		select 
+			a.id as carId,a.`name` as carName,a.code ,c.surname,c.name as name,
+     		ifnull(b.count,0) as submitStatus,b.faultCount
+		from t_car a
+		left join t_user c on a.driver_id = c.id
+		left join (
+			select company_id,count(1) as count,
+				(engine_oil_count+air_coolant_count+tyre_count+signal_light_count+safety_equipment_count+documents_count) as faultCount
+			from t_car_daily_inspection 
+			where inspection_date = #{currentDate,jdbcType=DATE} group by company_id 
+		)b on b.company_id = a.company_id
+		where a.company_id =#{companyId,jdbcType=VARCHAR} 
+	</select>
+	
+	<!-- 保险提醒 -->
+	<select id="queryCarInsurance">
+	    select 
+			count(1) as count , 
+		  	count(case when datediff(insurance_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
+		  	count(case when datediff(insurance_end_date,#{currentDate,jdbcType=DATE}) &lt; 7 then 0 end) failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 保险提醒 -列表-->
+	<select id="queryCarInsuranceList">
+	    select id,code,insurance_end_date as endDate,
+ 		 	datediff(insurance_end_date,#{currentDate,jdbcType=DATE})  failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 保险提醒 -详情-->
+	<select id="queryCarInsuranceDetail">
+	    select id,insurance_start_date as startDate,insurance_end_date as endDate,
+	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
+		from t_car a
+		left join t_attachment t on a.attachment_id_3 = t.id
+		where a.id =#{carId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 路税提醒 -->
+	<select id="queryCarTax">
+	    select 
+			count(1) as count , 
+		  	count(case when datediff(tax_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
+		  	count(case when datediff(tax_end_date,#{currentDate,jdbcType=DATE}) &lt; 7 then 0 end) failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 路税提醒 -列表-->
+	<select id="queryCarTaxList">
+	    select id,code,tax_end_date as endDate,
+ 		 	datediff(tax_end_date,#{currentDate,jdbcType=DATE})  failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 路税提醒 -详情-->
+	<select id="queryCarTaxDetail">
+	    select id,tax_start_date as startDate,tax_end_date as endDate,
+	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
+		from t_car a
+		left join t_attachment t on a.attachment_id_4 = t.id
+		where a.id =#{carId,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 车检提醒 -->
+	<select id="queryCarCheck">
+	    select 
+			count(1) as count , 
+		  	count(case when datediff(check_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
+		  	count(case when datediff(check_end_date,#{currentDate,jdbcType=DATE}) &lt; 7 then 0 end) failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 车检提醒 -列表-->
+	<select id="queryCarCheckList">
+	    select id,code,check_end_date as endDate,
+ 		 	datediff(check_end_date,#{currentDate,jdbcType=DATE})  failureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+	</select>
+	<!-- 车检提醒 -详情-->
+	<select id="queryCarCheckDetail">
+	    select id,check_start_date as startDate,check_end_date as endDate,
+	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
+		from t_car a
+		left join t_attachment t on a.attachment_id_5 = t.id
+		where a.id =#{carId,jdbcType=VARCHAR}
+	</select>
+	
   <insert id="insertCarAirCoolant" parameterType="com.iflytransporter.common.bean.CarAirCoolant" >
     insert into t_car_air_coolant (id, update_date, 
       desp, company_id, 
@@ -105,6 +252,15 @@
       #{airCoolantCount,jdbcType=INTEGER}, #{tyreId,jdbcType=VARCHAR}, #{tyreCount,jdbcType=INTEGER}, 
       #{signalLightId,jdbcType=VARCHAR}, #{signalLightCount,jdbcType=INTEGER}, #{safetyEquipmentId,jdbcType=VARCHAR}, 
       #{safetyEquipmentCount,jdbcType=INTEGER}, #{documentsId,jdbcType=VARCHAR}, #{documentsCount,jdbcType=INTEGER}
+      )
+  </insert>
+  
+   <insert id="insertCarDriveRest" parameterType="com.iflytransporter.common.bean.CarDriveRest" >
+    insert into t_car_drive_rest (id, update_date, desp, company_id, 
+      driver_id, car_id, type)
+    values (#{id,jdbcType=VARCHAR}, now(),
+       #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
       )
   </insert>
 </mapper>
