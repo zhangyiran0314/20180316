@@ -99,14 +99,15 @@ layui.config({
 		        {field:'costs',title:'报价', width:'180'},
                 {field:'status',title:'运单状态', width:'180',templet:'#statusTpl'},
                 
-                {field:'shipperComanyName',title:'货主公司', width:'180'},
+                {field:'shipperCompanyName',title:'货主公司', width:'180'},
                 {field:'shipperMobile',title:'货主手机', width:'180'},
                 
-                {field:'transporterComanyName',title:'车主公司', width:'180'},
-                {field:'transporterMobile',title:'车主手机', width:'180'},
-                {field:'driverMobile',title:'司机手机', width:'180'},
                 {field:'dispenseStatus',title:'派单状态', width:'180',templet:'#dispenseStatusTpl'},
                 {field:'dispenseDate',title:'派单日期', width:'180'},
+                
+                {field:'transporterCompanyName',title:'车主公司', width:'180'},
+                {field:'transporterMobile',title:'车主手机', width:'180'},
+                {field:'driverMobile',title:'司机手机', width:'180'},
                 {field:'carName',title:'车辆名称', width:'180'},
                 {field:'carCode',title:'车牌', width:'180'},
                 
@@ -261,7 +262,7 @@ layui.config({
 		   		待装车
 		    {{# }else if(d.status == 1){ }}
 		  		运输中
-		    {{#  } if(d.status == 1){ }}
+		    {{#  } else if(d.status == 2){ }}
 				待确认
  			{{#  } else{ }}
 				已完结			

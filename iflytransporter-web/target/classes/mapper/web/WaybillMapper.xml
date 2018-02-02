@@ -47,11 +47,11 @@
    	a.status,
    	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
    	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
-    b.name as shipperComanyName,
+    b.name as shipperCompanyName,
     c.name as shipperName,
-    d.name as transporterComanyName,
+    d.name as transporterCompanyName,
     e.name as transporterName,
-    f.name as driverName,
+    f.surname as driverSurname,f.name as driverName,f.mobile as driverMobile,
     g.name as carName,g.code as carCode
     from t_waybill a
     
@@ -95,9 +95,9 @@
    	a.status as status,
    	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
    	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
-    b.name as shipperComanyName,
+    b.name as shipperCompanyName,
     c.surname as shipperSurname, c.name as shipperName, c.mobile as shipperMobile,
-    d.name as transporterComanyName,
+    d.name as transporterCompanyName,
     e.surname as transporterSurname, e.name as transporterName,e.mobile as transporterMobile,
     f.surname as driverSurname,f.name as driverName,f.mobile as driverMobile,
     g.name as carName,g.code as carCode,
@@ -115,7 +115,7 @@
     j.car_length as carLength, 
     j.goods_type goodsType, 
     j.goods_units as goodsUnits, 
-    j.deliver_date deliverDate, 
+    j.deliver_date orderDeliverDate, 
     j.remark,
     j.insurance_id,  
     j.use_type_id as useTypeId, 
@@ -135,10 +135,10 @@
   
    <select id="takeAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
    select a.take_date as takeDate,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as takeAttachmentId1Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as takeAttachmentId2Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as takeAttachmentId3Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as takeAttachmentId4Link
 	from t_waybill a 
 	LEFT JOIN t_attachment b on a.take_attachment_id_1 = b.id
 	LEFT JOIN t_attachment c on a.take_attachment_id_2 = c.id
@@ -149,10 +149,10 @@
   
   <select id="deliverAttachmentList" resultType="java.util.Map" parameterType="java.lang.String">
    select a.deliver_date as deliverDate,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
-   concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as deliverAttachmentId1Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as deliverAttachmentId2Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as deliverAttachmentId3Link,
+   concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',e.attachment_link) as deliverAttachmentId4Link
 	from t_waybill a 
 	LEFT JOIN t_attachment b on a.deliver_attachment_id_1 = b.id
 	LEFT JOIN t_attachment c on a.deliver_attachment_id_2 = c.id

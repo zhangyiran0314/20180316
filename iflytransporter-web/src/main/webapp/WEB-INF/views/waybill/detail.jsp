@@ -95,7 +95,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		<div class="layui-form-item">
 			<label class="layui-form-label">发货日期</label>
 			<div class="layui-input-block">
-				<input type="text" class="layui-input deliverDate">
+				<input type="text" class="layui-input orderDeliverDate">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -169,24 +169,22 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 		
 		<div class="layui-form-item">
 		    <label class="layui-form-label">运单状态</label>
-		    <div class="layui-input-block">
-		      	  <input type="radio" name="status" value="0" title="待装车">
-			      <input type="radio" name="status" value="1" title="运输中">
-			      <input type="radio" name="status" value="2" title="待确认">
-			      <input type="radio" name="status" value="3" title="已完结">
+		    <div class="layui-input-block" lay-filter="status">
+		      	  <input type="radio" lay-filter="status_0" value="0" title="待装车">
+			      <input type="radio" lay-filter="status_1" value="1" title="运输中">
+			      <input type="radio" lay-filter="status_2" value="2" title="待确认">
+			      <input type="radio" lay-filter="status_3" value="3" title="已完结">
 		    </div>
 		  </div>
 		
 		<div class="layui-form-item">
-		
-			<div class="layui-input-inline">
 				<label class="layui-form-label">派单状态</label>
-				<div class="layui-input-block">
-				   <input type="radio" name="dispenseStatus" value="0" title="未派单">
-			       <input type="radio" name="dispenseStatus" value="1" title="已派单">
+				<div class="layui-input-block" lay-filter="status">
+				   <input type="radio" lay-filter="dispenseStatus_0" value="0" title="未派单">
+			       <input type="radio" lay-filter="dispenseStatus_1" value="1" title="已派单">
 				</div>
-			</div>
-			
+		</div>
+		<div class="layui-form-item">
 			<div class="layui-input-inline">
 				<label class="layui-form-label">司机姓</label>
 				<div class="layui-input-block">
@@ -337,14 +335,16 @@ layui.config({
 		$(".paymentType").val(data.paymentType.name); 
 		$(".goodsUnits").val(data.goodsUnits);    
 		
-		$(".deliverDate").val(data.deliverDate);   
+		$(".orderDeliverDate").val(data.orderDeliverDate);   
 		$(".remark").val(data.remark);  
 		$(".costs").val(data.costs);  
 		
+		$(".shipperCompanyName").val(data.shipperCompanyName);
 		$(".shipperSurname").val(data.shipperSurname);  
 		$(".shipperName").val(data.shipperName);  
 		$(".shipperMobile").val(data.shipperMobile);  
 		
+		$(".transporterCompanyName").val(data.transporterCompanyName);  
 		$(".transporterSurname").val(data.transporterSurname);  
 		$(".transporterName").val(data.transporterName);  
 		$(".transporterMobile").val(data.transporterMobile); 
@@ -405,6 +405,9 @@ layui.config({
 		
 		$(".createDate").val(data.createDate); 
 		
+		$('[lay-filter=status_'+data.status+']').prop('checked',true);  
+		$('[lay-filter=dispenseStatus_'+data.dispenseStatus+']').prop('checked',true);  
+		form.render("radio");
 	}
 })
 </script>
