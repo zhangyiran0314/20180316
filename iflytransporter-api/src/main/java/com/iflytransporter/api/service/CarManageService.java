@@ -6,30 +6,29 @@ import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
 import com.iflytransporter.common.bean.CarDriveRest;
 
 public interface CarManageService {
-	/*int addCarAirCoolant(CarAirCoolant record);
-	
-	int addCarDocuments(CarDocuments record);
-	
-	int addCarEngineOil(CarEngineOil record);
-	
-	int addCarSafetyEquipment(CarSafetyEquipment record);
-	
-	int addCarSignalLight(CarSignalLight record);
-	
-	int addCarTyre(CarTyre record);*/
-	
+	/**添加每日一检记录*/
 	int addCarDailyInspection(CarDailyInspectionReq dailyInspection,String companyId,String driverId);
-	
-	/**
-	 * 行车休息记录,类似打卡操作,开始-行车-休息-行车-休息-。。。结束
-	 */
+	/** 行车休息记录,类似打卡操作,开始-行车-休息-行车-休息-。。。结束 */
 	int addCarDriveRest(CarDriveRest record);
-	/**首页查询*/
-	/**
-	 * 车主-我的运单
-	 * @param companyId
-	 * @return 车辆总数,运单总数,待派单运单数
-	 */
+	/**司机-首页查询*/
+	Map<String,Object> indexDriver(String companyId,String driverId);
+	//司机-我的运单
+	Map<String,Object> queryDriverWaybill(String companyId,String driverId);
+	//司机-每日一检
+	Map<String,Object> queryDriverCarDailyInspection(String companyId,String driverId);
+	//司机-司机休息
+	Map<String,Object> queryDriverCarDriveRestDetail(String companyId,String driverId);
+	
+	//保险提醒
+	Map<String,Object> queryCarInsuranceDetail(String carId);
+	//路税提醒
+	Map<String,Object> queryCarTaxDetail(String carId);
+	//年检提醒
+	Map<String,Object> queryCarCheckDetail(String carId);
+	
+	/**车主-首页查询 */
+	Map<String,Object> indexTransporter(String companyId);
+	
 	Map<String,Object> queryTransporterWaybill(String companyId);
 	/**
 	 * -车主-我的运单-列表
@@ -37,24 +36,18 @@ public interface CarManageService {
 	 * @return 车牌,车辆运单数,待装车数量
 	 */
 	Map<String,Object> queryTransporterWaybillList(String companyId);
-	
-	
-	//我的运单-司机
-	Map<String,Object> queryDriverWaybill(String companyId,String driverId);
-	//每日一检-车主
+	//车主-我的运单-列表
+	Map<String,Object> queryDriverWaybillList(String companyId);
+	//车主-每日一检
 	Map<String,Object> queryTransporterCarDailyInspection(String companyId);
-	//每日一检-司机
-	Map<String,Object> queryDriverCarDailyInspection(String companyId,String driverId);
 	//司机休息-车主
 	Map<String,Object> queryTransporterCarDriveRest(String companyId);
-	//司机休息-司机
-	Map<String,Object> queryDriverCarDriveRest(String companyId,String driverId);
 	
-	//保险提醒
-	Map<String,Object> queryCarInsurance(String companyId,String driverId);
-	//路税提醒
-	Map<String,Object> queryCarTax(String companyId,String driverId);
-	//年检提醒
-	Map<String,Object> queryCarCheck(String companyId,String driverId);
-	
+	/**公用单项查询**/
+	Map<String,Object> detailCarAirCoolant(String id);
+	Map<String,Object> detailCarDocuments(String id);
+	Map<String,Object> detailCarEngineOil(String id);
+	Map<String,Object> detailCarSafetyEquipment(String id);
+	Map<String,Object> detailCarSignalLight(String id);
+	Map<String,Object> detailCarTyre(String id);
 }

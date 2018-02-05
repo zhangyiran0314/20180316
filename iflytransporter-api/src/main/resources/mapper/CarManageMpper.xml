@@ -73,8 +73,74 @@
 		where a.company_id =#{companyId,jdbcType=VARCHAR} 
 	</select>
 	
+	<!-- 司机-首页-运单 -->
+	<select id="queryIndexDriverWaybill" resultType ="java.util.Map">
+		select 
+		ifnull(b.count,0) as waybillCount,
+		count(1) as count
+		from t_waybill a
+		left join  
+			(select driver_id,count(1) as count from t_waybill where status =0 and dispense_status = 1 and driver_id =#{driverId,jdbcType=VARCHAR} ) b 
+		on b.driver_id = a.driver_id
+		where
+		a.transporter_company_id=#{companyId,jdbcType=VARCHAR}  
+		and a.driver_id = #{driverId,jdbcType=VARCHAR} 
+	</select>
+	<!-- 司机-首页-每日一检 -->
+	<select id="queryIndexDriverCarDailyInspection" resultType ="java.util.Map">	
+		select count(1) as count
+		from t_car_daily_inspection 
+		where company_id = #{companyId,jdbcType=VARCHAR}  
+		and driver_id  = #{driverId,jdbcType=VARCHAR} 
+		and inspection_date = #{currentDate,jdbcType=DATE}
+	</select>
+	<!-- 司机-首页-行车休息 -->
+	<select id="queryIndexDriverCarDriveRest" resultType ="java.util.Map">
+		select * from t_car_drive_rest 
+		where driver_id = #{driverId,jdbcType=VARCHAR}
+	</select>
+	<!-- 司机-首页-保险,路税,车检提醒 -->
+	<select id="queryIndexDriverCarNotice" resultType="java.util.Map">
+		 select id as carId,code,
+		 	date_format(insurance_end_date,'%Y-%m-%d') as insuranceEndDate,
+ 		 	datediff(insurance_end_date,#{currentDate,jdbcType=DATE})  insuranceFailureCount,
+ 		    date_format(tax_end_date,'%Y-%m-%d') as taxEndDate,
+ 		 	datediff(tax_end_date,#{currentDate,jdbcType=DATE})  taxFailureCount,
+ 		 	date_format(check_end_date,'%Y-%m-%d') as checkEndDate,
+ 		 	datediff(check_end_date,#{currentDate,jdbcType=DATE})  checkFailureCount
+		from t_car
+		where company_id =#{companyId,jdbcType=VARCHAR}
+		<if test="driverId != null and driverId != ''">
+			and driver_id = #{driverId,jdbcType=VARCHAR} 
+		</if>
+	</select>
+	<!-- 司机-每日一检- -->
+	<select id="queryDriverCarDailyInspection" resultType="java.util.Map">
+		select 
+		a.inspection_date as inspenctionDate ,
+    	a.engine_oil_id as engioneOilId,
+    	a.engine_oil_count as engineOilCount,
+    	a.air_coolant_id as airCoolantId,
+    	air_coolant_count as airCoolantCount, 
+    	a.tyre_id as tyreId, 
+    	a.tyre_count as tyreCount, 
+    	a.signal_light_id as signalLightId, 
+    	a.signal_light_count as signalLightCount, 
+    	a.safety_equipment_id as safetyEquipmentId,
+    	a.safety_equipment_count as safetyEquipmentCount, 
+    	a.documents_id as documentId, 
+    	a.documents_count as documentsCount
+    	from t_car_daily_inspection a
+		<!-- b.id as carId,b.code as carCode,
+		c.surname ,c.name 
+		LEFT JOIN t_car b on a.car_id = b.id
+		left join t_user c on  a.driver_id = c.id -->
+		where a.driver_id = #{driverId,jdbcType=VARCHAR} and a.inspection_date = #{currentDate,jdbcType=DATE}
+	</select>
+	<!-- 司机-运单统计-保留 -->
+	
 	<!-- 保险提醒 -->
-	<select id="queryCarInsurance">
+	<select id="queryCarInsurance" resultType ="java.util.Map">
 	    select 
 			count(1) as count , 
 		  	count(case when datediff(insurance_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
@@ -83,15 +149,20 @@
 		where company_id =#{companyId,jdbcType=VARCHAR}
 	</select>
 	<!-- 保险提醒 -列表-->
-	<select id="queryCarInsuranceList">
-	    select id,code,insurance_end_date as endDate,
+	<select id="queryCarInsuranceList" resultType ="java.util.Map">
+	    select id,code,date_format(insurance_end_date,'%Y-%m-%d') as endDate,
  		 	datediff(insurance_end_date,#{currentDate,jdbcType=DATE})  failureCount
 		from t_car
 		where company_id =#{companyId,jdbcType=VARCHAR}
+		<if test="driverId != null and driverId != ''">
+			and driver_id = #{driverId,jdbcType=VARCHAR} 
+		</if>
 	</select>
 	<!-- 保险提醒 -详情-->
-	<select id="queryCarInsuranceDetail">
-	    select id,insurance_start_date as startDate,insurance_end_date as endDate,
+	<select id="queryCarInsuranceDetail" resultType ="java.util.Map">
+	    select a.id,
+	    	date_format(a.insurance_start_date,'%Y.%m.%d') as startDate,
+	    	date_format(a.insurance_end_date,'%Y.%m.%d') as endDate,
 	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
 		from t_car a
 		left join t_attachment t on a.attachment_id_3 = t.id
@@ -99,7 +170,7 @@
 	</select>
 	
 	<!-- 路税提醒 -->
-	<select id="queryCarTax">
+	<select id="queryCarTax" resultType ="java.util.Map">
 	    select 
 			count(1) as count , 
 		  	count(case when datediff(tax_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
@@ -108,15 +179,20 @@
 		where company_id =#{companyId,jdbcType=VARCHAR}
 	</select>
 	<!-- 路税提醒 -列表-->
-	<select id="queryCarTaxList">
-	    select id,code,tax_end_date as endDate,
+	<select id="queryCarTaxList" resultType ="java.util.Map">
+	    select id,code,date_format(tax_end_date,'%Y-%m-%d') as endDate,
  		 	datediff(tax_end_date,#{currentDate,jdbcType=DATE})  failureCount
 		from t_car
 		where company_id =#{companyId,jdbcType=VARCHAR}
+		<if test="driverId != null and driverId != ''">
+			and driver_id = #{driverId,jdbcType=VARCHAR} 
+		</if>
 	</select>
 	<!-- 路税提醒 -详情-->
-	<select id="queryCarTaxDetail">
-	    select id,tax_start_date as startDate,tax_end_date as endDate,
+	<select id="queryCarTaxDetail" resultType ="java.util.Map">
+	    select a.id,
+	    	date_format(a.tax_start_date,'%Y.%m.%d')  as startDate,
+	    	date_format(a.tax_end_date,'%Y.%m.%d')  as endDate,
 	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
 		from t_car a
 		left join t_attachment t on a.attachment_id_4 = t.id
@@ -125,7 +201,7 @@
 	
 	
 	<!-- 车检提醒 -->
-	<select id="queryCarCheck">
+	<select id="queryCarCheck" resultType ="java.util.Map">
 	    select 
 			count(1) as count , 
 		  	count(case when datediff(check_end_date,#{currentDate,jdbcType=DATE}) &gt; 7 then 0 end) successCount,
@@ -134,16 +210,21 @@
 		where company_id =#{companyId,jdbcType=VARCHAR}
 	</select>
 	<!-- 车检提醒 -列表-->
-	<select id="queryCarCheckList">
-	    select id,code,check_end_date as endDate,
+	<select id="queryCarCheckList" resultType ="java.util.Map">
+	    select id,code,date_format(check_end_date,'%Y-%m-%d') as endDate,
  		 	datediff(check_end_date,#{currentDate,jdbcType=DATE})  failureCount
 		from t_car
 		where company_id =#{companyId,jdbcType=VARCHAR}
+		<if test="driverId != null and driverId != ''">
+			and driver_id = #{driverId,jdbcType=VARCHAR} 
+		</if>
 	</select>
 	<!-- 车检提醒 -详情-->
-	<select id="queryCarCheckDetail">
-	    select id,check_start_date as startDate,check_end_date as endDate,
-	    	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
+	<select id="queryCarCheckDetail" resultType ="java.util.Map">
+	    select a.id,
+		    date_format(a.check_start_date,'%Y.%m.%d') as startDate,
+		    date_format(a.check_end_date,'%Y.%m.%d') as endDate,
+		    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t.attachment_link)  as attachmentIdLink 
 		from t_car a
 		left join t_attachment t on a.attachment_id_5 = t.id
 		where a.id =#{carId,jdbcType=VARCHAR}
@@ -159,6 +240,12 @@
       #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{airCoolantEnough,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
+  <select id="selectCarAirCoolant" resultType="java.util.Map" parameterType="java.lang.String">
+  	select  
+  	air_coolant_enough as airCoolantEnough,remark
+  	from t_car_air_coolant
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
   
    <insert id="insertCarDocuments" parameterType="com.iflytransporter.common.bean.CarDocuments" >
     insert into t_car_documents (id, update_date, 
@@ -174,6 +261,18 @@
       #{lesenPengendalianSpad,jdbcType=INTEGER}, #{lesenPrekhidmatanSpad,jdbcType=INTEGER}, 
       #{remark,jdbcType=VARCHAR})
   </insert>
+  <select id="selectCarDocuments" resultType="java.util.Map" parameterType="java.lang.String">
+  	select  
+  	lesen_pengendalian_spad lesenPengendalianSpad,
+    lesen_prekhidmatan_spad lesenPrekhidmatanSpad,
+    premit_spad premitSpad,
+    puspakom_prime_mover_trailer puspakomPrimeMoverTrailer,
+    remark remark,
+    road_tax_prime_mover_trailer as roadTaxPrimeMoverTrailer
+  	from t_car_documents
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
+  
    <insert id="insertCarEngineOil" parameterType="com.iflytransporter.common.bean.CarEngineOil" >
     insert into t_car_engine_oil (id, update_date, 
       desp, company_id, 
@@ -186,6 +285,17 @@
       #{oilClutchEnough,jdbcType=INTEGER}, #{oilBreakEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
+   <select id="selectCarEngineOil" resultType="java.util.Map" parameterType="java.lang.String">
+  	select  
+  	 engine_oil_enough as engineOilEnough, 
+     oil_clutch_enough oilClutchEnough,
+     oil_break_enough oilBreakEnough, 
+     remark
+  	 from t_car_engine_oil
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
+  
+  
   <insert id="insertCarSafetyEquipment" parameterType="com.iflytransporter.common.bean.CarSafetyEquipment" >
     insert into t_car_safety_equipment (id, update_date, 
       desp, company_id, 
@@ -204,6 +314,26 @@
       #{fireExtinguisterTool,jdbcType=INTEGER}, #{fireExtinguisterTool1,jdbcType=INTEGER}, 
       #{torchLight,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
+  
+   <select id="selectCarSafetyEquipment" resultType="java.util.Map" parameterType="java.lang.String">
+  	select  
+  	  safety_helmet safetyHelmet, 
+      safety_shoes safetyShoes, 
+      safety_google safetyGoogle,
+      safety_glove safetyGlove, 
+      sealt_belt_in_good_conditions sealtBeltInGoodConditions, 
+      lorry_is_conplete_jack_kabin lorryIsConpleteJackKabin, 
+      equipment_in_full_toolbox equipmentInFullToolbox, 
+      first_aid_box firstAidBox, 
+      safety_cone safetyCone, 
+      fire_extinguister_tool fireExtinguisterTool, 
+      fire_extinguister_tool_1 fireExtinguisterTool1, 
+      torch_light torchLight, 
+      remark
+  	 from t_car_safety_equipment
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
+  
   <insert id="insertCarSignalLight" parameterType="com.iflytransporter.common.bean.CarSignalLight" >
     insert into t_car_signal_light (id, update_date, desp, company_id, 
       driver_id, car_id, signal_light_lamp, 
@@ -225,6 +355,31 @@
       #{lightSticker,jdbcType=INTEGER}, #{stickerLimited,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
+   <select id="selectCarSignalLight" resultType = "java.util.Map" parameterType="java.lang.String">
+  	select  
+  	  signal_light_lamp signalLightLamp, 
+      great_light greatLight, 
+      side_mirror sideMirror, 
+      temperature_in_good_condition temperatureInGoodCondition, 
+      double_signal doubleSignal, 
+      good_plate_number goodPlateNumber, 
+      takometer_working takometerWorking, 
+      odometer_working odometerWorking, 
+      level_meter_working levelMeterWorking,
+      winds_tank_remove_water_oil_mud windsTankRemoveWaterOilMud, 
+      beacon_lamp_function beaconLampFunction, 
+      hon_function honFunction, 
+      wiper_in_a_good_condition wiperInAGoodCondition, 
+      break_hand breakHand, 
+      stereng, 
+      colder_heater colderHeater, 
+      light_sticker lightSticker, 
+      sticker_limited stickerLimited,
+      remark
+  	 from t_car_signal_light
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
+  
    <insert id="insertCarTyre" parameterType="com.iflytransporter.common.bean.CarTyre" >
     insert into t_car_tyre (id, update_date,  desp, company_id, 
       driver_id, car_id, all_tyre_pressure_enough, 
@@ -236,6 +391,17 @@
       #{tyreFlowerNotBootRosak,jdbcType=INTEGER}, #{nutHubTyreNoEffects,jdbcType=INTEGER}, 
       #{strengthenTyreSpareEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
+   
+   <select id="selectCarTyre" resultType = "java.util.Map" parameterType="java.lang.String">
+  	select  
+  	  all_tyre_pressure_enough allTyrePressureEnough, 
+      tyre_flower_not_boot_rosak tyreFlowerNotBootRosak, 
+      nut_hub_tyre_no_effects nutHubTyreNoEffects, 
+      strengthen_tyre_spare_enough strengthenTyreSpareEnough, 
+      remark
+  	 from t_car_tyre
+  	where id =#{id,jdbcType=VARCHAR}
+  </select>
    
     <insert id="insertCarDailyInspection" parameterType="com.iflytransporter.common.bean.CarDailyInspection" >
     insert into t_car_daily_inspection (id, update_date, desp, company_id, 

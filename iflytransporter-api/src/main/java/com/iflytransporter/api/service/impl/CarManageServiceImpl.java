@@ -1,5 +1,7 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -132,8 +134,7 @@ public class CarManageServiceImpl implements CarManageService{
 
 	@Override
 	public Map<String, Object> queryTransporterWaybill(String companyId) {
-		// TODO Auto-generated method stub
-		return null;
+		return carManageMapper.queryTransporterWaybill(companyId);
 	}
 
 	@Override
@@ -147,13 +148,6 @@ public class CarManageServiceImpl implements CarManageService{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Map<String, Object> queryDriverCarDailyInspection(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public Map<String, Object> queryTransporterCarDriveRest(String companyId) {
 		// TODO Auto-generated method stub
@@ -161,25 +155,7 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> queryDriverCarDriveRest(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> queryCarInsurance(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> queryCarTax(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> queryCarCheck(String companyId, String driverId) {
+	public Map<String, Object> queryDriverCarDriveRestDetail(String companyId, String driverId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -190,36 +166,94 @@ public class CarManageServiceImpl implements CarManageService{
 		return null;
 	}
 
+	@Override
+	public Map<String, Object> queryDriverWaybillList(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> indexDriver(String companyId,String driverId) {
+		Date currentDate = new Date();
+		//保险,路税,车检提醒
+		Map<String,Object> result  = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
+		//1.我的运单
+		Map<String,Object> waybill = carManageMapper.queryIndexDriverWaybill(companyId, driverId);
+		result.put("waybill", waybill);
+		//2.每日一检
+		Map<String,Object> dailyInspenction = carManageMapper.queryIndexDriverCarDailyInspection(companyId, driverId, currentDate);
+		result.put("dailyInspenction", dailyInspenction);
+		//3.司机休息
+		Map<String,Object> driverRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId);
+		result.put("driverRest", driverRest);
+		//保险,路税,车检提醒
+	/*	Map<String,Object> carNotice = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
+		result.put("carNotice", carNotice);*/
+		/*//5.路税提醒
+		Map<String,Object> tax = carManageMapper.queryCarTaxList(companyId, driverId,currentDate);
+		result.put("tax", tax);
+		//6.车检提醒
+		Map<String,Object> check = carManageMapper.queryCarCheckList(companyId, driverId,currentDate);
+		result.put("check", check);*/
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> queryDriverCarDailyInspection(String companyId, String driverId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryDriverCarDailyInspection(companyId, driverId, currentDate);
+	}
+
+	@Override
+	public Map<String, Object> detailCarAirCoolant(String id) {
+		return carManageMapper.selectCarAirCoolant(id);
+	}
+
+	@Override
+	public Map<String, Object> detailCarDocuments(String id) {
+		return carManageMapper.selectCarDocuments(id);
+	}
+
+	@Override
+	public Map<String, Object> detailCarEngineOil(String id) {
+		return carManageMapper.selectCarEngineOil(id);
+	}
+
+	@Override
+	public Map<String, Object> detailCarSafetyEquipment(String id) {
+		return carManageMapper.selectCarSafetyEquipment(id);
+	}
+
+	@Override
+	public Map<String, Object> detailCarSignalLight(String id) {
+		return carManageMapper.selectCarSignalLight(id);
+	}
+
+	@Override
+	public Map<String, Object> detailCarTyre(String id) {
+		return carManageMapper.selectCarTyre(id);
+	}
+
+	@Override
+	public Map<String, Object> indexTransporter(String companyId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> queryCarInsuranceDetail(String carId) {
+		return carManageMapper.queryCarInsuranceDetail(carId);
+	}
+
+	@Override
+	public Map<String, Object> queryCarTaxDetail(String carId) {
+		return carManageMapper.queryCarTaxDetail(carId);
+	}
+
+	@Override
+	public Map<String, Object> queryCarCheckDetail(String carId) {
+		return carManageMapper.queryCarCheckDetail(carId);
+	}
+
 	
-	/*@Override
-	public int addCarAirCoolant(CarAirCoolant record) {
-		return carManageMapper.insertCarAirCoolant(record);
-	}
-
-	@Override
-	public int addCarDocuments(CarDocuments record) {
-		return carManageMapper.insertCarDocuments(record);
-	}
-
-	@Override
-	public int addCarEngineOil(CarEngineOil record) {
-		return carManageMapper.insertCarEngineOil(record);
-	}
-
-	@Override
-	public int addCarSafetyEquipment(CarSafetyEquipment record) {
-		return carManageMapper.insertCarSafetyEquipment(record);
-	}
-
-	@Override
-	public int addCarSignalLight(CarSignalLight record) {
-		return carManageMapper.insertCarSignalLight(record);
-	}
-
-	@Override
-	public int addCarTyre(CarTyre record) {
-		return carManageMapper.insertCarTyre(record);
-	}*/
-
-
 }
