@@ -77,7 +77,7 @@
 	<select id="queryIndexDriverWaybill" resultType ="java.util.Map">
 		select 
 		ifnull(b.count,0) as waybillCount,
-		count(1) as count
+		count(1) as forLoadingCount
 		from t_waybill a
 		left join  
 			(select driver_id,count(1) as count from t_waybill where status =0 and dispense_status = 1 and driver_id =#{driverId,jdbcType=VARCHAR} ) b 
@@ -88,7 +88,7 @@
 	</select>
 	<!-- 司机-首页-每日一检 -->
 	<select id="queryIndexDriverCarDailyInspection" resultType ="java.util.Map">	
-		select count(1) as count
+		select count(1) as dailyInspectionCount
 		from t_car_daily_inspection 
 		where company_id = #{companyId,jdbcType=VARCHAR}  
 		and driver_id  = #{driverId,jdbcType=VARCHAR} 
@@ -96,7 +96,8 @@
 	</select>
 	<!-- 司机-首页-行车休息 -->
 	<select id="queryIndexDriverCarDriveRest" resultType ="java.util.Map">
-		select * from t_car_drive_rest 
+		select create_date as driveRestDate,type 
+		 from t_car_drive_rest 
 		where driver_id = #{driverId,jdbcType=VARCHAR}
 	</select>
 	<!-- 司机-首页-保险,路税,车检提醒 -->

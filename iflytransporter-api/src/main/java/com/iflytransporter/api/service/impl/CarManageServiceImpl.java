@@ -179,10 +179,11 @@ public class CarManageServiceImpl implements CarManageService{
 		Map<String,Object> result  = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
 		//1.我的运单
 		Map<String,Object> waybill = carManageMapper.queryIndexDriverWaybill(companyId, driverId);
-		result.put("waybill", waybill);
+		
+		result.putAll(waybill);
 		//2.每日一检
 		Map<String,Object> dailyInspenction = carManageMapper.queryIndexDriverCarDailyInspection(companyId, driverId, currentDate);
-		result.put("dailyInspenction", dailyInspenction);
+		result.putAll(dailyInspenction);
 		//3.司机休息
 		Map<String,Object> driverRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId);
 		result.put("driverRest", driverRest);
