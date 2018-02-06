@@ -44,7 +44,6 @@ public class TransporterServiceImpl implements TransporterService{
 		//员工存在
 		userDown.setCompanyId(user.getCompanyId());
 		userDown.setParentId(user.getParentId());
-		userDown.setUserType(user.getUserType());
 		userDown.setUserType(Status.Type_User_Transporter);
 		userDown.setLevel(Status.User_Level_Staff);
 		userDown.setAuthStatus(Status.Auth_No);
