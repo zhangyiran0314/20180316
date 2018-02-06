@@ -82,6 +82,7 @@ layui.config({
                 {field:'companyName',title:'公司名称', width:'180'},
                 {field:'name',title:'车辆名称', width:'180'},
                 {field:'code',title:'车牌号', width:'180'},
+                {field:'registerNo',title:'登记号码', width:'180'},
                 {field:'transporterMobile',title:'车主电话', width:'180'},
                 {field:'transporterSurname',title:'车主姓', width:'180'},
                 {field:'transporterName',title:'车主名', width:'180'},
@@ -222,11 +223,10 @@ layui.config({
 			{{# }      }}
 	</script> 
 	<script type="text/html" id="bar">
-	  <a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
-	<!--  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+	  <!-- <a class="layui-btn layui-btn-xs" lay-event="editAuth">审核</a>
+	  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a> -->
 	  <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-	  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-	-->
+	 <!--  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a> -->
     </script>	
 </body>
 </html>

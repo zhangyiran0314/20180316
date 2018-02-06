@@ -33,8 +33,8 @@
   </sql>
   
   <select id="queryAll" resultType="java.util.Map">
-  	select  a.create_date as createDate,a.update_date as updateDate,
-  	a.name,a.code,
+  	select a.id, a.create_date as createDate,a.update_date as updateDate,
+  	a.name,a.code,a.register_no as registerNo,
   	a.insurance_start_date as insuranceStartDate, 
   	a.insurance_end_date as insuranceEndDate, 
     a.tax_start_date as taxStartDate, 
@@ -65,21 +65,21 @@
   
    <select id="queryDetail" resultType ="java.util.Map"  parameterType="java.lang.String">
   	select a.create_date as createDate,a.update_date as updateDate,
-  	a.name,a.code,
+  	a.name,a.code,a.register_no as registerNo,
   	a.insurance_start_date as insuranceStartDate, 
   	a.insurance_end_date as insuranceEndDate, 
     a.tax_start_date as taxStartDate, 
     a.tax_end_date as taxEndDate,
     a.check_start_date as checkStartDate, 
-    a.check_end_date as checkStartDate,
+    a.check_end_date as checkEndDate,
     b.surname as transporterSurname,b.name as transporterName,b.mobile as transporterMobile,
   	c.name as companyName,
     d.surname as driverSurname,d.name as driverName,d.mobile as driverMobile,
    	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a1.attachment_link)  as attachmentId1Link,
-   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a2.attachment_link)  as attachmentId2Link,
    	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a3.attachment_link)  as attachmentId3Link,
-   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a4.attachment_link)  as attachmentId4Link
-   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a5.attachment_link)  as attachmentId5Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a4.attachment_link)  as attachmentId4Link,
+   	concat('${@com.iflytransporter.web.conf.ConstantsConfig@getLinkPath()}',a5.attachment_link)  as attachmentId5Link
     from t_car a
     left join t_user b on a.transporter_id = b.id
     left join t_company c on a.company_id = c.id
