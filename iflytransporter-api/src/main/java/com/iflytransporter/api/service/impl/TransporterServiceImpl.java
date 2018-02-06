@@ -35,17 +35,20 @@ public class TransporterServiceImpl implements TransporterService{
 			user.setLevel(Status.User_Level_Staff);
 			user.setAuthStatus(Status.Auth_No);
 			user.setCompanyAuthStatus(Status.Auth_Yes);
+			user.setUserType(Status.Type_User_Transporter);
 			int result = userMapper.insert(user);
 			if(result > 0){
 				return user.getId();
 			}
 		}
 		//员工存在
-		userDown.setLevel(Status.User_Level_Staff);
+		userDown.setCompanyId(user.getCompanyId());
 		userDown.setParentId(user.getParentId());
+		userDown.setUserType(user.getUserType());
+		userDown.setUserType(Status.Type_User_Transporter);
+		userDown.setLevel(Status.User_Level_Staff);
 		userDown.setAuthStatus(Status.Auth_No);
 		userDown.setCompanyAuthStatus(Status.Auth_Yes);
-		userDown.setCompanyId(user.getCompanyId());
 		int result =  userMapper.updateByPrimaryKeySelective(userDown);
 		if(result > 0){
 			return userDown.getId();

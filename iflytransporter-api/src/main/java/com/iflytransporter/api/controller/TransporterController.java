@@ -375,6 +375,7 @@ public class TransporterController {
 		User parentUser = userService.detailByCache(userId);
 		user.setParentId(userId);
 		user.setCompanyId(parentUser.getCompanyId());
+		user.setUserType(Status.Type_User_Transporter);
 		String  result  = transporterService.addDown(user);
 		if(result !=null ){
 			return ResponseUtil.successResultId(result);
