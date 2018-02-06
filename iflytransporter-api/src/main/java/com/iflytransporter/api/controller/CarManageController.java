@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,8 +52,10 @@ public class CarManageController {
 			//4.保险提醒
 			//5.路税提醒
 			//6.车检提醒
-			// TODO
-		}else{
+			Map<String,Object> result = carManageService.indexTransporter(companyId);
+			return ResponseUtil.successResult(result);
+		}
+		if(Status.User_Level_Staff == user.getLevel()){
 			//1.我的运单
 			//2.每日一检
 			//3.司机休息
@@ -66,16 +69,8 @@ public class CarManageController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	@ApiOperation(value="driverCarDailyInspection", notes="司机-每日一检",produces = "application/json")
-	@RequestMapping(value="driverCarDailyInspection", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> dailyInspection(HttpServletRequest request, HttpServletResponse response){
-		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
-		Map<String,Object> result = carManageService.queryDriverCarDailyInspection(user.getCompanyId(), userId);
-		return ResponseUtil.successResult(result);
-	}
-	//司机-我的运单-运单统计
+	/**司机部分--start*/
+	//--司机不需要查询运单统计详情,此接口暂时废除
 	@ApiOperation(value="driverWaybill", notes="司机-我的运单-运单统计",produces = "application/json")
 	@RequestMapping(value="driverWaybill", method=RequestMethod.POST)
 	@ResponseBody
@@ -83,21 +78,98 @@ public class CarManageController {
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailUserByCache(userId);
-		Map<String,Object> result = carManageService.queryDriverCarDailyInspection(user.getCompanyId(), userId);
+		Map<String,Object> result = carManageService.queryDriverWaybill(user.getCompanyId(), userId);
 		return ResponseUtil.successResult(result);
 	}
-	@ApiOperation(value="dailyInspectionList", notes="车辆管理-每日一检-列表",produces = "application/json")
-	@RequestMapping(value="dailyInspectionList", method=RequestMethod.POST)
+	/**司机部分--end*/
+	
+	/**车主部分--start*/
+	@ApiOperation(value="listWaybill", notes="车主-我的运单-列表",produces = "application/json")
+	@RequestMapping(value="listWaybill", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> dailyInspectionList(HttpServletRequest request, HttpServletResponse response){
+	public Map<String,Object> listWaybill(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailUserByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
-			// TODO
-			return ResponseUtil.successResult();
+			List<Map<String,Object>> result = carManageService.queryTransporterWaybillList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
 	}
+	@ApiOperation(value="transporterWaybill", notes="车主-我的运单-详情",produces = "application/json")
+	@RequestMapping(value="transporterWaybill", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> transporterWaybill(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String carId = (String) requestMap.get("carId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin != user.getLevel() && StringUtils.isBlank(carId)){
+			return ResponseUtil.failureResult();
+		}
+		Map<String,Object> result = carManageService.queryTransporterWaybill(carId);
+		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="listDailyInspection", notes="车主-每日一检-列表",produces = "application/json")
+	@RequestMapping(value="listDailyInspection", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listDailyInspection(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			List<Map<String,Object>> result = carManageService.queryTransporterCarDailyInspectionList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="carDailyInspection", notes="每日一检-详情",produces = "application/json")
+	@RequestMapping(value="carDailyInspection", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> carDailyInspection(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String carId = (String) requestMap.get("carId");
+		Map<String,Object> result = carManageService.queryCarDailyInspection(carId);
+		return ResponseUtil.successResult(result);
+	}
+	
+	@ApiOperation(value="listInsurance", notes="车主-保险-列表",produces = "application/json")
+	@RequestMapping(value="listInsurance", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listInsurance(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			Map<String,Object> result = carManageService.queryCarInsuranceList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="listTax", notes="车主-路税-列表",produces = "application/json")
+	@RequestMapping(value="listTax", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listTax(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			Map<String,Object> result = carManageService.queryCarTaxList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="listCheck", notes="车主-车检-列表",produces = "application/json")
+	@RequestMapping(value="listCheck", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCheck(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			Map<String,Object> result = carManageService.queryCarCheckList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	
 	/**保险路税车检详情查询*/
 	@ApiOperation(value="detailInsurance", notes="详情",produces = "application/json")
 	@RequestMapping(value="detailInsurance", method=RequestMethod.POST)

@@ -1,7 +1,7 @@
 package com.iflytransporter.api.service.impl;
 
 import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -133,8 +133,8 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> queryTransporterWaybill(String companyId) {
-		return carManageMapper.queryTransporterWaybill(companyId);
+	public List<Map<String, Object>> queryTransporterWaybillList(String companyId) {
+		return carManageMapper.queryTransporterWaybillList(companyId);
 	}
 
 	@Override
@@ -144,30 +144,18 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> queryTransporterCarDailyInspection(String companyId) {
-		// TODO Auto-generated method stub
-		return null;
+	public  List<Map<String, Object>> queryTransporterCarDailyInspectionList(String companyId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryTransporterCarDailyInspectionList(companyId,currentDate);
 	}
 	@Override
-	public Map<String, Object> queryTransporterCarDriveRest(String companyId) {
+	public Map<String, Object> queryTransporterCarDriveRestList(String companyId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> queryDriverCarDriveRestDetail(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> queryTransporterWaybillList(String companyId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> queryDriverWaybillList(String companyId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -187,22 +175,21 @@ public class CarManageServiceImpl implements CarManageService{
 		//3.司机休息
 		Map<String,Object> driverRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId);
 		result.put("driverRest", driverRest);
-		//保险,路税,车检提醒
-	/*	Map<String,Object> carNotice = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
-		result.put("carNotice", carNotice);*/
-		/*//5.路税提醒
-		Map<String,Object> tax = carManageMapper.queryCarTaxList(companyId, driverId,currentDate);
-		result.put("tax", tax);
-		//6.车检提醒
-		Map<String,Object> check = carManageMapper.queryCarCheckList(companyId, driverId,currentDate);
-		result.put("check", check);*/
 		return result;
 	}
-
 	@Override
-	public Map<String, Object> queryDriverCarDailyInspection(String companyId, String driverId) {
+	public Map<String, Object> indexTransporter(String companyId) {
 		Date currentDate = new Date();
-		return carManageMapper.queryDriverCarDailyInspection(companyId, driverId, currentDate);
+		//保险,路税,车检提醒
+		Map<String,Object> result = carManageMapper.queryIndexTransporterCarNotice(companyId, currentDate);
+		//我的运单
+		Map<String,Object> waybill = carManageMapper.queryIndexTransporterWaybill(companyId);
+		result.putAll(waybill);
+		//每日一检
+		Map<String,Object> dailyInspenction = carManageMapper.queryIndexTransporterDailyInspection(companyId, currentDate);
+		result.putAll(dailyInspenction);
+		
+		return result;
 	}
 
 	@Override
@@ -236,12 +223,6 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> indexTransporter(String companyId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Map<String, Object> queryCarInsuranceDetail(String carId) {
 		return carManageMapper.queryCarInsuranceDetail(carId);
 	}
@@ -254,6 +235,35 @@ public class CarManageServiceImpl implements CarManageService{
 	@Override
 	public Map<String, Object> queryCarCheckDetail(String carId) {
 		return carManageMapper.queryCarCheckDetail(carId);
+	}
+
+	@Override
+	public Map<String, Object> queryCarInsuranceList(String companyId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryCarInsuranceList(companyId, currentDate);
+	}
+
+	@Override
+	public Map<String, Object> queryCarTaxList(String companyId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryCarTaxList(companyId, currentDate);
+	}
+
+	@Override
+	public Map<String, Object> queryCarCheckList(String companyId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryCarCheckList(companyId, currentDate);
+	}
+
+	@Override
+	public Map<String, Object> queryTransporterWaybill(String carId) {
+		return carManageMapper.queryTransporterWaybill(carId);
+	}
+
+	@Override
+	public Map<String, Object> queryCarDailyInspection(String carId) {
+		Date currentDate = new Date();
+		return carManageMapper.queryCarDailyInspection(carId, currentDate);
 	}
 
 	
