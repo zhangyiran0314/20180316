@@ -55,5 +55,9 @@ public class Status {
 	public static int Waybill_Dispense_No = 0; //未派单
 	public static int Waybill_Dispense_Yes = 1; //已派单
 	
-	
+	/**车辆管理-行车休息部分*/
+	public static int CarManage_Type_Start = 0;
+	public static int CarManage_Type_Rest = 1;
+	public static int CarManage_Type_Drive = 2;
+	public static int CarManage_Type_End = 3;
 }

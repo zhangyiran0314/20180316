@@ -33,6 +33,53 @@
 		)b on b.company_id = a.company_id
 		where a.company_id = #{companyId,jdbcType=VARCHAR}
 	</select>
+	<!-- 车主-首页-行车休息 -->
+	<select id="queryIndexTransporterCarDriveRest" resultType="java.util.Map">
+		select ifnull(b.count,0) as restSuccessCount,
+		     ifnull(count(1) -b.count,count(1)) as restFailureCount
+		from t_car a
+		left join (
+			select company_id,count(1) as count ,car_id from t_car_drive_rest 
+			where company_id  = #{companyId,jdbcType=VARCHAR} and type = 0
+		)b on  a.id = b.car_id
+		where a.company_id = #{companyId,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 车主-司机提醒-列表 -行车数与需要休息数-->
+	<select id="queryTransporterCarDriveRestListCount" resultType="java.util.Map">
+		select count(1) as driveCount ,
+		sum(
+			if((countMinute &gt; 240),1,0)
+		) as needRestCount
+		from
+		(
+		   select company_id,car_id ,create_date,type,driver_id,TIMESTAMPDIFF(MINUTE,create_date,#{currentDate,jdbcType=TIMESTAMP}) as countMinute 
+			from t_car_drive_rest a 
+			where company_id = #{companyId,jdbcType=VARCHAR} and not exists
+			(
+			select 1 from t_car_drive_rest where company_id = a.company_id and car_id = a.car_id and a.create_date &lt; create_date
+			)
+		)t where t.type != 1
+	</select>
+	
+	<!-- 车主-司机提醒-列表 -数据列表-->
+	<select id="queryTransporterCarDriveRestList" resultType="java.util.Map">
+		select t.car_id as carId,t.create_date as restCreateDate,t.type as restType,t.restCountMinute,
+			b.`name` as carName,b.code ,c.surname,c.name as name
+			from
+			(
+			select company_id,car_id ,create_date,type,driver_id,TIMESTAMPDIFF(MINUTE,create_date,#{currentDate,jdbcType=TIMESTAMP}) as restCountMinute 
+			from t_car_drive_rest a 
+			where company_id = #{companyId,jdbcType=VARCHAR} and not exists
+			(
+				select 1 from t_car_drive_rest where company_id = a.company_id and car_id = a.car_id and a.create_date &lt; create_date
+			)
+			)t 
+			left join t_car b on t.car_id = b.id
+			left join t_user c on t.driver_id = c.id
+	</select>
+	
+	
 	<!--车主-我的运单-列表-->
 	<select id="queryTransporterWaybillList" resultType="java.util.Map">
 		select a.id as carId,a.`code`,ifnull(b.count,0) as waybillCount,ifnull(c.count,0) as forLoadingCount
@@ -105,9 +152,11 @@
 	</select>
 	<!-- 司机-首页-行车休息 -->
 	<select id="queryIndexDriverCarDriveRest" resultType ="java.util.Map">
-		select create_date as driveRestDate,type 
-		 from t_car_drive_rest 
-		where driver_id = #{driverId,jdbcType=VARCHAR}
+		select type as restType,create_date as restCreateDate,TIMESTAMPDIFF(MINUTE,create_date,#{currentDate,jdbcType=TIMESTAMP}) as restCountMinute
+			from t_car_drive_rest 
+		where company_id = #{companyId,jdbcType=VARCHAR}
+			and driver_id = #{driverId,jdbcType=VARCHAR} 
+			order by create_date desc limit 1 
 	</select>
 	<!-- 司机-首页-保险,路税,车检提醒 -->
 	<select id="queryIndexDriverCarNotice" resultType="java.util.Map">
@@ -126,6 +175,12 @@
 	</select>
 	<!-- 司机-运单统计-保留 -->
 	
+	<!-- 行车休息-详情 -->
+	<select id="queryCarDriveRestDetail" resultType ="java.util.Map">
+		select create_date as createDate,type from t_car_drive_rest 
+		where car_id =  #{carId,jdbcType=VARCHAR}
+		order by create_date 
+	</select>
 	<!-- 保险提醒 -列表-->
 	<select id="queryCarInsuranceList" resultType ="java.util.Map">
 	    select id,code,date_format(insurance_end_date,'%Y-%m-%d') as endDate,
@@ -379,4 +434,7 @@
       #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
       )
   </insert>
+  <delete id="deleteCarDriveRest">
+  	delete from t_car_drive_rest where car_id = #{carId,jdbcType=VARCHAR}
+  </delete>
 </mapper>

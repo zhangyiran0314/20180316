@@ -69,7 +69,6 @@ public class CarManageController {
 		}
 		return ResponseUtil.failureResult();
 	}
-	/**司机部分--start*/
 	//--司机不需要查询运单统计详情,此接口暂时废除
 	@ApiOperation(value="driverWaybill", notes="司机-我的运单-运单统计",produces = "application/json")
 	@RequestMapping(value="driverWaybill", method=RequestMethod.POST)
@@ -81,7 +80,6 @@ public class CarManageController {
 		Map<String,Object> result = carManageService.queryDriverWaybill(user.getCompanyId(), userId);
 		return ResponseUtil.successResult(result);
 	}
-	/**司机部分--end*/
 	
 	/**车主部分--start*/
 	@ApiOperation(value="listWaybill", notes="车主-我的运单-列表",produces = "application/json")
@@ -92,6 +90,18 @@ public class CarManageController {
 		User user = userService.detailUserByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryTransporterWaybillList(user.getCompanyId());
+			return ResponseUtil.successResult(result);
+		}
+		return ResponseUtil.failureResult();
+	}
+	@ApiOperation(value="listDriveRest", notes="车主-行车休息-列表",produces = "application/json")
+	@RequestMapping(value="listDriveRest", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listDriveRest(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailUserByCache(userId);
+		if(Status.User_Level_Admin == user.getLevel()){
+			Map<String,Object> result = carManageService.queryTransporterCarDriveRestList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
@@ -264,6 +274,16 @@ public class CarManageController {
 		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
 		Map<String,Object> result = carManageService.detailCarTyre(id);
+		return ResponseUtil.successResult(result);
+	}
+	@ApiOperation(value="detailCarDriveRest", notes="行车休息-详情",produces = "application/json")
+	@RequestMapping(value="detailCarDriveRest", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> detailCarDriveRest(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String carId = (String) requestMap.get("carId");
+		List<Map<String,Object>> result = carManageService.queryCarDriveRestDetail(carId);
 		return ResponseUtil.successResult(result);
 	}
 	/**---------------司机提交操作 start --------------*/

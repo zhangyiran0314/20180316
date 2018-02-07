@@ -44,20 +44,27 @@ public interface CarManageMapper {
 	
 	int insertCarDriveRest(CarDriveRest record);
 	
+	int deleteCarDriveRest(@Param("carId")String carId);
+	
 	//车主-首页-我的运单
 	Map<String,Object> queryIndexTransporterWaybill(@Param("companyId")String companyId);
 	//车主-首页-保险,路税,车检提醒
 	Map<String,Object> queryIndexTransporterCarNotice(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	//车主-首页-每日一检
 	Map<String,Object> queryIndexTransporterDailyInspection(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
+	//车主-首页-行车休息
+	Map<String,Object> queryIndexTransporterCarDriveRest(@Param("companyId")String companyId);
+	
 	//车主-我的运单-列表
 	List<Map<String,Object>> queryTransporterWaybillList(@Param("companyId")String companyId);
 	//车主-我的运单-详情
 	Map<String,Object> queryTransporterWaybill(@Param("carId")String carId);
 	//车主-每日一检-列表
 	List<Map<String,Object>> queryTransporterCarDailyInspectionList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
-	//车主-司机休息-列表
-	List<Map<String,Object>> queryTransporterCarDriveRestList(String companyId);
+	//车主-司机休息-列表-统计
+	Map<String,Object> queryTransporterCarDriveRestListCount(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
+	//车主-司机休息-列表-数据列表
+	List<Map<String,Object>> queryTransporterCarDriveRestList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	
 	
 	//司机-首页-我的运单
@@ -65,11 +72,12 @@ public interface CarManageMapper {
 	//司机-首页-每日一检
 	Map<String,Object> queryIndexDriverCarDailyInspection(@Param("companyId")String companyId,@Param("driverId")String driverId,@Param("currentDate")Date currentDate);
 	//司机-首页-司机休息
-	Map<String,Object> queryIndexDriverCarDriveRest(@Param("companyId")String companyId,@Param("driverId")String driverId);
+	Map<String,Object> queryIndexDriverCarDriveRest(@Param("companyId")String companyId,@Param("driverId")String driverId,@Param("currentDate")Date currentDate);
 	//司机-首页-保险,路税,车检提醒
 	Map<String,Object> queryIndexDriverCarNotice(@Param("companyId")String companyId,@Param("driverId")String driverId,@Param("currentDate")Date currentDate);
 	
-	
+	//行车休息-详情
+	List<Map<String,Object>> queryCarDriveRestDetail(@Param("carId")String carId);
 	//每日一检-详情
 	Map<String,Object> queryCarDailyInspection(@Param("carId")String carId,@Param("currentDate")Date currentDate);
 	//保险

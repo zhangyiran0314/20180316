@@ -15,15 +15,15 @@ public interface CarManageService {
 	Map<String,Object> indexDriver(String companyId,String driverId);
 	//司机-我的运单
 	Map<String,Object> queryDriverWaybill(String companyId,String driverId);
-	//司机-司机休息
-	Map<String,Object> queryDriverCarDriveRestDetail(String companyId,String driverId);
-	
+
 	//保险提醒
 	Map<String,Object> queryCarInsuranceDetail(String carId);
 	//路税提醒
 	Map<String,Object> queryCarTaxDetail(String carId);
 	//年检提醒
 	Map<String,Object> queryCarCheckDetail(String carId);
+	//行车休息  -详情
+    List<Map<String,Object>> queryCarDriveRestDetail(String carId);
 	
 	/**车主-首页查询 */
 	Map<String,Object> indexTransporter(String companyId);

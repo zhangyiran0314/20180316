@@ -27,6 +27,7 @@ import com.iflytransporter.common.bean.CarEngineOil;
 import com.iflytransporter.common.bean.CarSafetyEquipment;
 import com.iflytransporter.common.bean.CarSignalLight;
 import com.iflytransporter.common.bean.CarTyre;
+import com.iflytransporter.common.enums.Status;
 
 @Service("carManageService")
 public class CarManageServiceImpl implements CarManageService{
@@ -129,6 +130,12 @@ public class CarManageServiceImpl implements CarManageService{
 
 	@Override
 	public int addCarDriveRest(CarDriveRest record) {
+		if(Status.CarManage_Type_End == record.getType()){
+			return carManageMapper.deleteCarDriveRest(record.getCarId());
+		}
+		if(Status.CarManage_Type_Start == record.getType()){
+			carManageMapper.deleteCarDriveRest(record.getCarId());
+		}
 		return carManageMapper.insertCarDriveRest(record);
 	}
 
@@ -150,14 +157,18 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 	@Override
 	public Map<String, Object> queryTransporterCarDriveRestList(String companyId) {
-		// TODO Auto-generated method stub
-		return null;
+		Date currentDate = new Date();
+		Map<String,Object> result = carManageMapper.queryTransporterCarDriveRestListCount(companyId,currentDate);
+		if(result !=null){
+			List<Map<String,Object>> resultList = carManageMapper.queryTransporterCarDriveRestList(companyId,currentDate);
+			result.put("list", resultList);
+		}
+		return result;
 	}
 
 	@Override
-	public Map<String, Object> queryDriverCarDriveRestDetail(String companyId, String driverId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> queryCarDriveRestDetail(String carId) {
+		return carManageMapper.queryCarDriveRestDetail(carId);
 	}
 
 	@Override
@@ -173,8 +184,10 @@ public class CarManageServiceImpl implements CarManageService{
 		Map<String,Object> dailyInspenction = carManageMapper.queryIndexDriverCarDailyInspection(companyId, driverId, currentDate);
 		result.putAll(dailyInspenction);
 		//3.司机休息
-		Map<String,Object> driverRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId);
-		result.put("driverRest", driverRest);
+		Map<String,Object> driveRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId,currentDate);
+		if(driveRest != null){
+			result.putAll(driveRest);
+		}
 		return result;
 	}
 	@Override
@@ -188,7 +201,11 @@ public class CarManageServiceImpl implements CarManageService{
 		//每日一检
 		Map<String,Object> dailyInspenction = carManageMapper.queryIndexTransporterDailyInspection(companyId, currentDate);
 		result.putAll(dailyInspenction);
-		
+		//行车休息
+		Map<String,Object> driveRest = carManageMapper.queryIndexTransporterCarDriveRest(companyId);
+		if(driveRest != null){
+			result.putAll(driveRest);
+		}
 		return result;
 	}
 
