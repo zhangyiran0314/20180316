@@ -81,12 +81,12 @@ public interface CarManageMapper {
 	//每日一检-详情
 	Map<String,Object> queryCarDailyInspection(@Param("carId")String carId,@Param("currentDate")Date currentDate);
 	//保险
-	Map<String,Object> queryCarInsuranceList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
+	List<Map<String,Object>> queryCarInsuranceList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	Map<String,Object> queryCarInsuranceDetail(@Param("carId")String carId);
 	//路税
-	Map<String,Object> queryCarTaxList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
+	List<Map<String,Object>> queryCarTaxList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	Map<String,Object> queryCarTaxDetail(String carId);
 	//年检
-	Map<String,Object> queryCarCheckList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
+	List<Map<String,Object>> queryCarCheckList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	Map<String,Object> queryCarCheckDetail(@Param("carId")String carId);
 }

@@ -255,19 +255,19 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> queryCarInsuranceList(String companyId) {
+	public List<Map<String, Object>> queryCarInsuranceList(String companyId) {
 		Date currentDate = new Date();
 		return carManageMapper.queryCarInsuranceList(companyId, currentDate);
 	}
 
 	@Override
-	public Map<String, Object> queryCarTaxList(String companyId) {
+	public List<Map<String, Object>> queryCarTaxList(String companyId) {
 		Date currentDate = new Date();
 		return carManageMapper.queryCarTaxList(companyId, currentDate);
 	}
 
 	@Override
-	public Map<String, Object> queryCarCheckList(String companyId) {
+	public List<Map<String, Object>> queryCarCheckList(String companyId) {
 		Date currentDate = new Date();
 		return carManageMapper.queryCarCheckList(companyId, currentDate);
 	}

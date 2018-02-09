@@ -36,11 +36,11 @@ public interface CarManageService {
 	//车主-司机休息-列表
 	Map<String,Object> queryTransporterCarDriveRestList(String companyId);
 	//车主-保险提醒-列表
-	Map<String,Object> queryCarInsuranceList(String companyId);
+	List<Map<String,Object>> queryCarInsuranceList(String companyId);
 	//车主-路税提醒-列表
-	Map<String,Object> queryCarTaxList(String companyId);
+	List<Map<String,Object>> queryCarTaxList(String companyId);
 	//车主-车检提醒-列表
-	Map<String,Object> queryCarCheckList(String companyId);
+	List<Map<String,Object>> queryCarCheckList(String companyId);
 	
 	/**每日一检查询**/
 	Map<String,Object> queryCarDailyInspection(String carId);

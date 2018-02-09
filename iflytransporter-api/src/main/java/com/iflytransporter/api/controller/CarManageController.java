@@ -150,7 +150,7 @@ public class CarManageController {
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailUserByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
-			Map<String,Object> result = carManageService.queryCarInsuranceList(user.getCompanyId());
+			List<Map<String,Object>> result = carManageService.queryCarInsuranceList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
@@ -162,7 +162,7 @@ public class CarManageController {
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailUserByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
-			Map<String,Object> result = carManageService.queryCarTaxList(user.getCompanyId());
+			List<Map<String,Object>> result = carManageService.queryCarTaxList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
@@ -174,7 +174,7 @@ public class CarManageController {
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailUserByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
-			Map<String,Object> result = carManageService.queryCarCheckList(user.getCompanyId());
+			List<Map<String,Object>> result = carManageService.queryCarCheckList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();
