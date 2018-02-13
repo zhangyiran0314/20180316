@@ -18,9 +18,17 @@ public interface Enums {
 	public static int Code_NotUpError = 1005;
 	//账户不存在
 	public static int Code_AccountsNotExist = 1006;
+	//公司未认证
+	public static int Code_CompanyNotAuth = 1007;
+	//绑定错误-管理员不允许被绑定
+	public static int Code_AdminCannotBind = 1008;
+	//绑定错误-员工不允许被重复绑定
+	public static int Code_StaffCannotRepeatBind = 1008;
 	
-	/**发布相关状态码*/
-	public static int Code_CanNotContact = 2001;
+	
+	/**发货相关状态码*/
+	//未审核当前申请详情时,其他申请不能被联系
+	public static int Code_CannotContact = 2001;
 	
 	public int getCode();
 	public String getMessage();

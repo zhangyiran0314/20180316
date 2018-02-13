@@ -58,7 +58,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">车牌</label>
 			<div class="layui-input-block attachment1">
 			</div>
 		</div>
@@ -70,14 +70,15 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				</div>
 		</div>
 		<div class="layui-form-item" >
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">车辆登记证</label>
 			<div class="layui-input-block attachment2">
 			</div>
 		</div>
 		
 		<div class="layui-form-item">
+			<label class="layui-form-label">保险</label>
 			<div class="layui-input-inline">
-				<label class="layui-form-label">保险开始时间</label>
+				<label class="layui-form-label">开始时间</label>
 				<div class="layui-input-block">
 					<input type="text" class="layui-input insuranceStartDate">
 				</div>
@@ -90,15 +91,16 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">保险照</label>
 			<div class="layui-input-block attachment3">
 			</div>
 		</div>
 		
 			
 		<div class="layui-form-item">
+			<label class="layui-form-label">路税</label>
 			<div class="layui-input-inline">
-				<label class="layui-form-label">路税开始时间</label>
+				<label class="layui-form-label">开始时间</label>
 				<div class="layui-input-block">
 					<input type="text" class="layui-input taxStartDate">
 				</div>
@@ -111,15 +113,16 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">路税照</label>
 			<div class="layui-input-block attachment4">
 			</div>
 		</div>
 		
 			
 		<div class="layui-form-item">
+			<label class="layui-form-label">车检</label>
 			<div class="layui-input-inline">
-				<label class="layui-form-label">车检开始时间</label>
+				<label class="layui-form-label">开始时间</label>
 				<div class="layui-input-block">
 					<input type="text" class="layui-input checkStartDate">
 				</div>
@@ -132,7 +135,7 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">车检照</label>
 			<div class="layui-input-block attachment5">
 			</div>
 		</div>

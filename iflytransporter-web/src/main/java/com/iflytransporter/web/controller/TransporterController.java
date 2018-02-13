@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.User;
-import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.web.service.UserService;
@@ -34,7 +33,7 @@ public class TransporterController {
 	@RequestMapping("queryPage")
 	@ResponseBody
 	public Map<String,Object> queryPage(Integer page,Integer limit,String mobile,HttpServletRequest request){
-		PageInfo<User> result = userService.queryPage(page, limit, Status.Type_User_Transporter, mobile);
+		PageInfo<Map<String,Object>> result = userService.queryPage(page, limit, Status.Type_User_Transporter, mobile);
 		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")

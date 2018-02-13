@@ -9,7 +9,7 @@ import com.iflytransporter.common.bean.Company;
 
 public interface CompanyMapper {
 	
-	List<Company> queryAll(@Param("userType")Integer userType,@Param("name")String name);
+	List<Map<String,Object>> queryAll(@Param("userType")Integer userType,@Param("name")String name);
 	
 	Map<String,Object> queryDetail(String id);
 	

@@ -18,6 +18,8 @@ import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.common.bean.Company;
 import com.iflytransporter.common.bean.CompanyBO;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -59,8 +61,11 @@ public class CompanyController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
-		CompanyBO company = companyService.query(user.getCompanyId());
-		return ResponseUtil.successResult(new CompanyResp(company));
+		if(user.getCompanyAuthStatus() != null && user.getCompanyId() !=null && Status.Auth_No !=user.getCompanyAuthStatus().intValue()){
+			CompanyBO company = companyService.query(user.getCompanyId());
+			return ResponseUtil.successResult(new CompanyResp(company));
+		}
+		return ResponseUtil.failureResult(BuzExceptionEnums.CompanyNotAuth);
 	}
 	
 	@ApiOperation(value="modify", notes="修改",produces = "application/json",response= CompanyResp.class)

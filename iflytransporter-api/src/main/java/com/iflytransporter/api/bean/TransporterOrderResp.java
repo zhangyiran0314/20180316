@@ -96,6 +96,8 @@ public class TransporterOrderResp{
 	}
 
     public void setOrderApplyRecord(OrderApply orderApply) {
+    	this.applyDate = orderApply.getCreateDate();
+    	this.applyStatus = orderApply.getStatus();
     	this.recordDate = orderApply.getBrowseDate();
     	this.recordStatus = orderApply.getBrowseStatus();
     	this.costs = orderApply.getCosts();

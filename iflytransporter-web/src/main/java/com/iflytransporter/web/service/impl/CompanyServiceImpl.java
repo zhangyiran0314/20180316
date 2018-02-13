@@ -31,12 +31,12 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	@Override
-	public PageInfo<Company> queryPage(Integer pageNo, Integer pageSize,Integer userType,String name) {
+	public PageInfo<Map<String,Object>> queryPage(Integer pageNo, Integer pageSize,Integer userType,String name) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Company> list= companyMapper.queryAll(userType,name);
-		return new PageInfo<Company>(list);
+		List<Map<String,Object>> list= companyMapper.queryAll(userType,name);
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
 	@Override

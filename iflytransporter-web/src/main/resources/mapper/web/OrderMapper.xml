@@ -71,6 +71,7 @@
     a.auth_date authDate, 
     a.order_no orderNo, 
     a.company_id as companyId,
+    b.surname as surname,
     b.mobile as mobile,
     b.name as name,
     c.name as companyName
@@ -113,6 +114,7 @@
     a.auth_date authDate, 
     a.order_no orderNo, 
     a.company_id as companyId,
+    b.surname as surname,
     b.name as name,
     b.mobile as mobile,
     c.name as companyName

@@ -29,13 +29,34 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
+			<label class="layui-form-label">用户</label>
+			<div class="layui-input-inline">
+					<label class="layui-form-label">姓</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input userSurname">
+					</div>
+			</div>
+			 <div class="layui-input-inline">
+					<label class="layui-form-label">名</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input userName">
+					</div>
+			</div>
+			 <div class="layui-input-inline">
+					<label class="layui-form-label">手机</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input mobile">
+					</div>
+			 </div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">创建时间</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input createDate">
 			</div>
 		</div>
 		<div class="layui-form-item div_attachment1" style="display:none">
-			<label class="layui-form-label">图片</label>
+			<label class="layui-form-label">营业执照</label>
 			<div class="layui-input-block attachment1">
 			</div>
 		</div>
@@ -124,7 +145,10 @@ layui.config({
 	function fillData(data){
 		$(".name").val(data.name);
 		$(".code").val(data.code);  
-		$(".createDate").val(data.createDate);  
+		$(".createDate").val(data.createDate); 
+		$(".userSurname").val(data.userSurname); 
+		$(".userName").val(data.userSurname); 
+		$(".mobile").val(data.mobile); 
 		if(data.attachmentId1Link!=undefined){
 			$(".div_attachment1").show();
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");

@@ -20,7 +20,7 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
     
-    List<User> queryAll(@Param("userType")Integer userType,@Param("mobile")String mobile);
+    List<Map<String,Object>> queryAll(@Param("userType")Integer userType,@Param("mobile")String mobile);
 	
     Map<String,Object> queryDetail(String id);
 	

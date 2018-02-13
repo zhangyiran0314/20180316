@@ -86,28 +86,68 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				<input type="text" class="layui-input paymentType">
 			</div>
 		</div>
+		
 		<div class="layui-form-item">
-			<label class="layui-form-label">计量单位</label>
-			<div class="layui-input-block">
-				<input type="text" class="layui-input goodsUnits">
+			<label class="layui-form-label">重量</label>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">数值</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input weight">
+				</div>
+			</div>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">单位</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input goodsUnits">
+				</div>
 			</div>
 		</div>
+		
+		<div class="layui-form-item">
+			<label class="layui-form-label">其他</label>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">长</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input length">
+				</div>
+			</div>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">宽</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input width">
+				</div>
+			</div>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">高</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input height">
+				</div>
+			</div>
+		</div>
+		
 		<div class="layui-form-item">
 			<label class="layui-form-label">发货日期</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input deliverDate">
 			</div>
 		</div>
-		<div class="layui-form-item">
+		<!-- <div class="layui-form-item">
 			<label class="layui-form-label">是否重发</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input repeatFlag">
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="layui-form-item">
+			<label class="layui-form-label">货主</label>
 			<div class="layui-input-inline">
-				<label class="layui-form-label">货主</label>
+				<label class="layui-form-label">姓</label>
+				<div class="layui-input-block">
+					<input type="text" class="layui-input surname">
+				</div>
+			</div>
+			<div class="layui-input-inline">
+				<label class="layui-form-label">名</label>
 				<div class="layui-input-block">
 					<input type="text" class="layui-input name">
 				</div>
@@ -179,6 +219,12 @@ layui.config({
 		$(".goodsType").val(data.goodsType);  
 		$(".handlingType").val(data.handlingType.name); 
 		$(".paymentType").val(data.paymentType.name); 
+		
+		$(".length").val(data.length);  
+		$(".height").val(data.height);  
+		$(".width").val(data.width);  
+		
+		$(".weight").val(data.weight);    
 		$(".goodsUnits").val(data.goodsUnits);    
 		
 		$(".deliverDate").val(data.deliverDate);   
@@ -186,6 +232,7 @@ layui.config({
 		$(".repeatFlag").val(data.repeatFlag);   
 		$(".createDate").val(data.createDate); 
 		
+		$(".surname").val(data.surname); 
 		$(".name").val(data.name); 
 		$(".mobile").val(data.mobile); 
 		$(".companyName").val(data.companyName); 

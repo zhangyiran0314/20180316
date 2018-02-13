@@ -147,7 +147,9 @@
     where id = #{id,jdbcType=VARCHAR} and parent_id = #{parentId,jdbcType=VARCHAR}
   </update>
   <update id="deleteUp">
-    update t_user set parent_id = '',company_auth_status = ${@com.iflytransporter.common.enums.Status@Auth_No}
+    update t_user set parent_id = '',
+    company_auth_status = ${@com.iflytransporter.common.enums.Status@Auth_No},
+    company_id =''
     where id = #{id,jdbcType=VARCHAR} and parent_id =  #{upId,jdbcType=VARCHAR}
   </update>
   <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >

@@ -72,7 +72,7 @@ layui.config({
 	
 		table.render({
 		    elem: '#table'
-		    ,height: 315
+		    ,height: 500
 		    ,id:"layui_table_id"
 		    ,url: '<%=request.getContextPath()%>/transporter/car/queryPage' //数据接口
 		    ,page: true //开启分页

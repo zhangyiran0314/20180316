@@ -54,7 +54,7 @@ layui.config({
 	
 		table.render({
 		    elem: '#table'
-		    ,height: 315
+		    ,height: 500
 		    ,id:"layui_table_id"
 		    ,url: '<%=request.getContextPath()%>/shipper/company/queryPage' //数据接口
 		    ,page: true //开启分页
@@ -63,7 +63,9 @@ layui.config({
                /*  {field: 'id', title: 'ID', width: '170', sort: true},  */
                 {field:'name',title:'名称', width:'180'},
                 {field:'code',title:'对应编码', width:'180'},
-                {field:'email',title:'邮件', width:'180'},
+                {field:'userSurname',title:'姓', width:'180'},
+                {field:'userName',title:'名', width:'180'},
+                {field:'mobile',title:'手机', width:'180'},
                 {field:'status',title:'状态', width:'180',templet: '#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},

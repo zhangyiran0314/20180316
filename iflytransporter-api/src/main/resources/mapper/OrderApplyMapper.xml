@@ -41,7 +41,7 @@
       and transporter_id  = #{transporterId,jdbcType=VARCHAR}
     </if>
      <if test="browseStatus != null" >
-      and browse_status  = #{browseStatus,jdbcType=VARCHAR}
+      and browse_status &gt;= #{browseStatus,jdbcType=VARCHAR}
     </if>
   </select>
   

@@ -10,7 +10,7 @@ public interface CompanyService {
 	//详情查询
 	Map<String,Object> queryDetail(String id);
 	//分页查询
-	PageInfo<Company> queryPage(Integer pageNo,Integer pageSize,Integer userType,String name);
+	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize,Integer userType,String name);
 	
 	//修改
 	int update(Company record);

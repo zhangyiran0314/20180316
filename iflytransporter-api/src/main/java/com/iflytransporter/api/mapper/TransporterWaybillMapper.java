@@ -5,7 +5,13 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.iflytransporter.common.bean.Waybill;
+
 public interface TransporterWaybillMapper {
+	
+	 List<Waybill> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
+	    		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
+	    		@Param("status")Integer status,@Param("dispenseStatus")Integer dispenseStatus); 
 	
     Map<String, Object> detailShipper(String shipperId);
     

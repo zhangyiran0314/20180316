@@ -27,6 +27,7 @@ import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.exception.ServiceException;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
@@ -272,9 +273,13 @@ public class UserController {
 		User parentUser = userService.detailByCache(userId);
 		user.setParentId(userId);
 		user.setCompanyId(parentUser.getCompanyId());
-		String  result  = userService.addDown(user);
-		if(result !=null ){
-			return ResponseUtil.successResultId(result);
+		try{
+			String  result  = userService.addDown(user);
+			if(result !=null ){
+				return ResponseUtil.successResultId(result);
+			}
+		}catch(ServiceException e){
+			return ResponseUtil.exceptionResult(e);
 		}
 		return ResponseUtil.failureResult();
 	}

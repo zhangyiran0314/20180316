@@ -35,6 +35,12 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 			</div>
 		</div>
 		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input email">
+			</div>
+		</div>
+		<div class="layui-form-item">
 			<label class="layui-form-label">身份证</label>
 			<div class="layui-input-block">
 				<input type="text" class="layui-input cardNo">
@@ -52,28 +58,28 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				<input type="text" class="layui-input gdl">
 			</div>
 		</div>
-		<div class="layui-form-item div_attachment1" style="display:none">
-			<label class="layui-form-label">图片1</label>
-			<div class="layui-input-block attachment1">
-			</div>
-		</div>
-		<div class="layui-form-item  div_attachment2" style="display:none">
-			<label class="layui-form-label">图片2</label>
+		<div class="layui-form-item div_attachment2" style="display:none">
+			<label class="layui-form-label">身份证</label>
 			<div class="layui-input-block attachment2">
 			</div>
 		</div>
 		<div class="layui-form-item  div_attachment3" style="display:none">
-			<label class="layui-form-label">图片3</label>
+			<label class="layui-form-label">确认书/授权书</label>
 			<div class="layui-input-block attachment3">
 			</div>
 		</div>
+		<div class="layui-form-item  div_attachment1" style="display:none">
+			<label class="layui-form-label">名片照</label>
+			<div class="layui-input-block attachment1">
+			</div>
+		</div>
 		<div class="layui-form-item  div_attachment4" style="display:none">
-			<label class="layui-form-label">图片4</label>
+			<label class="layui-form-label">驾驶证照</label>
 			<div class="layui-input-block attachment4">
 			</div>
 		</div>
 		<div class="layui-form-item  div_attachment5" style="display:none">
-			<label class="layui-form-label">图片5</label>
+			<label class="layui-form-label">GDL照</label>
 			<div class="layui-input-block attachment5">
 			</div>
 		</div>
@@ -152,6 +158,7 @@ layui.config({
 		$(".mobile").val(data.mobile);     
 		$(".surname").val(data.surname);  
 		$(".name").val(data.name);  
+		$(".email").val(data.email);
 		$(".cardNo").val(data.cardNo);  
 		$(".drivingLicenseNo").val(data.drivingLicenseNo);  
 		$(".gdl").val(data.gdl);  

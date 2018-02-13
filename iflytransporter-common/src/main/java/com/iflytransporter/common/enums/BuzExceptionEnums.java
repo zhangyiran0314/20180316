@@ -15,10 +15,14 @@ public enum BuzExceptionEnums implements Enums{
 	NotUpError(Code_NotUpError, "NotUpError"),
 	//账户不存在
 	AccountsNotExist(Code_AccountsNotExist,"AccountsNotExist"),
-	
-	
+	//公司未认证
+	CompanyNotAuth(Code_CompanyNotAuth,"CompanyNotAuth"),
+	//绑定错误-管理员不允许被绑定
+	AdminCannotBind(Code_AdminCannotBind,"AdminCannotBind"),
+	//绑定错误-员工不允许被重复绑定
+	StaffCannotRepeatBind(Code_StaffCannotRepeatBind,"StaffCannotBindRepeat"),
 	//账号密码错误
-	CanNotContactError(Code_CanNotContact, "CanNotContactError");
+	CanNotContactError(Code_CannotContact, "CanNotContactError");
 	
 	public int code;
 	public String message;

@@ -35,7 +35,7 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 
 	@Override
 	public List<Waybill> list(String userId, String transporterCompanyId, Integer status,Integer dispenseStatus) {
-		return waybillMapper.queryAll(null, userId, null, transporterCompanyId, status,dispenseStatus);
+		return transporterWaybillMapper.queryAll(null, userId, null, transporterCompanyId, status,dispenseStatus);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Waybill> list= waybillMapper.queryAll(null, transporterId, null, transporterCompanyId, status,dispenseStatus);
+		List<Waybill> list= transporterWaybillMapper.queryAll(null, transporterId, null, transporterCompanyId, status,dispenseStatus);
 		return new PageInfo<Waybill>(list);
 	}
 

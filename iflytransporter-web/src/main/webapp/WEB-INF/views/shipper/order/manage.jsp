@@ -72,6 +72,8 @@ layui.config({
 		        {field:'orderNo',title:'订单号', width:'180'},
 		        {field:'mobile',title:'发货人手机', width:'180'},
 		        {field:'companyName',title:'货主公司', width:'180'},
+                {field:'authStatus',title:'授权状态', width:'180',templet:'#authTpl'},
+                {field:'status',title:'订单状态', width:'180',templet:'#statusTpl'},
                 {field:'departure',title:'出发地', width:'180',templet:'#departureTpl'},
                 {field:'destination',title:'目的地', width:'180',templet:'#destinationTpl'},
                 {field:'useType',title:'用车类型', width:'180',templet:'<div> {{ d.useType.name }}</div>'},
@@ -87,8 +89,6 @@ layui.config({
                 {field:'width',title:'宽', width:'180'},
                 {field:'height',title:'高', width:'180'},
                 {field:'deliverDate',title:'发车日期', width:'180'},
-                {field:'status',title:'订单状态', width:'180',templet:'#statusTpl'},
-                {field:'authStatus',title:'授权状态', width:'180',templet:'#authTpl'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 {fixed: 'right', title:'操作', toolbar: '#bar', width:150} 

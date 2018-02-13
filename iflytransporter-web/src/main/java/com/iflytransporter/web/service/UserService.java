@@ -12,7 +12,7 @@ public interface UserService {
 	Map<String,Object> queryDetail(String id);
 	
 	//分页查询
-	PageInfo<User> queryPage(Integer pageNo,Integer pageSize,Integer userType,String mobile);
+	PageInfo<Map<String,Object>> queryPage(Integer pageNo,Integer pageSize,Integer userType,String mobile);
 	
 	int updateUser(User user);
 }

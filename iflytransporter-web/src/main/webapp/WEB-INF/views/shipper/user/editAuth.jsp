@@ -34,19 +34,31 @@ body{padding: 20px; /*overflow-y: scroll;*/}
 				<input type="text" class="layui-input name">
 			</div>
 		</div>
-		<div class="layui-form-item div_attachment1" style="display:none">
-			<label class="layui-form-label">图片1</label>
-			<div class="layui-input-block attachment1">
+		<div class="layui-form-item">
+			<label class="layui-form-label">邮箱</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input email">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">身份证</label>
+			<div class="layui-input-block">
+				<input type="text" class="layui-input cardNo">
 			</div>
 		</div>
 		<div class="layui-form-item div_attachment2" style="display:none">
-			<label class="layui-form-label">图片2</label>
+			<label class="layui-form-label">身份证</label>
 			<div class="layui-input-block attachment2">
 			</div>
 		</div>
 		<div class="layui-form-item div_attachment3" style="display:none">
-			<label class="layui-form-label">图片3</label>
+			<label class="layui-form-label">确认书/授权书</label>
 			<div class="layui-input-block attachment3">
+			</div>
+		</div>
+		<div class="layui-form-item div_attachment1" style="display:none">
+			<label class="layui-form-label">名片照</label>
+			<div class="layui-input-block attachment1">
 			</div>
 		</div>
 	     <div class="layui-form-item">
@@ -124,7 +136,9 @@ layui.config({
 	function fillData(data){
 		$(".mobile").val(data.mobile);     
 		$(".surname").val(data.surname);  
-		$(".name").val(data.name);  
+		$(".name").val(data.name); 
+		$(".email").val(data.email);
+		$(".cardNo").val(data.cardNo);
 		if(data.attachmentId1Link!=undefined){
 			$(".div_attachment1").show();
 			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
