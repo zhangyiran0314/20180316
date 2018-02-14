@@ -35,6 +35,7 @@ import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.exception.ServiceException;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -375,9 +376,14 @@ public class TransporterController {
 		User parentUser = userService.detailByCache(userId);
 		user.setParentId(userId);
 		user.setCompanyId(parentUser.getCompanyId());
-		String  result  = transporterService.addDown(user);
-		if(result !=null ){
-			return ResponseUtil.successResultId(result);
+		user.setUserType(Status.Type_User_Transporter);
+		try{
+			String  result  = transporterService.addDown(user);
+			if(result !=null ){
+				return ResponseUtil.successResultId(result);
+			}
+		}catch(ServiceException e){
+			return ResponseUtil.exceptionResult(e);
 		}
 		return ResponseUtil.failureResult();
 	}

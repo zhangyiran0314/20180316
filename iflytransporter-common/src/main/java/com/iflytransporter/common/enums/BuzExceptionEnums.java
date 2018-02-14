@@ -21,8 +21,16 @@ public enum BuzExceptionEnums implements Enums{
 	AdminCannotBind(Code_AdminCannotBind,"AdminCannotBind"),
 	//绑定错误-员工不允许被重复绑定
 	StaffCannotRepeatBind(Code_StaffCannotRepeatBind,"StaffCannotBindRepeat"),
-	//账号密码错误
-	CanNotContactError(Code_CannotContact, "CanNotContactError");
+	
+	//报价时,待审核报价申请不能超过五家
+	OffersCannotRepeat(Code_OffersCannotRepeat,"This call quotation repeat,please check your quotation record"),
+	
+	//报价时,待审核报价申请不能超过五家
+	OffersCannotMoreThanFive(Code_OffersCannotMoreThanFive,"This call quotation is closed, may you review others"),
+	//报价时,不能超过当前车辆数
+	OffersCannotMoreThanCarAmount(Code_OffersCannotMoreThanCarAmount,"This call quotation more than your car amount"),
+	//未审核当前申请详情时,其他申请不能被联系
+	CanNotContactError(Code_CannotContactOther, "CanNotContactError");
 	
 	public int code;
 	public String message;

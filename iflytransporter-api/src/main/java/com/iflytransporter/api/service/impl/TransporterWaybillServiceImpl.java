@@ -109,8 +109,8 @@ public class TransporterWaybillServiceImpl implements TransporterWaybillService 
 	}
 
 	@Override
-	public List<Map<String,Object>> listDriver(String companyId) {
-		return transporterWaybillMapper.listDriver(companyId, null);
+	public List<Map<String,Object>> listDriver(String companyId,Integer level) {
+		return transporterWaybillMapper.listDriver(companyId, level);
 	}
 
 	@Override

@@ -13,6 +13,7 @@ import com.iflytransporter.api.service.TransporterService;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.exception.ServiceException;
 
@@ -41,12 +42,20 @@ public class TransporterServiceImpl implements TransporterService{
 				return user.getId();
 			}
 		}
+		//用户存在且为管理员,不允许被绑定
+		if(Status.User_Level_Admin == userDown.getLevel().intValue()){
+			throw new ServiceException(BuzExceptionEnums.AdminCannotBind);
+		}
+		//用户存在且已经被绑定,不允许重复绑定
+		if(StringUtils.isNotBlank(userDown.getParentId()) && !userDown.getParentId().equals(user.getParentId()) ){
+			throw new ServiceException(BuzExceptionEnums.StaffCannotRepeatBind);
+		}
 		//员工存在
 		userDown.setCompanyId(user.getCompanyId());
 		userDown.setParentId(user.getParentId());
 		userDown.setUserType(Status.Type_User_Transporter);
 		userDown.setLevel(Status.User_Level_Staff);
-		userDown.setAuthStatus(Status.Auth_No);
+//		userDown.setAuthStatus(Status.Auth_No);
 		userDown.setCompanyAuthStatus(Status.Auth_Yes);
 		int result =  userMapper.updateByPrimaryKeySelective(userDown);
 		if(result > 0){

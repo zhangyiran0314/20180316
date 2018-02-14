@@ -60,7 +60,7 @@ public interface TransporterWaybillService {
 	//运单查看当前车主评价详情
 	Map<String,Object> queryComplaintByWaybill(String waybillId);
 	/** 司机列表 */
-	List<Map<String,Object>> listDriver(String companyId);
+	List<Map<String,Object>> listDriver(String companyId,Integer level);
 	/** 车辆列表 */
 	List<Map<String,Object>> listCar(String companyId);
 	

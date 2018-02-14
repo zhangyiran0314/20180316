@@ -27,8 +27,15 @@ public interface Enums {
 	
 	
 	/**发货相关状态码*/
+	//报价时,待审核报价申请不能超过五家
+	public static int Code_OffersCannotMoreThanFive = 2001;
+	//报价时,不能超过当前车辆数
+	public static int Code_OffersCannotMoreThanCarAmount = 2002;
+	//不能重复报价
+	public static int Code_OffersCannotRepeat = 2003;
+	
 	//未审核当前申请详情时,其他申请不能被联系
-	public static int Code_CannotContact = 2001;
+	public static int Code_CannotContactOther = 2004;
 	
 	public int getCode();
 	public String getMessage();

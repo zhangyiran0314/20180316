@@ -34,6 +34,7 @@ import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.exception.ServiceException;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -265,9 +266,13 @@ public class TransporterOrderController {
 		orderApply.setOrderNo(order.getOrderNo());
 		orderApply.setOrderId(order.getId());
 		orderApply.setCosts(costs);
-		int result = transporterOrderService.apply(orderApply);
-		if(result > 0){
-			return ResponseUtil.successResultId(applyId);
+		try{
+			int result = transporterOrderService.apply(orderApply);
+			if(result > 0){
+				return ResponseUtil.successResultId(applyId);
+			}
+		}catch(ServiceException e){
+			return ResponseUtil.exceptionResult(e);
 		}
 		return ResponseUtil.failureResult();
 	}

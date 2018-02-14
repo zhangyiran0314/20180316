@@ -85,7 +85,7 @@ public class TransporterWaybillController {
 		 */
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus);
-		}else{
+		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
 			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes);
 		}
 		if(page.getTotal()==0){
@@ -134,7 +134,8 @@ public class TransporterWaybillController {
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			list = transporterWaybillService.list(null, user.getCompanyId(), status,dispenseStatus);
-		}else{
+			//司机不能查询待派单运单
+		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
 			list = transporterWaybillService.list(userId,null,status,Status.Waybill_Dispense_Yes);
 		}
 		List<TransporterWaybillResp> result = new ArrayList<TransporterWaybillResp>();
@@ -223,7 +224,7 @@ public class TransporterWaybillController {
 		String userId = (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
-			List<Map<String,Object>>  result = transporterWaybillService.listDriver(user.getCompanyId());
+			List<Map<String,Object>>  result = transporterWaybillService.listDriver(user.getCompanyId(),Status.User_Level_Staff);
 			return ResponseUtil.successResult(result);
 		}
 		return ResponseUtil.failureResult();

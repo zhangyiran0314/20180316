@@ -95,7 +95,7 @@
   </select>
   
   <select id="detailCompany" resultType="java.util.Map">
-  	select b.`name` as companyName,b.create_date as registerDate,round(c.grade) as grade ,d.count as count,f.surname,f.name,f.mobile
+  	select b.`name` as companyName,b.create_date as registerDate,ifnull(round(c.grade),5) as grade ,d.count as count,f.surname,f.name,f.mobile
 	from t_waybill a
   left join t_company b on a.transporter_company_id= b.id
   left join (select transporter_company_id, AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY transporter_company_id) c on a.transporter_company_id= c.transporter_company_id
@@ -104,11 +104,12 @@
  	where a.id = #{id,jdbcType=VARCHAR} and f.level = 1
   </select>
    <select id="detailTransporter" resultType="java.util.Map">
-  	select b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,round(d.grade) as grade
+  	select b.surname as surname,b.`name` as name,b.mobile as mobile,c.`name` as carName,c.`code` as carCode,
+  	ifnull(round(d.grade),5) as grade
 	from t_waybill a
-	left join t_user b on a.transporter_id = b.id
+	left join t_user b on a.driver_id = b.id
 	left join t_car c on a.car_id  = c.id
-	left join (select transporter_id ,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY transporter_id) d on a.transporter_id= d.transporter_id
+	left join (select driver_id ,AVG(IFNULL(serve_grade,0)+IFNULL(loading_grade,0)+IFNULL(goods_grade,0))/3 as grade from t_comment GROUP BY driver_id) d on a.driver_id= d.driver_id
  	where a.id = #{id,jdbcType=VARCHAR}
   </select>
   

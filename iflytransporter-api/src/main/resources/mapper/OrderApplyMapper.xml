@@ -44,10 +44,26 @@
       and browse_status &gt;= #{browseStatus,jdbcType=VARCHAR}
     </if>
   </select>
-  
+  <select id="countApplyByTransporter" resultType="java.lang.Integer" >
+    select ifnull(count(1),0)
+    from t_order_apply
+    where 1 = 1 
+     <if test="orderId != null" >
+      and order_id  = #{orderId,jdbcType=VARCHAR}
+    </if>
+    <if test="transporterId != null" >
+      and transporter_id  = #{transporterId,jdbcType=INTEGER}
+    </if>
+     <if test="companyId != null" >
+      and company_id  = #{companyId,jdbcType=INTEGER}
+    </if>
+     <if test="status != null" >
+      and status  = #{status,jdbcType=INTEGER}
+    </if>
+  </select>
   
   <select id="count" resultType="java.lang.Integer" >
-    select count(1)
+    select ifnull(count(1),0)
     from t_order_apply
     where 1 = 1 
      <if test="orderId != null" >

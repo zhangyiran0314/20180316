@@ -7,7 +7,10 @@ import org.apache.ibatis.annotations.Param;
 import com.iflytransporter.common.bean.OrderApply;
 
 public interface OrderApplyMapper {
-	//查询数量
+	//查询当前报价订单是否报价
+	int countApplyByTransporter(@Param("orderId")String orderId,@Param("transporterId")String transporterId,@Param("companyId")String companyId,@Param("status")Integer status);
+	
+	//查询当前订单报价数量
 	int count(@Param("orderId")String orderId,@Param("status")Integer status);
 	//修改当前审核状态
 	int updateStatus(@Param("id")String id,@Param("status")Integer status);

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.StringUtil;
 import com.iflytransporter.api.bean.QueryOrderParam;
+import com.iflytransporter.api.mapper.CarMapper;
 import com.iflytransporter.api.mapper.OrderApplyMapper;
 import com.iflytransporter.api.mapper.SubscribeSourceMapper;
 import com.iflytransporter.api.mapper.TransporterOrderMapper;
@@ -19,8 +19,9 @@ import com.iflytransporter.api.service.TransporterOrderService;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
-import com.iflytransporter.common.bean.User;
-import com.iflytransporter.common.utils.UUIDUtil;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
+import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.exception.ServiceException;
 
 @Service("transporterOrderService")
 public class TransporterOrderServiceImpl implements TransporterOrderService{
@@ -31,6 +32,9 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	private OrderApplyMapper orderApplyMapper;
 	@Autowired
 	private SubscribeSourceMapper subscribeSourceMapper;
+	
+	@Autowired
+	private CarMapper carMapper;
 	
 	@Override
 	public PageInfo<Order> queryPage(QueryOrderParam queryOrderParam) {
@@ -69,8 +73,22 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		return transporterOrderMapper.selectByPrimaryKey(id);
 	}
 	@Override
-	public int apply(OrderApply orderApply) {
+	public int apply(OrderApply orderApply) throws ServiceException{
 //		Order order = transporterOrderMapper.selectByPrimaryKey(id);
+		Integer countApplyByTransporter = orderApplyMapper.countApplyByTransporter(orderApply.getOrderId(), orderApply.getTransporterId(),null,null);
+		if(countApplyByTransporter > 0){
+			throw new ServiceException(BuzExceptionEnums.OffersCannotRepeat);
+		}
+		Integer countApplyByCompany = orderApplyMapper.countApplyByTransporter(null, null,orderApply.getCompanyId(),Status.Order_Audit_No);
+		Integer countCarByCompany =carMapper.countByTransporterCompany(orderApply.getCompanyId());
+		if(countApplyByCompany >= countCarByCompany){
+			throw new ServiceException(BuzExceptionEnums.OffersCannotMoreThanCarAmount);
+		}
+		//查询当前订单报价数量,不能超过五个报价
+		Integer count = orderApplyMapper.count(orderApply.getOrderId(), Status.Order_Audit_No);
+		if(count > 5){
+			throw new ServiceException(BuzExceptionEnums.OffersCannotMoreThanFive);
+		}
 		return orderApplyMapper.insert(orderApply);
 	}
 	@Override

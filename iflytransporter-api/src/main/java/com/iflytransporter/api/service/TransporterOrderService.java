@@ -8,6 +8,7 @@ import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
+import com.iflytransporter.common.exception.ServiceException;
 
 public interface TransporterOrderService  {
 	
@@ -35,7 +36,7 @@ public interface TransporterOrderService  {
 	 * @param userId
 	 * @return
 	 */
-	int apply(OrderApply orderApply);
+	int apply(OrderApply orderApply) throws ServiceException;
 	
 	/**
 	 * 审核详情

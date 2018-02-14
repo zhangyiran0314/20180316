@@ -30,4 +30,6 @@ public interface CarMapper {
     int bindCar(@Param("id")String id,@Param("driverId")String driverId);
     
     int unbindCar(@Param("id")String id,@Param("driverId")String driverId);
+    //车主公司车辆数查询
+    int countByTransporterCompany(@Param("companyId")String companyId);
 }
