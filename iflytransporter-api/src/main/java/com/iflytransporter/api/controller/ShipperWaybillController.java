@@ -19,6 +19,7 @@ import com.iflytransporter.api.bean.WaybillResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
+import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.HandlingTypeService;
 import com.iflytransporter.api.service.PaymentTypeService;
 import com.iflytransporter.api.service.ProvinceService;
@@ -51,19 +52,7 @@ public class ShipperWaybillController {
 	@Autowired
 	private ShipperOrderService shipperOrderService;
 	@Autowired
-	private ProvinceService provinceService;
-	@Autowired
-	private CityService cityService;
-	@Autowired
-	private AreaService areaService;
-	@Autowired
-	private CarTypeService carTypeService;
-	@Autowired
-	private HandlingTypeService handlingTypeService;
-	@Autowired
-	private PaymentTypeService paymentTypeService;
-	@Autowired
-	private UseTypeService useTypeService;
+	private CommonService commonService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response = WaybillResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
@@ -71,6 +60,7 @@ public class ShipperWaybillController {
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车,1-运输中,2-待确认,3-已完结;pageNo:当前页数-默认(1);pageSize:分页数-默认(10)") 
 			Map<String,Object> requestMap){
+		String lang = request.getHeader("lang");
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
@@ -92,18 +82,18 @@ public class ShipperWaybillController {
 			WaybillResp op =new WaybillResp(waybill);
 			Order order = shipperOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
-			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-			op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-			op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+			op.setDepartureProvince(commonService.queryProvince(lang,order.getDepartureProvinceId()));
+			op.setDepartureCity(commonService.queryCity(lang,order.getDepartureCityId()));
+			op.setDepartureArea(commonService.queryArea(lang,order.getDepartureAreaId()));
 			
-			op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-			op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-			op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+			op.setDestinationProvince(commonService.queryProvince(lang,order.getDestinationProvinceId()));
+			op.setDestinationCity(commonService.queryCity(lang,order.getDestinationCityId()));
+			op.setDestinationArea(commonService.queryArea(lang,order.getDestinationAreaId()));
 			
-			op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
+			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
+			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			result.add(op);
 		}
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), result);
@@ -114,6 +104,7 @@ public class ShipperWaybillController {
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam("{status:0|1|2|3} 运单状态:0-待装车,1-运输中,2-待确认,3-已完结") Map<String,Object> requestMap){
+		String lang = request.getHeader("lang");
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		
@@ -129,18 +120,18 @@ public class ShipperWaybillController {
 			WaybillResp op =new WaybillResp(waybill);
 			Order order = shipperOrderService.query(waybill.getOrderId());
 			op.setOrder(order);
-			op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-			op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-			op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+			op.setDepartureProvince(commonService.queryProvince(lang,order.getDepartureProvinceId()));
+			op.setDepartureCity(commonService.queryCity(lang,order.getDepartureCityId()));
+			op.setDepartureArea(commonService.queryArea(lang,order.getDepartureAreaId()));
 			
-			op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-			op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-			op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+			op.setDestinationProvince(commonService.queryProvince(lang,order.getDestinationProvinceId()));
+			op.setDestinationCity(commonService.queryCity(lang,order.getDestinationCityId()));
+			op.setDestinationArea(commonService.queryArea(lang,order.getDestinationAreaId()));
 			
-			op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-			op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-			op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-			op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
+			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
+			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			result.add(op);
 		}
 		return ResponseUtil.successResult(result);
@@ -150,6 +141,7 @@ public class ShipperWaybillController {
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="{id:id}") Map<String,Object> requestMap){
+		String lang = request.getHeader("lang");
 		String id = (String) requestMap.get("id");
 		String userId =  (String) request.getAttribute("userId");
 		Waybill waybill = waybillService.query(id);
@@ -157,18 +149,18 @@ public class ShipperWaybillController {
 		Order order = shipperOrderService.query(waybill.getOrderId());
 		op.setOrder(order);
 		
-		op.setDepartureProvince(provinceService.queryCommonParam(order.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(order.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(order.getDepartureAreaId()));
+		op.setDepartureProvince(commonService.queryProvince(lang,order.getDepartureProvinceId()));
+		op.setDepartureCity(commonService.queryCity(lang,order.getDepartureCityId()));
+		op.setDepartureArea(commonService.queryArea(lang,order.getDepartureAreaId()));
 		
-		op.setDestinationProvince(provinceService.queryCommonParam(order.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(order.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(order.getDestinationAreaId()));
+		op.setDestinationProvince(commonService.queryProvince(lang,order.getDestinationProvinceId()));
+		op.setDestinationCity(commonService.queryCity(lang,order.getDestinationCityId()));
+		op.setDestinationArea(commonService.queryArea(lang,order.getDestinationAreaId()));
 		
-		op.setCarType(carTypeService.queryCommonParam(order.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(order.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(order.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(order.getUseTypeId()));
+		op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
+		op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
+		op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+		op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 		
 		//公司信息
 		op.setCompany(waybillService.detailCompany(id));

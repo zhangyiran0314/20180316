@@ -20,6 +20,7 @@ import com.iflytransporter.api.bean.GoodsSourceResp;
 import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.CarTypeService;
 import com.iflytransporter.api.service.CityService;
+import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.GoodsSourceService;
 import com.iflytransporter.api.service.GoodsUnitsService;
 import com.iflytransporter.api.service.HandlingTypeService;
@@ -45,25 +46,14 @@ public class GoodsSourceController {
 	@Autowired
 	private GoodsSourceService goodsSourceService;
 	@Autowired
-	private ProvinceService provinceService;
-	@Autowired
-	private CityService cityService;
-	@Autowired
-	private AreaService areaService;
-	@Autowired
-	private CarTypeService carTypeService;
-	@Autowired
-	private HandlingTypeService handlingTypeService;
-	@Autowired
-	private PaymentTypeService paymentTypeService;
-	@Autowired
-	private UseTypeService useTypeService;
+	private CommonService commonService;
 	
 	@ApiOperation(value="queryPage", notes="分页列表",produces = "application/json",response=GoodsSourceResp.class)
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPage(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody   @ApiParam(value="{pageNo:1,pageSize:10}pageNo:当前页数-默认(1);pageSize:分页数-默认(10)")  Map<String,Object> requestMap){
+		String lang = request.getHeader("lang");
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String userId =  (String) request.getAttribute("userId");
@@ -75,18 +65,18 @@ public class GoodsSourceController {
 		List<GoodsSourceResp> result = new ArrayList<GoodsSourceResp>();
 		for(GoodsSource goodsSource:list){
 			GoodsSourceResp op =new GoodsSourceResp(goodsSource);
-			op.setDepartureProvince(provinceService.queryCommonParam(goodsSource.getDepartureProvinceId()));
-			op.setDepartureCity(cityService.queryCommonParam(goodsSource.getDepartureCityId()));
-			op.setDepartureArea(areaService.queryCommonParam(goodsSource.getDepartureAreaId()));
+			op.setDepartureProvince(commonService.queryProvince(lang,goodsSource.getDepartureProvinceId()));
+			op.setDepartureCity(commonService.queryCity(lang,goodsSource.getDepartureCityId()));
+			op.setDepartureArea(commonService.queryArea(lang,goodsSource.getDepartureAreaId()));
 			
-			op.setDestinationProvince(provinceService.queryCommonParam(goodsSource.getDestinationProvinceId()));
-			op.setDestinationCity(cityService.queryCommonParam(goodsSource.getDestinationCityId()));
-			op.setDestinationArea(areaService.queryCommonParam(goodsSource.getDestinationAreaId()));
+			op.setDestinationProvince(commonService.queryProvince(lang,goodsSource.getDestinationProvinceId()));
+			op.setDestinationCity(commonService.queryCity(lang,goodsSource.getDestinationCityId()));
+			op.setDestinationArea(commonService.queryArea(lang,goodsSource.getDestinationAreaId()));
 			
-			op.setCarType(carTypeService.queryCommonParam(goodsSource.getCarTypeId()));
-			op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
-			op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
-			op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
+			op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
+			op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
+			op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+			op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
 		}
@@ -96,23 +86,24 @@ public class GoodsSourceController {
 	@RequestMapping(value="list", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response){
+		String lang = request.getHeader("lang");
 		String userId =  (String) request.getAttribute("userId");
 		List<GoodsSource> list = goodsSourceService.list(userId);
 		List<GoodsSourceResp> result = new ArrayList<GoodsSourceResp>();
 		for(GoodsSource goodsSource:list){
 			GoodsSourceResp op =new GoodsSourceResp(goodsSource);
-			op.setDepartureProvince(provinceService.queryCommonParam(goodsSource.getDepartureProvinceId()));
-			op.setDepartureCity(cityService.queryCommonParam(goodsSource.getDepartureCityId()));
-			op.setDepartureArea(areaService.queryCommonParam(goodsSource.getDepartureAreaId()));
+			op.setDepartureProvince(commonService.queryProvince(lang,goodsSource.getDepartureProvinceId()));
+			op.setDepartureCity(commonService.queryCity(lang,goodsSource.getDepartureCityId()));
+			op.setDepartureArea(commonService.queryArea(lang,goodsSource.getDepartureAreaId()));
 			
-			op.setDestinationProvince(provinceService.queryCommonParam(goodsSource.getDestinationProvinceId()));
-			op.setDestinationCity(cityService.queryCommonParam(goodsSource.getDestinationCityId()));
-			op.setDestinationArea(areaService.queryCommonParam(goodsSource.getDestinationAreaId()));
+			op.setDestinationProvince(commonService.queryProvince(lang,goodsSource.getDestinationProvinceId()));
+			op.setDestinationCity(commonService.queryCity(lang,goodsSource.getDestinationCityId()));
+			op.setDestinationArea(commonService.queryArea(lang,goodsSource.getDestinationAreaId()));
 			
-			op.setCarType(carTypeService.queryCommonParam(goodsSource.getCarTypeId()));
-			op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
-			op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
-			op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
+			op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
+			op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
+			op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+			op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
 		}
@@ -153,22 +144,23 @@ public class GoodsSourceController {
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="id") Map<String,Object> requestMap){
+		String lang = request.getHeader("lang");
 		String id = (String) requestMap.get("id");
 		GoodsSource goodsSource = goodsSourceService.query(id);
 		
 		GoodsSourceResp op =new GoodsSourceResp(goodsSource);
-		op.setDepartureProvince(provinceService.queryCommonParam(goodsSource.getDepartureProvinceId()));
-		op.setDepartureCity(cityService.queryCommonParam(goodsSource.getDepartureCityId()));
-		op.setDepartureArea(areaService.queryCommonParam(goodsSource.getDepartureAreaId()));
+		op.setDepartureProvince(commonService.queryProvince(lang,goodsSource.getDepartureProvinceId()));
+		op.setDepartureCity(commonService.queryCity(lang,goodsSource.getDepartureCityId()));
+		op.setDepartureArea(commonService.queryArea(lang,goodsSource.getDepartureAreaId()));
 		
-		op.setDestinationProvince(provinceService.queryCommonParam(goodsSource.getDestinationProvinceId()));
-		op.setDestinationCity(cityService.queryCommonParam(goodsSource.getDestinationCityId()));
-		op.setDestinationArea(areaService.queryCommonParam(goodsSource.getDestinationAreaId()));
+		op.setDestinationProvince(commonService.queryProvince(lang,goodsSource.getDestinationProvinceId()));
+		op.setDestinationCity(commonService.queryCity(lang,goodsSource.getDestinationCityId()));
+		op.setDestinationArea(commonService.queryArea(lang,goodsSource.getDestinationAreaId()));
 		
-		op.setCarType(carTypeService.queryCommonParam(goodsSource.getCarTypeId()));
-		op.setHandlingType(handlingTypeService.queryCommonParam(goodsSource.getHandlingTypeId()));
-		op.setPaymentType(paymentTypeService.queryCommonParam(goodsSource.getPaymentTypeId()));
-		op.setUseType(useTypeService.queryCommonParam(goodsSource.getUseTypeId()));
+		op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
+		op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
+		op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+		op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 		return ResponseUtil.successResult(op);
 	}
