@@ -26,9 +26,9 @@ import com.iflytransporter.common.bean.Province;
 public class CommonServiceImpl implements CommonService {
 	
 	
-	public static String Lang_China ="zh_CN";
-	public static String Lang_English ="en_US";
-	public static String Lang_Maya="en_MY";
+	public static String Lang_China ="zh";
+	public static String Lang_English ="en";
+	public static String Lang_Maya="my";
 	
 	public static Locale myLocale =  new Locale("en", "MY");  
 	@Autowired
@@ -44,7 +44,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryProvince(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Province,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map =  commonMapper.queryProvince(id);
 			 hash.putAll(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Province,id), map);
 		}
@@ -55,7 +55,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryCity(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getPositionKey(RedisUtil.Redis_Position_City,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map =  commonMapper.queryCity(id);
 			 hash.putAll(RedisUtil.getPositionKey(RedisUtil.Redis_Position_City,id), map);
 		}
@@ -66,7 +66,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryArea(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Area,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map =  commonMapper.queryArea(id);
 			 hash.putAll(RedisUtil.getPositionKey(RedisUtil.Redis_Position_Area,id), map);
 		}
@@ -77,7 +77,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryCarType(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getTypeKey(RedisUtil.Redis_CarType,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map = commonMapper.queryCarType(id);
 			 hash.putAll(RedisUtil.getTypeKey(RedisUtil.Redis_CarType,id), map);
 		}
@@ -88,7 +88,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryHandlingType(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getTypeKey(RedisUtil.Redis_HandlingType,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map = commonMapper.queryHandlingType(id);
 			 hash.putAll(RedisUtil.getTypeKey(RedisUtil.Redis_HandlingType,id), map);
 		}
@@ -99,7 +99,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryPaymentType(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getTypeKey(RedisUtil.Redis_PaymentType,id));
-		if(map== null){
+		if(map== null || map.isEmpty()){
 			map = commonMapper.queryPaymentType(id);
 			 hash.putAll(RedisUtil.getTypeKey(RedisUtil.Redis_PaymentType,id), map);
 		}
@@ -109,7 +109,7 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam queryUseType(String lang, String id) {
 		HashOperations<String, String, Object>  hash =  redisTemplate.opsForHash();
 		Map<String, Object> map = hash.entries(RedisUtil.getTypeKey(RedisUtil.Redis_UseType,id));
-		if(map==null){
+		if(map==null || map.isEmpty()){
 			 map = commonMapper.queryUseType(id);
 			 hash.putAll(RedisUtil.getTypeKey(RedisUtil.Redis_UseType,id), map);
 		}
@@ -180,19 +180,34 @@ public class CommonServiceImpl implements CommonService {
 	public CommonParam getMessage(String lang,Map<String,Object> map){
 		CommonParam commonParam = new CommonParam();
 		commonParam.setId((String)map.get("id"));
+		commonParam.setCode((String)map.get("code"));
 		if(Lang_China.equals(lang)){
-			commonParam.setName(messageSource.getMessage((String)map.get("code"), null, Locale.SIMPLIFIED_CHINESE));
-			return commonParam;
+			try{
+				commonParam.setName(messageSource.getMessage((String)map.get("code"), null, Locale.SIMPLIFIED_CHINESE));
+				return commonParam;
+			}catch(NoSuchMessageException e){
+				//捕获当前适配属性不存在异常
+			}
 		}
 		if(Lang_English.equals(lang)){
-			commonParam.setName(messageSource.getMessage((String)map.get("code"), null, Locale.US));
-			return commonParam;
+			try{
+				commonParam.setName(messageSource.getMessage((String)map.get("code"), null, Locale.US));
+				return commonParam;
+			}catch(NoSuchMessageException e){
+				//捕获当前适配属性不存在异常
+			}
 		}
 		if(Lang_Maya.equals(lang)){
-			commonParam.setName(messageSource.getMessage((String)map.get("code"), null, myLocale));
-			return commonParam;
+			try{
+				commonParam.setName(messageSource.getMessage((String)map.get("code"), null, myLocale));
+				return commonParam;
+			}catch(NoSuchMessageException e){
+				//捕获当前适配属性不存在异常
+			}
 		}
-		commonParam.setName(messageSource.getMessage((String)map.get("code"), null, null, Locale.US));
+		if(commonParam.getName()==null){
+			commonParam.setName(map.get("name").toString());
+		}
 		return commonParam;
 	}
 

@@ -86,11 +86,25 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int update(User user) {
-		/*int result = userMapper.updateByPrimaryKeySelective(user);
-		if(result > 0 ){
-			return userMapper.selectByPrimaryKeyBO(user.getId());
+		User userTemp = userMapper.selectByPrimaryKey(user.getId());
+		if(!userTemp.getSurname().equals(user.getSurname())){
+			user.setAuthStatus(Status.Auth_Pending);
 		}
-		return null;*/
+		if(!userTemp.getName().equals(user.getName())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(!userTemp.getCardNo().equals(user.getCardNo())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getAttachmentId1()!=null && !user.getAttachmentId1().equals(userTemp.getAttachmentId1())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getAttachmentId2()!=null && !user.getAttachmentId2().equals(userTemp.getAttachmentId2())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getAttachmentId3()!=null && !user.getAttachmentId3().equals(userTemp.getAttachmentId3())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
 

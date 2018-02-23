@@ -36,6 +36,22 @@ public class CompanyServiceImpl implements CompanyService{
 
 	@Override
 	public int update(Company record) {
+		Company companyTemp = companyMapper.selectByPrimaryKey(record.getId());
+		if(!companyTemp.getName().equals(record.getName())){
+			record.setStatus(Status.Auth_Pending);
+		}
+		if(!companyTemp.getCode().equals(record.getCode())){
+			record.setStatus(Status.Auth_Pending);
+		}
+		if(record.getAttachmentId1()!=null && !record.getAttachmentId1().equals(companyTemp.getAttachmentId1())){
+			record.setStatus(Status.Auth_Pending);
+		}
+		if(record.getAttachmentId2()!=null && !record.getAttachmentId2().equals(companyTemp.getAttachmentId2())){
+			record.setStatus(Status.Auth_Pending);
+		}
+		if(record.getAttachmentId3()!=null &&!record.getAttachmentId3().equals(companyTemp.getAttachmentId3())){
+			record.setStatus(Status.Auth_Pending);
+		}
 		return companyMapper.updateByPrimaryKeySelective(record);
 	}
 

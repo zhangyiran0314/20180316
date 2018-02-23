@@ -138,7 +138,7 @@ public class ShipperOrderController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			//待审核申请
