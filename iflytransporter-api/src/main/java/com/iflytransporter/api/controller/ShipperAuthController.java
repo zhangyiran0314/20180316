@@ -87,7 +87,7 @@ public class ShipperAuthController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(Status.User_Level_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
@@ -130,7 +130,7 @@ public class ShipperAuthController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(Status.User_Level_Admin==user.getLevel().intValue()){
@@ -161,7 +161,7 @@ public class ShipperAuthController {
 		
 		op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 		op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-		op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+		op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 		op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 		return ResponseUtil.successResult(op);

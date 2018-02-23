@@ -17,21 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.bean.GoodsSourceResp;
-import com.iflytransporter.api.service.AreaService;
-import com.iflytransporter.api.service.CarTypeService;
-import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.GoodsSourceService;
-import com.iflytransporter.api.service.GoodsUnitsService;
-import com.iflytransporter.api.service.HandlingTypeService;
-import com.iflytransporter.api.service.PaymentTypeService;
-import com.iflytransporter.api.service.ProvinceService;
-import com.iflytransporter.api.service.ShipperOrderService;
-import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
-import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
@@ -75,7 +65,7 @@ public class GoodsSourceController {
 			
 			op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,goodsSource.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
@@ -102,7 +92,7 @@ public class GoodsSourceController {
 			
 			op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,goodsSource.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 			result.add(op);
@@ -159,7 +149,7 @@ public class GoodsSourceController {
 		
 		op.setCarType(commonService.queryCarType(lang,goodsSource.getCarTypeId()));
 		op.setHandlingType(commonService.queryHandlingType(lang,goodsSource.getHandlingTypeId()));
-		op.setPaymentType(commonService.queryUseType(lang,goodsSource.getPaymentTypeId()));
+		op.setPaymentType(commonService.queryPaymentType(lang,goodsSource.getPaymentTypeId()));
 		op.setUseType(commonService.queryUseType(lang,goodsSource.getUseTypeId()));
 //		op.setGoodsUnits(goodsUnitsService.queryCommonParam(goodsSource.getGoodsUnits()));
 		return ResponseUtil.successResult(op);

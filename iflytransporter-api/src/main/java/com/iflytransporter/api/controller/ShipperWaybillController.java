@@ -16,15 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.bean.WaybillResp;
-import com.iflytransporter.api.service.AreaService;
-import com.iflytransporter.api.service.CarTypeService;
-import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.CommonService;
-import com.iflytransporter.api.service.HandlingTypeService;
-import com.iflytransporter.api.service.PaymentTypeService;
-import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.service.ShipperOrderService;
-import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.service.WaybillService;
 import com.iflytransporter.api.utils.RequestMapUtil;
@@ -92,7 +85,7 @@ public class ShipperWaybillController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			result.add(op);
 		}
@@ -130,7 +123,7 @@ public class ShipperWaybillController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			result.add(op);
 		}
@@ -159,7 +152,7 @@ public class ShipperWaybillController {
 		
 		op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 		op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-		op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+		op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 		op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 		
 		//公司信息

@@ -18,23 +18,14 @@ import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.bean.QueryOrderParam;
 import com.iflytransporter.api.bean.SubscribeSourceResp;
 import com.iflytransporter.api.bean.TransporterOrderResp;
-import com.iflytransporter.api.service.AreaService;
-import com.iflytransporter.api.service.CarTypeService;
-import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.CommonService;
-import com.iflytransporter.api.service.HandlingTypeService;
-import com.iflytransporter.api.service.PaymentTypeService;
-import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.api.service.TransporterOrderService;
-import com.iflytransporter.api.service.UseTypeService;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
 import com.iflytransporter.common.bean.User;
-import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.exception.ServiceException;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -185,7 +176,7 @@ public class TransporterOrderController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			//添加货主详情
 			op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
@@ -217,7 +208,7 @@ public class TransporterOrderController {
 			
 			op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 			op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-			op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+			op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 			//添加货主详情
 			op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
@@ -292,7 +283,7 @@ public class TransporterOrderController {
 				
 				op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 				op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-				op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+				op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 				op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 				//添加货主详情
 				op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
@@ -328,7 +319,7 @@ public class TransporterOrderController {
 				
 				op.setCarType(commonService.queryCarType(lang,order.getCarTypeId()));
 				op.setHandlingType(commonService.queryHandlingType(lang,order.getHandlingTypeId()));
-				op.setPaymentType(commonService.queryUseType(lang,order.getPaymentTypeId()));
+				op.setPaymentType(commonService.queryPaymentType(lang,order.getPaymentTypeId()));
 				op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 				//添加货主详情
 				op.setShipper(transporterOrderService.detailShipper(order.getShipperId()));
