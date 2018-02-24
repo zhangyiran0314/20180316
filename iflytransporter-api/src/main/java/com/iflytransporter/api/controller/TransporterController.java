@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.CarResp;
-import com.iflytransporter.api.bean.TransporterResp;
+import com.iflytransporter.api.bean.request.TransporterReq;
+import com.iflytransporter.api.bean.response.TransporterResp;
 import com.iflytransporter.api.service.CarService;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.service.FeedbackService;
-import com.iflytransporter.api.service.TransporterService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
@@ -49,8 +50,8 @@ public class TransporterController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private TransporterService transporterService;
+//	@Autowired
+//	private TransporterService transporterService;
 	
 	@Autowired
 	private CompanyService companyService;
@@ -67,7 +68,7 @@ public class TransporterController {
 	public Map<String,Object> addCar(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="车辆实体")Car car){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user = userService.detailByCache(userId);
+		User user = userService.detailByCache(userId);
 		String id = UUIDUtil.UUID();
 		car.setId(id);
 		car.setCompanyId(user.getCompanyId());
@@ -84,7 +85,7 @@ public class TransporterController {
 	@ResponseBody
 	public Map<String,Object> listCar(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user = userService.detailByCache(userId);
+		User user = userService.detailByCache(userId);
 		List<CarBO> list = null;
 		if(Status.User_Level_Admin == user.getLevel().intValue()){
 		   list = carService.list(user.getCompanyId(), null);
@@ -204,11 +205,11 @@ public class TransporterController {
 		String pwd = (String) requestMap.get("pwd");
 		String newPwd = (String) requestMap.get("newPwd");
 		//判断原密码是否正确
-		User user = transporterService.queryBO(userId);
+		User user = userService.queryBO(userId);
 		if(pwd==null || !pwd.equals(user.getPassword())){
 			return ResponseUtil.failureResult(BuzExceptionEnums.AccountOrPasswordErr);
 		}
-		int result = transporterService.updatePwdOrMobileOrEmail(userId, newPwd, null, null);
+		int result = userService.updatePwdOrMobileOrEmail(userId, newPwd, null, null);
 		if(result > 0){
 			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
 			return ResponseUtil.successResult();
@@ -252,7 +253,7 @@ public class TransporterController {
 		if(!newCaptcha.equals(newCaptchaCache)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		int result = transporterService.updatePwdOrMobileOrEmail(userId, null, newMobile, null);
+		int result = userService.updatePwdOrMobileOrEmail(userId, null, newMobile, null);
 		if(result > 0){
 			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
 			redisTemplate.delete(newKey);//验证通过返回之前删除当前验证码
@@ -283,7 +284,7 @@ public class TransporterController {
 		if(!captcha.equals(captchaCache)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		int result = transporterService.updatePwdOrMobileOrEmail(userId, null, null, email);
+		int result = userService.updatePwdOrMobileOrEmail(userId, null, null, email);
 		if(result > 0){
 			redisTemplate.delete(key);//验证通过返回之前删除当前验证码
 			return ResponseUtil.successResult();
@@ -297,7 +298,7 @@ public class TransporterController {
 	@ResponseBody
 	public Map<String,Object> detailUp(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User result = transporterService.detailUp(userId);
+		User result = userService.detailUp(userId);
 		if(result==null){
 		      return ResponseUtil.failureResult(BuzExceptionEnums.NotUpError);
 		}
@@ -317,7 +318,7 @@ public class TransporterController {
 			@RequestBody  @ApiParam(value="{downId:downId} downId:下级用户id") Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String downId = (String) requestMap.get("downId");
-		int result = transporterService.deleteDown(userId, downId);
+		int result = userService.deleteDown(userId, downId);
 		if(result > 0){
 			return ResponseUtil.successResult();
 		}
@@ -330,7 +331,7 @@ public class TransporterController {
 	public Map<String,Object> modifyDown(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody  @ApiParam(value="下级用户实体") User user){
 		String userId =  (String) request.getAttribute("userId");
-		int result = transporterService.updateDown(userId,user);
+		int result = userService.updateDown(userId,user);
 		if(result  > 0){
 			return ResponseUtil.successResultId(user.getId());
 		}
@@ -347,7 +348,7 @@ public class TransporterController {
 		if(downId==null){
 			return ResponseUtil.failureResult();
 		}
-		UserBO result  = transporterService.queryBO(downId);
+		UserBO result  = userService.queryBO(downId);
 		/*if(result ==null || result.getParentId() == null || !result.getParentId().equals(userId)){
 			return ResponseUtil.failureResult();
 		}*/
@@ -361,7 +362,7 @@ public class TransporterController {
 			@RequestBody @ApiParam(value="下级用户实体") User user){
 		String userId =  (String) request.getAttribute("userId");
 		user.setParentId(userId);
-		int result  = transporterService.auth(user);
+		int result  = userService.auth(user);
 		if(result >0 ){
 			return ResponseUtil.successResultId(user.getId());
 		}
@@ -378,7 +379,7 @@ public class TransporterController {
 		user.setCompanyId(parentUser.getCompanyId());
 		user.setUserType(Status.Type_User_Transporter);
 		try{
-			String  result  = transporterService.addDown(user);
+			String  result  = userService.addDown(user);
 			if(result !=null ){
 				return ResponseUtil.successResultId(result);
 			}
@@ -393,7 +394,7 @@ public class TransporterController {
 	@ResponseBody
 	public Map<String,Object> listDown(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		List<Map<String,Object>> result = transporterService.listDown(userId);
+		List<Map<String,Object>> result = userService.listDownByTransporter(userId);
 		return ResponseUtil.successResult(result);
 	}
 	
@@ -405,7 +406,7 @@ public class TransporterController {
 			@RequestBody  @ApiParam(value="用户实体") User user ){
 		String userId =  (String) request.getAttribute("userId");
 		user.setId(userId);
-		int result  = transporterService.auth(user);
+		int result  = userService.auth(user);
 		if(result > 0){
 			return ResponseUtil.successResultId(userId);
 		}
@@ -416,7 +417,7 @@ public class TransporterController {
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user  = transporterService.queryBO(userId);
+		UserBO user  = userService.queryBO(userId);
 		TransporterResp userResp = new TransporterResp(user);
 		if(user.getCompanyAuthStatus() != null && user.getCompanyId() !=null && Status.Auth_No !=user.getCompanyAuthStatus().intValue()){
 			CompanyBO company =companyService.query(user.getCompanyId());
@@ -428,10 +429,12 @@ public class TransporterController {
 	@RequestMapping(value="modify", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody User user){
+			@RequestBody TransporterReq transporterReq){
 		String userId =  (String) request.getAttribute("userId");
+		User user = new User();
+		BeanUtils.copyProperties(transporterReq, user);
 		user.setId(userId);
-		int result  = transporterService.update(user);
+		int result  = userService.update(user);
 		if(result > 0){
 			return ResponseUtil.successResultId(userId);
 		}

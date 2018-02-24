@@ -1,14 +1,14 @@
-package com.iflytransporter.api.bean;
+package com.iflytransporter.api.bean.request;
 
 public class UserReq {
 	
-    private String surname;
+	private String id;
+	
+	private String surname;
 
     private String name;
     
     private String cardNo;
-    
-    private String parentId;
     
     private String attachmentId1;
 
@@ -64,13 +64,12 @@ public class UserReq {
 		this.attachmentId3 = attachmentId3;
 	}
 
-	public String getParentId() {
-		return parentId;
+	public String getId() {
+		return id;
 	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setId(String id) {
+		this.id = id;
 	}
-    
-    
+	    
 }

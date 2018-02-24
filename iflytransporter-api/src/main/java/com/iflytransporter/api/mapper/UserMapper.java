@@ -1,6 +1,7 @@
 package com.iflytransporter.api.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -21,7 +22,11 @@ public interface UserMapper {
 	public UserBO selectByPrimaryKeyBO(String id);
 	
 	//查看下级列表
-	public List<User> listDown(String parentId);
+	public List<Map<String,Object>> listDown(String parentId);
+	
+	//查看下级列表
+	public List<Map<String,Object>> listDownByTransporter(String parentId);
+		
 	
 	//修改认证状态
 	int updateAuthStatus(@Param("id")String id,@Param("authStatus")Integer authStatus,@Param("companyAuthStatus")Integer companyAuthStatus);

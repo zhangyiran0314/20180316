@@ -1,6 +1,7 @@
 package com.iflytransporter.api.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
@@ -20,13 +21,13 @@ public interface UserService  {
 	 * @param id
 	 * @return
 	 */
-	public UserBO detailByCache(String id);
+	public UserBO detailBOByCache(String id);
 	/**
 	 * 通过缓存查询user
 	 * @param id
 	 * @return
 	 */
-	public User detailUserByCache(String id);
+	public User detailByCache(String id);
 	
 	//认证个人
 	public int auth(User user) ;
@@ -43,7 +44,9 @@ public interface UserService  {
 	//删除下级
 	public int deleteDown(String userId,String downId);
 	//查看下级列表
-	public List<User> listDown(String parentId);
+	public List<Map<String,Object>> listDown(String parentId);
+	
+	public List<Map<String,Object>> listDownByTransporter(String parentId);
 	//查看上级
 	public User detailUp(String id);
 	//解除上级绑定

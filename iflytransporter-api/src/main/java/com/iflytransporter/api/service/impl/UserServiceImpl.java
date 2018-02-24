@@ -1,6 +1,8 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
@@ -74,6 +77,7 @@ public class UserServiceImpl implements UserService{
 		//员工存在
 		userDown.setLevel(Status.User_Level_Staff);
 		userDown.setParentId(user.getParentId());
+		userDown.setUserType(user.getUserType());
 		//userDown.setAuthStatus(Status.Auth_No);
 		userDown.setCompanyAuthStatus(Status.Auth_Yes);
 		userDown.setCompanyId(user.getCompanyId());
@@ -105,7 +109,25 @@ public class UserServiceImpl implements UserService{
 		if(user.getAttachmentId3()!=null && !user.getAttachmentId3().equals(userTemp.getAttachmentId3())){
 			user.setAuthStatus(Status.Auth_Pending);
 		}
-		return userMapper.updateByPrimaryKeySelective(user);
+		//车主相关
+		if(user.getGdl()!=null && !user.getGdl().equals(userTemp.getGdl())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getDrivingLicenseNo()!=null && !user.getDrivingLicenseNo().equals(userTemp.getDrivingLicenseNo())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getAttachmentId4()!=null && !user.getAttachmentId4().equals(userTemp.getAttachmentId4())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		if(user.getAttachmentId5()!=null && !user.getAttachmentId5().equals(userTemp.getAttachmentId5())){
+			user.setAuthStatus(Status.Auth_Pending);
+		}
+		user.setUpdateDate(new Date());
+		int result  =userMapper.updateByPrimaryKeySelective(user);
+		if(result > 0){
+			deleteCache(user.getId());
+		}
+		return result;
 	}
 
 	@Override
@@ -115,22 +137,30 @@ public class UserServiceImpl implements UserService{
 			return result ;
 		}*/
 		user.setAuthStatus(Status.Auth_Pending);
-		return userMapper.updateByPrimaryKeySelective(user);
+		int result =  userMapper.updateByPrimaryKeySelective(user);
+		if(result > 0){
+			deleteCache(user.getId());
+		}
+		return result;
 	}
 
 	@Override
 	public UserBO queryBO(String id) {
-		return userMapper.selectByPrimaryKeyBO(id);
+		return this.detailBOByCache(id);
 	}
 
 	@Override
 	public int updateDown(String userId,User user) {
-		return userMapper.updateByPrimaryKeySelective(user);
+		int result  = userMapper.updateByPrimaryKeySelective(user);
+		if(result > 0){
+			deleteCache(userId);
+		}
+		return result;
 	}
 
 	@Override
 	public UserBO detailDown(String userId,String downId) {
-		UserBO user = userMapper.selectByPrimaryKeyBO(downId);
+		UserBO user = this.detailBOByCache(downId);
 		if(user==null || StringUtils.isBlank(user.getParentId()) || !user.getParentId().equals(userId)){
 			return null;
 		}
@@ -138,7 +168,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> listDown(String parentId) {
+	public List<Map<String,Object>> listDown(String parentId) {
 		return userMapper.listDown(parentId);
 	}
 
@@ -149,11 +179,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public User detailUp(String id) {
-		User user = userMapper.selectByPrimaryKey(id);
+		User user =this.detailByCache(id);
 		if(user==null || StringUtils.isBlank(user.getParentId())){
 			return null;
 		}
-		return userMapper.selectByPrimaryKey(user.getParentId());
+		return this.detailByCache(user.getParentId());
 	}
 
 	@Override
@@ -162,13 +192,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserBO detailByCache(String id) {
-		return userMapper.selectByPrimaryKeyBO(id);//测试阶段不采用缓存
-		/*try{
-			boolean hasKey = redisTemplate.hasKey(id);
+	public UserBO detailBOByCache(String id) {
+//		return userMapper.selectByPrimaryKeyBO(id);//测试阶段不采用缓存
+		try{
+			String key = RedisUtil.getUserBOKey(id);
+			boolean hasKey = redisTemplate.hasKey(key);
 			if(hasKey){
 				ValueOperations<String, String> operations=redisTemplate.opsForValue();
-				String jsonString = operations.get(id);
+				String jsonString = operations.get(key);
 				UserBO user= JSONObject.parseObject(jsonString, UserBO.class);
 				return user;
 			}
@@ -176,22 +207,53 @@ public class UserServiceImpl implements UserService{
 			String result = JSONObject.toJSONString(user);
 			//存放到redis缓存
 			ValueOperations<String, String> operations=redisTemplate.opsForValue();
-			operations.set(id, result, 5, TimeUnit.DAYS);//保存五天
+			operations.set(key, result, 5, TimeUnit.DAYS);//保存五天
 			return user;
 		}catch(Exception e){
 			return null;
-		} */
+		} 
 		
 	}
 
 	@Override
 	public int updatePwdOrMobileOrEmail(String userId, String pwd, String mobile, String email) {
-		return userMapper.updatePwdOrMobileOrEmail(userId, pwd, mobile, email);
+		int result = userMapper.updatePwdOrMobileOrEmail(userId, pwd, mobile, email);
+		if(result >0 ){
+			deleteCache(userId);
+		}
+		return result;
 	}
 
 	@Override
-	public User detailUserByCache(String id) {
-		return userMapper.selectByPrimaryKey(id);
+	public User detailByCache(String id) {
+		try{
+			String key = RedisUtil.getUserKey(id);
+			boolean hasKey = redisTemplate.hasKey(key);
+			if(hasKey){
+				ValueOperations<String, String> operations=redisTemplate.opsForValue();
+				String jsonString = operations.get(key);
+				UserBO user= JSONObject.parseObject(jsonString, UserBO.class);
+				return user;
+			}
+			UserBO user = userMapper.selectByPrimaryKeyBO(id);
+			String result = JSONObject.toJSONString(user);
+			//存放到redis缓存
+			ValueOperations<String, String> operations=redisTemplate.opsForValue();
+			operations.set(key, result, 5, TimeUnit.DAYS);//保存五天
+			return user;
+		}catch(Exception e){
+			return null;
+		} 
 	}
 
+	@Override
+	public List<Map<String, Object>> listDownByTransporter(String parentId) {
+		return userMapper.listDownByTransporter(parentId);
+	}
+	
+	//刷新用户缓存
+	private void deleteCache(String userId){
+		String key = RedisUtil.getUserBOKey(userId);
+		redisTemplate.delete(key);
+	}
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -17,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.iflytransporter.api.bean.UserResp;
+import com.iflytransporter.api.bean.request.UserReq;
+import com.iflytransporter.api.bean.response.UserResp;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.service.FeedbackService;
 import com.iflytransporter.api.service.UserService;
@@ -42,8 +44,6 @@ import io.swagger.annotations.ApiParam;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private CompanyService companyService;
 	@Autowired
 	private FeedbackService feedbackService;
 	@Autowired
@@ -273,6 +273,7 @@ public class UserController {
 		User parentUser = userService.detailByCache(userId);
 		user.setParentId(userId);
 		user.setCompanyId(parentUser.getCompanyId());
+		user.setUserType(Status.Type_User_Shipper);
 		try{
 			String  result  = userService.addDown(user);
 			if(result !=null ){
@@ -289,7 +290,7 @@ public class UserController {
 	@ResponseBody
 	public Map<String,Object> listDown(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		List<User> result = userService.listDown(userId);
+		List<Map<String,Object>> result = userService.listDown(userId);
 		
 		return ResponseUtil.successResult(result);
 	}
@@ -299,8 +300,10 @@ public class UserController {
 	@RequestMapping(value="auth", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> auth(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody  @ApiParam(value="用户实体") User user ){
+			@RequestBody  @ApiParam(value="用户实体") UserReq userReq ){
 		String userId =  (String) request.getAttribute("userId");
+		User user = new User();
+		BeanUtils.copyProperties(userReq, user);
 		user.setId(userId);
 		int result  = userService.auth(user);
 		if(result > 0){
@@ -313,20 +316,18 @@ public class UserController {
 	@ResponseBody
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user  = userService.queryBO(userId);
+		UserBO user  = userService.detailBOByCache(userId);
 		UserResp userResp = new UserResp(user);
-		if(user.getCompanyAuthStatus() != null && user.getCompanyId() !=null && Status.Auth_No !=user.getCompanyAuthStatus().intValue()){
-			CompanyBO company =companyService.query(user.getCompanyId());
-			userResp.setCompanyName(company==null?null:company.getName());
-		}
 		return ResponseUtil.successResult(userResp);
 	}
 	@ApiOperation(value="个人-修改", notes="个人-修改",produces = "application/json",response=UserResp.class)
 	@RequestMapping(value="modify", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody User user){
+			@RequestBody UserReq userReq){
 		String userId =  (String) request.getAttribute("userId");
+		User user = new User();
+		BeanUtils.copyProperties(userReq, user);
 		user.setId(userId);
 		int result  = userService.update(user);
 		if(result > 0){

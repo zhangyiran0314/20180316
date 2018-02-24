@@ -1,11 +1,11 @@
-package com.iflytransporter.api.bean;
+package com.iflytransporter.api.bean.response;
 
 import java.util.Date;
 
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 
-public class UserResp {
+public class TransporterResp {
 	
 	private String id;
 	
@@ -48,8 +48,16 @@ public class UserResp {
     private String attachmentId3Link;
     
     private String companyName;
+    
+    private String drivingLicenseNo;
+    private String attachmentId4;
+    private String gdl;
+    private String attachmentId5;
+	private String attachmentId4Link;
 
-	public UserResp(UserBO user) {
+    private String attachmentId5Link;
+
+	public TransporterResp(UserBO user) {
 		this.id = user.getId();
 		this.countryCode = user.getCountryCode();
 		this.mobile = user.getMobile();
@@ -70,9 +78,15 @@ public class UserResp {
 		this.attachmentId1Link = user.getAttachmentId1Link();
 		this.attachmentId2Link = user.getAttachmentId2Link();
 		this.attachmentId3Link = user.getAttachmentId3Link();
-
+		this.drivingLicenseNo = user.getDrivingLicenseNo();
+		this.attachmentId4=user.getAttachmentId4();
+		this.attachmentId4Link = user.getAttachmentId4Link();
+		this.gdl =user.getGdl();
+		this.attachmentId5=user.getAttachmentId5();
+		this.attachmentId5Link = user.getAttachmentId5Link();
+		
 	}
-	public UserResp(User user) {
+	public TransporterResp(User user) {
 		this.id = user.getId();
 		this.countryCode = user.getCountryCode();
 		this.mobile = user.getMobile();
@@ -247,6 +261,42 @@ public class UserResp {
 	}
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+	public String getDrivingLicenseNo() {
+		return drivingLicenseNo;
+	}
+	public void setDrivingLicenseNo(String drivingLicenseNo) {
+		this.drivingLicenseNo = drivingLicenseNo;
+	}
+	public String getGdl() {
+		return gdl;
+	}
+	public void setGdl(String gdl) {
+		this.gdl = gdl;
+	}
+	public String getAttachmentId5() {
+		return attachmentId5;
+	}
+	public void setAttachmentId5(String attachmentId5) {
+		this.attachmentId5 = attachmentId5;
+	}
+	public String getAttachmentId4Link() {
+		return attachmentId4Link;
+	}
+	public void setAttachmentId4Link(String attachmentId4Link) {
+		this.attachmentId4Link = attachmentId4Link;
+	}
+	public String getAttachmentId5Link() {
+		return attachmentId5Link;
+	}
+	public void setAttachmentId5Link(String attachmentId5Link) {
+		this.attachmentId5Link = attachmentId5Link;
+	}
+	public String getAttachmentId4() {
+		return attachmentId4;
+	}
+	public void setAttachmentId4(String attachmentId4) {
+		this.attachmentId4 = attachmentId4;
 	}
     
 }

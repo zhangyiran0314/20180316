@@ -41,7 +41,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> index(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		String companyId = user.getCompanyId();
 	
 		//管理员首页
@@ -76,7 +76,7 @@ public class CarManageController {
 	public Map<String,Object> driverWaybill(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		Map<String,Object> result = carManageService.queryDriverWaybill(user.getCompanyId(), userId);
 		return ResponseUtil.successResult(result);
 	}
@@ -87,7 +87,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listWaybill(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryTransporterWaybillList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -99,7 +99,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listDriveRest(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			Map<String,Object> result = carManageService.queryTransporterCarDriveRestList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -113,7 +113,7 @@ public class CarManageController {
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String carId = (String) requestMap.get("carId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin != user.getLevel() && StringUtils.isBlank(carId)){
 			return ResponseUtil.failureResult();
 		}
@@ -125,7 +125,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listDailyInspection(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryTransporterCarDailyInspectionList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -148,7 +148,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listInsurance(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryCarInsuranceList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -160,7 +160,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listTax(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryCarTaxList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -172,7 +172,7 @@ public class CarManageController {
 	@ResponseBody
 	public Map<String,Object> listCheck(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin == user.getLevel()){
 			List<Map<String,Object>> result = carManageService.queryCarCheckList(user.getCompanyId());
 			return ResponseUtil.successResult(result);
@@ -295,7 +295,7 @@ public class CarManageController {
 		String userId =  (String) request.getAttribute("userId");
 		String carId = (String) requestMap.get("carId");
 		Integer type = (Integer) requestMap.get("type");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		String companyId = user.getCompanyId();
 		CarDriveRest cdr = new CarDriveRest();
 		cdr.setCarId(carId);
@@ -315,7 +315,7 @@ public class CarManageController {
 	public Map<String,Object> addCarDailyInspection(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody CarDailyInspectionReq dailyInspection){
 		String userId =  (String) request.getAttribute("userId");
-		User user = userService.detailUserByCache(userId);
+		User user = userService.detailByCache(userId);
 		String companyId = user.getCompanyId();
 		
 		int result = carManageService.addCarDailyInspection(dailyInspection, companyId, userId);

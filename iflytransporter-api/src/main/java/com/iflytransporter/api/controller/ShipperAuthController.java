@@ -83,7 +83,7 @@ public class ShipperAuthController {
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(Status.User_Level_Admin== user.getLevel().intValue()){//如果是管理员,查询当前申请授权用户
-				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
+				op.setUser(new OrderUserResp(userService.detailBOByCache(order.getShipperId())));
 			}
 //			op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			result.add(op);
@@ -126,7 +126,7 @@ public class ShipperAuthController {
 			op.setUseType(commonService.queryUseType(lang,order.getUseTypeId()));
 //			op.setGoodsUnits(goodsUnitsService.queryCommonParam(order.getGoodsUnitsId()));
 			if(Status.User_Level_Admin==user.getLevel().intValue()){
-				op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
+				op.setUser(new OrderUserResp(userService.detailBOByCache(order.getShipperId())));
 			}
 //			op.setUser(new OrderUserResp(userService.detailByCache(order.getShipperId())));
 			result.add(op);

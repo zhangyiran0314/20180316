@@ -71,6 +71,7 @@
     <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
     <result column="attachment_id_4_link" property="attachmentId4Link" jdbcType="VARCHAR" />
     <result column="attachment_id_5_link" property="attachmentId5Link" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -94,7 +95,7 @@
     where country_code = #{countryCode,jdbcType=VARCHAR} and user_type = #{userType,jdbcType=INTEGER} 
     and mobile = #{mobile,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
   </select>
-   <update id="updateLoginInfo" parameterType="com.iflytransporter.common.bean.User" >
+   <update id="updateLoginInfo">
     update t_user set
       last_login_ip = #{lastLoginIp,jdbcType=VARCHAR},
       last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
@@ -159,17 +160,19 @@
     a.attachment_id_2, a.attachment_id_3, a.surname,a.name, a.card_no, 
     a.email,a.level,a.auth_status,a.company_auth_status, a.user_type,
     a.driving_license_no, a.attachment_id_4, a.gdl, a.attachment_id_5,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link ,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link)  as attachment_id_4_link,
-    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',f.attachment_link) as attachment_id_5_link 
+    b.name as company_name,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t1.attachment_link)  as attachment_id_1_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t2.attachment_link)  as attachment_id_2_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t3.attachment_link) as attachment_id_3_link ,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t4.attachment_link)  as attachment_id_4_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t5.attachment_link) as attachment_id_5_link 
     from t_user a
-    left join t_attachment b on a.attachment_id_1 = b.id
-    left join t_attachment c on a.attachment_id_2 = c.id
-    left join t_attachment d on a.attachment_id_3 = d.id
-    left join t_attachment e on a.attachment_id_4 = e.id
-    left join t_attachment f on a.attachment_id_5 = f.id
+    left join t_company b on a.company_id = b.id
+    left join t_attachment t1 on a.attachment_id_1 = t1.id
+    left join t_attachment t2 on a.attachment_id_2 = t2.id
+    left join t_attachment t3 on a.attachment_id_3 = t3.id
+    left join t_attachment t4 on a.attachment_id_4 = t4.id
+    left join t_attachment t5 on a.attachment_id_5 = t5.id
     where a.id = #{id,jdbcType=VARCHAR}
   </select>
 
@@ -211,6 +214,18 @@
     surname,name, card_no as cardNo, email,auth_status as authStatus
     from t_user
     where parent_id = #{parentId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="listDownByTransporter" resultType="java.util.Map" parameterType="java.lang.String">
+    select 
+     a.id, a.create_date as registerDate,  a.mobile,auth_status as authStatus,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachmentId1Link,
+    c.id as carId,c.name as carName,c.code as code
+    from t_user a
+    left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_car c on a.id =c.driver_id
+    
+    where a.parent_id = #{parentId,jdbcType=VARCHAR}
   </select>
   
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.User" >

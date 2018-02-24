@@ -14,6 +14,8 @@ public class UserBO extends User{
     
     private String attachmentId5Link;
 
+    private String companyName;
+    
 	public String getAttachmentId1Link() {
 		return attachmentId1Link;
 	}
@@ -53,6 +55,13 @@ public class UserBO extends User{
 	public void setAttachmentId5Link(String attachmentId5Link) {
 		this.attachmentId5Link = attachmentId5Link;
 	}
-    
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
     
 }

@@ -23,6 +23,7 @@ import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Car;
 import com.iflytransporter.common.bean.CarBO;
+import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -49,7 +50,7 @@ public class CarController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user = userService.detailByCache(userId);
+		User user = userService.detailByCache(userId);
 		
 		PageInfo<CarBO> page = carService.queryPage(pageNo,pageSize, user.getCompanyId(),userId);
 		if(page.getTotal()==0){
@@ -69,7 +70,7 @@ public class CarController {
 	public Map<String,Object> list(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody  Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user = userService.detailByCache(userId);
+		User user = userService.detailByCache(userId);
 		List<CarBO> list = carService.list(user.getCompanyId(),userId);
 		List<CarResp> result = new ArrayList<CarResp>();
 		for(CarBO car:list){
@@ -84,7 +85,7 @@ public class CarController {
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="车辆实体")Car car){
 		String userId =  (String) request.getAttribute("userId");
-		UserBO user = userService.detailByCache(userId);
+		User user = userService.detailByCache(userId);
 		String id = UUIDUtil.UUID();
 		car.setId(id);
 		int result = carService.save(car,user.getCompanyId());
