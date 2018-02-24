@@ -164,23 +164,23 @@ layui.config({
 		$(".gdl").val(data.gdl);  
 		if(data.attachmentId1Link!=undefined){
 			$(".div_attachment1").show();
-			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
+			$(".attachment1").append("<img src="+data.attachmentId1Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId2Link!=undefined){
 			$(".div_attachment2").show();
-			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
+			$(".attachment2").append("<img src="+data.attachmentId2Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId3Link!=undefined){
 			$(".div_attachment3").show();
-			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
+			$(".attachment3").append("<img src="+data.attachmentId3Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId4Link!=undefined){
 			$(".div_attachment4").show();
-			$(".attachment4").append("<img src="+data.attachmentId4Link+">");
+			$(".attachment4").append("<img src="+data.attachmentId4Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId5Link!=undefined){
 			$(".div_attachment5").show();
-			$(".attachment5").append("<img src="+data.attachmentId5Link+">");
+			$(".attachment5").append("<img src="+data.attachmentId5Link+" height='300' width='300'>");
 		}
 	}
 })

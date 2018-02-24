@@ -93,6 +93,10 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	}
 	@Override
 	public int save(SubscribeSource record) {
+		int countByRecord = subscribeSourceMapper.selectByRecord(record);
+		if(countByRecord > 0){
+			return countByRecord;
+		}
 		return subscribeSourceMapper.insert(record);
 	}
 	@Override
@@ -101,6 +105,10 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 	}
 	@Override
 	public int update(SubscribeSource record) {
+		int countByRecord = subscribeSourceMapper.selectByRecord(record);
+		if(countByRecord > 0){
+			return subscribeSourceMapper.deleteByPrimaryKey(record.getId());
+		}
 		return subscribeSourceMapper.updateByPrimaryKeySelective(record);
 	}
 	@Override

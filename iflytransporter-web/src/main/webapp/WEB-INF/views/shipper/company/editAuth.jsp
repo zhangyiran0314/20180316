@@ -151,15 +151,15 @@ layui.config({
 		$(".mobile").val(data.mobile); 
 		if(data.attachmentId1Link!=undefined){
 			$(".div_attachment1").show();
-			$(".attachment1").append("<img src="+data.attachmentId1Link+">");
+			$(".attachment1").append("<img src="+data.attachmentId1Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId2Link!=undefined){
 			$(".div_attachment2").show();
-			$(".attachment2").append("<img src="+data.attachmentId2Link+">");
+			$(".attachment2").append("<img src="+data.attachmentId2Link+" height='300' width='300'>");
 		}
 		if(data.attachmentId3Link!=undefined){
 			$(".div_attachment3").show();
-			$(".attachment3").append("<img src="+data.attachmentId3Link+">");
+			$(".attachment3").append("<img src="+data.attachmentId3Link+" height='300' width='300'>");
 		}
 	}
 })

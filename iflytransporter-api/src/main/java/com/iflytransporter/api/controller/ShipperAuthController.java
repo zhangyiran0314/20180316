@@ -66,9 +66,9 @@ public class ShipperAuthController {
 		PageInfo<Order> page = null;
 		//如果是管理员,查询当前公司所有授权以及未授权记录
 		if(user.getLevel()==Status.User_Level_Admin){
-			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),null,status);
+			page = shipperAuthService.queryPageByAdmin(pageNo,pageSize, user.getCompanyId(),userId,status);
 		}else{//如果是员工,查询个人的记录
-			page = shipperAuthService.queryPage(pageNo,pageSize, null,userId,null);
+			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),userId,null);
 		}
 		if(page.getTotal()== 0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
@@ -113,9 +113,9 @@ public class ShipperAuthController {
 			status = null;
 		}*/
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
-			list = shipperAuthService.list(user.getCompanyId(),null,status);
+			list = shipperAuthService.listByAdmin(user.getCompanyId(),user.getId(),status);
 		}else{
-			list = shipperAuthService.list(null,userId,null);
+			list = shipperAuthService.list(user.getCompanyId(),userId,null);
 		}
 		List<AuthResp> result = new ArrayList<AuthResp>();
 		for(Order order:list){

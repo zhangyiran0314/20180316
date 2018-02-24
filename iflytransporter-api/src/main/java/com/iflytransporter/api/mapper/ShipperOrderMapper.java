@@ -25,6 +25,11 @@ public interface ShipperOrderMapper {
     
     List<Order> queryAllAuth(@Param("companyId")String companyId,@Param("shipperId")String sId,@Param("authStatus")Integer authStatus);
     
+    /**
+     * 管理员查询授权列表,不包括自身发布发货
+     * */
+    List<Order> queryAllAuthByAdmin(@Param("companyId")String companyId,@Param("shipperId")String sId,@Param("authStatus")Integer authStatus);
+    
     int updateStatus(@Param("id")String id,@Param("status")Integer status);
     
     int updateAuthStatus(@Param("id")String id,@Param("authStatus")Integer authStatus);

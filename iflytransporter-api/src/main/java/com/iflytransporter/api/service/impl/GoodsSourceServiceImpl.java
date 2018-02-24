@@ -24,6 +24,10 @@ public class GoodsSourceServiceImpl implements GoodsSourceService{
 	private ShipperOrderMapper shipperOrderMapper;
 	@Override
 	public int save(GoodsSource record) {
+		int countByRecord = goodsSourceMapper.selectByRecord(record);
+		if(countByRecord > 0){
+			return countByRecord;
+		}
 		return goodsSourceMapper.insert(record);
 	}
 
@@ -34,6 +38,10 @@ public class GoodsSourceServiceImpl implements GoodsSourceService{
 
 	@Override
 	public int update(GoodsSource record) {
+		int countByRecord = goodsSourceMapper.selectByRecord(record);
+		if(countByRecord > 0){
+			return goodsSourceMapper.deleteByPrimaryKey(record.getId());
+		}
 		return goodsSourceMapper.updateByPrimaryKeySelective(record);
 	}
 

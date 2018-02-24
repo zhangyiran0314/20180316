@@ -41,5 +41,20 @@ public class ShipperAuthServiceImpl implements ShipperAuthService{
 		return shipperOrderMapper.updateAuthStatus(id, status);
 	}
 
+	@Override
+	public PageInfo<Order> queryPageByAdmin(Integer pageNo, Integer pageSize, String companyId, String userId,
+			Integer status) {
+		if(pageNo!= null && pageSize!= null){  
+            PageHelper.startPage(pageNo, pageSize);  
+        }  
+		List<Order> list= shipperOrderMapper.queryAllAuthByAdmin(companyId, userId, status);
+		return new PageInfo<Order>(list);
+	}
+
+	@Override
+	public List<Order> listByAdmin(String companyId, String userId, Integer status) {
+		return shipperOrderMapper.queryAllAuthByAdmin(companyId, userId, status);
+	}
+
 
 }

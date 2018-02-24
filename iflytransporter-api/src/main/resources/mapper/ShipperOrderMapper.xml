@@ -68,6 +68,24 @@
     <include refid ="Valid_SQL"/>
   </select>
   
+   <select id="queryAllAuthByAdmin" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where 1 = 1 
+    <if test="companyId != null" >
+      and company_id  = #{companyId,jdbcType=VARCHAR}
+    </if>
+    <if test="shipperId != null" >
+      and shipper_id  != #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="authStatus != null" >
+      and auth_status  = #{authStatus,jdbcType=INTEGER}
+    </if>
+    <include refid ="Valid_SQL"/>
+    
+  </select>
+  
    <select id="queryAllAuth" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />

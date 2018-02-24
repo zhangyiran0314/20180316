@@ -17,6 +17,8 @@ public interface ShipperAuthService  {
 	 */
 	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status);
 	
+	PageInfo<Order> queryPageByAdmin(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status);
+	
 	/**
 	 * 列表
 	 * @param companyId
@@ -25,6 +27,8 @@ public interface ShipperAuthService  {
 	 * @return
 	 */
 	List<Order> list(String companyId,String userId,Integer status);
+	
+	List<Order> listByAdmin(String companyId,String userId,Integer status);
 	
 	Order query(String id);
 	

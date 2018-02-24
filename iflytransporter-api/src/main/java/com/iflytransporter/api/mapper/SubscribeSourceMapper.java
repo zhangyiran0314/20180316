@@ -18,4 +18,9 @@ public interface SubscribeSourceMapper {
     int updateByPrimaryKey(SubscribeSource record);
     
     List<SubscribeSource> listByUserId(String userId);
+    /**
+     * 查询货源是否已经存在,如果存在则不添加
+     */
+    int selectByRecord(SubscribeSource record);
+    
 }
