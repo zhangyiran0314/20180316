@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.iflytransporter.api.conf.ConstantsConfig;
-import com.iflytransporter.api.service.AreaService;
 import com.iflytransporter.api.service.AttachmentService;
-import com.iflytransporter.api.service.CityService;
 import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.InsuranceService;
-import com.iflytransporter.api.service.ProvinceService;
 import com.iflytransporter.common.bean.Attachment;
 import com.iflytransporter.common.bean.Insurance;
 import com.iflytransporter.common.utils.ResponseUtil;
