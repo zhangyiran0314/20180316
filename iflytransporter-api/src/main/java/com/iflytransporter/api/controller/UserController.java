@@ -71,10 +71,11 @@ public class UserController {
 		String countryCode = (String)  requestMap.get("countryCode");
 		String mobile = (String) requestMap.get("mobile");
 		String captcha = (String) requestMap.get("captcha");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(!hasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
@@ -107,10 +108,11 @@ public class UserController {
 		String countryCode = (String)  requestMap.get("countryCode");
 		String mobile = (String) requestMap.get("mobile");
 		String captcha = (String) requestMap.get("captcha");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(!hasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
@@ -126,7 +128,7 @@ public class UserController {
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String newKey = RedisUtil.getCaptchaKey(countryCode,newMobile);
+		String newKey = RedisUtil.getCaptchaKey(countryCode,userType,newMobile);
 		boolean newHasKey = redisTemplate.hasKey(newKey);
 		if(!newHasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
@@ -153,10 +155,11 @@ public class UserController {
 		String countryCode = (String)  requestMap.get("countryCode");
 		String mobile = (String) requestMap.get("mobile");
 		String captcha = (String) requestMap.get("captcha");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(!hasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);

@@ -19,8 +19,8 @@ public class RedisUtil {
 	public static String Redis_HandlingType="handlingType";//装卸类型
 	public static String Redis_PaymentType="paymentType";//支付类型
 	/**获取key值*/
-	public static String getCaptchaKey(String countryCode,String key){
-		return Redis_Captcha+":"+countryCode+":"+key; 
+	public static String getCaptchaKey(String countryCode,Integer userType,String mobile){
+		return Redis_Captcha+":"+countryCode+":"+userType+":"+mobile; 
 	}
 	/**获取key值*/
 	public static String getPositionCountryKey(String countryCode){

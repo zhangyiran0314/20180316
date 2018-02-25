@@ -8,7 +8,7 @@ public enum BuzExceptionEnums implements Enums{
 	//验证验证码错误
 	VerifyCaptchaError(Code_VerifyCaptchaError,"VerifyCaptchaError"),
 	//账户已经注册
-	AccountsAlreadyExist(Code_AccountsAlreadyExist,"AccountsAlreadyExist"),
+	AccountsAlreadyRegister(Code_AccountsAlreadyExist,"AccountsAlreadyRegister"),
 	//账号密码错误
 	AccountOrPasswordErr(Code_AccountOrPasswordError, "AccountOrPasswordErr"),
 	//账号密码错误
@@ -19,6 +19,8 @@ public enum BuzExceptionEnums implements Enums{
 	CompanyNotAuth(Code_CompanyNotAuth,"CompanyNotAuth"),
 	//绑定错误-管理员不允许被绑定
 	AdminCannotBind(Code_AdminCannotBind,"AdminCannotBind"),
+	//绑定错误-员工已经被绑定
+	StaffAlreadyBind(Code_StaffAlreadyBind,"StafAlreadyBind"),
 	//绑定错误-员工不允许被重复绑定
 	StaffCannotRepeatBind(Code_StaffCannotRepeatBind,"StaffCannotBindRepeat"),
 	

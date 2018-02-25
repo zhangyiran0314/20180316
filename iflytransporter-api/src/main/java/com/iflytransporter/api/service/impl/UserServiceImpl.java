@@ -71,6 +71,10 @@ public class UserServiceImpl implements UserService{
 			throw new ServiceException(BuzExceptionEnums.AdminCannotBind);
 		}
 		//用户存在且已经被绑定,不允许重复绑定
+		if(StringUtils.isNotBlank(userDown.getParentId()) && userDown.getParentId().equals(user.getParentId()) ){
+			throw new ServiceException(BuzExceptionEnums.StaffAlreadyBind);
+		}
+		//用户存在且已经被绑定,不允许重复绑定
 		if(StringUtils.isNotBlank(userDown.getParentId()) && !userDown.getParentId().equals(user.getParentId()) ){
 			throw new ServiceException(BuzExceptionEnums.StaffCannotRepeatBind);
 		}

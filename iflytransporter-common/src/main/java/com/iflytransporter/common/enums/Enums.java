@@ -23,8 +23,9 @@ public interface Enums {
 	//绑定错误-管理员不允许被绑定
 	public static int Code_AdminCannotBind = 1008;
 	//绑定错误-员工不允许被重复绑定
-	public static int Code_StaffCannotRepeatBind = 1008;
-	
+	public static int Code_StaffCannotRepeatBind = 1009;
+	//绑定错误-员工已经被绑定
+	public static int Code_StaffAlreadyBind = 1010;
 	
 	/**发货相关状态码*/
 	//报价时,待审核报价申请不能超过五家

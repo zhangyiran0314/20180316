@@ -69,13 +69,25 @@ public class BasicController {
 	@RequestMapping(value="getCaptcha", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object>  getCaptcha(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam(value="countryCode,mobile")Map<String,Object> requestMap){
+			@RequestBody @ApiParam(value="countryCode,mobile,register,userType")Map<String,Object> requestMap){
 		
 		String mobile = (String) requestMap.get("mobile");
 		String countryCode = (String)  requestMap.get("countryCode");
+//		Integer register = (Integer) requestMap.get("register");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
+		if(StringUtils.isNotBlank(mobile) && requestMap.get("register") != null){
+			Integer register = (Integer) requestMap.get("register");//register:0|1 0-不做处理,1注册时获取验证码
+			if("1".equals(register)){
+				User user = userService.queryByMobile(countryCode, userType, mobile);
+				if(user !=null){
+					return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyRegister);
+				}
+			}
+		}
+		
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(countryCode)){
 			try{
-				String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+				String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 				boolean hasKey = redisTemplate.hasKey(key);
 				if(hasKey){
 					Long ttl =redisTemplate.getExpire(key);
@@ -110,9 +122,10 @@ public class BasicController {
 		String mobile = (String) requestMap.get("mobile");
 		String countryCode = (String)  requestMap.get("countryCode");
 		String captcha = (String) requestMap.get("captcha");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(captcha)){
 			try{
-				String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+				String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 				boolean hasKey = redisTemplate.hasKey(key);
 				if(hasKey){
 					ValueOperations<String, String> operations=redisTemplate.opsForValue();
@@ -138,13 +151,13 @@ public class BasicController {
 		String email = (String) requestMap.get("email");
 		String countryCode = (String)  requestMap.get("countryCode");
 		String password = (String) requestMap.get("password");
-		Integer userType = (Integer) requestMap.get("userType");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		
 		String captcha = (String) requestMap.get("captcha");
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(!hasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
@@ -171,7 +184,7 @@ public class BasicController {
 				}
 				redisTemplate.delete(key);//验证通过之后删除当前验证码
 				//已经注册,需要登录
-				return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyExist);
+				return ResponseUtil.failureResult(BuzExceptionEnums.AccountsAlreadyRegister);
 			}
 			User user = new User();
 			Date currentDate = new Date();
@@ -210,7 +223,7 @@ public class BasicController {
 		String mobile = (String) requestMap.get("mobile");
 		String password = (String) requestMap.get("password");
 		String clientId = (String) requestMap.get("clientId");
-		Integer userType = (Integer) requestMap.get("userType");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		if(StringUtils.isNotBlank(mobile) && StringUtils.isNotBlank(password)
 				&&StringUtils.isNotBlank(countryCode)&& userType!=null){
 			User user = userService.login(countryCode,userType,mobile, password);
@@ -241,12 +254,12 @@ public class BasicController {
 		String countryCode = (String)  requestMap.get("countryCode");
 		String mobile = (String) requestMap.get("mobile");
 		String password = (String) requestMap.get("password");
-		Integer userType = (Integer) requestMap.get("userType");
+		Integer userType = Integer.parseInt(request.getHeader("userType"));
 		String captcha = (String) requestMap.get("captcha");
 		if(StringUtils.isBlank(captcha)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
 		}
-		String key = RedisUtil.getCaptchaKey(countryCode,mobile);
+		String key = RedisUtil.getCaptchaKey(countryCode,userType,mobile);
 		boolean hasKey = redisTemplate.hasKey(key);
 		if(!hasKey){
 			return ResponseUtil.failureResult(BuzExceptionEnums.VerifyCaptchaError);
