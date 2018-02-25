@@ -99,12 +99,14 @@
     left join t_attachment e on a.attachment_id_4 = e.id
     left join t_attachment f on a.attachment_id_5 = f.id
     where 1 = 1 
+    
     <if test="companyId != null" >
       and a.company_id  = #{companyId,jdbcType=VARCHAR}
     </if>
       <if test="userId != null" >
       and a.transporter_id  = #{userId,jdbcType=VARCHAR}
     </if>
+      and (a.driver_id is null or a.driver_id ='')
       and a.data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
   </select>
   

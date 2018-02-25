@@ -25,12 +25,12 @@ import com.iflytransporter.api.utils.CaptchaUtil;
 import com.iflytransporter.api.utils.HttpUtil;
 import com.iflytransporter.api.utils.JwtUtil;
 import com.iflytransporter.api.utils.JwtUtil.JwtUser;
-import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.utils.RedisUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

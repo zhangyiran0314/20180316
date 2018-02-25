@@ -20,18 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.request.UserReq;
 import com.iflytransporter.api.bean.response.UserResp;
-import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.service.FeedbackService;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.common.bean.CompanyBO;
+import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Feedback;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.exception.ServiceException;
-import com.iflytransporter.api.utils.RedisUtil;
-import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.utils.RedisUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;

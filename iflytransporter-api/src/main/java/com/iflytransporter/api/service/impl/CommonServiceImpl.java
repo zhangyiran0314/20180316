@@ -1,6 +1,5 @@
 package com.iflytransporter.api.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,11 +15,7 @@ import org.springframework.stereotype.Service;
 import com.iflytransporter.api.bean.CommonParam;
 import com.iflytransporter.api.mapper.CommonMapper;
 import com.iflytransporter.api.service.CommonService;
-import com.iflytransporter.api.utils.RedisUtil;
-import com.iflytransporter.common.bean.Area;
-import com.iflytransporter.common.bean.City;
-import com.iflytransporter.common.bean.Position;
-import com.iflytransporter.common.bean.Province;
+import com.iflytransporter.common.utils.RedisUtil;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {

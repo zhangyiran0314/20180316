@@ -4,21 +4,23 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Company;
-import com.iflytransporter.common.bean.CompanyBO;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.enums.Status;
+import com.iflytransporter.common.utils.RedisUtil;
 import com.iflytransporter.web.mapper.CompanyMapper;
 import com.iflytransporter.web.mapper.UserMapper;
 import com.iflytransporter.web.service.CompanyService;
 
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
-
+	@Autowired
+    private RedisTemplate<String, String> redisTemplate;//注入redis缓存
 	@Autowired
 	private CompanyMapper companyMapper;
 	
@@ -56,6 +58,10 @@ public class CompanyServiceImpl implements CompanyService {
 		int result = companyMapper.updateByPrimaryKeySelective(company);
 		if(result > 0){
 			userMapper.updateByPrimaryKeySelective(user);
+			String keyBO = RedisUtil.getUserBOKey(user.getId());
+			redisTemplate.delete(keyBO);
+			String key = RedisUtil.getUserKey(user.getId());
+			redisTemplate.delete(key);
 		}
 		return result;
 	}

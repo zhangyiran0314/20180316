@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.iflytransporter.api.mapper.UserMapper;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.exception.ServiceException;
+import com.iflytransporter.common.utils.RedisUtil;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{

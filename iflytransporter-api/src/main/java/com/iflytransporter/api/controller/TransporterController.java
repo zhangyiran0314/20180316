@@ -26,7 +26,6 @@ import com.iflytransporter.api.service.CarService;
 import com.iflytransporter.api.service.CompanyService;
 import com.iflytransporter.api.service.FeedbackService;
 import com.iflytransporter.api.service.UserService;
-import com.iflytransporter.api.utils.RedisUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Car;
 import com.iflytransporter.common.bean.CarBO;
@@ -37,6 +36,7 @@ import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 import com.iflytransporter.common.exception.ServiceException;
+import com.iflytransporter.common.utils.RedisUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
 import io.swagger.annotations.Api;
