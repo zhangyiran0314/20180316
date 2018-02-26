@@ -60,13 +60,14 @@ layui.config({
 	
 		table.render({
 		    elem: '#table'
-		    ,height: 315
+		    ,height: 500
 		    ,id:"layui_table_id"
 		    ,url: '<%=request.getContextPath()%>/area/queryPage' //数据接口
 		    ,page: true //开启分页
 		    ,cols: [[ //表头
-		        {type: 'checkbox', fixed: 'left'},
+		       /*  {type: 'checkbox', fixed: 'left'}, */
                 /* {field: 'id', title: 'ID', width: '170', sort: true},  */
+                 {field:'countryCode',title:'国家代码', width:'180'},
                 {field:'provinceIdName',title:'province', width:'180'},
                 {field:'cityIdName',title:'city', width:'180'},
                 {field:'name',title:'名称', width:'180'},

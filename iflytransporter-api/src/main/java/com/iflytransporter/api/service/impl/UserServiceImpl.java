@@ -260,4 +260,9 @@ public class UserServiceImpl implements UserService{
 		String key = RedisUtil.getUserBOKey(userId);
 		redisTemplate.delete(key);
 	}
+
+	@Override
+	public int queryRegisterByMobile(String countryCode, Integer userType, String mobile) {
+		return userMapper.queryRegisterByMobile(countryCode, userType, mobile);
+	}
 }

@@ -20,7 +20,7 @@ public enum BuzExceptionEnums implements Enums{
 	//绑定错误-管理员不允许被绑定
 	AdminCannotBind(Code_AdminCannotBind,"AdminCannotBind"),
 	//绑定错误-员工已经被绑定
-	StaffAlreadyBind(Code_StaffAlreadyBind,"StafAlreadyBind"),
+	StaffAlreadyBind(Code_StaffAlreadyBind,"StaffAlreadyBind"),
 	//绑定错误-员工不允许被重复绑定
 	StaffCannotRepeatBind(Code_StaffCannotRepeatBind,"StaffCannotBindRepeat"),
 	

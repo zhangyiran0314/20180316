@@ -31,6 +31,8 @@ public class QueryOrderParam {
     
     //货源搜索时,用于判断当前车主是否申请过此货源记录属性
     private String transporterId;
+    
+    public Long lastCreateDate;
 
 	public String getDepartureProvinceId() {
 		return departureProvinceId;
@@ -150,6 +152,14 @@ public class QueryOrderParam {
 
 	public void setTransporterId(String transporterId) {
 		this.transporterId = transporterId;
+	}
+
+	public Long getLastCreateDate() {
+		return lastCreateDate;
+	}
+
+	public void setLastCreateDate(Long lastCreateDate) {
+		this.lastCreateDate = lastCreateDate;
 	}
     
     

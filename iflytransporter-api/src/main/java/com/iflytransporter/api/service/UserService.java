@@ -10,6 +10,8 @@ import com.iflytransporter.common.exception.ServiceException;
 public interface UserService  {
 	//通过mobile查询用户
 	public User queryByMobile(String countryCode,Integer userType,String mobile);
+	//通过mobile查询用户是否注册
+	public int queryRegisterByMobile(String countryCode,Integer userType,String mobile);
 	//注册
 	public int register(User record);
 	//修改登录信息

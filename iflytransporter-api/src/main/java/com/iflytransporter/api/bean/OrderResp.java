@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.iflytransporter.common.bean.Order;
 
 public class OrderResp{
@@ -40,7 +41,8 @@ public class OrderResp{
     private Integer carLength;
 
     private String goodsType;
-
+    
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date deliverDate;
 
     private Integer costs;

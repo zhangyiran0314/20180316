@@ -51,65 +51,63 @@
     </if>
     <include refid ="Valid_SQL"/>
   </select>
-  <select id="selectByRecord" parameterType="com.iflytransporter.common.bean.GoodsSource">
+  <select id="selectByRecord" parameterType="com.iflytransporter.common.bean.GoodsSource" resultType="java.lang.Integer">
   select count(1) from t_goods_source
  	 where user_id =  #{userId,jdbcType=VARCHAR}
- 	  <trim prefix="" suffix="" suffixOverrides="," >
       <if test="departureProvinceId != null" >
-       and departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
+       and departure_province_id = #{departureProvinceId,jdbcType=VARCHAR}
       </if>
       <if test="departureCityId != null" >
-       and  departure_city_id = #{departureCityId,jdbcType=VARCHAR},
+       and  departure_city_id = #{departureCityId,jdbcType=VARCHAR}
       </if>
       <if test="departureAreaId != null" >
-        and departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+        and departure_area_id = #{departureAreaId,jdbcType=VARCHAR}
       </if>
       <if test="destinationProvinceId != null" >
-        and destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+        and destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR}
       </if>
       <if test="destinationCityId != null" >
-        and destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+        and destination_city_id = #{destinationCityId,jdbcType=VARCHAR}
       </if>
       <if test="destinationAreaId != null" >
-       and destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
+       and destination_area_id = #{destinationAreaId,jdbcType=VARCHAR}
       </if>
       <if test="carTypeId != null" >
-        and car_type_id = #{carTypeId,jdbcType=VARCHAR},
+        and car_type_id = #{carTypeId,jdbcType=VARCHAR}
       </if>
       <if test="tyreNo != null" >
-        and tyre_no = #{tyreNo,jdbcType=VARCHAR},
+        and tyre_no = #{tyreNo,jdbcType=VARCHAR}
       </if>
       <if test="carLength != null" >
-        and car_length = #{carLength,jdbcType=INTEGER},
+        and car_length = #{carLength,jdbcType=INTEGER}
       </if>
       <if test="goodsType != null" >
-        and goods_type = #{goodsType,jdbcType=VARCHAR},
+        and goods_type = #{goodsType,jdbcType=VARCHAR}
       </if>
        <if test="weight != null">
-        and weight = #{weight,jdbcType=INTEGER},
+        and weight = #{weight,jdbcType=INTEGER}
       </if>
       <if test="goodsUnits != null" >
-        and goods_units = #{goodsUnits,jdbcType=VARCHAR},
+        and goods_units = #{goodsUnits,jdbcType=VARCHAR}
       </if>
       <if test="useTypeId != null" >
-         and use_type_id = #{useTypeId,jdbcType=VARCHAR},
+         and use_type_id = #{useTypeId,jdbcType=VARCHAR}
       </if>
       <if test="length != null" >
-        and length = #{length,jdbcType=VARCHAR},
+        and length = #{length,jdbcType=VARCHAR}
       </if>
       <if test="width != null" >
-        and width = #{width,jdbcType=VARCHAR},
+        and width = #{width,jdbcType=VARCHAR}
       </if>
       <if test="height != null" >
-        and height = #{height,jdbcType=VARCHAR},
+        and height = #{height,jdbcType=VARCHAR}
       </if>
       <if test="handlingTypeId != null" >
-        and handling_type_id = #{handlingTypeId,jdbcType=VARCHAR},
+        and handling_type_id = #{handlingTypeId,jdbcType=VARCHAR}
       </if>
       <if test="paymentTypeId != null" >
-        and payment_type_id = #{paymentTypeId,jdbcType=VARCHAR},
+        and payment_type_id = #{paymentTypeId,jdbcType=VARCHAR}
       </if>
-      </trim>
   </select>
    <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
     update  t_goods_source set data_status = 1,update_date = now() 

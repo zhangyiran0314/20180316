@@ -39,7 +39,7 @@
    <select id="queryAllBO" resultMap="BaseResultMapBO">
   	select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code,a.province_id,
-    b.name as provinceIdName
+    b.name as provinceIdName,a.country_code as countryCode
     from t_city a
     left join t_province b on a.province_id = b.id
     where 1 =1 

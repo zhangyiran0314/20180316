@@ -2,6 +2,8 @@ package com.iflytransporter.common.bean;
 
 import java.util.Date;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 public class Order {
     private String id;
 
@@ -37,6 +39,7 @@ public class Order {
 
     private String goodsUnits;
     
+    @JSONField(format="yyyy-MM-dd HH:mm")
     private Date deliverDate;
 
     private Integer costs;

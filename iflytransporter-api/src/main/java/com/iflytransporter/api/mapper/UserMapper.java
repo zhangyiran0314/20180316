@@ -9,7 +9,8 @@ import com.iflytransporter.common.bean.User;
 import com.iflytransporter.common.bean.UserBO;
 
 public interface UserMapper {
-	
+	//根据mobile查询用户是否注册
+	public int queryRegisterByMobile(@Param("countryCode")String countryCode,@Param("userType")Integer userType,@Param("mobile")String mobile);
 	//根据mobile查询
 	User selectByMobile(@Param("countryCode")String countryCode,@Param("userType")Integer userType,@Param("mobile")String mobile);
 	//根据mobile和密码查询用户

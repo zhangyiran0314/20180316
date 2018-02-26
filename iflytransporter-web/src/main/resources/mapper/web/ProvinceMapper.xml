@@ -9,9 +9,10 @@
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
      <result column="code" property="code" jdbcType="VARCHAR" />
+     <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, name,code
+    id, create_date, update_date, data_status, desp, name,code,country_code
   </sql>
   
    <select id="queryAll" resultMap="BaseResultMap">

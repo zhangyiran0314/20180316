@@ -139,6 +139,7 @@
   	 from t_user a 
   	 left join t_car b on a.id = b.driver_id
   	 where a.company_id = #{companyId,jdbcType=VARCHAR} 
+  	 and a.auth_status = 2
     <if test="level != null" >
     and  a.level = #{level,jdbcType=INTEGER}
     </if>

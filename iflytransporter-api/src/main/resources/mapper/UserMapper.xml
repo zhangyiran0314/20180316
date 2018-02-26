@@ -82,6 +82,14 @@
      driving_license_no, attachment_id_4, gdl, attachment_id_5
   </sql>
 
+  <select id="queryRegisterByMobile" resultType="java.lang.Integer" >
+    select count(1)
+    from t_user
+    where country_code = #{countryCode,jdbcType=VARCHAR} and user_type = #{userType,jdbcType=INTEGER}  
+    and mobile = #{mobile,jdbcType=VARCHAR} 
+    and password is not null and email is not null
+  </select>
+
     <select id="selectByMobile" resultMap="BaseResultMap"  >
     select 
     <include refid="Base_Column_List" />
