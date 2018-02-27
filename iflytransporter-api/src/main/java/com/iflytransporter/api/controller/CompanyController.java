@@ -73,6 +73,8 @@ public class CompanyController {
 	@ResponseBody
 	public Map<String,Object> modify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody @ApiParam(value="实体")Company company){
+		String userId =  (String) request.getAttribute("userId");
+		company.setUserId(userId);
 		int result = companyService.update(company);
 		if(result > 0){
 			return ResponseUtil.successResultId(company.getId());

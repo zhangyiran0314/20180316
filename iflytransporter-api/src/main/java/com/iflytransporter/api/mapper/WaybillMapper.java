@@ -1,5 +1,6 @@
 package com.iflytransporter.api.mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public interface WaybillMapper {
     
     List<Waybill> queryAll(@Param("shipperId")String shipperId,@Param("transporterId")String transporterId,
     		@Param("shipperCompanyId")String shipperCompanyId,@Param("transporterCompanyId")String transporterCompanyId,
-    		@Param("status")Integer status,@Param("dispenseStatus")Integer dispenseStatus); 
+    		@Param("status")Integer status,@Param("dispenseStatus")Integer dispenseStatus,@Param("lastCreateDate")Date lastCreateDate); 
     
     Map<String, Object> detailCompany(String id);
     

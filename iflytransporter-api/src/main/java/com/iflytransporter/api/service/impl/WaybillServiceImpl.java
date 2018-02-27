@@ -1,5 +1,6 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +39,7 @@ public class WaybillServiceImpl implements WaybillService {
 
 	@Override
 	public List<Waybill> list(String userId, String shipperCompanyId, Integer status) {
-		return waybillMapper.queryAll(userId, null, shipperCompanyId, null, status,null);
+		return waybillMapper.queryAll(userId, null, shipperCompanyId, null, status,null,null);
 	}
 
 	@Override
@@ -58,11 +59,11 @@ public class WaybillServiceImpl implements WaybillService {
 
 	@Override
 	public PageInfo<Waybill> queryPage(Integer pageNo, Integer pageSize, String shipperId, String shipperCompanyId,
-			Integer status) {
+			Integer status,Date lastCreateDate) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Waybill> list= waybillMapper.queryAll(shipperId, null, shipperCompanyId, null, status,null);
+		List<Waybill> list= waybillMapper.queryAll(shipperId, null, shipperCompanyId, null, status,null,lastCreateDate);
 		return new PageInfo<Waybill>(list);
 	}
 

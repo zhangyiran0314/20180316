@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,7 @@ public class TransporterWaybillController {
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
 		Integer dispenseStatus = (Integer) requestMap.get("dispenseStatus");//派单状态 0 -未派单,1-已派单
+		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		
 		PageInfo<Waybill> page =null;
@@ -67,9 +69,9 @@ public class TransporterWaybillController {
 		 * 司机已完结状态对应 货主端两种状态:待确认和已确认(货主端已完结状态),此处在通过sql查询判断 status查询为2时 定义 (status = 2 or status =3)查询
 		 */
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
-			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus);
+			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus,lastCreateDate);
 		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
-			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes);
+			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes,lastCreateDate);
 		}
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);

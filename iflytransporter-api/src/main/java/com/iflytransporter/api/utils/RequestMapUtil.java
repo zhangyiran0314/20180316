@@ -1,5 +1,6 @@
 package com.iflytransporter.api.utils;
 
+import java.util.Date;
 import java.util.Map;
 
 public class RequestMapUtil {
@@ -41,5 +42,20 @@ public class RequestMapUtil {
 			return st;
 		}
 		return status;
+	}
+	/**
+	 * 格式化最后创建日期参数 lastCreateDate
+	 * @param requestMap
+	 * @return
+	 */
+	public static Date formatLastCreateDate(Map<String,Object> requestMap){
+		if(requestMap.get("lastCreateDate") == null){
+			return null;
+		}
+		Long st = (Long) requestMap.get("lastCreateDate");
+		if(st != null){
+			return new Date(st);
+		}
+		return null;
 	}
 }

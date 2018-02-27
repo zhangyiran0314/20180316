@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -57,14 +58,16 @@ public class ShipperWaybillController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
+		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
+		
 		String userId =  (String) request.getAttribute("userId");
 		
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel()){
-			page = waybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status);
+			page = waybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,lastCreateDate);
 		}else{
-			page = waybillService.queryPage(pageNo, pageSize, userId, null, status);
+			page = waybillService.queryPage(pageNo, pageSize, userId, null, status,lastCreateDate);
 		}
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);

@@ -1,5 +1,6 @@
 package com.iflytransporter.api.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public interface TransporterWaybillService {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status,Integer dispenseStatus);
+	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status,Integer dispenseStatus,Date lastCreateDate);
 	
 	/**
 	 * 列表
