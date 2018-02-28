@@ -231,12 +231,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public User detailByCache(String id) {
 		try{
-			String key = RedisUtil.getUserKey(id);
+			String key = RedisUtil.getUserBOKey(id);
 			boolean hasKey = redisTemplate.hasKey(key);
 			if(hasKey){
 				ValueOperations<String, String> operations=redisTemplate.opsForValue();
 				String jsonString = operations.get(key);
-				UserBO user= JSONObject.parseObject(jsonString, UserBO.class);
+				User user= JSONObject.parseObject(jsonString, User.class);
 				return user;
 			}
 			UserBO user = userMapper.selectByPrimaryKeyBO(id);
