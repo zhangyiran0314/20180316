@@ -61,11 +61,8 @@ public class CompanyController {
 	public Map<String,Object> detail(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
 		User user = userService.detailByCache(userId);
-		if(user.getCompanyAuthStatus() != null && user.getCompanyId() !=null && Status.Auth_No !=user.getCompanyAuthStatus().intValue()){
-			CompanyBO company = companyService.query(user.getCompanyId());
-			return ResponseUtil.successResult(new CompanyResp(company));
-		}
-		return ResponseUtil.failureResult(BuzExceptionEnums.CompanyNotAuth);
+		CompanyBO company = companyService.query(user.getCompanyId());
+		return ResponseUtil.successResult(new CompanyResp(company));
 	}
 	
 	@ApiOperation(value="modify", notes="修改",produces = "application/json",response= CompanyResp.class)

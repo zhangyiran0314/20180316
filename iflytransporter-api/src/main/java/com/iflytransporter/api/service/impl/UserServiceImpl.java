@@ -95,13 +95,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int update(User user) {
 		User userTemp = userMapper.selectByPrimaryKey(user.getId());
-		if(!userTemp.getSurname().equals(user.getSurname())){
+		if(user.getSurname()!=null && !user.getSurname().equals(userTemp.getSurname())){
 			user.setAuthStatus(Status.Auth_Pending);
 		}
-		if(!userTemp.getName().equals(user.getName())){
+		if(user.getName()!=null && !user.getName().equals(userTemp.getName())){
 			user.setAuthStatus(Status.Auth_Pending);
 		}
-		if(!userTemp.getCardNo().equals(user.getCardNo())){
+		if(user.getCardNo() !=null && !user.getCardNo().equals(userTemp.getCardNo())){
 			user.setAuthStatus(Status.Auth_Pending);
 		}
 		if(user.getAttachmentId1()!=null && !user.getAttachmentId1().equals(userTemp.getAttachmentId1())){
