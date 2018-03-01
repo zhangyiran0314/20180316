@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.iflytransporter.api.service.CommentService;
+import com.iflytransporter.api.utils.RequestMapUtil;
+import com.iflytransporter.api.utils.ResponseUtil;
+import com.iflytransporter.common.bean.Order;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,28 +34,44 @@ public class CommentController {
 	@RequestMapping(value="queryPage", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPageTransporter(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10}") Map<String,Object> requestMap){
-		return null;
+			@RequestBody Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		String transporterId = (String) requestMap.get("tranporterId");
+		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, transporterId, null);
+		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
-	@ApiOperation(value="queryPageTransporterCompany", notes="车主评价列表",produces = "application/json")
+	@ApiOperation(value="queryPageTransporterCompany", notes="车主公司评价列表",produces = "application/json")
 	@RequestMapping(value="queryPageTransporterCompany", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPageTransporterCompany(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10}") Map<String,Object> requestMap){
-		return null;
+			@RequestBody Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		String transporterCompanyId = (String) requestMap.get("transporterCompanyId");
+		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, null, transporterCompanyId);
+		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
-	@ApiOperation(value="queryPageShipper", notes="车主评价列表",produces = "application/json")
+	@ApiOperation(value="queryPageShipper", notes="货主评价列表",produces = "application/json")
 	@RequestMapping(value="queryPageShipper", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPageShipper(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10}") Map<String,Object> requestMap){
-		return null;
+			@RequestBody  Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		String shipperId = (String) requestMap.get("shipperId");
+		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, shipperId, null);
+		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
-	@ApiOperation(value="queryPageShipperCompany", notes="车主评价列表",produces = "application/json")
+	@ApiOperation(value="queryPageShipperCompany", notes="货主公司评价列表",produces = "application/json")
 	@RequestMapping(value="queryPageShipperCompany", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPageShipperCompany(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody @ApiParam("{status:0|1,pageNo:1,pageSize:10}") Map<String,Object> requestMap){
-		return null;
+			@RequestBody Map<String,Object> requestMap){
+		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
+		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
+		String shipperCompanyId = (String) requestMap.get("shipperId");
+		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, null, shipperCompanyId);
+		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
 }

@@ -23,25 +23,23 @@ public class CommentServiceImopl implements CommentService{
 		return commentMapper.insert(record);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public PageInfo<List<Map<String, Object>>> queryPageTransporter(Integer pageNo, Integer pageSize,
+	public PageInfo<Map<String, Object>> queryPageTransporter(Integer pageNo, Integer pageSize,
 			String transporterId, String transporterCompanyId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
 		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId);
-		return (PageInfo<List<Map<String, Object>>>) list;
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public PageInfo<List<Map<String, Object>>> queryPageShipper(Integer pageNo, Integer pageSize, String shipperId,String shipperCompanyId) {
+	public PageInfo<Map<String, Object>> queryPageShipper(Integer pageNo, Integer pageSize, String shipperId,String shipperCompanyId) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }
 		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId);
-		return (PageInfo<List<Map<String, Object>>>) list;
+		return new PageInfo<Map<String,Object>>(list);
 	}
 
 }
