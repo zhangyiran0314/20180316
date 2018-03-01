@@ -13,6 +13,7 @@ import com.iflytransporter.api.bean.carmanage.CarAirCoolantReq;
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
 import com.iflytransporter.api.bean.carmanage.CarDocumentsReq;
 import com.iflytransporter.api.bean.carmanage.CarEngineOilReq;
+import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.api.bean.carmanage.CarSafetyEquipmentReq;
 import com.iflytransporter.api.bean.carmanage.CarSignalLightReq;
 import com.iflytransporter.api.bean.carmanage.CarTyreReq;
@@ -281,6 +282,11 @@ public class CarManageServiceImpl implements CarManageService{
 	public Map<String, Object> queryCarDailyInspection(String carId) {
 		Date currentDate = new Date();
 		return carManageMapper.queryCarDailyInspection(carId, currentDate);
+	}
+
+	@Override
+	public List<Map<String, Object>> listCarMaintenance(CarMaintenanceReq carMaintenaceReq) {
+		return carManageMapper.queryCarMaintenanceList(carMaintenaceReq);
 	}
 
 	

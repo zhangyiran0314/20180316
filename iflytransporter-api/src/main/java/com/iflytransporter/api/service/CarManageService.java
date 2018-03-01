@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
+import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.common.bean.CarDriveRest;
 
 public interface CarManageService {
@@ -50,4 +51,7 @@ public interface CarManageService {
 	Map<String,Object> detailCarSafetyEquipment(String id);
 	Map<String,Object> detailCarSignalLight(String id);
 	Map<String,Object> detailCarTyre(String id);
+	
+	/**车辆维修*/
+	List<Map<String, Object>> listCarMaintenance(CarMaintenanceReq carMaintenaceReq);
 }

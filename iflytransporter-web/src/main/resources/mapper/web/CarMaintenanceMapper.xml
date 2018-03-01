@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CarMaintenanceMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.CarMaintenance" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="country_name" property="countryName" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="business" property="business" jdbcType="VARCHAR" />
+    <result column="business_hours" property="businessHours" jdbcType="VARCHAR" />
+    <result column="contacts" property="contacts" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, country_code, country_name, province_id, 
+    province, city_id, city, area_id, area, company_name, business, business_hours, contacts, 
+    mobile, email, address
+  </sql>
+  <select id="queryAll" resultType="java.util.Map">
+  	select 
+	  	id, country_code as countryCode, country_name as countryName, 
+	  	province_id as provinceId, province, 
+	    city_id as cityId, city,
+	    area_id as areaId, area,
+	    company_name as companyName, 
+	    business,  business_hours businessHours, 
+	    contacts,  mobile, email, address,
+	    create_date as createDate, update_date as updateDate
+	from t_car_maintenance
+	where 1= 1 
+     <if test="companyName != null" >
+       and company_name like concat('%',#{companyName,jdbcType=VARCHAR},'%')
+     </if>
+  </select>
+   <select id="queryDetail" resultType="java.util.Map">
+  	select 
+	  	id, country_code as countryCode, country_name as countryName, 
+	  	province_id as provinceId, province, 
+	    city_id as cityId, city,
+	    area_id as areaId, area,
+	    company_name as companyName, 
+	    business,  business_hours businessHours, 
+	    contacts,  mobile, email, address,
+	    create_date as createDate, update_date as updateDate
+	from t_car_maintenance
+	where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_car_maintenance
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_car_maintenance
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.CarMaintenance" >
+    insert into t_car_maintenance (id, create_date, update_date, 
+      data_status, desp, country_code, 
+      country_name, province_id, province, 
+      city_id, city, area_id, 
+      area, company_name, business, 
+      business_hours, contacts, mobile, 
+      email, address)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, 
+      #{countryName,jdbcType=VARCHAR}, #{provinceId,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{cityId,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{areaId,jdbcType=VARCHAR}, 
+      #{area,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR}, 
+      #{businessHours,jdbcType=VARCHAR}, #{contacts,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarMaintenance" >
+    insert into t_car_maintenance
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="countryName != null" >
+        country_name,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="business != null" >
+        business,
+      </if>
+      <if test="businessHours != null" >
+        business_hours,
+      </if>
+      <if test="contacts != null" >
+        contacts,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null" >
+        #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.CarMaintenance" >
+    update t_car_maintenance
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        country_name = #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="business != null" >
+        business = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="businessHours != null" >
+        business_hours = #{businessHours,jdbcType=VARCHAR},
+      </if>
+      <if test="contacts != null" >
+        contacts = #{contacts,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.CarMaintenance" >
+    update t_car_maintenance
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country_name = #{countryName,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      area_id = #{areaId,jdbcType=VARCHAR},
+      area = #{area,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      business = #{business,jdbcType=VARCHAR},
+      business_hours = #{businessHours,jdbcType=VARCHAR},
+      contacts = #{contacts,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

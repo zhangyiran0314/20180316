@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.common.bean.CarAirCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
 import com.iflytransporter.common.bean.CarDocuments;
@@ -89,4 +90,7 @@ public interface CarManageMapper {
 	//年检
 	List<Map<String,Object>> queryCarCheckList(@Param("companyId")String companyId,@Param("currentDate")Date currentDate);
 	Map<String,Object> queryCarCheckDetail(@Param("carId")String carId);
+	
+	//车辆维修
+	List<Map<String,Object>> queryCarMaintenanceList(CarMaintenanceReq carMaintenaceReq);
 }

@@ -1,6 +1,5 @@
 package com.iflytransporter.api.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
+import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.api.service.CarManageService;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.ResponseUtil;
@@ -323,5 +323,14 @@ public class CarManageController {
 			return ResponseUtil.successResult();
 		}
 		return ResponseUtil.failureResult();
+	}
+	/**车辆维修*/
+	@ApiOperation(value="listCarMaintenace", notes="新增-每日一检",produces = "application/json")
+	@RequestMapping(value="listCarMaintenace", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCarMaintenace(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody CarMaintenanceReq carMaintenaceReq){
+		List<Map<String,Object>> result= carManageService.listCarMaintenance(carMaintenaceReq);
+		return ResponseUtil.successResult(result);
 	}
 }

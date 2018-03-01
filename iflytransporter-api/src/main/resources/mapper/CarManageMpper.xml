@@ -437,4 +437,31 @@
   <delete id="deleteCarDriveRest">
   	delete from t_car_drive_rest where car_id = #{carId,jdbcType=VARCHAR}
   </delete>
+  
+  <!-- 车辆维修 -->
+   <select id="queryCarMaintenanceList" resultType="java.util.Map" parameterType="com.iflytransporter.api.bean.carmanage.CarMaintenanceReq">
+  	select 
+	  	id, country_code as countryCode, country_name as countryName, 
+	  	province_id as provinceId, province, 
+	    city_id as cityId, city,
+	    area_id as areaId, area,
+	    company_name as companyName, 
+	    business,  business_hours businessHours, 
+	    contacts,  mobile, email, address
+	from t_car_maintenance
+	where 1= 1 
+     <if test="countryCode != null" >
+       and country_code = #{countryCode,jdbcType=VARCHAR}
+     </if>
+     <if test="provinceId != null" >
+      and province_id = #{provinceId,jdbcType=VARCHAR}
+     </if>
+     <if test="cityId != null" >
+      and city_id = #{cityId,jdbcType=VARCHAR}
+     </if>
+     <if test="areaId != null" >
+      and area_id = #{areaId,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
 </mapper>
