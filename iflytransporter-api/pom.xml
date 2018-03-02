@@ -175,7 +175,16 @@
 	            <optional>true</optional>
 	           <scope>true</scope>
 		</dependency>	
-        
+        <dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		     <version>4.4.6</version>
+		</dependency>
   </dependencies>
   
    <build>

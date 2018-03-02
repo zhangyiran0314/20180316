@@ -16,7 +16,9 @@ public class ConstantsConfig {
 	private static String filePath;
 	private static String host;
 	private  static String linkPath;
-	
+	private static boolean messageSendFlag;
+	private static String messageApiKey;
+	private static String messageSendUrl;
 	/**
 	 * 打印常量配置是否正确
 	 */
@@ -26,6 +28,8 @@ public class ConstantsConfig {
 		System.out.println("upload.filePath value:"+filePath);
 		System.out.println("upload.host value:"+host);
 		System.out.println("upload.linkPath value:"+linkPath);
+		System.out.println("message.sendFlag value:"+messageSendFlag);
+		System.out.println("message.sendUrl value:"+messageSendUrl);
 		System.out.println("####################application.yml config end####################");
 	}
 
@@ -44,7 +48,6 @@ public class ConstantsConfig {
 	public void setLinkPath(String linkPath) {
 		ConstantsConfig.linkPath = linkPath;
 	}
-
 	public String getFilePath() {
 		return filePath;
 	}
@@ -56,5 +59,32 @@ public class ConstantsConfig {
 	public static String getLinkPath(){
 		return host+linkPath;
 	}
+	/**message短信发送*/
+	public static boolean isMessageSendFlag() {
+		return messageSendFlag;
+	}
+	@Value("${message.sendFlag}")
+	public  void setMessageSendFlag(boolean messageSendFlag) {
+		ConstantsConfig.messageSendFlag = messageSendFlag;
+	}
+	public static String isMessageSendUrl() {
+		return messageSendUrl;
+	}
+	@Value("${message.sendUrl}")
+	public  void setMessageSendUrl(String messageSendUrl) {
+		ConstantsConfig.messageSendUrl = messageSendUrl;
+	}
 
+	public static String getMessageApiKey() {
+		return messageApiKey;
+	}
+	@Value("${message.sendApiKey}")
+	public  void setMessageApiKey(String messageApiKey) {
+		ConstantsConfig.messageApiKey = messageApiKey;
+	}
+
+	public static String getMessageSendUrl() {
+		return messageSendUrl;
+	}
+	
 }

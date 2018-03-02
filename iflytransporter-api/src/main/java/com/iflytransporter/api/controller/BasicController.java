@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.iflytransporter.api.conf.ConstantsConfig;
 import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.api.utils.CaptchaUtil;
 import com.iflytransporter.api.utils.HttpUtil;
@@ -41,6 +42,8 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/basic/{version}")
 public class BasicController {
 	
+	@Autowired
+	private ConstantsConfig constantsConfig;
 	@Autowired
 	private UserService userService;
 	@Autowired
