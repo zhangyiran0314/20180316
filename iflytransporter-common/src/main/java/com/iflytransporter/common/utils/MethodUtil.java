@@ -19,7 +19,7 @@ public class MethodUtil {
 	public static String generateFourRand(){
 		Random rad=new Random();  
         String result  = rad.nextInt(10000) +"";  
-        if(result.length()!=4){  
+        if(result.length()!=2){  
             return generateFourRand();  
         }  
 		return result;
@@ -30,12 +30,12 @@ public class MethodUtil {
      * @return orderNum
      */
     public final static String genOrderNum(String userId) {
-    	DecimalFormat dft = new DecimalFormat("0000");
+    	DecimalFormat dft = new DecimalFormat("00");
     	Date date = new Date();
         String dateStr = DateFormatUtils.format(date, "yyMMddHH");
         
         Integer hashCode=  userId.hashCode();
-        Integer userIdMod = hashCode % 10000;
+        Integer userIdMod = hashCode % 100;
         if(userIdMod<0){
         	userIdMod = Math.abs(userIdMod);
         }

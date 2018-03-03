@@ -48,9 +48,9 @@
    	a.dispense_status as dispenseStatus,a.dispense_date as dispenseDate,
    	a.take_date as takeDate,a.deliver_date as deliverDate,a.confirm_date as confirmDate,
     b.name as shipperCompanyName,
-    c.name as shipperName,
+    c.surname as shipperSurname, c.name as shipperName, c.mobile as shipperMobile,
     d.name as transporterCompanyName,
-    e.name as transporterName,
+    e.surname as transporterSurname, e.name as transporterName,e.mobile as transporterMobile,
     f.surname as driverSurname,f.name as driverName,f.mobile as driverMobile,
     g.name as carName,g.code as carCode
     from t_waybill a

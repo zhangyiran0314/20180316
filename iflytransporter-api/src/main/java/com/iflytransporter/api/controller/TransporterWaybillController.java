@@ -70,10 +70,10 @@ public class TransporterWaybillController {
 		 */
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			page = transporterWaybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,dispenseStatus,lastCreateDate);
-		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
+		}else if(status != null){
 			page = transporterWaybillService.queryPage(pageNo, pageSize, userId, null, status,Status.Waybill_Dispense_Yes,lastCreateDate);
 		}
-		if(page.getTotal()==0){
+		if(page == null || page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);
 		}
 		List<Waybill> list = page.getList();
@@ -99,7 +99,7 @@ public class TransporterWaybillController {
 			//发货人
 			op.setShipper(transporterWaybillService.detailShipper(waybill.getShipperId()));
 			//管理员角色,已派单状态下,添加派单信息
-			if(Status.User_Level_Admin==user.getLevel().intValue() && Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
+			if(Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
 				op.setDriver(transporterWaybillService.detailDriver(waybill.getDriverId()));
 			}
 			result.add(op);
@@ -121,7 +121,7 @@ public class TransporterWaybillController {
 		if(Status.User_Level_Admin==user.getLevel().intValue()){
 			list = transporterWaybillService.list(null, user.getCompanyId(), status,dispenseStatus);
 			//司机不能查询待派单运单
-		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
+		}else {
 			list = transporterWaybillService.list(userId,null,status,Status.Waybill_Dispense_Yes);
 		}
 		if(list==null ||list.size() ==0){
@@ -148,7 +148,7 @@ public class TransporterWaybillController {
 			//发货人
 			op.setShipper(transporterWaybillService.detailShipper(waybill.getShipperId()));
 			//管理员角色,已派单状态下,添加司机信息
-			if(Status.User_Level_Admin==user.getLevel().intValue() && Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
+			if(Status.Waybill_Dispense_Yes == waybill.getDispenseStatus()){
 				op.setDriver(transporterWaybillService.detailDriver(waybill.getDriverId()));
 			}
 			result.add(op);
