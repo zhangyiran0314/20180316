@@ -124,6 +124,9 @@ public class TransporterWaybillController {
 		}else if(status != null && Status.Waybill_For_Loading == status.intValue() && Status.Waybill_Dispense_No != status.intValue()){
 			list = transporterWaybillService.list(userId,null,status,Status.Waybill_Dispense_Yes);
 		}
+		if(list==null ||list.size() ==0){
+			return ResponseUtil.successResult(null);
+		}
 		List<TransporterWaybillResp> result = new ArrayList<TransporterWaybillResp>();
 		for(Waybill waybill:list){
 			TransporterWaybillResp op =new TransporterWaybillResp(waybill);
