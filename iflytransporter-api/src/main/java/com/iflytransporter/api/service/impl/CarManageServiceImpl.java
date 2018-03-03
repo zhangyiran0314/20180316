@@ -1,6 +1,7 @@
 package com.iflytransporter.api.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -174,15 +175,19 @@ public class CarManageServiceImpl implements CarManageService{
 
 	@Override
 	public Map<String, Object> indexDriver(String companyId,String driverId) {
+		Map<String,Object> result = new HashMap<String,Object>();
 		Date currentDate = new Date();
 		//保险,路税,车检提醒
-		Map<String,Object> result  = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
+		Map<String,Object> carNotice  = carManageMapper.queryIndexDriverCarNotice(companyId, driverId,currentDate);
+		if(carNotice!=null)
+			result.putAll(carNotice);
 		//1.我的运单
 		Map<String,Object> waybill = carManageMapper.queryIndexDriverWaybill(companyId, driverId);
-		
-		result.putAll(waybill);
+		if(waybill !=null)
+			result.putAll(waybill);
 		//2.每日一检
 		Map<String,Object> dailyInspenction = carManageMapper.queryIndexDriverCarDailyInspection(companyId, driverId, currentDate);
+		if(dailyInspenction != null)
 		result.putAll(dailyInspenction);
 		//3.司机休息
 		Map<String,Object> driveRest = carManageMapper.queryIndexDriverCarDriveRest(companyId, driverId,currentDate);
@@ -198,9 +203,11 @@ public class CarManageServiceImpl implements CarManageService{
 		Map<String,Object> result = carManageMapper.queryIndexTransporterCarNotice(companyId, currentDate);
 		//我的运单
 		Map<String,Object> waybill = carManageMapper.queryIndexTransporterWaybill(companyId);
-		result.putAll(waybill);
+		if(waybill !=null)
+		  result.putAll(waybill);
 		//每日一检
 		Map<String,Object> dailyInspenction = carManageMapper.queryIndexTransporterDailyInspection(companyId, currentDate);
+		if(dailyInspenction != null)
 		result.putAll(dailyInspenction);
 		//行车休息
 		Map<String,Object> driveRest = carManageMapper.queryIndexTransporterCarDriveRest(companyId);
