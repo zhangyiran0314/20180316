@@ -41,7 +41,7 @@ upload:
     
 #是否发送短信,测试服务器不发送
 message: 
-    sendFlag: false
+    sendFlag: true
     sendApiKey: NUC13010100005665d5e24e1165d92b2f9f6001f68f092752
     sendUrl: http://cloudsms.trio-mobile.com/index.php/api/bulk_mt?api_key={apiKey}&action=send&to={to}&msg={msg}&sender_id=CLOUDSMS&content_type=1&mode=shortcode&campaign=
 

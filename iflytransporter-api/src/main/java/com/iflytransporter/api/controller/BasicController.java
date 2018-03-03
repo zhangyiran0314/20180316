@@ -26,6 +26,7 @@ import com.iflytransporter.api.utils.CaptchaUtil;
 import com.iflytransporter.api.utils.HttpUtil;
 import com.iflytransporter.api.utils.JwtUtil;
 import com.iflytransporter.api.utils.JwtUtil.JwtUser;
+import com.iflytransporter.api.utils.MessageUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.User;
@@ -42,8 +43,6 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/basic/{version}")
 public class BasicController {
 	
-	@Autowired
-	private ConstantsConfig constantsConfig;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -102,9 +101,11 @@ public class BasicController {
 				//生成验证码
 				String captcha = CaptchaUtil.generateCaptcha();
 				
+				if(ConstantsConfig.isMessageSendFlag()){
 				//调用短信接口发送短信
-				// TODO Auto-generated method stub
-				
+					String msg= "The Captcha is "+captcha;
+					MessageUtil.sendMessage(countryCode, mobile, msg);
+				}
 				//存放到redis缓存
 				ValueOperations<String, String> operations=redisTemplate.opsForValue();
 				operations.set(key, captcha, 10, TimeUnit.MINUTES);//保存十分钟
