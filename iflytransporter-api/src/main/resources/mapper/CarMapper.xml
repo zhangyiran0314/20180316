@@ -141,6 +141,10 @@
   <select id="countByTransporterCompany" resultType="java.lang.Integer">
    select count(1) from t_car where company_id =#{companyId,jdbcType=VARCHAR}
   </select>
+  
+  <select id="queryByUserId" resultType="java.util.Map">
+  select name, code from t_car where driver_id = #{driverId,jdbcType=VARCHAR}
+  </select>
     <update id="deleteByPrimaryKey" parameterType="java.lang.String" >
     update  t_car set data_status =  ${@com.iflytransporter.common.enums.Status@Status_Invalid} ,update_date = now() 
     where id = #{id,jdbcType=VARCHAR}

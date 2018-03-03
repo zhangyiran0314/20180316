@@ -1,6 +1,7 @@
 package com.iflytransporter.api.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Car;
@@ -25,4 +26,6 @@ public interface CarService  {
 	public int bindCar(String id,String driverId);
 	//解除绑定车辆
 	public int unbindCar(String id,String driverId);
+	//根据用户id查询绑定车辆
+	public Map<String,Object> queryByUserId(String userId);
 }

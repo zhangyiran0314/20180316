@@ -34,9 +34,10 @@ public interface Enums {
 	public static int Code_OffersCannotMoreThanCarAmount = 2002;
 	//不能重复报价
 	public static int Code_OffersCannotRepeat = 2003;
-	
+	//报价时,因为时间差的原因,货主审核通过了其他报价,当前订单已经转为运单,则不在接受其他报价
+	public static int Code_OffersAlreadyDealed =2004;
 	//未审核当前申请详情时,其他申请不能被联系
-	public static int Code_CannotContactOther = 2004;
+	public static int Code_CannotContactOther = 2005;
 	
 	public int getCode();
 	public String getMessage();

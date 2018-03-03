@@ -1,6 +1,7 @@
 package com.iflytransporter.api.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,6 +60,11 @@ public class CarServiceImpl implements CarService{
 	@Override
 	public int unbindCar(String id, String driverId) {
 		return carMapper.unbindCar(id, driverId);
+	}
+
+	@Override
+	public Map<String, Object> queryByUserId(String userId) {
+		return carMapper.queryByUserId(userId);
 	}
 
 

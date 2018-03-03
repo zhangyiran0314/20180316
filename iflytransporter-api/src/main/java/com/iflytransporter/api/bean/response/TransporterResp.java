@@ -56,7 +56,10 @@ public class TransporterResp {
 	private String attachmentId4Link;
 
     private String attachmentId5Link;
-
+    
+    private String carName;
+    private String carCode;
+    
 	public TransporterResp(UserBO user) {
 		this.id = user.getId();
 		this.countryCode = user.getCountryCode();
@@ -297,6 +300,18 @@ public class TransporterResp {
 	}
 	public void setAttachmentId4(String attachmentId4) {
 		this.attachmentId4 = attachmentId4;
+	}
+	public String getCarName() {
+		return carName;
+	}
+	public void setCarName(String carName) {
+		this.carName = carName;
+	}
+	public String getCarCode() {
+		return carCode;
+	}
+	public void setCarCode(String carCode) {
+		this.carCode = carCode;
 	}
     
 }

@@ -154,7 +154,12 @@
   	d.id companyId,d.`name` companyName,
 	ifnull(round(e.serveGrade),5) as serveGrade,ifnull(round(e.loadingGrade),5) as loadingGrade, ifnull(round(e.goodsGrade),5) as goodsGrade,ifnull(f.count,0) as count,
 	ifnull(e.commentCount,0) as commentCount,
-	ifnull(round(j.grade),5) as grade
+	ifnull(round(j.grade),5) as grade,
+	
+	concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t1.attachment_link)  as attachmentId1Link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t2.attachment_link)  as attachmentId2Link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',t3.attachment_link) as attachmentId3Link
+	
 	from t_order_apply a
 	left JOIN t_user c on a.transporter_id = c.id
 	left join t_company d on c.company_id = d.id
@@ -168,6 +173,10 @@
 	from t_comment GROUP BY transporter_id
 	) j on a.transporter_id = j.transporter_id
 	left join (select transporter_id ,count(1) as count from t_waybill GROUP BY transporter_id) f on a.transporter_id = f.transporter_id
+ 
+  	left join t_attachment t1 on d.attachment_id_1 = t1.id
+    left join t_attachment t2 on d.attachment_id_2 = t2.id
+    left join t_attachment t3 on d.attachment_id_3 = t3.id
  where a.id = #{applyId,jdbcType=VARCHAR} and a.status =  #{applyStatus,jdbcType=INTEGER} and a.contact_status =#{contactStatus,jdbcType=INTEGER}
   </select>
   

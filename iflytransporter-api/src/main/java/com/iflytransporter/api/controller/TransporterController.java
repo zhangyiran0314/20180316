@@ -426,6 +426,12 @@ public class TransporterController {
 			CompanyBO company =companyService.query(user.getCompanyId());
 			userResp.setCompanyName(company==null?null:company.getName());
 		}
+		if(Status.User_Level_Staff == user.getLevel()){
+			Map<String,Object> car = carService.queryByUserId(userId);
+			if(car != null )
+			userResp.setCarCode(car.get("code")==null?null:(String)car.get("code"));
+			userResp.setCarName(car.get("name")==null?null:(String)car.get("name"));
+		}
 		return ResponseUtil.successResult(userResp);
 	}
 	@ApiOperation(value="个人-修改", notes="个人-修改",produces = "application/json",response=TransporterResp.class)

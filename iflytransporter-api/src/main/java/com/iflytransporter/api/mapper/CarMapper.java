@@ -1,6 +1,7 @@
 package com.iflytransporter.api.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -32,4 +33,6 @@ public interface CarMapper {
     int unbindCar(@Param("id")String id,@Param("driverId")String driverId);
     //车主公司车辆数查询
     int countByTransporterCompany(@Param("companyId")String companyId);
+    
+    Map<String,Object> queryByUserId(@Param("driverId")String driverId);
 }

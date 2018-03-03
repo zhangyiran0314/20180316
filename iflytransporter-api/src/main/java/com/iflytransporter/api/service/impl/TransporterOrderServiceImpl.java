@@ -84,6 +84,10 @@ public class TransporterOrderServiceImpl implements TransporterOrderService{
 		if(countApplyByCompany >= countCarByCompany){
 			throw new ServiceException(BuzExceptionEnums.OffersCannotMoreThanCarAmount);
 		}
+		Integer countSuccess = orderApplyMapper.count(orderApply.getOrderId(), Status.Order_Audit_Yes);
+		if(countSuccess > 0){
+			throw new ServiceException(BuzExceptionEnums.OffersAlreadyDealed);
+		}
 		//查询当前订单报价数量,不能超过五个报价
 		Integer count = orderApplyMapper.count(orderApply.getOrderId(), Status.Order_Audit_No);
 		if(count > 5){
