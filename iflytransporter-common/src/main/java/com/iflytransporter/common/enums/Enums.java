@@ -26,6 +26,9 @@ public interface Enums {
 	public static int Code_StaffCannotRepeatBind = 1009;
 	//绑定错误-员工已经被绑定
 	public static int Code_StaffAlreadyBind = 1010;
+	//没有通过审核
+	public static int Code_NotCertifited = 1011;
+	
 	
 	/**发货相关状态码*/
 	//报价时,待审核报价申请不能超过五家

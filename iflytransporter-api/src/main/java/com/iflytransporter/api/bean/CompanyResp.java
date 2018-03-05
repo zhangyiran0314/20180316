@@ -22,6 +22,7 @@ public class CompanyResp {
     private String attachmentId2Link;
     private String attachmentId3;//公司保单
     private String attachmentId3Link;
+    private Integer amount;
 
 	public CompanyResp(CompanyBO company) {
 		this.id=company.getId();
@@ -35,6 +36,7 @@ public class CompanyResp {
 		this.attachmentId2Link = company.getAttachmentId2Link();
 		this.attachmentId3 = company.getAttachmentId3();
 		this.attachmentId3Link = company.getAttachmentId3Link();
+		this.amount = company.getAmount();
 	}
 
 	public String getName() {
@@ -107,6 +109,14 @@ public class CompanyResp {
 
 	public void setAttachmentId3Link(String attachmentId3Link) {
 		this.attachmentId3Link = attachmentId3Link;
+	}
+
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
     
     

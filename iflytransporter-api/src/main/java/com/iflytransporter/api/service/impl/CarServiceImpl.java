@@ -67,5 +67,10 @@ public class CarServiceImpl implements CarService{
 		return carMapper.queryByUserId(userId);
 	}
 
+	@Override
+	public List<CarBO> listCarNotBind(String companyId, String userId) {
+		return carMapper.queryAllBO(companyId, userId);
+	}
+
 
 }

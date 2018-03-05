@@ -100,6 +100,28 @@ public class TransporterController {
 		}
 		return ResponseUtil.successResult(result);
 	}
+	/**司机绑定-车辆列表*/
+	@ApiOperation(value="listCarNotBind", notes="我的-司机绑定车辆列表",produces = "application/json")
+	@RequestMapping(value="listCarNotBind", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listCarNotBind(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		List<CarBO> list = null;
+		if(Status.User_Level_Admin == user.getLevel().intValue()){
+		   list = carService.listCarNotBind(user.getCompanyId(), null);
+		}else{
+			list = carService.listCarNotBind(null, userId);
+		}
+		List<CarResp> result = new ArrayList<CarResp>();
+		for(CarBO car:list){
+			CarResp op =new CarResp();
+			op.setCar(car);
+			result.add(op);
+		}
+		return ResponseUtil.successResult(result);
+	}
+	
 	@ApiOperation(value="detailCar", notes="我的-车辆详情",produces = "application/json")
 	@RequestMapping(value="detailCar", method=RequestMethod.POST)
 	@ResponseBody

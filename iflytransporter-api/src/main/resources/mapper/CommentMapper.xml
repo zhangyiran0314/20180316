@@ -60,6 +60,36 @@
     where a.waybill_id = #{waybillId,jdbcType=VARCHAR} and a.shipper_id = #{shipperId,jdbcType=VARCHAR}
   </select>
   
+  <!-- 车主被评价列表 -->
+  <select id="queryAllTransporter">
+  	select 
+  	a.content , a.anonymity ,b.name as companyName
+    from t_comment a
+    left join t_company b on a.shipper_company_id = b.id
+    where 1 = 1
+    <if test="transporterId != null" >
+     and  a.transporter_id =  #{transporterId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterCompanyId != null" >
+     and a.transporter_company_id =  #{transporterCompanyId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+    <!-- 货主被评价列表 -->
+  <select id="queryAllShipper">
+  	select 
+  	a.content , a.anonymity ,b.name as companyName
+    from t_transporter_comment a
+    left join t_company b on a.transporter_company_id = b.id
+    where 1 = 1
+    <if test="shipperId != null" >
+     and  a.shipper_id =  #{shipperId,jdbcType=VARCHAR}
+    </if>
+     <if test="transporterCompanyId != null" >
+     and a.shipper_company_id =  #{shipperCompanyId,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

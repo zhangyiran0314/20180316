@@ -31,6 +31,7 @@ public class OrderResp{
 		this.orderNo = order.getOrderNo();
 		this.weight = order.getWeight();
 		this.goodsUnits = order.getGoodsUnits();
+		this.publishDate = order.getAuthDate();
 	}
 
 
@@ -68,6 +69,10 @@ public class OrderResp{
     private Integer weight;
 
 	private String goodsUnits;
+	
+	//发布时间--此处采用授权时间,管理员授权时间与创建时间一致,
+	 @JSONField(format="yyyy-MM-dd HH:mm")
+	public Date publishDate;
 	
 	private CommonParam departureProvince;
 
@@ -334,6 +339,14 @@ public class OrderResp{
 
 	public void setGoodsUnits(String goodsUnits) {
 		this.goodsUnits = goodsUnits;
+	}
+
+	public Date getPublishDate() {
+		return publishDate;
+	}
+
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
 	}
 	
 }

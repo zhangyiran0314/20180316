@@ -1,4 +1,4 @@
-package com.iflytransporter.api.bean.request;
+package com.iflytransporter.api.bean.response;
 
 import java.util.Date;
 import java.util.Map;
@@ -8,7 +8,7 @@ import com.iflytransporter.api.bean.CommonParam;
 
 public class InsuranceWaybillResp {
 	private String waybillNo;
-
+	
     private String transportCompany;
 
     private String transportName;

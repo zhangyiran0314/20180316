@@ -6,7 +6,7 @@ spring:
         
         url: jdbc:mysql://127.0.0.1:3306/transporter?useUnicode=true&characterEncoding=UTF-8
         username: root
-        password:
+        password: Changeme
 
 #        url: jdbc:mysql://47.100.8.71:3306/transporter?useUnicode=true&characterEncoding=UTF-8
 #        username: root
@@ -41,7 +41,7 @@ upload:
     
 #是否发送短信,测试服务器不发送
 message: 
-    sendFlag: true
+    sendFlag: false
     sendApiKey: NUC13010100005665d5e24e1165d92b2f9f6001f68f092752
     sendUrl: http://cloudsms.trio-mobile.com/index.php/api/bulk_mt?api_key={apiKey}&action=send&to={to}&msg={msg}&sender_id=CLOUDSMS&content_type=1&mode=shortcode&campaign=
 

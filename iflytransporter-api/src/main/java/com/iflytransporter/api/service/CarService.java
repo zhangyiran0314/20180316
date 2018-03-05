@@ -19,6 +19,8 @@ public interface CarService  {
 	
 	public List<CarBO> list(String companyId,String userId);
 	
+	public List<CarBO> listCarNotBind(String companyId,String userId);
+	
 	//分页查询
 	PageInfo<CarBO> queryPage(Integer pageNo,Integer pageSize,String companyId,String userId);
 	

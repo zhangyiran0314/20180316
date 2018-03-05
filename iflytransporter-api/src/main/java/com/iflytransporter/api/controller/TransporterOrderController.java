@@ -21,11 +21,13 @@ import com.iflytransporter.api.bean.TransporterOrderResp;
 import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.TransporterOrderService;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.AuthUtils;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.Order;
 import com.iflytransporter.common.bean.OrderApply;
 import com.iflytransporter.common.bean.SubscribeSource;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.exception.ServiceException;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -240,6 +242,9 @@ public class TransporterOrderController {
 		String costss =  (String) requestMap.get("costs");
 		Double costs = Double.parseDouble(costss);
 		User user = userService.detailByCache(userId);
+		if(!AuthUtils.identification(user)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NotCertifited);
+		}
 		Order order = transporterOrderService.query(id);
 		OrderApply orderApply = new OrderApply();
 		String applyId = UUIDUtil.UUID();

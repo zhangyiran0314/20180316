@@ -23,7 +23,7 @@ public class Company extends BaseEntity{
     
     private String attachmentId2;//spad照片
     private String attachmentId3;//公司保单
-
+    private Integer amount;//保险额度
     public String getName() {
         return name;
     }
@@ -102,6 +102,13 @@ public class Company extends BaseEntity{
 
 	public void setUserType(Integer userType) {
 		this.userType = userType;
+	}
+	public Integer getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Integer amount) {
+		this.amount = amount;
 	}
 
 	@Override

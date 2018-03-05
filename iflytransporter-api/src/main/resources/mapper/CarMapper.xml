@@ -106,6 +106,35 @@
       <if test="userId != null" >
       and a.transporter_id  = #{userId,jdbcType=VARCHAR}
     </if>
+     and a.data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
+  </select>
+  
+  <select id="queryAllNotBind" resultMap="BaseResultMapBO" >
+    select 
+    a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, 
+    a.attachment_id_1, a.attachment_id_2,a.company_id,a.transporter_id,  a.driver_id, 
+    a.insurance_start_date, a.insurance_end_date,  a.attachment_id_3, 
+    a.tax_start_date, a.tax_end_date, a.attachment_id_4, 
+    a.check_start_date, a.check_end_date, a.attachment_id_5,a.register_no,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link)  as attachment_id_1_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link)  as attachment_id_2_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link)  as attachment_id_3_link,
+    concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',e.attachment_link)  as attachment_id_4_link,
+     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',f.attachment_link)  as attachment_id_5_link
+    from  t_car a
+    left join t_attachment b on a.attachment_id_1 = b.id
+    left join t_attachment c on a.attachment_id_2 = c.id
+    left join t_attachment d on a.attachment_id_3 = d.id
+    left join t_attachment e on a.attachment_id_4 = e.id
+    left join t_attachment f on a.attachment_id_5 = f.id
+    where 1 = 1 
+    
+    <if test="companyId != null" >
+      and a.company_id  = #{companyId,jdbcType=VARCHAR}
+    </if>
+      <if test="userId != null" >
+      and a.transporter_id  = #{userId,jdbcType=VARCHAR}
+    </if>
       and (a.driver_id is null or a.driver_id ='')
       and a.data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
   </select>

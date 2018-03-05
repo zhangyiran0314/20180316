@@ -38,18 +38,8 @@ public class CommentController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String transporterId = (String) requestMap.get("tranporterId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, transporterId, null);
-		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
-	}
-	@ApiOperation(value="queryPageTransporterCompany", notes="车主公司评价列表",produces = "application/json")
-	@RequestMapping(value="queryPageTransporterCompany", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> queryPageTransporterCompany(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Map<String,Object> requestMap){
-		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
-		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String transporterCompanyId = (String) requestMap.get("transporterCompanyId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, null, transporterCompanyId);
+		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, transporterId, transporterCompanyId);
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
 	@ApiOperation(value="queryPageShipper", notes="货主评价列表",produces = "application/json")
@@ -60,18 +50,8 @@ public class CommentController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String shipperId = (String) requestMap.get("shipperId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, shipperId, null);
-		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
-	}
-	@ApiOperation(value="queryPageShipperCompany", notes="货主公司评价列表",produces = "application/json")
-	@RequestMapping(value="queryPageShipperCompany", method=RequestMethod.POST)
-	@ResponseBody
-	public Map<String,Object> queryPageShipperCompany(HttpServletRequest request, HttpServletResponse response,
-			@RequestBody Map<String,Object> requestMap){
-		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
-		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
-		String shipperCompanyId = (String) requestMap.get("shipperId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, null, shipperCompanyId);
+		String shipperCompanyId = (String) requestMap.get("shipperCompanyId");
+		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, shipperId, shipperCompanyId);
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
 }

@@ -26,6 +26,8 @@ public interface CarMapper {
     
     List<CarBO> queryAllBO(@Param("companyId")String companyId,@Param("userId")String userId);
     
+    List<CarBO> queryAllNotBind(@Param("companyId")String companyId,@Param("userId")String userId);
+    
     List<Car> queryAll(@Param("companyId")String companyId,@Param("userId")String userId);
     
     int bindCar(@Param("id")String id,@Param("driverId")String driverId);

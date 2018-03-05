@@ -25,6 +25,7 @@ import com.iflytransporter.api.service.GoodsSourceService;
 import com.iflytransporter.api.service.OrderApplyService;
 import com.iflytransporter.api.service.ShipperOrderService;
 import com.iflytransporter.api.service.UserService;
+import com.iflytransporter.api.utils.AuthUtils;
 import com.iflytransporter.api.utils.RequestMapUtil;
 import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.common.bean.GoodsSource;
@@ -156,6 +157,10 @@ public class ShipperOrderController {
 	public Map<String,Object> add(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody OrderReq order){
 		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		if(!AuthUtils.identification(user)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NotCertifited);
+		}
 		String id = UUIDUtil.UUID();
 		order.setId(id);
 		if(StringUtils.isBlank(order.getShipperId())){
@@ -164,7 +169,6 @@ public class ShipperOrderController {
 		if(order.getStatus()==null){
 			order.setStatus(Status.Order_Publish);
 		}
-		User user = userService.detailByCache(userId);
 		order.setCompanyId(user.getCompanyId());
 		if(Status.User_Level_Admin==user.getLevel()){
 			order.setAuthDate(new Date());

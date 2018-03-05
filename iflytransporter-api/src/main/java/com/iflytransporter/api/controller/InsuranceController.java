@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.iflytransporter.api.bean.request.InsuranceReq;
-import com.iflytransporter.api.bean.request.InsuranceWaybillResp;
+import com.iflytransporter.api.bean.response.InsuranceWaybillResp;
 import com.iflytransporter.api.service.CommonService;
 import com.iflytransporter.api.service.InsuranceService;
+import com.iflytransporter.api.service.UserService;
 import com.iflytransporter.common.bean.Insurance;
+import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.bean.UserBO;
 import com.iflytransporter.common.utils.ResponseUtil;
 import com.iflytransporter.common.utils.UUIDUtil;
 
@@ -30,7 +34,8 @@ import io.swagger.annotations.ApiOperation;
 public class InsuranceController {
 	@Autowired
 	private InsuranceService insuranceSerivce;
-	
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private CommonService commonService;
 	/**当前用户查询待装车运单列表*/
@@ -38,12 +43,18 @@ public class InsuranceController {
 	@ResponseBody
 	public Map<String,Object> listWaybill(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
+		UserBO user = userService.detailBOByCache(userId);
+		
+		Map<String,Object> result = new HashMap<String,Object>();
+		result.put("policyholderName", user.getSurname()+" "+user.getName());
+		result.put("policyholderCompany", user.getCompanyName());
+		result.put("policyholderMobile", user.getMobile());
 		String lang = request.getHeader("lang");
 		List<Map<String,Object>>  list = insuranceSerivce.listWaybillByUserId(userId);
 		if(list==null || list.isEmpty()){
 			ResponseUtil.successResult();
 		}
-		List<InsuranceWaybillResp> result = new ArrayList<InsuranceWaybillResp>();
+		List<InsuranceWaybillResp> resultWaybillList = new ArrayList<InsuranceWaybillResp>();
 		for(Map<String,Object> map :list){
 			InsuranceWaybillResp op = new InsuranceWaybillResp(map);
 			op.setDepartureProvince(commonService.queryProvince(lang,(String)map.get("departureProvinceId")));
@@ -53,9 +64,27 @@ public class InsuranceController {
 			op.setDestinationProvince(commonService.queryProvince(lang,(String)map.get("destinationProvinceId")));
 			op.setDestinationCity(commonService.queryCity(lang,(String)map.get("destinationCityId")));
 			op.setDestinationArea(commonService.queryArea(lang,(String)map.get("destinationAreaId")));
-			result.add(op);
+			resultWaybillList.add(op);
 		}
+		result.put("waybillList", resultWaybillList);
 		return ResponseUtil.successResult(result);
+	}
+	/**保险货物名称列表*/
+	@ApiOperation(value="listGoodsName", notes="保险货物名称列表",produces = "application/json")
+	@RequestMapping(value="listGoodsName", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> listGoodsName(HttpServletRequest request, HttpServletResponse response){
+		String userId =  (String) request.getAttribute("userId");
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		Map<String,Object> map1 = new HashMap<String,Object>();
+		map1.put("id", "111111111111111111111");
+		map1.put("goodsName", "goodsName 1");
+		list.add(map1);
+		Map<String,Object> map2 = new HashMap<String,Object>();
+		map2.put("id", "222222222222222222222");
+		map2.put("goodsName", "goodsName 2222222");
+		list.add(map2);
+		return ResponseUtil.successResult(list);
 	}
 	/**添加保险信息*/
 	@ApiOperation(value="add", notes="新增",produces = "application/json")

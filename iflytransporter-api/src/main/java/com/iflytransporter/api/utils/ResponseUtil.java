@@ -76,7 +76,6 @@ public class ResponseUtil {
 		Map<String,Object> result = new HashMap<String,Object>();
 		result.put(Code_Key,e.getCode());
 		result.put(Msg_Key, e.getMessage());
-		result.put(Data_Key, null);
 		return result;
 	}
 	public static Map<String,Object> exceptionResult(ServiceException e){

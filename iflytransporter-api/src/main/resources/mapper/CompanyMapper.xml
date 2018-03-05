@@ -17,6 +17,7 @@
     <result column="attachment_id_1" property="attachmentId1" jdbcType="VARCHAR" />
     <result column="attachment_id_2" property="attachmentId2" jdbcType="VARCHAR" />
     <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
+     <result column="amount" property="amount" jdbcType="INTEGER" />
   </resultMap>
   
     <resultMap id="BaseResultMapBO" type="com.iflytransporter.common.bean.CompanyBO" >
@@ -38,11 +39,12 @@
      <result column="attachment_id_2_link" property="attachmentId2Link" jdbcType="VARCHAR" />
      <result column="attachment_id_3" property="attachmentId3" jdbcType="VARCHAR" />
      <result column="attachment_id_3_link" property="attachmentId3Link" jdbcType="VARCHAR" />
+      <result column="amount" property="amount" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Base_Column_List" >
     id, create_date, update_date, data_status, desp, name, code, email, address, status, 
-    attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3
+    attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3,amount
   </sql>
   <sql id="Valid_SQL" >
     and data_status = ${@com.iflytransporter.common.enums.Status@Status_Valid}
@@ -59,7 +61,7 @@
     <select id="selectByPrimaryKeyBO" resultMap="BaseResultMapBO" parameterType="java.lang.String" >
     select 
     a.id, a.create_date, a.update_date, a.data_status, a.desp, a.name, a.code, a.email, a.address, a.status, 
-    a.attachment_id_1,a.user_id,a.attachment_id_2,a.attachment_id_3,
+    a.attachment_id_1,a.user_id,a.attachment_id_2,a.attachment_id_3,a.amount
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',b.attachment_link) as attachment_id_1_link,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',c.attachment_link) as attachment_id_2_link,
     concat('${@com.iflytransporter.api.conf.ConstantsConfig@getLinkPath()}',d.attachment_link) as attachment_id_3_link
@@ -83,11 +85,12 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company (id, update_date, 
       desp, name, 
-      code, email, address, attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3)
+      code, email, address, attachment_id_1,user_id,user_type,attachment_id_2,attachment_id_3,amount)
     values (#{id,jdbcType=VARCHAR}, now(),
        #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{userType,jdbcType=INTEGER},#{attachmentId2,jdbcType=VARCHAR},#{attachmentId3,jdbcType=VARCHAR})
+      #{attachmentId1,jdbcType=VARCHAR},#{userId,jdbcType=VARCHAR},#{userType,jdbcType=INTEGER},
+      #{attachmentId2,jdbcType=VARCHAR},#{attachmentId3,jdbcType=VARCHAR},#{amount,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Company" >
     insert into t_company
@@ -212,6 +215,9 @@
       </if>
        <if test="attachmentId1 != null" >
         attachment_id_3 = #{attachmentId3,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
