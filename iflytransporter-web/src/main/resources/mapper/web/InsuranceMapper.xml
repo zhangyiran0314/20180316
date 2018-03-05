@@ -8,23 +8,75 @@
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="costs" property="costs" jdbcType="INTEGER" />
-    <result column="premium" property="premium" jdbcType="INTEGER" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.iflytransporter.common.bean.Insurance" extends="BaseResultMap" >
-    <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
+    <result column="waybill_no" property="waybillNo" jdbcType="VARCHAR" />
+    <result column="policyholder_name" property="policyholderName" jdbcType="VARCHAR" />
+    <result column="policyholder_company" property="policyholderCompany" jdbcType="VARCHAR" />
+    <result column="policyholder_mobile" property="policyholderMobile" jdbcType="VARCHAR" />
+    <result column="transport_company" property="transportCompany" jdbcType="VARCHAR" />
+    <result column="transport_name" property="transportName" jdbcType="VARCHAR" />
+    <result column="transport_mobile" property="transportMobile" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+    <result column="goods_value" property="goodsValue" jdbcType="DOUBLE" />
+    <result column="deliver_date" property="deliverDate" jdbcType="DATE" />
+    <result column="transport_scope" property="transportScope" jdbcType="VARCHAR" />
+    <result column="costs" property="costs" jdbcType="DOUBLE" />
+    <result column="departure_province_id" property="departureProvinceId" jdbcType="VARCHAR" />
+    <result column="departure_city_id" property="departureCityId" jdbcType="VARCHAR" />
+    <result column="departure_area_id" property="departureAreaId" jdbcType="VARCHAR" />
+    <result column="destination_province_id" property="destinationProvinceId" jdbcType="VARCHAR" />
+    <result column="destination_city_id" property="destinationCityId" jdbcType="VARCHAR" />
+    <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, name, costs, premium
+    id, create_date, update_date, data_status, desp, name, waybill_no, policyholder_name, 
+    policyholder_company, policyholder_mobile, transport_company, transport_name, transport_mobile, 
+    goods_name, goods_num, goods_value, deliver_date, transport_scope, costs, departure_province_id, 
+    departure_city_id, departure_area_id, destination_province_id, destination_city_id, 
+    destination_area_id
   </sql>
-  <sql id="Blob_Column_List" >
-    detail
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+   <select id="queryAll" resultType="java.util.Map" >
+    select 
+   	a.id, a.create_date as createDate, a.update_date as updateDate, 
+   	a.departure_province_id as departureProvinceId,
+   	a.departure_city_id as departureCityId, 
+    a.departure_area_id as departureAreaId, 
+    a.destination_province_id as destinationProvinceId, 
+    a.destination_city_id as destinationCityId, 
+    a.destination_area_id as destinationAreaId, 
+    a.deliver_date deliverDate, 
+    a.waybill_no as waybillNo,
+    
+    a.policyholder_company as policyholderCompany, 
+    a.policyholder_mobile as policyholderMobile, 
+    a.policyholder_name as policyholderName,
+    
+    a.transport_company as transportCompany, 
+    a.transport_name as transportName, 
+    a.transport_mobile as transportMobile, 
+    
+    a.goods_name as goodsName, 
+    a.goods_num as goodsNum,  
+    a.goods_value as goodsValue, 
+    
+    b.surname as buySurname,b.name as buyName,b.mobile as buyMobile,b.email as buyEmail
+    from t_insurance a
+    left join t_user b on a.user_id = b.id
+    where 1=1 
+    <if test="policyholderCompany != null and policyholderCompany !=''">
+    	and a.policyholder_company like concat('%',#{policyholderCompany,jdbcType=VARCHAR},'%')
+    </if>
+     <if test="policyholderName != null and policyholderName !=''">
+    	and a.policyholder_name like concat('%',#{policyholderName,jdbcType=VARCHAR},'%')
+    </if>
+     <if test="policyholderMobile != null and policyholderMobile !=''">
+    	and a.policyholder_mobile like concat('%',#{policyholderMobile,jdbcType=VARCHAR},'%')
+    </if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_insurance
     where id = #{id,jdbcType=VARCHAR}
   </select>
@@ -35,12 +87,22 @@
   <insert id="insert" parameterType="com.iflytransporter.common.bean.Insurance" >
     insert into t_insurance (id, create_date, update_date, 
       data_status, desp, name, 
-      costs, premium, detail
-      )
+      waybill_no, policyholder_name, policyholder_company, 
+      policyholder_mobile, transport_company, transport_name, 
+      transport_mobile, goods_name, goods_num, 
+      goods_value, deliver_date, transport_scope, 
+      costs, departure_province_id, departure_city_id, 
+      departure_area_id, destination_province_id, 
+      destination_city_id, destination_area_id)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{costs,jdbcType=INTEGER}, #{premium,jdbcType=INTEGER}, #{detail,jdbcType=LONGVARCHAR}
-      )
+      #{waybillNo,jdbcType=VARCHAR}, #{policyholderName,jdbcType=VARCHAR}, #{policyholderCompany,jdbcType=VARCHAR}, 
+      #{policyholderMobile,jdbcType=VARCHAR}, #{transportCompany,jdbcType=VARCHAR}, #{transportName,jdbcType=VARCHAR}, 
+      #{transportMobile,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsNum,jdbcType=INTEGER}, 
+      #{goodsValue,jdbcType=DOUBLE}, #{deliverDate,jdbcType=DATE}, #{transportScope,jdbcType=VARCHAR}, 
+      #{costs,jdbcType=DOUBLE}, #{departureProvinceId,jdbcType=VARCHAR}, #{departureCityId,jdbcType=VARCHAR}, 
+      #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
+      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Insurance" >
     insert into t_insurance
@@ -63,14 +125,62 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="waybillNo != null" >
+        waybill_no,
+      </if>
+      <if test="policyholderName != null" >
+        policyholder_name,
+      </if>
+      <if test="policyholderCompany != null" >
+        policyholder_company,
+      </if>
+      <if test="policyholderMobile != null" >
+        policyholder_mobile,
+      </if>
+      <if test="transportCompany != null" >
+        transport_company,
+      </if>
+      <if test="transportName != null" >
+        transport_name,
+      </if>
+      <if test="transportMobile != null" >
+        transport_mobile,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsNum != null" >
+        goods_num,
+      </if>
+      <if test="goodsValue != null" >
+        goods_value,
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date,
+      </if>
+      <if test="transportScope != null" >
+        transport_scope,
+      </if>
       <if test="costs != null" >
         costs,
       </if>
-      <if test="premium != null" >
-        premium,
+      <if test="departureProvinceId != null" >
+        departure_province_id,
       </if>
-      <if test="detail != null" >
-        detail,
+      <if test="departureCityId != null" >
+        departure_city_id,
+      </if>
+      <if test="departureAreaId != null" >
+        departure_area_id,
+      </if>
+      <if test="destinationProvinceId != null" >
+        destination_province_id,
+      </if>
+      <if test="destinationCityId != null" >
+        destination_city_id,
+      </if>
+      <if test="destinationAreaId != null" >
+        destination_area_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -92,14 +202,62 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="waybillNo != null" >
+        #{waybillNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderName != null" >
+        #{policyholderName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderCompany != null" >
+        #{policyholderCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderMobile != null" >
+        #{policyholderMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="transportCompany != null" >
+        #{transportCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="transportName != null" >
+        #{transportName,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMobile != null" >
+        #{transportMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null" >
+        #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsValue != null" >
+        #{goodsValue,jdbcType=DOUBLE},
+      </if>
+      <if test="deliverDate != null" >
+        #{deliverDate,jdbcType=DATE},
+      </if>
+      <if test="transportScope != null" >
+        #{transportScope,jdbcType=VARCHAR},
+      </if>
       <if test="costs != null" >
-        #{costs,jdbcType=INTEGER},
+        #{costs,jdbcType=DOUBLE},
       </if>
-      <if test="premium != null" >
-        #{premium,jdbcType=INTEGER},
+      <if test="departureProvinceId != null" >
+        #{departureProvinceId,jdbcType=VARCHAR},
       </if>
-      <if test="detail != null" >
-        #{detail,jdbcType=LONGVARCHAR},
+      <if test="departureCityId != null" >
+        #{departureCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAreaId != null" >
+        #{departureAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvinceId != null" >
+        #{destinationProvinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCityId != null" >
+        #{destinationCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAreaId != null" >
+        #{destinationAreaId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -121,28 +279,64 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="waybillNo != null" >
+        waybill_no = #{waybillNo,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderName != null" >
+        policyholder_name = #{policyholderName,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderCompany != null" >
+        policyholder_company = #{policyholderCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="policyholderMobile != null" >
+        policyholder_mobile = #{policyholderMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="transportCompany != null" >
+        transport_company = #{transportCompany,jdbcType=VARCHAR},
+      </if>
+      <if test="transportName != null" >
+        transport_name = #{transportName,jdbcType=VARCHAR},
+      </if>
+      <if test="transportMobile != null" >
+        transport_mobile = #{transportMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsNum != null" >
+        goods_num = #{goodsNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsValue != null" >
+        goods_value = #{goodsValue,jdbcType=DOUBLE},
+      </if>
+      <if test="deliverDate != null" >
+        deliver_date = #{deliverDate,jdbcType=DATE},
+      </if>
+      <if test="transportScope != null" >
+        transport_scope = #{transportScope,jdbcType=VARCHAR},
+      </if>
       <if test="costs != null" >
-        costs = #{costs,jdbcType=INTEGER},
+        costs = #{costs,jdbcType=DOUBLE},
       </if>
-      <if test="premium != null" >
-        premium = #{premium,jdbcType=INTEGER},
+      <if test="departureProvinceId != null" >
+        departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
       </if>
-      <if test="detail != null" >
-        detail = #{detail,jdbcType=LONGVARCHAR},
+      <if test="departureCityId != null" >
+        departure_city_id = #{departureCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="departureAreaId != null" >
+        departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationProvinceId != null" >
+        destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationCityId != null" >
+        destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAreaId != null" >
+        destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.iflytransporter.common.bean.Insurance" >
-    update t_insurance
-    set create_date = #{createDate,jdbcType=TIMESTAMP},
-      update_date = #{updateDate,jdbcType=TIMESTAMP},
-      data_status = #{dataStatus,jdbcType=SMALLINT},
-      desp = #{desp,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      costs = #{costs,jdbcType=INTEGER},
-      premium = #{premium,jdbcType=INTEGER},
-      detail = #{detail,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.Insurance" >
@@ -152,8 +346,25 @@
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      costs = #{costs,jdbcType=INTEGER},
-      premium = #{premium,jdbcType=INTEGER}
+      waybill_no = #{waybillNo,jdbcType=VARCHAR},
+      policyholder_name = #{policyholderName,jdbcType=VARCHAR},
+      policyholder_company = #{policyholderCompany,jdbcType=VARCHAR},
+      policyholder_mobile = #{policyholderMobile,jdbcType=VARCHAR},
+      transport_company = #{transportCompany,jdbcType=VARCHAR},
+      transport_name = #{transportName,jdbcType=VARCHAR},
+      transport_mobile = #{transportMobile,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_num = #{goodsNum,jdbcType=INTEGER},
+      goods_value = #{goodsValue,jdbcType=DOUBLE},
+      deliver_date = #{deliverDate,jdbcType=DATE},
+      transport_scope = #{transportScope,jdbcType=VARCHAR},
+      costs = #{costs,jdbcType=DOUBLE},
+      departure_province_id = #{departureProvinceId,jdbcType=VARCHAR},
+      departure_city_id = #{departureCityId,jdbcType=VARCHAR},
+      departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
+      destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
+      destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
+      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

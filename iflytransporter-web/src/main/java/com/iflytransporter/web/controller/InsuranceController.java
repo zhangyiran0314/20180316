@@ -1,5 +1,7 @@
 package com.iflytransporter.web.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.iflytransporter.common.bean.Insurance;
 import com.iflytransporter.common.utils.ResponseUtil;
+import com.iflytransporter.web.service.CommonService;
 import com.iflytransporter.web.service.InsuranceService;
 
 @Controller
@@ -22,7 +25,9 @@ public class InsuranceController {
 	private static Logger logger = LoggerFactory.getLogger(InsuranceController.class);
 	@Autowired
 	private InsuranceService insuranceService;
-
+	@Autowired
+	private CommonService commonService;
+	
 	@RequestMapping("/manage")
 	public String index(){
 		logger.info("insurance/list");
@@ -30,9 +35,21 @@ public class InsuranceController {
 	}
 	@RequestMapping("queryPage")
 	@ResponseBody
-	public Map<String,Object> queryPage(Integer pageNo,HttpServletRequest request){
-		PageInfo<Insurance> page = insuranceService.queryPage( pageNo, 10);
-		return ResponseUtil.successResult(page);
+	public Map<String,Object> queryPage(Integer page,Integer limit,String policyholderCompany,String policyholderMobile,String policyholderName,
+			HttpServletRequest request){
+		PageInfo<Map<String,Object>> result = insuranceService.queryPage(page, limit, policyholderCompany, policyholderMobile, policyholderName);
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		for(Map<String,Object> op: result.getList()){
+			op.put("departureProvince",commonService.queryProvince((String)op.get("departureProvinceId")));
+			op.put("departureCity",commonService.queryCity((String)op.get("departureCityId")));
+			op.put("departureArea",commonService.queryArea((String)op.get("departureAreaId")));
+			op.put("destinationProvince",commonService.queryProvince((String)op.get("destinationProvinceId")));
+			op.put("destinationCity",commonService.queryCity((String)op.get("destinationCityId")));
+			op.put("destinationArea",commonService.queryArea((String)op.get("destinationAreaId")));
+		
+			list.add(op);
+		}
+		return ResponseUtil.successPage(result.getTotal(),result.getList());
 	}
 	@RequestMapping("toDetail")
 	public String toDetail(String id,HttpServletRequest request){
