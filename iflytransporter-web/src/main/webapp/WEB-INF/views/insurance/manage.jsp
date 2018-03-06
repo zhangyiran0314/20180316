@@ -55,12 +55,16 @@ layui.config({
 		    ,page: true //开启分页
 		    ,cols: [[ //表头
 		       /*  {type: 'checkbox', fixed: 'left'}, */
+                {field:'waybillNo',title:'运单编号', width:'180'},
+                {field:'deliverDate',title:'发车日期', width:'180'},
+                
 		        {field:'policyholderCompany',title:'投保人公司', width:'180'},
 		        {field:'policyholderName',title:'投保人名字', width:'180'},
                 {field:'policyholderMobile',title:'投保人手机', width:'180'},
                 
                 {field:'goodsName',title:'货物名称', width:'180'},
-		        {field:'goodsNum',title:'货物数量', width:'180'},
+                {field:'weight',title:'货物计量', width:'180'},
+		        {field:'goodsUnits',title:'货物计量单位', width:'180'},
                 {field:'goodsValue',title:'货物价值', width:'180'},
                 
                 {field:'transportCompany',title:'运输单位公司', width:'180'},
@@ -75,9 +79,8 @@ layui.config({
                 {field:'departure',title:'出发地', width:'180',templet:'#departureTpl'},
                 {field:'destination',title:'目的地', width:'180',templet:'#destinationTpl'},
                 
-                {field:'deliverDate',title:'发车日期', width:'180'},
-                {field:'waybillNo',title:'运单编号', width:'180'},
                 
+                {field:'transportScope',title:'运输范围', width:'180'},
                 {field:'createDate',title:'创建时间', width:'180'},
                 {field:'updateDate',title:'修改时间', width:'180'},
                 /*  {fixed: 'right', title:'操作', toolbar: '#bar', width:150}  */

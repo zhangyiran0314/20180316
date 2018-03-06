@@ -31,8 +31,10 @@ public class Insurance {
 
     private String goodsName;
 
-    private Integer goodsNum;
+    private Integer weight;
 
+    private String goodsUnits;
+    
     private Double goodsValue;
 
     private Date deliverDate;
@@ -160,13 +162,6 @@ public class Insurance {
         this.goodsName = goodsName == null ? null : goodsName.trim();
     }
 
-    public Integer getGoodsNum() {
-        return goodsNum;
-    }
-
-    public void setGoodsNum(Integer goodsNum) {
-        this.goodsNum = goodsNum;
-    }
 
     public Double getGoodsValue() {
         return goodsValue;
@@ -262,6 +257,22 @@ public class Insurance {
 
 	public void setPolicyholderCompany(String policyholderCompany) {
 		this.policyholderCompany = policyholderCompany;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public String getGoodsUnits() {
+		return goodsUnits;
+	}
+
+	public void setGoodsUnits(String goodsUnits) {
+		this.goodsUnits = goodsUnits;
 	}
     
 }

@@ -16,7 +16,8 @@
     <result column="transport_name" property="transportName" jdbcType="VARCHAR" />
     <result column="transport_mobile" property="transportMobile" jdbcType="VARCHAR" />
     <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
-    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+     <result column="goods_units" property="goodsUnits" jdbcType="VARCHAR" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
     <result column="goods_value" property="goodsValue" jdbcType="DOUBLE" />
     <result column="deliver_date" property="deliverDate" jdbcType="DATE" />
     <result column="transport_scope" property="transportScope" jdbcType="VARCHAR" />
@@ -29,11 +30,11 @@
     <result column="destination_area_id" property="destinationAreaId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, name, waybill_no, policyholder_name, 
+     id, create_date, update_date, data_status, desp, name, waybill_no, policyholder_name, 
     policyholder_company, policyholder_mobile, transport_company, transport_name, transport_mobile, 
-    goods_name, goods_num, goods_value, deliver_date, transport_scope, costs, departure_province_id, 
+    goods_name, goods_units,weight, goods_value, deliver_date, transport_scope, costs, departure_province_id, 
     departure_city_id, departure_area_id, destination_province_id, destination_city_id, 
-    destination_area_id
+    destination_area_id, user_id
   </sql>
    <select id="queryAll" resultType="java.util.Map" >
     select 
@@ -56,8 +57,9 @@
     a.transport_mobile as transportMobile, 
     
     a.goods_name as goodsName, 
-    a.goods_num as goodsNum,  
+    a.weight, a.goods_units as goodsUnits,
     a.goods_value as goodsValue, 
+    a.transport_scope transportScope,
     
     b.surname as buySurname,b.name as buyName,b.mobile as buyMobile,b.email as buyEmail
     from t_insurance a
@@ -84,25 +86,27 @@
     delete from t_insurance
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.iflytransporter.common.bean.Insurance" >
-    insert into t_insurance (id, create_date, update_date, 
-      data_status, desp, name, 
+   <insert id="insert" parameterType="com.iflytransporter.common.bean.Insurance" >
+    insert into t_insurance (id,  update_date, 
+      desp, name, 
       waybill_no, policyholder_name, policyholder_company, 
       policyholder_mobile, transport_company, transport_name, 
-      transport_mobile, goods_name, goods_num, 
+      transport_mobile, goods_name, goods_units,weight, 
       goods_value, deliver_date, transport_scope, 
       costs, departure_province_id, departure_city_id, 
       departure_area_id, destination_province_id, 
-      destination_city_id, destination_area_id)
-    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      destination_city_id, destination_area_id, user_id
+      )
+    values (#{id,jdbcType=VARCHAR}, now(),
+      #{desp,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{waybillNo,jdbcType=VARCHAR}, #{policyholderName,jdbcType=VARCHAR}, #{policyholderCompany,jdbcType=VARCHAR}, 
       #{policyholderMobile,jdbcType=VARCHAR}, #{transportCompany,jdbcType=VARCHAR}, #{transportName,jdbcType=VARCHAR}, 
-      #{transportMobile,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsNum,jdbcType=INTEGER}, 
+      #{transportMobile,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{goodsUnits,jdbcType=VARCHAR},#{weight,jdbcType=INTEGER}, 
       #{goodsValue,jdbcType=DOUBLE}, #{deliverDate,jdbcType=DATE}, #{transportScope,jdbcType=VARCHAR}, 
       #{costs,jdbcType=DOUBLE}, #{departureProvinceId,jdbcType=VARCHAR}, #{departureCityId,jdbcType=VARCHAR}, 
       #{departureAreaId,jdbcType=VARCHAR}, #{destinationProvinceId,jdbcType=VARCHAR}, 
-      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR})
+      #{destinationCityId,jdbcType=VARCHAR}, #{destinationAreaId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.Insurance" >
     insert into t_insurance
@@ -150,7 +154,10 @@
         goods_name,
       </if>
       <if test="goodsNum != null" >
-        goods_num,
+        goods_units,
+      </if>
+       <if test="weight != null" >
+        weight,
       </if>
       <if test="goodsValue != null" >
         goods_value,
@@ -181,6 +188,9 @@
       </if>
       <if test="destinationAreaId != null" >
         destination_area_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -226,8 +236,11 @@
       <if test="goodsName != null" >
         #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="goodsNum != null" >
-        #{goodsNum,jdbcType=INTEGER},
+      <if test="goodsUnits != null" >
+        #{goodsUnits,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
       </if>
       <if test="goodsValue != null" >
         #{goodsValue,jdbcType=DOUBLE},
@@ -258,6 +271,9 @@
       </if>
       <if test="destinationAreaId != null" >
         #{destinationAreaId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -303,8 +319,11 @@
       <if test="goodsName != null" >
         goods_name = #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="goodsNum != null" >
-        goods_num = #{goodsNum,jdbcType=INTEGER},
+      <if test="goodsUnits != null" >
+        goods_units= #{goodsUnits,jdbcType=VARCHAR},
+      </if>
+       <if test="weight != null" >
+        weight= #{weight,jdbcType=INTEGER},
       </if>
       <if test="goodsValue != null" >
         goods_value = #{goodsValue,jdbcType=DOUBLE},
@@ -336,6 +355,9 @@
       <if test="destinationAreaId != null" >
         destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -354,7 +376,8 @@
       transport_name = #{transportName,jdbcType=VARCHAR},
       transport_mobile = #{transportMobile,jdbcType=VARCHAR},
       goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_num = #{goodsNum,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      goods_units = #{goodsUnits,jdbcType=VARCHAR},
       goods_value = #{goodsValue,jdbcType=DOUBLE},
       deliver_date = #{deliverDate,jdbcType=DATE},
       transport_scope = #{transportScope,jdbcType=VARCHAR},
@@ -364,7 +387,8 @@
       departure_area_id = #{departureAreaId,jdbcType=VARCHAR},
       destination_province_id = #{destinationProvinceId,jdbcType=VARCHAR},
       destination_city_id = #{destinationCityId,jdbcType=VARCHAR},
-      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR}
+      destination_area_id = #{destinationAreaId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

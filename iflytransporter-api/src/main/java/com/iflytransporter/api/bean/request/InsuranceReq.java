@@ -9,7 +9,7 @@ public class InsuranceReq {
 
     private String policyholderName;
 
-    private String policyhodlerCompany;
+    private String policyholderCompany;
 
     private String policyholderMobile;
 
@@ -21,7 +21,9 @@ public class InsuranceReq {
 
     private String goodsName;
 
-    private Integer goodsNum;
+    private Integer weight;
+    
+    private String goodsUnits;
 
 //    private Double goodsValue;
     private String goodsValueStr;
@@ -60,14 +62,6 @@ public class InsuranceReq {
 
 	public void setPolicyholderName(String policyholderName) {
 		this.policyholderName = policyholderName;
-	}
-
-	public String getPolicyhodlerCompany() {
-		return policyhodlerCompany;
-	}
-
-	public void setPolicyhodlerCompany(String policyhodlerCompany) {
-		this.policyhodlerCompany = policyhodlerCompany;
 	}
 
 	public String getPolicyholderMobile() {
@@ -110,13 +104,6 @@ public class InsuranceReq {
 		this.goodsName = goodsName;
 	}
 
-	public Integer getGoodsNum() {
-		return goodsNum;
-	}
-
-	public void setGoodsNum(Integer goodsNum) {
-		this.goodsNum = goodsNum;
-	}
 
 
 	public Date getDeliverDate() {
@@ -197,6 +184,30 @@ public class InsuranceReq {
 
 	public void setCostsStr(String costsStr) {
 		this.costsStr = costsStr;
+	}
+
+	public String getPolicyholderCompany() {
+		return policyholderCompany;
+	}
+
+	public void setPolicyholderCompany(String policyholderCompany) {
+		this.policyholderCompany = policyholderCompany;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public String getGoodsUnits() {
+		return goodsUnits;
+	}
+
+	public void setGoodsUnits(String goodsUnits) {
+		this.goodsUnits = goodsUnits;
 	}
     
 }
