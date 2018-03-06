@@ -1,5 +1,6 @@
 package com.iflytransporter.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,20 +26,21 @@ public class CommentServiceImopl implements CommentService{
 
 	@Override
 	public PageInfo<Map<String, Object>> queryPageTransporter(Integer pageNo, Integer pageSize,
-			String transporterId, String transporterCompanyId) {
+			String transporterId, String transporterCompanyId,Date lastCreateDate) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId);
+		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId,lastCreateDate);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 
 	@Override
-	public PageInfo<Map<String, Object>> queryPageShipper(Integer pageNo, Integer pageSize, String shipperId,String shipperCompanyId) {
+	public PageInfo<Map<String, Object>> queryPageShipper(Integer pageNo, Integer pageSize, 
+			String shipperId,String shipperCompanyId,Date lastCreateDate) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }
-		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId);
+		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId,lastCreateDate);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 

@@ -61,9 +61,9 @@
   </select>
   
   <!-- 车主被评价列表 -->
-  <select id="queryAllTransporter">
+  <select id="queryAllTransporter" resultType="java.util.Map">
   	select 
-  	a.content , a.anonymity ,b.name as companyName
+  	a.content , a.anonymity ,b.name as companyName,a.create_date as createDate
     from t_comment a
     left join t_company b on a.shipper_company_id = b.id
     where 1 = 1
@@ -73,12 +73,16 @@
      <if test="transporterCompanyId != null" >
      and a.transporter_company_id =  #{transporterCompanyId,jdbcType=VARCHAR}
     </if>
+      <if test="lastCreateDate != null" >
+      and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+    order by a.create_date  desc
   </select>
   
     <!-- 货主被评价列表 -->
-  <select id="queryAllShipper">
+  <select id="queryAllShipper" resultType="java.util.Map">
   	select 
-  	a.content , a.anonymity ,b.name as companyName
+  	a.content , a.anonymity ,b.name as companyName,a.create_date as createDate
     from t_transporter_comment a
     left join t_company b on a.transporter_company_id = b.id
     where 1 = 1
@@ -88,6 +92,10 @@
      <if test="transporterCompanyId != null" >
      and a.shipper_company_id =  #{shipperCompanyId,jdbcType=VARCHAR}
     </if>
+     <if test="lastCreateDate != null" >
+      and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+    order by a.create_date  desc
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

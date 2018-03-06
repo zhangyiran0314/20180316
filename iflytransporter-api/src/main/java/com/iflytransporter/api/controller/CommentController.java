@@ -1,5 +1,6 @@
 package com.iflytransporter.api.controller;
 
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,15 +32,16 @@ public class CommentController {
 	private CommentService commentService;
 	
 	@ApiOperation(value="queryPageTransporter", notes="车主评价列表",produces = "application/json")
-	@RequestMapping(value="queryPage", method=RequestMethod.POST)
+	@RequestMapping(value="queryPageTransporter", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> queryPageTransporter(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
-		String transporterId = (String) requestMap.get("tranporterId");
+		String transporterId = (String) requestMap.get("transporterId");
 		String transporterCompanyId = (String) requestMap.get("transporterCompanyId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, transporterId, transporterCompanyId);
+		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
+		PageInfo<Map<String,Object>> page = commentService.queryPageTransporter(pageNo, pageSize, transporterId, transporterCompanyId,lastCreateDate);
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
 	@ApiOperation(value="queryPageShipper", notes="货主评价列表",produces = "application/json")
@@ -51,7 +53,8 @@ public class CommentController {
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		String shipperId = (String) requestMap.get("shipperId");
 		String shipperCompanyId = (String) requestMap.get("shipperCompanyId");
-		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, shipperId, shipperCompanyId);
+		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
+		PageInfo<Map<String,Object>> page = commentService.queryPageShipper(pageNo, pageSize, shipperId, shipperCompanyId,lastCreateDate);
 		return ResponseUtil.successPage(page.getTotal(), page.getPages(), page.getList());
 	}
 }

@@ -450,9 +450,10 @@ public class TransporterController {
 		}
 		if(Status.User_Level_Staff == user.getLevel()){
 			Map<String,Object> car = carService.queryByUserId(userId);
-			if(car != null )
-			userResp.setCarCode(car.get("code")==null?null:(String)car.get("code"));
-			userResp.setCarName(car.get("name")==null?null:(String)car.get("name"));
+			if(car != null ){
+				userResp.setCarCode(car.get("code")==null?null:(String)car.get("code"));
+				userResp.setCarName(car.get("name")==null?null:(String)car.get("name"));
+			}
 		}
 		return ResponseUtil.successResult(userResp);
 	}
