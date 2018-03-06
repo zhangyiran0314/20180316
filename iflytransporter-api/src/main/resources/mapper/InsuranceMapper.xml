@@ -48,12 +48,13 @@
     d.destination_province_id as destinationProvinceId, 
     d.destination_city_id as destinationCityId, 
     d.destination_area_id as destinationAreaId,
-    d.deliver_date as deliverDate
+    d.deliver_date as deliverDate,
+    d.weight, d.goods_units as goodsUnits
   	from t_waybill a
   	left join t_company b on a.transporter_company_id = b.id
     left join t_user c on a.transporter_id = c.id
     left join t_order d on  a.order_id = d.id
-  	where a.status = 0 and a.shipper_id = #{userId,jdbcType=VARCHAR}
+  	where a.shipper_id = #{userId,jdbcType=VARCHAR} and now() &gt; d.deliver_date 
   </select>
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >

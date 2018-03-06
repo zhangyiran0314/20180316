@@ -30,12 +30,18 @@ public class InsuranceWaybillResp {
 
     private CommonParam destinationArea;
     
+    private Integer weight;
+
+	private String goodsUnits;
+    
     public InsuranceWaybillResp(Map<String,Object> map){
     	this.waybillNo = map.get("waybillNo").toString();
     	this.transportCompany = map.get("transportCompany").toString();
     	this.transportName = map.get("transporterSurname").toString() + " "+map.get("transporterName").toString();
     	this.transportMobile = map.get("transporterMobile").toString();
     	this.deliverDate = (Date) map.get("deliverDate");
+    	this.weight = (Integer)map.get("weight");
+    	this.goodsUnits = map.get("goodsUnits").toString();
     }
 
 	public String getWaybillNo() {
@@ -124,6 +130,22 @@ public class InsuranceWaybillResp {
 
 	public void setDeliverDate(Date deliverDate) {
 		this.deliverDate = deliverDate;
+	}
+
+	public Integer getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Integer weight) {
+		this.weight = weight;
+	}
+
+	public String getGoodsUnits() {
+		return goodsUnits;
+	}
+
+	public void setGoodsUnits(String goodsUnits) {
+		this.goodsUnits = goodsUnits;
 	}
     
 }
