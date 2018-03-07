@@ -58,4 +58,16 @@ public class RequestMapUtil {
 		}
 		return null;
 	}
+	/**
+	 * 格式化最后创建日期参数 lastCreateDate
+	 * @param requestMap
+	 * @return
+	 */
+	public static String formatThan(Map<String,Object> requestMap){
+		if(requestMap.get("than") == null){
+			return null;
+		}
+		String st = (String) requestMap.get("than");
+		return st;
+	}
 }

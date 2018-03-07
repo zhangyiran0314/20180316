@@ -33,6 +33,8 @@ public class QueryOrderParam {
     private String transporterId;
     
     public Long lastCreateDate;
+    
+    public String than;
 
 	public String getDepartureProvinceId() {
 		return departureProvinceId;
@@ -160,6 +162,14 @@ public class QueryOrderParam {
 
 	public void setLastCreateDate(Long lastCreateDate) {
 		this.lastCreateDate = lastCreateDate;
+	}
+
+	public String getThan() {
+		return than;
+	}
+
+	public void setThan(String than) {
+		this.than = than;
 	}
     
     

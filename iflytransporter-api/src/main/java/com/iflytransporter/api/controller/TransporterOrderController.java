@@ -159,6 +159,11 @@ public class TransporterOrderController {
 //		Integer pageNo = queryParam.getPageNo()==null ? 1: queryParam.getPageNo();
 //		Integer pageSize = queryParam.getPageSize()==null ? 10: queryParam.getPageSize();
 		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		//非管理员不能找货
+		if(!AuthUtils.identificationTransporter(user)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NoOperationPermission);
+		}
 		queryParam.setTransporterId(userId);
 		PageInfo<Order> page = transporterOrderService.queryPage(queryParam);
 		if(page.getTotal()==0){
@@ -195,6 +200,11 @@ public class TransporterOrderController {
 //		Integer status = RequestMapUtil.formatStatus(requestMap);
 		String lang = request.getHeader("lang");
 		String userId =  (String) request.getAttribute("userId");
+		User user = userService.detailByCache(userId);
+		//非管理员不能找货
+		if(!AuthUtils.identificationTransporter(user)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NoOperationPermission);
+		}
 		queryParam.setTransporterId(userId);
 		List<Order> list = transporterOrderService.list(queryParam);
 		List<TransporterOrderResp> result = new ArrayList<TransporterOrderResp>();
@@ -244,6 +254,10 @@ public class TransporterOrderController {
 		User user = userService.detailByCache(userId);
 		if(!AuthUtils.identification(user)){
 			return ResponseUtil.failureResult(BuzExceptionEnums.NotCertifited);
+		}
+		//非管理员不能报价
+		if(!AuthUtils.identificationTransporter(user)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NoOperationPermission);
 		}
 		Order order = transporterOrderService.query(id);
 		OrderApply orderApply = new OrderApply();

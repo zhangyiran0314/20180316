@@ -1,6 +1,7 @@
 package com.iflytransporter.api.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,8 @@ public class ShipperAuthController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String than  = RequestMapUtil.formatThan(requestMap);
+		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
 		String userId =  (String) request.getAttribute("userId");
 		/*if(status !=null && Status.Order_Auth_No!=status.intValue()){//非带授权状态 查询已授权和授权取消状态
 			status = null;
@@ -58,9 +61,9 @@ public class ShipperAuthController {
 		PageInfo<Order> page = null;
 		//如果是管理员,查询当前公司所有授权以及未授权记录
 		if(user.getLevel()==Status.User_Level_Admin){
-			page = shipperAuthService.queryPageByAdmin(pageNo,pageSize, user.getCompanyId(),userId,status);
+			page = shipperAuthService.queryPageByAdmin(pageNo,pageSize, user.getCompanyId(),userId,status,lastCreateDate,than);
 		}else{//如果是员工,查询个人的记录
-			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),userId,null);
+			page = shipperAuthService.queryPage(pageNo,pageSize, user.getCompanyId(),userId,null,lastCreateDate,than);
 		}
 		if(page.getTotal()== 0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);

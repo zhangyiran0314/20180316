@@ -21,9 +21,11 @@ public interface CommentMapper {
 
     int updateByPrimaryKey(Comment record);
     
-    List<Map<String,Object>> queryAllTransporter(@Param("transporterId")String transporterId,@Param("transporterCompanyId")String transporterCompanyId,@Param("lastCreateDate")Date lastCreateDate);
+    List<Map<String,Object>> queryAllTransporter(@Param("transporterId")String transporterId,@Param("transporterCompanyId")String transporterCompanyId,
+    		@Param("lastCreateDate")Date lastCreateDate,@Param("than")String than);
     
-    List<Map<String,Object>> queryAllShipper(@Param("shipperId")String shipperId,@Param("shipperCompanyId")String shipperCompanyId,@Param("lastCreateDate")Date lastCreateDate);
+    List<Map<String,Object>> queryAllShipper(@Param("shipperId")String shipperId,@Param("shipperCompanyId")String shipperCompanyId,
+    		@Param("lastCreateDate")Date lastCreateDate,@Param("than")String than);
     
     
     //运单查看当前货主是否评价此运单

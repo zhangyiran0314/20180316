@@ -13,4 +13,13 @@ public class AuthUtils {
 		}
 		return true;
 	}
+	public static boolean identificationTransporter(User user){
+		if(user == null){
+			return false;
+		}
+		if(Status.User_Level_Admin != user.getLevel()){
+			return false;
+		}
+		return true;
+	}
 }

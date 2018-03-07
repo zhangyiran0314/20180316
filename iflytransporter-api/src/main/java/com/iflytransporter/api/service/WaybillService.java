@@ -20,7 +20,7 @@ public interface WaybillService {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status,Date lastCreateDate);
+	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String shipperId,String shipperCompanyId,Integer status,Date lastCreateDate,String than);
 	
 	/**
 	 * 列表

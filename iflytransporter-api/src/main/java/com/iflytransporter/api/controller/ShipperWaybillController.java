@@ -58,6 +58,7 @@ public class ShipperWaybillController {
 		Integer pageNo = RequestMapUtil.formatPageNo(requestMap);
 		Integer pageSize = RequestMapUtil.formatPageSize(requestMap);
 		Integer status = RequestMapUtil.formatStatus(requestMap);
+		String than  = RequestMapUtil.formatThan(requestMap);
 		Date lastCreateDate = RequestMapUtil.formatLastCreateDate(requestMap);
 		
 		String userId =  (String) request.getAttribute("userId");
@@ -65,9 +66,9 @@ public class ShipperWaybillController {
 		PageInfo<Waybill> page =null;
 		User user = userService.detailByCache(userId);
 		if(Status.User_Level_Admin==user.getLevel()){
-			page = waybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,lastCreateDate);
+			page = waybillService.queryPage(pageNo,pageSize, null,user.getCompanyId(),status,lastCreateDate,than);
 		}else{
-			page = waybillService.queryPage(pageNo, pageSize, userId, null, status,lastCreateDate);
+			page = waybillService.queryPage(pageNo, pageSize, userId, null, status,lastCreateDate,than);
 		}
 		if(page.getTotal()==0){
 			return ResponseUtil.successPage(page.getTotal(),page.getPages(), null);

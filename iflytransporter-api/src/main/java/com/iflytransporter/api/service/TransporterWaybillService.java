@@ -22,7 +22,8 @@ public interface TransporterWaybillService {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status,Integer dispenseStatus,Date lastCreateDate);
+	PageInfo<Waybill> queryPage(Integer pageNo,Integer pageSize,String transporterId,String  transporterCompanyId,Integer status,Integer dispenseStatus,
+			Date lastCreateDate,String than);
 	
 	/**
 	 * 列表

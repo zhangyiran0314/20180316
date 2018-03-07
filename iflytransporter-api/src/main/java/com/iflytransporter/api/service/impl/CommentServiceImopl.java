@@ -26,21 +26,21 @@ public class CommentServiceImopl implements CommentService{
 
 	@Override
 	public PageInfo<Map<String, Object>> queryPageTransporter(Integer pageNo, Integer pageSize,
-			String transporterId, String transporterCompanyId,Date lastCreateDate) {
+			String transporterId, String transporterCompanyId,Date lastCreateDate,String than) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId,lastCreateDate);
+		List<Map<String,Object>> list= commentMapper.queryAllTransporter(transporterId, transporterCompanyId,lastCreateDate,than);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 
 	@Override
 	public PageInfo<Map<String, Object>> queryPageShipper(Integer pageNo, Integer pageSize, 
-			String shipperId,String shipperCompanyId,Date lastCreateDate) {
+			String shipperId,String shipperCompanyId,Date lastCreateDate,String than) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }
-		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId,lastCreateDate);
+		List<Map<String,Object>> list= commentMapper.queryAllShipper(shipperId, shipperCompanyId,lastCreateDate,than);
 		return new PageInfo<Map<String,Object>>(list);
 	}
 

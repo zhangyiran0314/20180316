@@ -1,5 +1,6 @@
 package com.iflytransporter.api.mapper;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +15,8 @@ public interface TransporterOrderMapper {
 	 
     List<Order> queryAll(QueryOrderParam queryOrderParam);
     
-    List<Order> queryAllAuth(@Param("companyId")String companyId,@Param("shipperId")String sId,@Param("authStatus")Integer authStatus);
+    List<Order> queryAllAuth(@Param("companyId")String companyId,@Param("shipperId")String sId,@Param("authStatus")Integer authStatus
+    		,@Param("lastCreateDate")Date lastCreateDate,@Param("than")String than);
     
     int updateStatus(@Param("id")String id,@Param("status")Integer status);
     

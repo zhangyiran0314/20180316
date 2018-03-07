@@ -39,7 +39,7 @@ public class WaybillServiceImpl implements WaybillService {
 
 	@Override
 	public List<Waybill> list(String userId, String shipperCompanyId, Integer status) {
-		return waybillMapper.queryAll(userId, null, shipperCompanyId, null, status,null,null);
+		return waybillMapper.queryAll(userId, null, shipperCompanyId, null, status,null,null,null);
 	}
 
 	@Override
@@ -59,11 +59,11 @@ public class WaybillServiceImpl implements WaybillService {
 
 	@Override
 	public PageInfo<Waybill> queryPage(Integer pageNo, Integer pageSize, String shipperId, String shipperCompanyId,
-			Integer status,Date lastCreateDate) {
+			Integer status,Date lastCreateDate,String than) {
 		if(pageNo!= null && pageSize!= null){  
             PageHelper.startPage(pageNo, pageSize);  
         }  
-		List<Waybill> list= waybillMapper.queryAll(shipperId, null, shipperCompanyId, null, status,null,lastCreateDate);
+		List<Waybill> list= waybillMapper.queryAll(shipperId, null, shipperCompanyId, null, status,null,lastCreateDate,than);
 		return new PageInfo<Waybill>(list);
 	}
 

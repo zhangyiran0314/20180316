@@ -36,7 +36,8 @@ public enum BuzExceptionEnums implements Enums{
 	OffersCannotMoreThanFive(Code_OffersCannotMoreThanFive,"Shipper has received 5 offers. Please try other orders"),
 	//报价时,不能超过当前车辆数
 	OffersCannotMoreThanCarAmount(Code_OffersCannotMoreThanCarAmount,"You cannot make more offers due to limited number of lorries"),
-	
+	//没有操作权限
+	NoOperationPermission(Code_NoOperationPermission,"No operation permission."),
 	//未审核当前申请详情时,其他申请不能被联系
 	CanNotContactError(Code_CannotContactOther, "You cannot view other offer details when one's under review");
 	

@@ -41,7 +41,8 @@ public interface Enums {
 	public static int Code_OffersAlreadyDealed =2004;
 	//未审核当前申请详情时,其他申请不能被联系
 	public static int Code_CannotContactOther = 2005;
-	
+	//找货/报价时,不是管理员没有操作权限
+	public static int Code_NoOperationPermission=2006;
 	public int getCode();
 	public String getMessage();
 }

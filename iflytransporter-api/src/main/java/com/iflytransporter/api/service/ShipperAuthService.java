@@ -1,5 +1,6 @@
 package com.iflytransporter.api.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.github.pagehelper.PageInfo;
@@ -15,9 +16,9 @@ public interface ShipperAuthService  {
 	 * @param status
 	 * @return
 	 */
-	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status);
+	PageInfo<Order> queryPage(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status,Date lastCreateDate,String than);
 	
-	PageInfo<Order> queryPageByAdmin(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status);
+	PageInfo<Order> queryPageByAdmin(Integer pageNo,Integer pageSize,String companyId,String userId,Integer status,Date lastCreateDate,String than);
 	
 	/**
 	 * 列表

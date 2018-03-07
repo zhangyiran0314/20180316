@@ -73,7 +73,13 @@
      <if test="transporterCompanyId != null" >
      and a.transporter_company_id =  #{transporterCompanyId,jdbcType=VARCHAR}
     </if>
-      <if test="lastCreateDate != null" >
+      <if test="lastCreateDate != null and than != null and than =='lt' " >
+      and a.create_date  &lt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than != null and than =='gt' " >
+      and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than == null " >
       and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
     </if>
     order by a.create_date  desc
@@ -92,7 +98,13 @@
      <if test="transporterCompanyId != null" >
      and a.shipper_company_id =  #{shipperCompanyId,jdbcType=VARCHAR}
     </if>
-     <if test="lastCreateDate != null" >
+     <if test="lastCreateDate != null and than != null and than =='lt' " >
+      and a.create_date  &lt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than != null and than =='gt' " >
+      and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than == null " >
       and a.create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
     </if>
     order by a.create_date  desc

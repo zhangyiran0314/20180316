@@ -91,6 +91,16 @@
       <if test="lastCreateDate != null" >
       and create_date  &gt;= from_unixtime(#{lastCreateDate,jdbcType=TIMESTAMP})
 	    </if>
+	    
+	  <if test="lastCreateDate != null and than != null and than =='lt' " >
+      and create_date  &lt;= from_unixtime(#{lastCreateDate,jdbcType=TIMESTAMP})
+    </if>
+     <if test="lastCreateDate != null and than != null and than =='gt' " >
+      and create_date  &gt;= from_unixtime(#{lastCreateDate,jdbcType=TIMESTAMP})
+    </if>
+     <if test="lastCreateDate != null and than == null " >
+      and create_date  &gt;= from_unixtime(#{lastCreateDate,jdbcType=TIMESTAMP})
+    </if>
       <!-- 已经参与过报价,不管审核是否通过,不出现在货源搜索里面 -->
       and not exists (select 1 from t_order_apply where order_id = t_order.id and transporter_id = #{transporterId,jdbcType=VARCHAR} )
     <include refid ="Valid_SQL"/>
