@@ -92,8 +92,15 @@
      <if test="dispenseStatus != null" >
       and dispense_status  = #{dispenseStatus,jdbcType=INTEGER}
     </if>
-     <if test="lastCreateDate != null" >
-      and create_date  &gt;= #{lastCreateDate,jdbcType=TIMESTAMP}
+    
+     <if test="lastCreateDate != null and than != null and than =='lt' " >
+      and create_date  &lt; #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than != null and than =='gt' " >
+      and create_date  &gt; #{lastCreateDate,jdbcType=TIMESTAMP}
+    </if>
+     <if test="lastCreateDate != null and than == null " >
+      and create_date  &gt; #{lastCreateDate,jdbcType=TIMESTAMP}
     </if>
     order by create_date desc
   </select>
