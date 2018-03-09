@@ -27,6 +27,7 @@ public class TransporterOrderResp{
 		this.goodsUnits = order.getGoodsUnits();
 		this.publishTime = order.getAuthDate();
 		this.shipperId = order.getShipperId();
+		this.createDate = order.getCreateDate();
 	}
 
 
@@ -77,6 +78,8 @@ public class TransporterOrderResp{
     private String shipperId;//货主id
     
     private Date publishTime;//发布时间
+    
+    private Date createDate;
     
     private Map<String,Object> shipper;//货主信息
     
@@ -343,6 +346,14 @@ public class TransporterOrderResp{
 
 	public void setShipper(Map<String, Object> shipper) {
 		this.shipper = shipper;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 }

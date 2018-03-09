@@ -32,6 +32,7 @@ public class OrderResp{
 		this.weight = order.getWeight();
 		this.goodsUnits = order.getGoodsUnits();
 		this.publishDate = order.getAuthDate();
+		this.createDate = order.getCreateDate();
 	}
 
 
@@ -93,6 +94,8 @@ public class OrderResp{
     private CommonParam handlingType;
 
     private CommonParam paymentType;
+    
+    private Date createDate;
     
     //待审核数量
     private int applyTotal;

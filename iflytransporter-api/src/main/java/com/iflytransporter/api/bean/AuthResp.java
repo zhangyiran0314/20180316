@@ -29,6 +29,7 @@ public class AuthResp{
 		this.applyDate = order.getCreateDate();
 		this.goodsUnits = order.getGoodsUnits();
 		this.weight = order.getWeight();
+		this.createDate = order.getCreateDate();
 	}
 
 
@@ -89,6 +90,8 @@ public class AuthResp{
     private CommonParam paymentType;
     
     private OrderUserResp user;
+    
+    private Date createDate;
     
 	public CommonParam getDepartureProvince() {
 		return departureProvince;
@@ -321,6 +324,14 @@ public class AuthResp{
 
 	public void setWeight(Integer weight) {
 		this.weight = weight;
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 	
 }
