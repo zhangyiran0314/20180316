@@ -69,7 +69,7 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public List<CarBO> listCarNotBind(String companyId, String userId) {
-		return carMapper.queryAllBO(companyId, userId);
+		return carMapper.queryAllNotBind(companyId, userId);
 	}
 
 
