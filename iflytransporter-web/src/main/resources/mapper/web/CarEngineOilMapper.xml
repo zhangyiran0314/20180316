@@ -7,14 +7,17 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
-    <result column="engine_oil_enough" property="engineOilEnough" jdbcType="INTEGER" />
-    <result column="oil_clutch_enough" property="oilClutchEnough" jdbcType="INTEGER" />
-    <result column="oil_break_enough" property="oilBreakEnough" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="engine_oil" property="engineOil" jdbcType="INTEGER" />
+    <result column="gear_oil" property="gearOil" jdbcType="INTEGER" />
+    <result column="brake_fluid" property="brakeFluid" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, engine_oil_enough, oil_clutch_enough, 
-    oil_break_enough, remark
+    id, create_date, update_date, data_status, desp, company_id, driver_id, car_id, engine_oil, 
+    gear_oil, brake_fluid, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -28,12 +31,14 @@
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.CarEngineOil" >
     insert into t_car_engine_oil (id, create_date, update_date, 
-      data_status, desp, engine_oil_enough, 
-      oil_clutch_enough, oil_break_enough, remark
+      data_status, desp, company_id, 
+      driver_id, car_id, engine_oil, 
+      gear_oil, brake_fluid, remark
       )
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{engineOilEnough,jdbcType=INTEGER}, 
-      #{oilClutchEnough,jdbcType=INTEGER}, #{oilBreakEnough,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{engineOil,jdbcType=INTEGER}, 
+      #{gearOil,jdbcType=INTEGER}, #{brakeFluid,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarEngineOil" >
@@ -54,14 +59,23 @@
       <if test="desp != null" >
         desp,
       </if>
-      <if test="engineOilEnough != null" >
-        engine_oil_enough,
+      <if test="companyId != null" >
+        company_id,
       </if>
-      <if test="oilClutchEnough != null" >
-        oil_clutch_enough,
+      <if test="driverId != null" >
+        driver_id,
       </if>
-      <if test="oilBreakEnough != null" >
-        oil_break_enough,
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="engineOil != null" >
+        engine_oil,
+      </if>
+      <if test="gearOil != null" >
+        gear_oil,
+      </if>
+      <if test="brakeFluid != null" >
+        brake_fluid,
       </if>
       <if test="remark != null" >
         remark,
@@ -83,14 +97,23 @@
       <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="engineOilEnough != null" >
-        #{engineOilEnough,jdbcType=INTEGER},
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
       </if>
-      <if test="oilClutchEnough != null" >
-        #{oilClutchEnough,jdbcType=INTEGER},
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
       </if>
-      <if test="oilBreakEnough != null" >
-        #{oilBreakEnough,jdbcType=INTEGER},
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="engineOil != null" >
+        #{engineOil,jdbcType=INTEGER},
+      </if>
+      <if test="gearOil != null" >
+        #{gearOil,jdbcType=INTEGER},
+      </if>
+      <if test="brakeFluid != null" >
+        #{brakeFluid,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -112,14 +135,23 @@
       <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
-      <if test="engineOilEnough != null" >
-        engine_oil_enough = #{engineOilEnough,jdbcType=INTEGER},
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
       </if>
-      <if test="oilClutchEnough != null" >
-        oil_clutch_enough = #{oilClutchEnough,jdbcType=INTEGER},
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
       </if>
-      <if test="oilBreakEnough != null" >
-        oil_break_enough = #{oilBreakEnough,jdbcType=INTEGER},
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="engineOil != null" >
+        engine_oil = #{engineOil,jdbcType=INTEGER},
+      </if>
+      <if test="gearOil != null" >
+        gear_oil = #{gearOil,jdbcType=INTEGER},
+      </if>
+      <if test="brakeFluid != null" >
+        brake_fluid = #{brakeFluid,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -133,9 +165,12 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
-      engine_oil_enough = #{engineOilEnough,jdbcType=INTEGER},
-      oil_clutch_enough = #{oilClutchEnough,jdbcType=INTEGER},
-      oil_break_enough = #{oilBreakEnough,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      engine_oil = #{engineOil,jdbcType=INTEGER},
+      gear_oil = #{gearOil,jdbcType=INTEGER},
+      brake_fluid = #{brakeFluid,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

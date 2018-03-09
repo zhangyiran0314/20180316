@@ -7,39 +7,40 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
-import com.iflytransporter.common.bean.CarAirCoolant;
+import com.iflytransporter.common.bean.CarAirPressureCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
-import com.iflytransporter.common.bean.CarDocuments;
 import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.CarEngineOil;
+import com.iflytransporter.common.bean.CarIndicatorLight;
 import com.iflytransporter.common.bean.CarSafetyEquipment;
-import com.iflytransporter.common.bean.CarSignalLight;
-import com.iflytransporter.common.bean.CarTyre;
+import com.iflytransporter.common.bean.CarTire;
 
 public interface CarManageMapper {
-	int insertCarAirCoolant(CarAirCoolant record);
-	
-	int insertCarDocuments(CarDocuments record);
+//	int insertCarAirCoolant(CarAirCoolant record);
+	int insertCarAirPressureCoolant(CarAirPressureCoolant record);
+//	int insertCarDocuments(CarDocuments record);
 	
 	int insertCarEngineOil(CarEngineOil record);
 	
 	int insertCarSafetyEquipment(CarSafetyEquipment record);
 	
-	int insertCarSignalLight(CarSignalLight record);
+//	int insertCarSignalLight(CarSignalLight record);
+	int insertCarIndicatorLight(CarIndicatorLight record);
+//	int insertCarTyre(CarTyre record);
+	int insertCarTire(CarTire record);
 	
-	int insertCarTyre(CarTyre record);
+	Map<String,Object> selectCarAirPressureCoolant(String id);
 	
-	Map<String,Object> selectCarAirCoolant(String id);
-	
-	Map<String,Object> selectCarDocuments(String id);
+//	Map<String,Object> selectCarDocuments(String id);
 	
 	Map<String,Object> selectCarEngineOil(String id);
 	
 	Map<String,Object> selectCarSafetyEquipment(String id);
 	
-	Map<String,Object> selectCarSignalLight(String id);
+	Map<String,Object> selectCarIndicatorLight(String id);
 	
-	Map<String,Object> selectCarTyre(String id);
+//	Map<String,Object> selectCarTyre(String id);
+	Map<String,Object> selectCarTire(String id);
 	
 	int insertCarDailyInspection(CarDailyInspection record);
 	

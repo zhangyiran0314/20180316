@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CarTireMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.CarTire" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="all_tire_pressure_enough" property="allTirePressureEnough" jdbcType="INTEGER" />
+    <result column="tire_thread_condition" property="tireThreadCondition" jdbcType="INTEGER" />
+    <result column="nut_wheel_hub_no_defect" property="nutWheelHubNoDefect" jdbcType="INTEGER" />
+    <result column="spare_tire_lock_strengthen" property="spareTireLockStrengthen" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, company_id, driver_id, car_id, all_tire_pressure_enough, 
+    tire_thread_condition, nut_wheel_hub_no_defect, spare_tire_lock_strengthen, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_car_tire
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_car_tire
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.CarTire" >
+    insert into t_car_tire (id, create_date, update_date, 
+      data_status, desp, company_id, 
+      driver_id, car_id, all_tire_pressure_enough, 
+      tire_thread_condition, nut_wheel_hub_no_defect, 
+      spare_tire_lock_strengthen, remark)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{allTirePressureEnough,jdbcType=INTEGER}, 
+      #{tireThreadCondition,jdbcType=INTEGER}, #{nutWheelHubNoDefect,jdbcType=INTEGER}, 
+      #{spareTireLockStrengthen,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarTire" >
+    insert into t_car_tire
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="allTirePressureEnough != null" >
+        all_tire_pressure_enough,
+      </if>
+      <if test="tireThreadCondition != null" >
+        tire_thread_condition,
+      </if>
+      <if test="nutWheelHubNoDefect != null" >
+        nut_wheel_hub_no_defect,
+      </if>
+      <if test="spareTireLockStrengthen != null" >
+        spare_tire_lock_strengthen,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="allTirePressureEnough != null" >
+        #{allTirePressureEnough,jdbcType=INTEGER},
+      </if>
+      <if test="tireThreadCondition != null" >
+        #{tireThreadCondition,jdbcType=INTEGER},
+      </if>
+      <if test="nutWheelHubNoDefect != null" >
+        #{nutWheelHubNoDefect,jdbcType=INTEGER},
+      </if>
+      <if test="spareTireLockStrengthen != null" >
+        #{spareTireLockStrengthen,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.CarTire" >
+    update t_car_tire
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="allTirePressureEnough != null" >
+        all_tire_pressure_enough = #{allTirePressureEnough,jdbcType=INTEGER},
+      </if>
+      <if test="tireThreadCondition != null" >
+        tire_thread_condition = #{tireThreadCondition,jdbcType=INTEGER},
+      </if>
+      <if test="nutWheelHubNoDefect != null" >
+        nut_wheel_hub_no_defect = #{nutWheelHubNoDefect,jdbcType=INTEGER},
+      </if>
+      <if test="spareTireLockStrengthen != null" >
+        spare_tire_lock_strengthen = #{spareTireLockStrengthen,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.CarTire" >
+    update t_car_tire
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      all_tire_pressure_enough = #{allTirePressureEnough,jdbcType=INTEGER},
+      tire_thread_condition = #{tireThreadCondition,jdbcType=INTEGER},
+      nut_wheel_hub_no_defect = #{nutWheelHubNoDefect,jdbcType=INTEGER},
+      spare_tire_lock_strengthen = #{spareTireLockStrengthen,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

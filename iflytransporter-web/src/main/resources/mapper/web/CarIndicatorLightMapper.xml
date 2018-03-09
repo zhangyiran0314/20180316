@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.iflytransporter.web.mapper.CarIndicatorLightMapper" >
+  <resultMap id="BaseResultMap" type="com.iflytransporter.common.bean.CarIndicatorLight" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
+    <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
+    <result column="signal_lamp" property="signalLamp" jdbcType="INTEGER" />
+    <result column="head_lamp" property="headLamp" jdbcType="INTEGER" />
+    <result column="side_mirror" property="sideMirror" jdbcType="INTEGER" />
+    <result column="temperature_meter" property="temperatureMeter" jdbcType="VARCHAR" />
+    <result column="double_signal" property="doubleSignal" jdbcType="INTEGER" />
+    <result column="tachometer" property="tachometer" jdbcType="INTEGER" />
+    <result column="odometer" property="odometer" jdbcType="INTEGER" />
+    <result column="fuel_meter" property="fuelMeter" jdbcType="INTEGER" />
+    <result column="beacon_lamp_function" property="beaconLampFunction" jdbcType="INTEGER" />
+    <result column="horn" property="horn" jdbcType="INTEGER" />
+    <result column="wiper_condition" property="wiperCondition" jdbcType="INTEGER" />
+    <result column="hand_brake" property="handBrake" jdbcType="INTEGER" />
+    <result column="steering" property="steering" jdbcType="INTEGER" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, update_date, data_status, desp, company_id, driver_id, car_id, signal_lamp, 
+    head_lamp, side_mirror, temperature_meter, double_signal, tachometer, odometer, fuel_meter, 
+    beacon_lamp_function, horn, wiper_condition, hand_brake, steering, remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_car_indicator_light
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_car_indicator_light
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.iflytransporter.common.bean.CarIndicatorLight" >
+    insert into t_car_indicator_light (id, create_date, update_date, 
+      data_status, desp, company_id, 
+      driver_id, car_id, signal_lamp, 
+      head_lamp, side_mirror, temperature_meter, 
+      double_signal, tachometer, odometer, 
+      fuel_meter, beacon_lamp_function, horn, 
+      wiper_condition, hand_brake, steering, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{signalLamp,jdbcType=INTEGER}, 
+      #{headLamp,jdbcType=INTEGER}, #{sideMirror,jdbcType=INTEGER}, #{temperatureMeter,jdbcType=VARCHAR}, 
+      #{doubleSignal,jdbcType=INTEGER}, #{tachometer,jdbcType=INTEGER}, #{odometer,jdbcType=INTEGER}, 
+      #{fuelMeter,jdbcType=INTEGER}, #{beaconLampFunction,jdbcType=INTEGER}, #{horn,jdbcType=INTEGER}, 
+      #{wiperCondition,jdbcType=INTEGER}, #{handBrake,jdbcType=INTEGER}, #{steering,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarIndicatorLight" >
+    insert into t_car_indicator_light
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="dataStatus != null" >
+        data_status,
+      </if>
+      <if test="desp != null" >
+        desp,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
+      <if test="signalLamp != null" >
+        signal_lamp,
+      </if>
+      <if test="headLamp != null" >
+        head_lamp,
+      </if>
+      <if test="sideMirror != null" >
+        side_mirror,
+      </if>
+      <if test="temperatureMeter != null" >
+        temperature_meter,
+      </if>
+      <if test="doubleSignal != null" >
+        double_signal,
+      </if>
+      <if test="tachometer != null" >
+        tachometer,
+      </if>
+      <if test="odometer != null" >
+        odometer,
+      </if>
+      <if test="fuelMeter != null" >
+        fuel_meter,
+      </if>
+      <if test="beaconLampFunction != null" >
+        beacon_lamp_function,
+      </if>
+      <if test="horn != null" >
+        horn,
+      </if>
+      <if test="wiperCondition != null" >
+        wiper_condition,
+      </if>
+      <if test="handBrake != null" >
+        hand_brake,
+      </if>
+      <if test="steering != null" >
+        steering,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="signalLamp != null" >
+        #{signalLamp,jdbcType=INTEGER},
+      </if>
+      <if test="headLamp != null" >
+        #{headLamp,jdbcType=INTEGER},
+      </if>
+      <if test="sideMirror != null" >
+        #{sideMirror,jdbcType=INTEGER},
+      </if>
+      <if test="temperatureMeter != null" >
+        #{temperatureMeter,jdbcType=VARCHAR},
+      </if>
+      <if test="doubleSignal != null" >
+        #{doubleSignal,jdbcType=INTEGER},
+      </if>
+      <if test="tachometer != null" >
+        #{tachometer,jdbcType=INTEGER},
+      </if>
+      <if test="odometer != null" >
+        #{odometer,jdbcType=INTEGER},
+      </if>
+      <if test="fuelMeter != null" >
+        #{fuelMeter,jdbcType=INTEGER},
+      </if>
+      <if test="beaconLampFunction != null" >
+        #{beaconLampFunction,jdbcType=INTEGER},
+      </if>
+      <if test="horn != null" >
+        #{horn,jdbcType=INTEGER},
+      </if>
+      <if test="wiperCondition != null" >
+        #{wiperCondition,jdbcType=INTEGER},
+      </if>
+      <if test="handBrake != null" >
+        #{handBrake,jdbcType=INTEGER},
+      </if>
+      <if test="steering != null" >
+        #{steering,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iflytransporter.common.bean.CarIndicatorLight" >
+    update t_car_indicator_light
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dataStatus != null" >
+        data_status = #{dataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="desp != null" >
+        desp = #{desp,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
+      <if test="signalLamp != null" >
+        signal_lamp = #{signalLamp,jdbcType=INTEGER},
+      </if>
+      <if test="headLamp != null" >
+        head_lamp = #{headLamp,jdbcType=INTEGER},
+      </if>
+      <if test="sideMirror != null" >
+        side_mirror = #{sideMirror,jdbcType=INTEGER},
+      </if>
+      <if test="temperatureMeter != null" >
+        temperature_meter = #{temperatureMeter,jdbcType=VARCHAR},
+      </if>
+      <if test="doubleSignal != null" >
+        double_signal = #{doubleSignal,jdbcType=INTEGER},
+      </if>
+      <if test="tachometer != null" >
+        tachometer = #{tachometer,jdbcType=INTEGER},
+      </if>
+      <if test="odometer != null" >
+        odometer = #{odometer,jdbcType=INTEGER},
+      </if>
+      <if test="fuelMeter != null" >
+        fuel_meter = #{fuelMeter,jdbcType=INTEGER},
+      </if>
+      <if test="beaconLampFunction != null" >
+        beacon_lamp_function = #{beaconLampFunction,jdbcType=INTEGER},
+      </if>
+      <if test="horn != null" >
+        horn = #{horn,jdbcType=INTEGER},
+      </if>
+      <if test="wiperCondition != null" >
+        wiper_condition = #{wiperCondition,jdbcType=INTEGER},
+      </if>
+      <if test="handBrake != null" >
+        hand_brake = #{handBrake,jdbcType=INTEGER},
+      </if>
+      <if test="steering != null" >
+        steering = #{steering,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iflytransporter.common.bean.CarIndicatorLight" >
+    update t_car_indicator_light
+    set create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      data_status = #{dataStatus,jdbcType=SMALLINT},
+      desp = #{desp,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
+      signal_lamp = #{signalLamp,jdbcType=INTEGER},
+      head_lamp = #{headLamp,jdbcType=INTEGER},
+      side_mirror = #{sideMirror,jdbcType=INTEGER},
+      temperature_meter = #{temperatureMeter,jdbcType=VARCHAR},
+      double_signal = #{doubleSignal,jdbcType=INTEGER},
+      tachometer = #{tachometer,jdbcType=INTEGER},
+      odometer = #{odometer,jdbcType=INTEGER},
+      fuel_meter = #{fuelMeter,jdbcType=INTEGER},
+      beacon_lamp_function = #{beaconLampFunction,jdbcType=INTEGER},
+      horn = #{horn,jdbcType=INTEGER},
+      wiper_condition = #{wiperCondition,jdbcType=INTEGER},
+      hand_brake = #{handBrake,jdbcType=INTEGER},
+      steering = #{steering,jdbcType=INTEGER},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

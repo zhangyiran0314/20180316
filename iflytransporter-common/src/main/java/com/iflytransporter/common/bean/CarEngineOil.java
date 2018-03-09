@@ -19,19 +19,18 @@ public class CarEngineOil {
 
     private String carId;
 
-    private Integer engineOilEnough;
+    private Integer engineOil;
 
-    private Integer oilClutchEnough;
+    private Integer gearOil;
 
-    private Integer oilBreakEnough;
+    private Integer brakeFluid;
 
     private String remark;
 
     /**统计当前对象是否故障*/
     public int getCount(){
-    	return engineOilEnough+oilClutchEnough+oilBreakEnough;
+    	return engineOil+gearOil+brakeFluid;
     }
-    
     public String getId() {
         return id;
     }
@@ -96,28 +95,28 @@ public class CarEngineOil {
         this.carId = carId == null ? null : carId.trim();
     }
 
-    public Integer getEngineOilEnough() {
-        return engineOilEnough;
+    public Integer getEngineOil() {
+        return engineOil;
     }
 
-    public void setEngineOilEnough(Integer engineOilEnough) {
-        this.engineOilEnough = engineOilEnough;
+    public void setEngineOil(Integer engineOil) {
+        this.engineOil = engineOil;
     }
 
-    public Integer getOilClutchEnough() {
-        return oilClutchEnough;
+    public Integer getGearOil() {
+        return gearOil;
     }
 
-    public void setOilClutchEnough(Integer oilClutchEnough) {
-        this.oilClutchEnough = oilClutchEnough;
+    public void setGearOil(Integer gearOil) {
+        this.gearOil = gearOil;
     }
 
-    public Integer getOilBreakEnough() {
-        return oilBreakEnough;
+    public Integer getBrakeFluid() {
+        return brakeFluid;
     }
 
-    public void setOilBreakEnough(Integer oilBreakEnough) {
-        this.oilBreakEnough = oilBreakEnough;
+    public void setBrakeFluid(Integer brakeFluid) {
+        this.brakeFluid = brakeFluid;
     }
 
     public String getRemark() {

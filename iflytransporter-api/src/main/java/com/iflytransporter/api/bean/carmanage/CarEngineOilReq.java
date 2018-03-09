@@ -1,37 +1,39 @@
 package com.iflytransporter.api.bean.carmanage;
 
+import java.util.Date;
+
 public class CarEngineOilReq {
-  
-    private Integer engineOilEnough;
 
-    private Integer oilClutchEnough;
+    private Integer engineOil;
 
-    private Integer oilBreakEnough;
+    private Integer gearOil;
+
+    private Integer brakeFluid;
 
     private String remark;
 
-    public Integer getEngineOilEnough() {
-        return engineOilEnough;
+    public Integer getEngineOil() {
+        return engineOil;
     }
 
-    public void setEngineOilEnough(Integer engineOilEnough) {
-        this.engineOilEnough = engineOilEnough;
+    public void setEngineOil(Integer engineOil) {
+        this.engineOil = engineOil;
     }
 
-    public Integer getOilClutchEnough() {
-        return oilClutchEnough;
+    public Integer getGearOil() {
+        return gearOil;
     }
 
-    public void setOilClutchEnough(Integer oilClutchEnough) {
-        this.oilClutchEnough = oilClutchEnough;
+    public void setGearOil(Integer gearOil) {
+        this.gearOil = gearOil;
     }
 
-    public Integer getOilBreakEnough() {
-        return oilBreakEnough;
+    public Integer getBrakeFluid() {
+        return brakeFluid;
     }
 
-    public void setOilBreakEnough(Integer oilBreakEnough) {
-        this.oilBreakEnough = oilBreakEnough;
+    public void setBrakeFluid(Integer brakeFluid) {
+        this.brakeFluid = brakeFluid;
     }
 
     public String getRemark() {

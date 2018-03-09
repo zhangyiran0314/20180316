@@ -45,12 +45,12 @@ public interface CarManageService {
 	
 	/**每日一检查询**/
 	Map<String,Object> queryCarDailyInspection(String carId);
-	Map<String,Object> detailCarAirCoolant(String id);
-	Map<String,Object> detailCarDocuments(String id);
+	Map<String,Object> detailCarAirPressureCoolant(String id);
+//	Map<String,Object> detailCarDocuments(String id);
 	Map<String,Object> detailCarEngineOil(String id);
 	Map<String,Object> detailCarSafetyEquipment(String id);
-	Map<String,Object> detailCarSignalLight(String id);
-	Map<String,Object> detailCarTyre(String id);
+	Map<String,Object> detailCarIndicatorLight(String id);
+	Map<String,Object> detailCarTire(String id);
 	
 	/**车辆维修*/
 	List<Map<String, Object>> listCarMaintenance(CarMaintenanceReq carMaintenaceReq);

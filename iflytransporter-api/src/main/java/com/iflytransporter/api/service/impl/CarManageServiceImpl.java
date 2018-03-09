@@ -10,25 +10,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iflytransporter.api.bean.carmanage.CarAirCoolantReq;
+import com.iflytransporter.api.bean.carmanage.CarAirPressureCoolantReq;
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
-import com.iflytransporter.api.bean.carmanage.CarDocumentsReq;
 import com.iflytransporter.api.bean.carmanage.CarEngineOilReq;
+import com.iflytransporter.api.bean.carmanage.CarIndicatorLightReq;
 import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.api.bean.carmanage.CarSafetyEquipmentReq;
-import com.iflytransporter.api.bean.carmanage.CarSignalLightReq;
-import com.iflytransporter.api.bean.carmanage.CarTyreReq;
+import com.iflytransporter.api.bean.carmanage.CarTireReq;
 import com.iflytransporter.api.mapper.CarManageMapper;
 import com.iflytransporter.api.service.CarManageService;
 import com.iflytransporter.api.utils.UUIDUtil;
-import com.iflytransporter.common.bean.CarAirCoolant;
+import com.iflytransporter.common.bean.CarAirPressureCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
-import com.iflytransporter.common.bean.CarDocuments;
 import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.CarEngineOil;
+import com.iflytransporter.common.bean.CarIndicatorLight;
 import com.iflytransporter.common.bean.CarSafetyEquipment;
-import com.iflytransporter.common.bean.CarSignalLight;
-import com.iflytransporter.common.bean.CarTyre;
+import com.iflytransporter.common.bean.CarTire;
 import com.iflytransporter.common.enums.Status;
 
 @Service("carManageService")
@@ -42,17 +40,17 @@ public class CarManageServiceImpl implements CarManageService{
 	public int addCarDailyInspection(CarDailyInspectionReq dailyInspectionReq,String companyId,String driverId) {
 		String carId = dailyInspectionReq.getCarId();
 		
-		CarAirCoolantReq airCoolantReq = dailyInspectionReq.getAirCoolant();
-		CarAirCoolant airCoolant = new CarAirCoolant();
-		BeanUtils.copyProperties(airCoolantReq, airCoolant);
-		String airCoolantId = UUIDUtil.UUID();
-		airCoolant.setId(airCoolantId);
-		airCoolant.setCompanyId(companyId);
-		airCoolant.setDriverId(driverId);
-		airCoolant.setCarId(carId);
-		carManageMapper.insertCarAirCoolant(airCoolant);
+		CarAirPressureCoolantReq airPressureCoolantReq = dailyInspectionReq.getAirePressureCoolant();
+		CarAirPressureCoolant airPressureCoolant = new CarAirPressureCoolant();
+		BeanUtils.copyProperties(airPressureCoolantReq, airPressureCoolant);
+		String airPressureCoolantId = UUIDUtil.UUID();
+		airPressureCoolant.setId(airPressureCoolantId);
+		airPressureCoolant.setCompanyId(companyId);
+		airPressureCoolant.setDriverId(driverId);
+		airPressureCoolant.setCarId(carId);
+		carManageMapper.insertCarAirPressureCoolant(airPressureCoolant);
 		
-		CarDocumentsReq documentsReq = dailyInspectionReq.getDocuments();
+		/*CarDocumentsReq documentsReq = dailyInspectionReq.getDocuments();
 		CarDocuments documents = new CarDocuments();
 		BeanUtils.copyProperties(documentsReq, documents);
 		String documentsId = UUIDUtil.UUID();
@@ -60,7 +58,7 @@ public class CarManageServiceImpl implements CarManageService{
 		documents.setCompanyId(companyId);
 		documents.setDriverId(driverId);
 		documents.setCarId(carId);
-		carManageMapper.insertCarDocuments(documents);
+		carManageMapper.insertCarDocuments(documents);*/
 		
 		CarEngineOilReq engineOilReq = dailyInspectionReq.getEngineOil();
 		CarEngineOil engineOil = new CarEngineOil();
@@ -83,32 +81,52 @@ public class CarManageServiceImpl implements CarManageService{
 		carManageMapper.insertCarSafetyEquipment(safetyEquipment);
 		
 
-		CarSignalLightReq signalLightReq = dailyInspectionReq.getSignalLight();
-		CarSignalLight signalLight = new CarSignalLight();
-		BeanUtils.copyProperties(signalLightReq, signalLight);
-		String signalLightId = UUIDUtil.UUID();
-		signalLight.setId(signalLightId);
-		signalLight.setCompanyId(companyId);
-		signalLight.setDriverId(driverId);
-		signalLight.setCarId(carId);
-		carManageMapper.insertCarSignalLight(signalLight);
+		/*CarIndicatorLightReq IndicatorLightReq = dailyInspectionReq.getIndicatorLight();
+		CarIndicatorLight IndicatorLight = new CarIndicatorLight();
+		BeanUtils.copyProperties(IndicatorLightReq, IndicatorLight);
+		String IndicatorLightId = UUIDUtil.UUID();
+		IndicatorLight.setId(IndicatorLightId);
+		IndicatorLight.setCompanyId(companyId);
+		IndicatorLight.setDriverId(driverId);
+		IndicatorLight.setCarId(carId);
+		carManageMapper.insertCarIndicatorLight(IndicatorLight);*/
 		
-		CarTyreReq tyreReq = dailyInspectionReq.getTyre();
-		CarTyre tyre = new CarTyre();
-		BeanUtils.copyProperties(tyreReq, tyre);
-		String tyreId = UUIDUtil.UUID();
-		tyre.setId(tyreId);
-		tyre.setCompanyId(companyId);
-		tyre.setDriverId(driverId);
-		tyre.setCarId(carId);
-		carManageMapper.insertCarTyre(tyre);
+		/*CarTireReq tireReq = dailyInspectionReq.getTire();
+		CarTire tire = new CarTire();
+		BeanUtils.copyProperties(tireReq, tire);
+		String tireId = UUIDUtil.UUID();
+		tire.setId(tireId);
+		tire.setCompanyId(companyId);
+		tire.setDriverId(driverId);
+		tire.setCarId(carId);
+		carManageMapper.insertCarTire(tire);*/
+		
+		CarIndicatorLightReq IndicatorLightReq = dailyInspectionReq.getIndicatorLight();
+		CarIndicatorLight IndicatorLight = new CarIndicatorLight();
+		BeanUtils.copyProperties(IndicatorLightReq, IndicatorLight);
+		String IndicatorLightId = UUIDUtil.UUID();
+		IndicatorLight.setId(IndicatorLightId);
+		IndicatorLight.setCompanyId(companyId);
+		IndicatorLight.setDriverId(driverId);
+		IndicatorLight.setCarId(carId);
+		carManageMapper.insertCarIndicatorLight(IndicatorLight);
+		
+		CarTireReq tireReq = dailyInspectionReq.getTire();
+		CarTire tire = new CarTire();
+		BeanUtils.copyProperties(tireReq, tire);
+		String tireId = UUIDUtil.UUID();
+		tire.setId(tireId);
+		tire.setCompanyId(companyId);
+		tire.setDriverId(driverId);
+		tire.setCarId(carId);
+		carManageMapper.insertCarTire(tire);
 		
 		CarDailyInspection  dailyInspection = new CarDailyInspection();
-		dailyInspection.setAirCoolantId(airCoolantId);
-		dailyInspection.setAirCoolantCount(airCoolant.getCount());
+		dailyInspection.setAirPressureCoolantId(airPressureCoolantId);
+		dailyInspection.setAirPressureCoolantCount(airPressureCoolant.getCount());
 		
-		dailyInspection.setDocumentsId(documentsId);
-		dailyInspection.setDocumentsCount(documents.getCount());
+		/*dailyInspection.setDocumentsId(documentsId);
+		dailyInspection.setDocumentsCount(documents.getCount());*/
 		
 		dailyInspection.setEngineOilId(engineOilId);
 		dailyInspection.setEngineOilCount(engineOil.getCount());
@@ -116,11 +134,11 @@ public class CarManageServiceImpl implements CarManageService{
 		dailyInspection.setSafetyEquipmentId(safetyEquipmentId);
 		dailyInspection.setSafetyEquipmentCount(safetyEquipment.getCount());
 		
-		dailyInspection.setSignalLightId(signalLightId);
-		dailyInspection.setSignalLightCount(signalLight.getCount());
+		dailyInspection.setIndicatorLightId(IndicatorLightId);
+		dailyInspection.setIndicatorLightCount(IndicatorLight.getCount());
 		
-		dailyInspection.setTyreId(tyreId);
-		dailyInspection.setTyreCount(tyre.getCount());
+		dailyInspection.setTireId(tireId);
+		dailyInspection.setTireCount(tire.getCount());
 		
 		dailyInspection.setCarId(carId);
 		dailyInspection.setCompanyId(companyId);
@@ -218,14 +236,14 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> detailCarAirCoolant(String id) {
-		return carManageMapper.selectCarAirCoolant(id);
+	public Map<String, Object> detailCarAirPressureCoolant(String id) {
+		return carManageMapper.selectCarAirPressureCoolant(id);
 	}
 
-	@Override
-	public Map<String, Object> detailCarDocuments(String id) {
-		return carManageMapper.selectCarDocuments(id);
-	}
+//	@Override
+//	public Map<String, Object> detailCarDocuments(String id) {
+//		return carManageMapper.selectCarDocuments(id);
+//	}
 
 	@Override
 	public Map<String, Object> detailCarEngineOil(String id) {
@@ -238,13 +256,13 @@ public class CarManageServiceImpl implements CarManageService{
 	}
 
 	@Override
-	public Map<String, Object> detailCarSignalLight(String id) {
-		return carManageMapper.selectCarSignalLight(id);
+	public Map<String, Object> detailCarIndicatorLight(String id) {
+		return carManageMapper.selectCarIndicatorLight(id);
 	}
 
 	@Override
-	public Map<String, Object> detailCarTyre(String id) {
-		return carManageMapper.selectCarTyre(id);
+	public Map<String, Object> detailCarTire(String id) {
+		return carManageMapper.selectCarTire(id);
 	}
 
 	@Override

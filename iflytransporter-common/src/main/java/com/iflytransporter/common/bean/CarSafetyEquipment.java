@@ -23,35 +23,35 @@ public class CarSafetyEquipment {
 
     private Integer safetyShoes;
 
-    private Integer safetyGoogle;
+    private Integer safetyGoggle;
 
     private Integer safetyGlove;
 
-    private Integer sealtBeltInGoodConditions;
+    private Integer seatBeltCondition;
 
-    private Integer lorryIsConpleteJackKabin;
+    private Integer cabinJack;
 
-    private Integer equipmentInFullToolbox;
-
-    private Integer firstAidBox;
+    private Integer firstAidKit;
 
     private Integer safetyCone;
 
-    private Integer fireExtinguisterTool;
-
-    private Integer fireExtinguisterTool1;
+    private Integer fireExtinguisher;
 
     private Integer torchLight;
+
+    private Integer lightReflectSticker;
+
+    private Integer speedLimitSticker;
+
+    private Integer numberPlate;
 
     private String remark;
 
     /**统计当前对象是否故障*/
     public int getCount(){
-    	return safetyHelmet+safetyShoes+safetyGoogle+safetyGlove+sealtBeltInGoodConditions+
-    			lorryIsConpleteJackKabin+equipmentInFullToolbox+firstAidBox+
-    			safetyCone+fireExtinguisterTool+fireExtinguisterTool1+torchLight;
+    	return safetyHelmet+safetyShoes+safetyGlove+seatBeltCondition+cabinJack
+    			+firstAidKit+safetyCone+fireExtinguisher+torchLight+lightReflectSticker+speedLimitSticker+numberPlate+safetyGoggle;
     }
-    
     public String getId() {
         return id;
     }
@@ -132,12 +132,12 @@ public class CarSafetyEquipment {
         this.safetyShoes = safetyShoes;
     }
 
-    public Integer getSafetyGoogle() {
-        return safetyGoogle;
+    public Integer getSafetyGoggle() {
+        return safetyGoggle;
     }
 
-    public void setSafetyGoogle(Integer safetyGoogle) {
-        this.safetyGoogle = safetyGoogle;
+    public void setSafetyGoggle(Integer safetyGoggle) {
+        this.safetyGoggle = safetyGoggle;
     }
 
     public Integer getSafetyGlove() {
@@ -148,36 +148,28 @@ public class CarSafetyEquipment {
         this.safetyGlove = safetyGlove;
     }
 
-    public Integer getSealtBeltInGoodConditions() {
-        return sealtBeltInGoodConditions;
+    public Integer getSeatBeltCondition() {
+        return seatBeltCondition;
     }
 
-    public void setSealtBeltInGoodConditions(Integer sealtBeltInGoodConditions) {
-        this.sealtBeltInGoodConditions = sealtBeltInGoodConditions;
+    public void setSeatBeltCondition(Integer seatBeltCondition) {
+        this.seatBeltCondition = seatBeltCondition;
     }
 
-    public Integer getLorryIsConpleteJackKabin() {
-        return lorryIsConpleteJackKabin;
+    public Integer getCabinJack() {
+        return cabinJack;
     }
 
-    public void setLorryIsConpleteJackKabin(Integer lorryIsConpleteJackKabin) {
-        this.lorryIsConpleteJackKabin = lorryIsConpleteJackKabin;
+    public void setCabinJack(Integer cabinJack) {
+        this.cabinJack = cabinJack;
     }
 
-    public Integer getEquipmentInFullToolbox() {
-        return equipmentInFullToolbox;
+    public Integer getFirstAidKit() {
+        return firstAidKit;
     }
 
-    public void setEquipmentInFullToolbox(Integer equipmentInFullToolbox) {
-        this.equipmentInFullToolbox = equipmentInFullToolbox;
-    }
-
-    public Integer getFirstAidBox() {
-        return firstAidBox;
-    }
-
-    public void setFirstAidBox(Integer firstAidBox) {
-        this.firstAidBox = firstAidBox;
+    public void setFirstAidKit(Integer firstAidKit) {
+        this.firstAidKit = firstAidKit;
     }
 
     public Integer getSafetyCone() {
@@ -188,20 +180,12 @@ public class CarSafetyEquipment {
         this.safetyCone = safetyCone;
     }
 
-    public Integer getFireExtinguisterTool() {
-        return fireExtinguisterTool;
+    public Integer getFireExtinguisher() {
+        return fireExtinguisher;
     }
 
-    public void setFireExtinguisterTool(Integer fireExtinguisterTool) {
-        this.fireExtinguisterTool = fireExtinguisterTool;
-    }
-
-    public Integer getFireExtinguisterTool1() {
-        return fireExtinguisterTool1;
-    }
-
-    public void setFireExtinguisterTool1(Integer fireExtinguisterTool1) {
-        this.fireExtinguisterTool1 = fireExtinguisterTool1;
+    public void setFireExtinguisher(Integer fireExtinguisher) {
+        this.fireExtinguisher = fireExtinguisher;
     }
 
     public Integer getTorchLight() {
@@ -210,6 +194,30 @@ public class CarSafetyEquipment {
 
     public void setTorchLight(Integer torchLight) {
         this.torchLight = torchLight;
+    }
+
+    public Integer getLightReflectSticker() {
+        return lightReflectSticker;
+    }
+
+    public void setLightReflectSticker(Integer lightReflectSticker) {
+        this.lightReflectSticker = lightReflectSticker;
+    }
+
+    public Integer getSpeedLimitSticker() {
+        return speedLimitSticker;
+    }
+
+    public void setSpeedLimitSticker(Integer speedLimitSticker) {
+        this.speedLimitSticker = speedLimitSticker;
+    }
+
+    public Integer getNumberPlate() {
+        return numberPlate;
+    }
+
+    public void setNumberPlate(Integer numberPlate) {
+        this.numberPlate = numberPlate;
     }
 
     public String getRemark() {

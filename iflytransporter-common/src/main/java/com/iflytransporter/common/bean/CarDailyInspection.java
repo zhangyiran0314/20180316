@@ -25,25 +25,25 @@ public class CarDailyInspection {
 
     private Integer engineOilCount;
 
-    private String airCoolantId;
+    private String airPressureCoolantId;
 
-    private Integer airCoolantCount;
+    private Integer airPressureCoolantCount;
 
-    private String tyreId;
+    private String tireId;
 
-    private Integer tyreCount;
+    private Integer tireCount;
 
-    private String signalLightId;
+    private String indicatorLightId;
 
-    private Integer signalLightCount;
+    private Integer indicatorLightCount;
 
     private String safetyEquipmentId;
 
     private Integer safetyEquipmentCount;
 
-    private String documentsId;
-
-    private Integer documentsCount;
+//    private String documentsId;
+//
+//    private Integer documentsCount;
 
     public String getId() {
         return id;
@@ -133,53 +133,39 @@ public class CarDailyInspection {
         this.engineOilCount = engineOilCount;
     }
 
-    public String getAirCoolantId() {
-        return airCoolantId;
+
+    public String getAirPressureCoolantId() {
+		return airPressureCoolantId;
+	}
+
+	public void setAirPressureCoolantId(String airPressureCoolantId) {
+		this.airPressureCoolantId = airPressureCoolantId;
+	}
+
+	public Integer getAirPressureCoolantCount() {
+		return airPressureCoolantCount;
+	}
+
+	public void setAirPressureCoolantCount(Integer airPressureCoolantCount) {
+		this.airPressureCoolantCount = airPressureCoolantCount;
+	}
+
+	public String getTireId() {
+        return tireId;
     }
 
-    public void setAirCoolantId(String airCoolantId) {
-        this.airCoolantId = airCoolantId == null ? null : airCoolantId.trim();
+    public void setTireId(String tireId) {
+        this.tireId = tireId == null ? null : tireId.trim();
     }
 
-    public Integer getAirCoolantCount() {
-        return airCoolantCount;
+    public Integer getTireCount() {
+        return tireCount;
     }
 
-    public void setAirCoolantCount(Integer airCoolantCount) {
-        this.airCoolantCount = airCoolantCount;
+    public void setTireCount(Integer tireCount) {
+        this.tireCount = tireCount;
     }
 
-    public String getTyreId() {
-        return tyreId;
-    }
-
-    public void setTyreId(String tyreId) {
-        this.tyreId = tyreId == null ? null : tyreId.trim();
-    }
-
-    public Integer getTyreCount() {
-        return tyreCount;
-    }
-
-    public void setTyreCount(Integer tyreCount) {
-        this.tyreCount = tyreCount;
-    }
-
-    public String getSignalLightId() {
-        return signalLightId;
-    }
-
-    public void setSignalLightId(String signalLightId) {
-        this.signalLightId = signalLightId == null ? null : signalLightId.trim();
-    }
-
-    public Integer getSignalLightCount() {
-        return signalLightCount;
-    }
-
-    public void setSignalLightCount(Integer signalLightCount) {
-        this.signalLightCount = signalLightCount;
-    }
 
     public String getSafetyEquipmentId() {
         return safetyEquipmentId;
@@ -196,20 +182,37 @@ public class CarDailyInspection {
     public void setSafetyEquipmentCount(Integer safetyEquipmentCount) {
         this.safetyEquipmentCount = safetyEquipmentCount;
     }
+//
+//    public String getDocumentsId() {
+//        return documentsId;
+//    }
+//
+//    public void setDocumentsId(String documentsId) {
+//        this.documentsId = documentsId == null ? null : documentsId.trim();
+//    }
+//
+//    public Integer getDocumentsCount() {
+//        return documentsCount;
+//    }
+//
+//    public void setDocumentsCount(Integer documentsCount) {
+//        this.documentsCount = documentsCount;
+//    }
 
-    public String getDocumentsId() {
-        return documentsId;
-    }
+	public String getIndicatorLightId() {
+		return indicatorLightId;
+	}
 
-    public void setDocumentsId(String documentsId) {
-        this.documentsId = documentsId == null ? null : documentsId.trim();
-    }
+	public void setIndicatorLightId(String indicatorLightId) {
+		this.indicatorLightId = indicatorLightId;
+	}
 
-    public Integer getDocumentsCount() {
-        return documentsCount;
-    }
+	public Integer getIndicatorLightCount() {
+		return indicatorLightCount;
+	}
 
-    public void setDocumentsCount(Integer documentsCount) {
-        this.documentsCount = documentsCount;
-    }
+	public void setIndicatorLightCount(Integer indicatorLightCount) {
+		this.indicatorLightCount = indicatorLightCount;
+	}
+    
 }

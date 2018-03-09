@@ -7,25 +7,29 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="data_status" property="dataStatus" jdbcType="SMALLINT" />
     <result column="desp" property="desp" jdbcType="VARCHAR" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="VARCHAR" />
+    <result column="car_id" property="carId" jdbcType="VARCHAR" />
     <result column="safety_helmet" property="safetyHelmet" jdbcType="INTEGER" />
     <result column="safety_shoes" property="safetyShoes" jdbcType="INTEGER" />
-    <result column="safety_google" property="safetyGoogle" jdbcType="INTEGER" />
+    <result column="safety_goggle" property="safetyGoggle" jdbcType="INTEGER" />
     <result column="safety_glove" property="safetyGlove" jdbcType="INTEGER" />
-    <result column="sealt_belt_in_good_conditions" property="sealtBeltInGoodConditions" jdbcType="INTEGER" />
-    <result column="lorry_is_conplete_jack_kabin" property="lorryIsConpleteJackKabin" jdbcType="INTEGER" />
-    <result column="equipment_in_full_toolbox" property="equipmentInFullToolbox" jdbcType="INTEGER" />
-    <result column="first_aid_box" property="firstAidBox" jdbcType="INTEGER" />
+    <result column="seat_belt_condition" property="seatBeltCondition" jdbcType="INTEGER" />
+    <result column="cabin_jack" property="cabinJack" jdbcType="INTEGER" />
+    <result column="first_aid_kit" property="firstAidKit" jdbcType="INTEGER" />
     <result column="safety_cone" property="safetyCone" jdbcType="INTEGER" />
-    <result column="fire_extinguister_tool" property="fireExtinguisterTool" jdbcType="INTEGER" />
-    <result column="fire_extinguister_tool_1" property="fireExtinguisterTool1" jdbcType="INTEGER" />
+    <result column="fire_extinguisher" property="fireExtinguisher" jdbcType="INTEGER" />
     <result column="torch_light" property="torchLight" jdbcType="INTEGER" />
+    <result column="light_reflect_sticker" property="lightReflectSticker" jdbcType="INTEGER" />
+    <result column="speed_limit_sticker" property="speedLimitSticker" jdbcType="INTEGER" />
+    <result column="number_plate" property="numberPlate" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, create_date, update_date, data_status, desp, safety_helmet, safety_shoes, safety_google, 
-    safety_glove, sealt_belt_in_good_conditions, lorry_is_conplete_jack_kabin, equipment_in_full_toolbox, 
-    first_aid_box, safety_cone, fire_extinguister_tool, fire_extinguister_tool_1, torch_light, 
-    remark
+    id, create_date, update_date, data_status, desp, company_id, driver_id, car_id, safety_helmet, 
+    safety_shoes, safety_goggle, safety_glove, seat_belt_condition, cabin_jack, first_aid_kit, 
+    safety_cone, fire_extinguisher, torch_light, light_reflect_sticker, speed_limit_sticker, 
+    number_plate, remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -39,19 +43,21 @@
   </delete>
   <insert id="insert" parameterType="com.iflytransporter.common.bean.CarSafetyEquipment" >
     insert into t_car_safety_equipment (id, create_date, update_date, 
-      data_status, desp, safety_helmet, 
-      safety_shoes, safety_google, safety_glove, 
-      sealt_belt_in_good_conditions, lorry_is_conplete_jack_kabin, 
-      equipment_in_full_toolbox, first_aid_box, safety_cone, 
-      fire_extinguister_tool, fire_extinguister_tool_1, 
-      torch_light, remark)
+      data_status, desp, company_id, 
+      driver_id, car_id, safety_helmet, 
+      safety_shoes, safety_goggle, safety_glove, 
+      seat_belt_condition, cabin_jack, first_aid_kit, 
+      safety_cone, fire_extinguisher, torch_light, 
+      light_reflect_sticker, speed_limit_sticker, 
+      number_plate, remark)
     values (#{id,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{safetyHelmet,jdbcType=INTEGER}, 
-      #{safetyShoes,jdbcType=INTEGER}, #{safetyGoogle,jdbcType=INTEGER}, #{safetyGlove,jdbcType=INTEGER}, 
-      #{sealtBeltInGoodConditions,jdbcType=INTEGER}, #{lorryIsConpleteJackKabin,jdbcType=INTEGER}, 
-      #{equipmentInFullToolbox,jdbcType=INTEGER}, #{firstAidBox,jdbcType=INTEGER}, #{safetyCone,jdbcType=INTEGER}, 
-      #{fireExtinguisterTool,jdbcType=INTEGER}, #{fireExtinguisterTool1,jdbcType=INTEGER}, 
-      #{torchLight,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
+      #{dataStatus,jdbcType=SMALLINT}, #{desp,jdbcType=VARCHAR}, #{companyId,jdbcType=VARCHAR}, 
+      #{driverId,jdbcType=VARCHAR}, #{carId,jdbcType=VARCHAR}, #{safetyHelmet,jdbcType=INTEGER}, 
+      #{safetyShoes,jdbcType=INTEGER}, #{safetyGoggle,jdbcType=INTEGER}, #{safetyGlove,jdbcType=INTEGER}, 
+      #{seatBeltCondition,jdbcType=INTEGER}, #{cabinJack,jdbcType=INTEGER}, #{firstAidKit,jdbcType=INTEGER}, 
+      #{safetyCone,jdbcType=INTEGER}, #{fireExtinguisher,jdbcType=INTEGER}, #{torchLight,jdbcType=INTEGER}, 
+      #{lightReflectSticker,jdbcType=INTEGER}, #{speedLimitSticker,jdbcType=INTEGER}, 
+      #{numberPlate,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.iflytransporter.common.bean.CarSafetyEquipment" >
     insert into t_car_safety_equipment
@@ -71,41 +77,53 @@
       <if test="desp != null" >
         desp,
       </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="driverId != null" >
+        driver_id,
+      </if>
+      <if test="carId != null" >
+        car_id,
+      </if>
       <if test="safetyHelmet != null" >
         safety_helmet,
       </if>
       <if test="safetyShoes != null" >
         safety_shoes,
       </if>
-      <if test="safetyGoogle != null" >
-        safety_google,
+      <if test="safetyGoggle != null" >
+        safety_goggle,
       </if>
       <if test="safetyGlove != null" >
         safety_glove,
       </if>
-      <if test="sealtBeltInGoodConditions != null" >
-        sealt_belt_in_good_conditions,
+      <if test="seatBeltCondition != null" >
+        seat_belt_condition,
       </if>
-      <if test="lorryIsConpleteJackKabin != null" >
-        lorry_is_conplete_jack_kabin,
+      <if test="cabinJack != null" >
+        cabin_jack,
       </if>
-      <if test="equipmentInFullToolbox != null" >
-        equipment_in_full_toolbox,
-      </if>
-      <if test="firstAidBox != null" >
-        first_aid_box,
+      <if test="firstAidKit != null" >
+        first_aid_kit,
       </if>
       <if test="safetyCone != null" >
         safety_cone,
       </if>
-      <if test="fireExtinguisterTool != null" >
-        fire_extinguister_tool,
-      </if>
-      <if test="fireExtinguisterTool1 != null" >
-        fire_extinguister_tool_1,
+      <if test="fireExtinguisher != null" >
+        fire_extinguisher,
       </if>
       <if test="torchLight != null" >
         torch_light,
+      </if>
+      <if test="lightReflectSticker != null" >
+        light_reflect_sticker,
+      </if>
+      <if test="speedLimitSticker != null" >
+        speed_limit_sticker,
+      </if>
+      <if test="numberPlate != null" >
+        number_plate,
       </if>
       <if test="remark != null" >
         remark,
@@ -127,41 +145,53 @@
       <if test="desp != null" >
         #{desp,jdbcType=VARCHAR},
       </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        #{carId,jdbcType=VARCHAR},
+      </if>
       <if test="safetyHelmet != null" >
         #{safetyHelmet,jdbcType=INTEGER},
       </if>
       <if test="safetyShoes != null" >
         #{safetyShoes,jdbcType=INTEGER},
       </if>
-      <if test="safetyGoogle != null" >
-        #{safetyGoogle,jdbcType=INTEGER},
+      <if test="safetyGoggle != null" >
+        #{safetyGoggle,jdbcType=INTEGER},
       </if>
       <if test="safetyGlove != null" >
         #{safetyGlove,jdbcType=INTEGER},
       </if>
-      <if test="sealtBeltInGoodConditions != null" >
-        #{sealtBeltInGoodConditions,jdbcType=INTEGER},
+      <if test="seatBeltCondition != null" >
+        #{seatBeltCondition,jdbcType=INTEGER},
       </if>
-      <if test="lorryIsConpleteJackKabin != null" >
-        #{lorryIsConpleteJackKabin,jdbcType=INTEGER},
+      <if test="cabinJack != null" >
+        #{cabinJack,jdbcType=INTEGER},
       </if>
-      <if test="equipmentInFullToolbox != null" >
-        #{equipmentInFullToolbox,jdbcType=INTEGER},
-      </if>
-      <if test="firstAidBox != null" >
-        #{firstAidBox,jdbcType=INTEGER},
+      <if test="firstAidKit != null" >
+        #{firstAidKit,jdbcType=INTEGER},
       </if>
       <if test="safetyCone != null" >
         #{safetyCone,jdbcType=INTEGER},
       </if>
-      <if test="fireExtinguisterTool != null" >
-        #{fireExtinguisterTool,jdbcType=INTEGER},
-      </if>
-      <if test="fireExtinguisterTool1 != null" >
-        #{fireExtinguisterTool1,jdbcType=INTEGER},
+      <if test="fireExtinguisher != null" >
+        #{fireExtinguisher,jdbcType=INTEGER},
       </if>
       <if test="torchLight != null" >
         #{torchLight,jdbcType=INTEGER},
+      </if>
+      <if test="lightReflectSticker != null" >
+        #{lightReflectSticker,jdbcType=INTEGER},
+      </if>
+      <if test="speedLimitSticker != null" >
+        #{speedLimitSticker,jdbcType=INTEGER},
+      </if>
+      <if test="numberPlate != null" >
+        #{numberPlate,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
@@ -183,41 +213,53 @@
       <if test="desp != null" >
         desp = #{desp,jdbcType=VARCHAR},
       </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="driverId != null" >
+        driver_id = #{driverId,jdbcType=VARCHAR},
+      </if>
+      <if test="carId != null" >
+        car_id = #{carId,jdbcType=VARCHAR},
+      </if>
       <if test="safetyHelmet != null" >
         safety_helmet = #{safetyHelmet,jdbcType=INTEGER},
       </if>
       <if test="safetyShoes != null" >
         safety_shoes = #{safetyShoes,jdbcType=INTEGER},
       </if>
-      <if test="safetyGoogle != null" >
-        safety_google = #{safetyGoogle,jdbcType=INTEGER},
+      <if test="safetyGoggle != null" >
+        safety_goggle = #{safetyGoggle,jdbcType=INTEGER},
       </if>
       <if test="safetyGlove != null" >
         safety_glove = #{safetyGlove,jdbcType=INTEGER},
       </if>
-      <if test="sealtBeltInGoodConditions != null" >
-        sealt_belt_in_good_conditions = #{sealtBeltInGoodConditions,jdbcType=INTEGER},
+      <if test="seatBeltCondition != null" >
+        seat_belt_condition = #{seatBeltCondition,jdbcType=INTEGER},
       </if>
-      <if test="lorryIsConpleteJackKabin != null" >
-        lorry_is_conplete_jack_kabin = #{lorryIsConpleteJackKabin,jdbcType=INTEGER},
+      <if test="cabinJack != null" >
+        cabin_jack = #{cabinJack,jdbcType=INTEGER},
       </if>
-      <if test="equipmentInFullToolbox != null" >
-        equipment_in_full_toolbox = #{equipmentInFullToolbox,jdbcType=INTEGER},
-      </if>
-      <if test="firstAidBox != null" >
-        first_aid_box = #{firstAidBox,jdbcType=INTEGER},
+      <if test="firstAidKit != null" >
+        first_aid_kit = #{firstAidKit,jdbcType=INTEGER},
       </if>
       <if test="safetyCone != null" >
         safety_cone = #{safetyCone,jdbcType=INTEGER},
       </if>
-      <if test="fireExtinguisterTool != null" >
-        fire_extinguister_tool = #{fireExtinguisterTool,jdbcType=INTEGER},
-      </if>
-      <if test="fireExtinguisterTool1 != null" >
-        fire_extinguister_tool_1 = #{fireExtinguisterTool1,jdbcType=INTEGER},
+      <if test="fireExtinguisher != null" >
+        fire_extinguisher = #{fireExtinguisher,jdbcType=INTEGER},
       </if>
       <if test="torchLight != null" >
         torch_light = #{torchLight,jdbcType=INTEGER},
+      </if>
+      <if test="lightReflectSticker != null" >
+        light_reflect_sticker = #{lightReflectSticker,jdbcType=INTEGER},
+      </if>
+      <if test="speedLimitSticker != null" >
+        speed_limit_sticker = #{speedLimitSticker,jdbcType=INTEGER},
+      </if>
+      <if test="numberPlate != null" >
+        number_plate = #{numberPlate,jdbcType=INTEGER},
       </if>
       <if test="remark != null" >
         remark = #{remark,jdbcType=VARCHAR},
@@ -231,18 +273,22 @@
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       data_status = #{dataStatus,jdbcType=SMALLINT},
       desp = #{desp,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      driver_id = #{driverId,jdbcType=VARCHAR},
+      car_id = #{carId,jdbcType=VARCHAR},
       safety_helmet = #{safetyHelmet,jdbcType=INTEGER},
       safety_shoes = #{safetyShoes,jdbcType=INTEGER},
-      safety_google = #{safetyGoogle,jdbcType=INTEGER},
+      safety_goggle = #{safetyGoggle,jdbcType=INTEGER},
       safety_glove = #{safetyGlove,jdbcType=INTEGER},
-      sealt_belt_in_good_conditions = #{sealtBeltInGoodConditions,jdbcType=INTEGER},
-      lorry_is_conplete_jack_kabin = #{lorryIsConpleteJackKabin,jdbcType=INTEGER},
-      equipment_in_full_toolbox = #{equipmentInFullToolbox,jdbcType=INTEGER},
-      first_aid_box = #{firstAidBox,jdbcType=INTEGER},
+      seat_belt_condition = #{seatBeltCondition,jdbcType=INTEGER},
+      cabin_jack = #{cabinJack,jdbcType=INTEGER},
+      first_aid_kit = #{firstAidKit,jdbcType=INTEGER},
       safety_cone = #{safetyCone,jdbcType=INTEGER},
-      fire_extinguister_tool = #{fireExtinguisterTool,jdbcType=INTEGER},
-      fire_extinguister_tool_1 = #{fireExtinguisterTool1,jdbcType=INTEGER},
+      fire_extinguisher = #{fireExtinguisher,jdbcType=INTEGER},
       torch_light = #{torchLight,jdbcType=INTEGER},
+      light_reflect_sticker = #{lightReflectSticker,jdbcType=INTEGER},
+      speed_limit_sticker = #{speedLimitSticker,jdbcType=INTEGER},
+      number_plate = #{numberPlate,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>

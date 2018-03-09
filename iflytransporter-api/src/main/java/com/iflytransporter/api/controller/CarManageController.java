@@ -212,17 +212,17 @@ public class CarManageController {
 		return ResponseUtil.successResult(result);
 	}
 	/**每日一检-公用详情查询*/
-	@ApiOperation(value="detailCarAirCoolant", notes="详情",produces = "application/json")
-	@RequestMapping(value="detailCarAirCoolant", method=RequestMethod.POST)
+	@ApiOperation(value="detailCarAirPressureCoolant", notes="详情",produces = "application/json")
+	@RequestMapping(value="detailCarAirPressureCoolant", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> detailCarAirCoolant(HttpServletRequest request, HttpServletResponse response,
+	public Map<String,Object> detailCarAirPressureCoolant(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
-		Map<String,Object> result = carManageService.detailCarAirCoolant(id);
+		Map<String,Object> result = carManageService.detailCarAirPressureCoolant(id);
 		return ResponseUtil.successResult(result);
 	}
-	@ApiOperation(value="detailCarDocuments", notes="新增",produces = "application/json")
+	/*@ApiOperation(value="detailCarDocuments", notes="新增",produces = "application/json")
 	@RequestMapping(value="detailCarDocuments", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detailCarDocuments(HttpServletRequest request, HttpServletResponse response,
@@ -231,7 +231,7 @@ public class CarManageController {
 		String id = (String) requestMap.get("id");
 		Map<String,Object> result = carManageService.detailCarDocuments(id);
 		return ResponseUtil.successResult(result);
-	}
+	}*/
 	
 	@ApiOperation(value="detailCarEngineOil", notes="新增",produces = "application/json")
 	@RequestMapping(value="detailCarEngineOil", method=RequestMethod.POST)
@@ -255,25 +255,25 @@ public class CarManageController {
 		return ResponseUtil.successResult(result);
 	}
 	
-	@ApiOperation(value="detailCarSignalLight", notes="新增",produces = "application/json")
-	@RequestMapping(value="detailCarSignalLight", method=RequestMethod.POST)
+	@ApiOperation(value="detailCarIndicatorLight", notes="新增",produces = "application/json")
+	@RequestMapping(value="detailCarIndicatorLight", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> detailCarSignalLight(HttpServletRequest request, HttpServletResponse response,
+	public Map<String,Object> detailCarIndicatorLight(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
-		Map<String,Object> result = carManageService.detailCarSignalLight(id);
+		Map<String,Object> result = carManageService.detailCarIndicatorLight(id);
 		return ResponseUtil.successResult(result);
 	}
 	
-	@ApiOperation(value="detailCarTyre", notes="新增",produces = "application/json")
-	@RequestMapping(value="detailCarTyre", method=RequestMethod.POST)
+	@ApiOperation(value="detailCarTire", notes="新增",produces = "application/json")
+	@RequestMapping(value="detailCarTire", method=RequestMethod.POST)
 	@ResponseBody
-	public Map<String,Object> detailCarTyre(HttpServletRequest request, HttpServletResponse response,
+	public Map<String,Object> detailCarTire(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String id = (String) requestMap.get("id");
-		Map<String,Object> result = carManageService.detailCarTyre(id);
+		Map<String,Object> result = carManageService.detailCarTire(id);
 		return ResponseUtil.successResult(result);
 	}
 	@ApiOperation(value="detailCarDriveRest", notes="行车休息-详情",produces = "application/json")
