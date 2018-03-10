@@ -75,15 +75,7 @@ public class InsuranceController {
 	@ResponseBody
 	public Map<String,Object> listGoodsName(HttpServletRequest request, HttpServletResponse response){
 		String userId =  (String) request.getAttribute("userId");
-		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
-		Map<String,Object> map1 = new HashMap<String,Object>();
-		map1.put("id", "111111111111111111111");
-		map1.put("goodsName", "goodsName 1");
-		list.add(map1);
-		Map<String,Object> map2 = new HashMap<String,Object>();
-		map2.put("id", "222222222222222222222");
-		map2.put("goodsName", "goodsName 2222222");
-		list.add(map2);
+		List<Map<String,Object>> list = insuranceSerivce.listGoodsName();
 		return ResponseUtil.successResult(list);
 	}
 	/**添加保险信息*/

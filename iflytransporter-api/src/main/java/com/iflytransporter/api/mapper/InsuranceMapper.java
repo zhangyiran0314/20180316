@@ -21,4 +21,6 @@ public interface InsuranceMapper {
 	 * @return
 	 */
 	CommonParam queryCommonParam(String id);
+	
+	List<Map<String,Object>> listGoodsName();
 }

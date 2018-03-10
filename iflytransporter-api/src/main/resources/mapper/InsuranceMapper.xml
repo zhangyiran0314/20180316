@@ -57,7 +57,9 @@
     left join t_order d on  a.order_id = d.id
   	where a.shipper_id = #{userId,jdbcType=VARCHAR} and now() &gt; d.deliver_date 
   </select>
-  
+  <select id="listGoodsName" resultType="java.util.Map">
+  select id,name from t_insurance_type 
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

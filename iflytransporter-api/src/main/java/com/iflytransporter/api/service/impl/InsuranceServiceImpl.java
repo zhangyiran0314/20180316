@@ -33,5 +33,9 @@ public class InsuranceServiceImpl implements InsuranceService{
 	public int save(Insurance record) {
 		return insuranceMapper.insert(record);
 	}
+	@Override
+	public List<Map<String, Object>> listGoodsName() {
+		return insuranceMapper.listGoodsName();
+	}
 
 }

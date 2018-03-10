@@ -39,8 +39,10 @@ public enum BuzExceptionEnums implements Enums{
 	//没有操作权限
 	NoOperationPermission(Code_NoOperationPermission,"No operation permission."),
 	//未审核当前申请详情时,其他申请不能被联系
-	CanNotContactError(Code_CannotContactOther, "You cannot view other offer details when one's under review");
+	CanNotContactError(Code_CannotContactOther, "You cannot view other offer details when one's under review"),
 	
+	//没有绑定车辆
+	NotBandCar(Code_NotBandCar,"Invaild.Unbound vehicle");
 	public int code;
 	public String message;
 	

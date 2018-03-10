@@ -4,12 +4,13 @@
 	<!--车主-首页-运单- 车辆总数,运单总数,待派单运单数 -->
 	<select id="queryIndexTransporterWaybill" resultType="java.util.Map">
 		select 
-		ifnull(c.count,0) as waybillCount,
-		count(1) as forDispenseCount
-		from t_waybill a
-		left join  (select transporter_company_id,count(1) as count from t_waybill group by transporter_company_id ) c on c.transporter_company_id = a.transporter_company_id
-		where a.`status` = 0 and a.dispense_status = 0
-		and a.transporter_company_id=#{companyId,jdbcType=VARCHAR}
+		ifnull(count(1),0) as waybillCount,
+		ifnull(
+			sum(
+			if(status=0 and dispense_status=0,1,0)
+		),0) as forDispenseCount
+		from t_waybill a 
+		where transporter_company_id=#{companyId,jdbcType=VARCHAR}
 	</select>
 	<!-- 车主-首页-保险,路税,车检提醒 -->
 	<select id="queryIndexTransporterCarNotice" resultType="java.util.Map">
@@ -103,7 +104,7 @@
 		left join t_user c on a.driver_id = c.id
 		left join (
 			select car_id,count(1) as count,
-				(engine_oil_count+air_coolant_count+tyre_count+signal_light_count+safety_equipment_count+documents_count) as faultCount
+				(engine_oil_count+air_pressure_coolant_count+tire_count+indicator_light_count+safety_equipment_count) as faultCount
 			from t_car_daily_inspection 
 			where inspection_date = #{currentDate,jdbcType=DATE} group by car_id 
 		)b on b.car_id = a.id
@@ -367,7 +368,7 @@
   	select  
   	  all_tire_pressure_enough allTirePressureEnough, 
     tire_thread_condition tireThreadCondition,
-     nut_wheel_hub_no_defect nutWheelHubNoEefect, 
+     nut_wheel_hub_no_defect nutWheelHubNoDefect, 
      spare_tire_lock_strengthen spareTireLockStrengthen,  
       remark
   	 from t_car_tire

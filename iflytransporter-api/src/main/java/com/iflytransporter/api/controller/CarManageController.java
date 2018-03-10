@@ -22,6 +22,7 @@ import com.iflytransporter.api.utils.ResponseUtil;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.User;
+import com.iflytransporter.common.enums.BuzExceptionEnums;
 import com.iflytransporter.common.enums.Status;
 
 import io.swagger.annotations.Api;
@@ -139,6 +140,9 @@ public class CarManageController {
 			@RequestBody Map<String,Object> requestMap){
 		String userId =  (String) request.getAttribute("userId");
 		String carId = (String) requestMap.get("carId");
+		if(StringUtils.isBlank(carId)){
+			return ResponseUtil.failureResult(BuzExceptionEnums.NotBandCar);
+		}
 		Map<String,Object> result = carManageService.queryCarDailyInspection(carId);
 		return ResponseUtil.successResult(result);
 	}

@@ -17,4 +17,7 @@ public interface InsuranceService  {
 	List<Insurance> queryAll();
 	
 	CommonParam queryCommonParam(String id);
+	
+	//查询可投保货物类型列表
+	List<Map<String,Object>> listGoodsName();
 }

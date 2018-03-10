@@ -43,6 +43,9 @@ public interface Enums {
 	public static int Code_CannotContactOther = 2005;
 	//找货/报价时,不是管理员没有操作权限
 	public static int Code_NoOperationPermission=2006;
+	
+	//没有绑定车辆
+	public static int Code_NotBandCar = 3001;
 	public int getCode();
 	public String getMessage();
 }
