@@ -58,7 +58,7 @@
   	where a.shipper_id = #{userId,jdbcType=VARCHAR} and now() &gt; d.deliver_date 
   </select>
   <select id="listGoodsName" resultType="java.util.Map">
-  select id,name from t_insurance_type 
+  select id,name goodsName from t_insurance_type 
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
