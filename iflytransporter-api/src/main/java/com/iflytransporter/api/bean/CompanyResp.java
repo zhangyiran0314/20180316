@@ -12,7 +12,7 @@ public class CompanyResp {
 
 //    private String email;
 //
-//    private String address;
+    private String address;
 
     private String attachmentId1;
     
@@ -29,7 +29,7 @@ public class CompanyResp {
 		this.name = company.getName();
 		this.code = company.getCode();
 //		this.email = company.getEmail();
-//		this.address = company.getAddress();
+		this.address = company.getAddress();
 		this.attachmentId1 = company.getAttachmentId1();
 		this.attachmentId1Link = company.getAttachmentId1Link();
 		this.attachmentId2 = company.getAttachmentId2();
@@ -117,6 +117,14 @@ public class CompanyResp {
 
 	public void setAmount(Integer amount) {
 		this.amount = amount;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
     
     
