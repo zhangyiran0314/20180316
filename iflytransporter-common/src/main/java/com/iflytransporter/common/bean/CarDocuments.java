@@ -144,6 +144,7 @@ public class CarDocuments {
     }
     /**统计当前对象是否故障*/
     public int getCount(){
-    	return roadTaxPrimeMoverTrailer+puspakomPrimeMoverTrailer+premitSpad+lesenPengendalianSpad+lesenPrekhidmatanSpad;
+    	return roadTaxPrimeMoverTrailer+puspakomPrimeMoverTrailer+premitSpad+
+    			(lesenPengendalianSpad==null?0:lesenPengendalianSpad)+(lesenPrekhidmatanSpad==null?0:lesenPrekhidmatanSpad);
     }
 }
