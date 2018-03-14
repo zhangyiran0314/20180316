@@ -41,9 +41,9 @@ public class CarDailyInspection {
 
     private Integer safetyEquipmentCount;
 
-//    private String documentsId;
-//
-//    private Integer documentsCount;
+    private String documentsId;
+
+    private Integer documentsCount;
 
     public String getId() {
         return id;
@@ -182,22 +182,22 @@ public class CarDailyInspection {
     public void setSafetyEquipmentCount(Integer safetyEquipmentCount) {
         this.safetyEquipmentCount = safetyEquipmentCount;
     }
-//
-//    public String getDocumentsId() {
-//        return documentsId;
-//    }
-//
-//    public void setDocumentsId(String documentsId) {
-//        this.documentsId = documentsId == null ? null : documentsId.trim();
-//    }
-//
-//    public Integer getDocumentsCount() {
-//        return documentsCount;
-//    }
-//
-//    public void setDocumentsCount(Integer documentsCount) {
-//        this.documentsCount = documentsCount;
-//    }
+
+    public String getDocumentsId() {
+        return documentsId;
+    }
+
+    public void setDocumentsId(String documentsId) {
+        this.documentsId = documentsId == null ? null : documentsId.trim();
+    }
+
+    public Integer getDocumentsCount() {
+        return documentsCount;
+    }
+
+    public void setDocumentsCount(Integer documentsCount) {
+        this.documentsCount = documentsCount;
+    }
 
 	public String getIndicatorLightId() {
 		return indicatorLightId;

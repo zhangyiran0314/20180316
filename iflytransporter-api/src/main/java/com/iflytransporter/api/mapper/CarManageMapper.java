@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
 import com.iflytransporter.common.bean.CarAirPressureCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
+import com.iflytransporter.common.bean.CarDocuments;
 import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.CarEngineOil;
 import com.iflytransporter.common.bean.CarIndicatorLight;
@@ -18,7 +19,7 @@ import com.iflytransporter.common.bean.CarTire;
 public interface CarManageMapper {
 //	int insertCarAirCoolant(CarAirCoolant record);
 	int insertCarAirPressureCoolant(CarAirPressureCoolant record);
-//	int insertCarDocuments(CarDocuments record);
+	int insertCarDocuments(CarDocuments record);
 	
 	int insertCarEngineOil(CarEngineOil record);
 	
@@ -31,7 +32,7 @@ public interface CarManageMapper {
 	
 	Map<String,Object> selectCarAirPressureCoolant(String id);
 	
-//	Map<String,Object> selectCarDocuments(String id);
+	Map<String,Object> selectCarDocuments(String id);
 	
 	Map<String,Object> selectCarEngineOil(String id);
 	

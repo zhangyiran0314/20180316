@@ -7,7 +7,7 @@ public class CarDailyInspectionReq {
 	
 //	private CarAirCoolantReq airCoolant;
 	
-//	private CarDocumentsReq documents;
+	private CarDocumentsReq documents;
 	
 	private CarEngineOilReq engineOil;
 	
@@ -39,13 +39,13 @@ public class CarDailyInspectionReq {
 //		this.airCoolant = airCoolant;
 //	}
 //
-//	public CarDocumentsReq getDocuments() {
-//		return documents;
-//	}
-//
-//	public void setDocuments(CarDocumentsReq documents) {
-//		this.documents = documents;
-//	}
+	public CarDocumentsReq getDocuments() {
+		return documents;
+	}
+
+	public void setDocuments(CarDocumentsReq documents) {
+		this.documents = documents;
+	}
 
 	public CarEngineOilReq getEngineOil() {
 		return engineOil;

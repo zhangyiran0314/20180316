@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.iflytransporter.api.bean.carmanage.CarAirPressureCoolantReq;
 import com.iflytransporter.api.bean.carmanage.CarDailyInspectionReq;
+import com.iflytransporter.api.bean.carmanage.CarDocumentsReq;
 import com.iflytransporter.api.bean.carmanage.CarEngineOilReq;
 import com.iflytransporter.api.bean.carmanage.CarIndicatorLightReq;
 import com.iflytransporter.api.bean.carmanage.CarMaintenanceReq;
@@ -22,6 +23,7 @@ import com.iflytransporter.api.service.CarManageService;
 import com.iflytransporter.api.utils.UUIDUtil;
 import com.iflytransporter.common.bean.CarAirPressureCoolant;
 import com.iflytransporter.common.bean.CarDailyInspection;
+import com.iflytransporter.common.bean.CarDocuments;
 import com.iflytransporter.common.bean.CarDriveRest;
 import com.iflytransporter.common.bean.CarEngineOil;
 import com.iflytransporter.common.bean.CarIndicatorLight;
@@ -50,15 +52,18 @@ public class CarManageServiceImpl implements CarManageService{
 		airPressureCoolant.setCarId(carId);
 		carManageMapper.insertCarAirPressureCoolant(airPressureCoolant);
 		
-		/*CarDocumentsReq documentsReq = dailyInspectionReq.getDocuments();
-		CarDocuments documents = new CarDocuments();
-		BeanUtils.copyProperties(documentsReq, documents);
+		CarDocumentsReq documentsReq = dailyInspectionReq.getDocuments();
 		String documentsId = UUIDUtil.UUID();
-		documents.setId(documentsId);
-		documents.setCompanyId(companyId);
-		documents.setDriverId(driverId);
-		documents.setCarId(carId);
-		carManageMapper.insertCarDocuments(documents);*/
+		CarDocuments documents = null;
+		if(documentsReq != null){
+			documents = new CarDocuments();
+			BeanUtils.copyProperties(documentsReq, documents);
+			documents.setId(documentsId);
+			documents.setCompanyId(companyId);
+			documents.setDriverId(driverId);
+			documents.setCarId(carId);
+			carManageMapper.insertCarDocuments(documents);
+		}
 		
 		CarEngineOilReq engineOilReq = dailyInspectionReq.getEngineOil();
 		CarEngineOil engineOil = new CarEngineOil();
@@ -125,9 +130,10 @@ public class CarManageServiceImpl implements CarManageService{
 		dailyInspection.setAirPressureCoolantId(airPressureCoolantId);
 		dailyInspection.setAirPressureCoolantCount(airPressureCoolant.getCount());
 		
-		/*dailyInspection.setDocumentsId(documentsId);
-		dailyInspection.setDocumentsCount(documents.getCount());*/
-		
+		if(documents !=null){
+			dailyInspection.setDocumentsId(documentsId);
+			dailyInspection.setDocumentsCount(documents.getCount());
+		}
 		dailyInspection.setEngineOilId(engineOilId);
 		dailyInspection.setEngineOilCount(engineOil.getCount());
 		
@@ -312,6 +318,11 @@ public class CarManageServiceImpl implements CarManageService{
 	@Override
 	public List<Map<String, Object>> listCarMaintenance(CarMaintenanceReq carMaintenaceReq) {
 		return carManageMapper.queryCarMaintenanceList(carMaintenaceReq);
+	}
+
+	@Override
+	public Map<String, Object> detailCarDocuments(String id) {
+		 return carManageMapper.selectCarDocuments(id);
 	}
 
 	

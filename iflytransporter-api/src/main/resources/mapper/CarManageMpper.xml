@@ -123,7 +123,9 @@
     	a.indicator_light_id as indicatorLightId, 
     	a.indicator_light_count as indicatorLightCount, 
     	a.safety_equipment_id as safetyEquipmentId,
-    	a.safety_equipment_count as safetyEquipmentCount
+    	a.safety_equipment_count as safetyEquipmentCount,
+    	a.documents_id as documentsId,
+    	a.documents_count as documentsCount
     	from t_car_daily_inspection a
 		where a.car_id = #{carId,jdbcType=VARCHAR} and a.inspection_date = #{currentDate,jdbcType=DATE}
 	</select>
@@ -234,6 +236,28 @@
 		where a.id =#{carId,jdbcType=VARCHAR}
 	</select>
 	
+	<insert id="insertCarDocuments" parameterType="com.iflytransporter.common.bean.CarDocuments" >
+    insert into t_car_documents (id, update_date, 
+      road_tax_prime_mover_trailer, 
+      puspakom_prime_mover_trailer, premit_spad, 
+      lesen_pengendalian_spad, lesen_prekhidmatan_spad, 
+      remark)
+    values (#{id,jdbcType=VARCHAR}, now(),
+      #{roadTaxPrimeMoverTrailer,jdbcType=INTEGER}, 
+      #{puspakomPrimeMoverTrailer,jdbcType=INTEGER}, #{premitSpad,jdbcType=INTEGER}, 
+      #{lesenPengendalianSpad,jdbcType=INTEGER}, #{lesenPrekhidmatanSpad,jdbcType=INTEGER}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <select id="selectCarDocuments" resultType="java.util.Map" parameterType="java.lang.String">
+    select 
+    road_tax_prime_mover_trailer as roadTaxPrimeMoverTrailer,
+     puspakom_prime_mover_trailer as puspakomPrimeMoverTrailer, 
+    premit_spad as premitSpad, 
+    lesen_pengendalian_spad as lesenPengendalianSpad ,
+     lesen_prekhidmatan_spad as lesenPrekhidmatanSpad, 
+     remark
+     from t_car_documents
+  </select>
   <insert id="insertCarAirPressureCoolant" parameterType="com.iflytransporter.common.bean.CarAirPressureCoolant" >
   insert into t_car_air_pressure_coolant (id,  update_date, 
       company_id, 
@@ -382,7 +406,8 @@
       engine_oil_id, engine_oil_count, air_pressure_coolant_id, 
       air_pressure_coolant_count, tire_id, tire_count, 
       indicator_light_id, indicator_light_count, 
-      safety_equipment_id, safety_equipment_count
+      safety_equipment_id, safety_equipment_count,
+      documents_id,documents_count
       )
     values (#{id,jdbcType=VARCHAR},now(),
       #{companyId,jdbcType=VARCHAR}, 
@@ -390,7 +415,8 @@
       #{engineOilId,jdbcType=VARCHAR}, #{engineOilCount,jdbcType=INTEGER}, #{airPressureCoolantId,jdbcType=VARCHAR}, 
       #{airPressureCoolantCount,jdbcType=INTEGER}, #{tireId,jdbcType=VARCHAR}, #{tireCount,jdbcType=INTEGER}, 
       #{indicatorLightId,jdbcType=VARCHAR}, #{indicatorLightCount,jdbcType=INTEGER}, 
-      #{safetyEquipmentId,jdbcType=VARCHAR}, #{safetyEquipmentCount,jdbcType=INTEGER}
+      #{safetyEquipmentId,jdbcType=VARCHAR}, #{safetyEquipmentCount,jdbcType=INTEGER},
+      #{documentsId,jdbcType=VARCHAR}, #{documentsCount,jdbcType=INTEGER}
       )
   </insert>
   

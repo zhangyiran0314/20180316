@@ -226,7 +226,7 @@ public class CarManageController {
 		Map<String,Object> result = carManageService.detailCarAirPressureCoolant(id);
 		return ResponseUtil.successResult(result);
 	}
-	/*@ApiOperation(value="detailCarDocuments", notes="新增",produces = "application/json")
+	@ApiOperation(value="detailCarDocuments", notes="新增",produces = "application/json")
 	@RequestMapping(value="detailCarDocuments", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> detailCarDocuments(HttpServletRequest request, HttpServletResponse response,
@@ -235,7 +235,7 @@ public class CarManageController {
 		String id = (String) requestMap.get("id");
 		Map<String,Object> result = carManageService.detailCarDocuments(id);
 		return ResponseUtil.successResult(result);
-	}*/
+	}
 	
 	@ApiOperation(value="detailCarEngineOil", notes="新增",produces = "application/json")
 	@RequestMapping(value="detailCarEngineOil", method=RequestMethod.POST)
