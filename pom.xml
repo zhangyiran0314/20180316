@@ -10,6 +10,7 @@
   	<module>iflytransporter-api</module>
   	<module>iflytransporter-web</module>
     <module>iflytransporter-common</module>
+    <module>ilfytransporter-sms</module>
   </modules>
 
   <dependencyManagement>

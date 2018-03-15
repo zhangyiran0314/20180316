@@ -184,23 +184,6 @@
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpcore</artifactId>
 		</dependency>
-		
-		 <!-- google auth2 api -->
-	     <dependency>
-		      <groupId>com.google.apis</groupId>
-		      <artifactId>google-api-services-plus</artifactId>
-		      <version>v1-rev530-1.23.0</version>
-		 </dependency>
-	    <dependency>
-	      <groupId>com.google.http-client</groupId>
-	      <artifactId>google-http-client-jackson2</artifactId>
-	      <version>1.23.0</version>
-	    </dependency>
-	    <dependency>
-	      <groupId>com.google.oauth-client</groupId>
-	      <artifactId>google-oauth-client-jetty</artifactId>
-	      <version>1.23.0</version>
-	    </dependency>
 	    
   </dependencies>
   <build>
