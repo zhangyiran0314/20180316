@@ -337,4 +337,16 @@ public class CarManageController {
 		List<Map<String,Object>> result= carManageService.listCarMaintenance(carMaintenaceReq);
 		return ResponseUtil.successResult(result);
 	}
+	
+	/**联系维修*/
+	@ApiOperation(value="maintenaceContact", notes="新增-每日一检",produces = "application/json")
+	@RequestMapping(value="maintenaceContact", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> maintenaceContact(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody  Map<String,Object> requestMap){
+		String userId =  (String) request.getAttribute("userId");
+		String maintenaceId = (String) requestMap.get("id");
+		int result  = carManageService.maintenaceContact(maintenaceId, userId);
+		return ResponseUtil.successResult();
+	}
 }

@@ -104,7 +104,7 @@
 		left join t_user c on a.driver_id = c.id
 		left join (
 			select car_id,count(1) as count,
-				(engine_oil_count+air_pressure_coolant_count+tire_count+indicator_light_count+safety_equipment_count) as faultCount
+				(engine_oil_count+air_pressure_coolant_count+tire_count+indicator_light_count+safety_equipment_count+documents_count) as faultCount
 			from t_car_daily_inspection 
 			where inspection_date = #{currentDate,jdbcType=DATE} group by car_id 
 		)b on b.car_id = a.id
@@ -257,6 +257,7 @@
      lesen_prekhidmatan_spad as lesenPrekhidmatanSpad, 
      remark
      from t_car_documents
+     where id =#{id,jdbcType=VARCHAR}
   </select>
   <insert id="insertCarAirPressureCoolant" parameterType="com.iflytransporter.common.bean.CarAirPressureCoolant" >
   insert into t_car_air_pressure_coolant (id,  update_date, 
@@ -457,5 +458,9 @@
       and area_id = #{areaId,jdbcType=VARCHAR}
      </if>
   </select>
-  
+  <!-- 维修联系 -->
+  <insert id="insertMaintenanceContact">
+  	  insert into t_car_maintenance_contact(id, update_date, user_id)
+    values (#{id,jdbcType=VARCHAR}, now(), #{userId,jdbcType=VARCHAR})
+  </insert>
 </mapper>

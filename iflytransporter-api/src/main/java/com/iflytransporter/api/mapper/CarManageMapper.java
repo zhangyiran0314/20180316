@@ -95,4 +95,6 @@ public interface CarManageMapper {
 	
 	//车辆维修
 	List<Map<String,Object>> queryCarMaintenanceList(CarMaintenanceReq carMaintenaceReq);
+	//联系维修
+	int insertMaintenanceContact(@Param("id")String id,@Param("maintenaceId")String maintenaceId,@Param("userId")String userId);
 }

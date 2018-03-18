@@ -325,5 +325,11 @@ public class CarManageServiceImpl implements CarManageService{
 		 return carManageMapper.selectCarDocuments(id);
 	}
 
+	@Override
+	public int maintenaceContact(String maintenaceId, String userId) {
+		String id = UUIDUtil.UUID();
+		return carManageMapper.insertMaintenanceContact(id,maintenaceId, userId);
+	}
+
 	
 }

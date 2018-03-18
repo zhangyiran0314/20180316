@@ -54,4 +54,6 @@ public interface CarManageService {
 	
 	/**车辆维修*/
 	List<Map<String, Object>> listCarMaintenance(CarMaintenanceReq carMaintenaceReq);
+	
+	int maintenaceContact(String maintenaceId,String userId); 
 }
